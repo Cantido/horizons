@@ -30,11 +30,14 @@
             (.write writer ^int (<! to-telnet))
             (.flush writer)))))))
 
-(let
-  [stdin (new BufferedReader (new InputStreamReader System/in))]
-  (go
-    (while true
-      (>!! to-telnet (.read stdin)))))
+(defn pipe-stdin-to-telnet []
+  (let
+    [stdin (new BufferedReader (new InputStreamReader System/in))]
+    (go
+      (while true
+        (let [got-from-stdin (.read stdin)]
+          (println "Got this from STDIN. Char: " (char got-from-stdin) ", int: " (int got-from-stdin) ", type: " (type got-from-stdin))
+          (>!! to-telnet got-from-stdin))))))
 
 (defn show-telnet-out []
   (while true
@@ -57,4 +60,6 @@
            (recur))))
 
 (wait-for-prompt)
+(>!! to-telnet 63) ; question mark
+(>!! to-telnet 10) ; line feed
 (show-telnet-out)
