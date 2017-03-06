@@ -1,4 +1,4 @@
-(defproject horizons "0.1.0-SNAPSHOT"
+(defproject horizons "0.1.0"
   :description "A RESTful-style API for NASA's HORIZONS system"
   :url "https://github.com/Cantido/horizons"
   :license {:name "GNU General Public License"
