@@ -7,6 +7,7 @@
   :ring {:handler horizons.core/handler}
   :dependencies [[org.clojure/clojure "1.8.0"]
                  [org.clojure/data.json "0.2.6"]
+                 [commons-net/commons-net "3.6"]
                  [compojure "1.3.4"]
                  [liberator "0.13"]
                  [ring/ring-core "1.2.1"]
