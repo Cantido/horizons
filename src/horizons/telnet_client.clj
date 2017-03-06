@@ -36,6 +36,25 @@
     (while true
       (>!! to-telnet (.read stdin)))))
 
-(while true
-  (.write System/out ^int (<!! from-telnet))
-  (.flush System/out))
+(defn show-telnet-out []
+  (while true
+    (.write System/out ^int (<!! from-telnet))
+    (.flush System/out)))
+
+(defn next-token
+  ([] (next-token ""))
+  ([word-so-far]
+   (let [next-char (str (char (<!! from-telnet)))
+          next-word (str word-so-far next-char)]
+        (if (clojure.string/blank? next-char)
+            next-word
+            (recur next-word)))))
+
+(defn wait-for-prompt []
+  (let [token (next-token)]
+       (if (clojure.string/starts-with? token "Horizons>")
+           (do (print token) (flush))
+           (recur))))
+
+(wait-for-prompt)
+(show-telnet-out)
