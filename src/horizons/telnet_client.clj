@@ -55,6 +55,17 @@
             next-word
             (recur next-word)))))
 
+(defn next-block
+  "Get everything from the HORIZONS client until the next input prompt"
+  ([] (next-block ""))
+  ([block-so-far]
+   (let [next-word (next-token)]
+     (if (or
+           (clojure.string/starts-with? next-word "Horizons>")
+           (clojure.string/starts-with? next-word "<cr>:"))
+         block-so-far
+         (recur (str block-so-far next-word))))))
+
 (defn wait-for-prompt []
   (let [token (next-token)]
        (if (clojure.string/starts-with? token "Horizons>")
@@ -62,5 +73,5 @@
            (recur))))
 
 (wait-for-prompt)
-(>!! to-telnet "?")
-(show-telnet-out)
+(>!! to-telnet "399")
+(println (next-block))
