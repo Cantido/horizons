@@ -13,22 +13,24 @@
 (defn writer [^TelnetClient client]
   (new BufferedWriter (new OutputStreamWriter (.getOutputStream client) StandardCharsets/US_ASCII)))
 
+(defn connect
+  "Connects to the HORIZONS telnet service, attaching its input and output to channels."
+  []
+  (let [client (new TelnetClient)]
+    (try
+      (.connect client "ssd.jpl.nasa.gov" 6775)
+      (let
+        [ reader (reader client)
+          writer (writer client)]
 
-(let [client (new TelnetClient)]
-  (try
-    (.connect client "ssd.jpl.nasa.gov" 6775)
-    (let
-      [ reader (reader client)
-        writer (writer client)]
-
-      (try
-        (go
-          (while true
-            (>! from-telnet (str (char (.read reader))))))
-        (go
-          (while true
-            (.write writer ^String (str (<! to-telnet) \newline))
-            (.flush writer)))))))
+        (try
+          (go
+            (while true
+              (>! from-telnet (str (char (.read reader))))))
+          (go
+            (while true
+              (.write writer ^String (str (<! to-telnet) \newline))
+              (.flush writer))))))))
 
 (defn pipe-stdin-to-telnet []
   (let
@@ -72,6 +74,7 @@
            (do (print token) (flush))
            (recur))))
 
+(connect)
 (wait-for-prompt)
 (>!! to-telnet "399")
 (println (next-block))
