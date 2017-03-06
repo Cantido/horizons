@@ -24,10 +24,10 @@
       (try
         (go
           (while true
-            (>! from-telnet (.read reader))))
+            (>! from-telnet (str (char (.read reader))))))
         (go
           (while true
-            (.write writer ^int (<! to-telnet))
+            (.write writer ^String (str (<! to-telnet) \newline))
             (.flush writer)))))))
 
 (defn pipe-stdin-to-telnet []
@@ -40,14 +40,16 @@
           (>!! to-telnet got-from-stdin))))))
 
 (defn show-telnet-out []
-  (while true
-    (.write System/out ^int (<!! from-telnet))
-    (.flush System/out)))
+  (let
+    [stdout (new BufferedWriter (new OutputStreamWriter System/out))]
+    (while true
+      (.write stdout ^String (<!! from-telnet))
+      (.flush stdout))))
 
 (defn next-token
   ([] (next-token ""))
   ([word-so-far]
-   (let [next-char (str (char (<!! from-telnet)))
+   (let [next-char (<!! from-telnet)
           next-word (str word-so-far next-char)]
         (if (clojure.string/blank? next-char)
             next-word
@@ -60,6 +62,5 @@
            (recur))))
 
 (wait-for-prompt)
-(>!! to-telnet 63) ; question mark
-(>!! to-telnet 10) ; line feed
+(>!! to-telnet "?")
 (show-telnet-out)
