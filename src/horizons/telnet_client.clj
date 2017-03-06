@@ -1,10 +1,12 @@
 (ns horizons.telnet-client
-  (:require [clojure.core.async :refer [chan sliding-buffer <!! >!!]])
+  (:require [clojure.core.async :refer [alts!! chan go timeout sliding-buffer <!! <! >!! >!]])
   (:import (org.apache.commons.net.telnet TelnetClient)
            (java.io BufferedReader BufferedWriter InputStreamReader OutputStreamWriter PrintStream)
            (java.nio.charset StandardCharsets Charset)))
 
 (def from-telnet (chan (sliding-buffer 1000)))
+(def to-telnet (chan))
+
 (defn reader [^TelnetClient client]
   (new BufferedReader (new InputStreamReader (.getInputStream client) StandardCharsets/US_ASCII)))
 
@@ -17,17 +19,23 @@
     (.connect client "ssd.jpl.nasa.gov" 6775)
     (let
       [ reader (reader client)
-        writer (writer client)
-        stdin (new BufferedReader (new InputStreamReader System/in))]
+        writer (writer client)]
+
       (try
+        (go
+          (while true
+            (>! from-telnet (.read reader))))
+        (go
+          (while true
+            (.write writer ^int (<! to-telnet))
+            (.flush writer)))))))
 
-        (while [(.isAvailable client)
-                (while (.ready reader)
-                  (>!! from-telnet (.read reader))
-                  (.write System/out (<!! from-telnet)))
-                (while (.ready stdin) (.write writer ^int (.read stdin)))
-                (.flush writer)
-                (.flush System/out)])
-        (finally
-          (.disconnect client))))))
+(let
+  [stdin (new BufferedReader (new InputStreamReader System/in))]
+  (go
+    (while true
+      (>!! to-telnet (.read stdin)))))
 
+(while true
+  (.write System/out ^int (<!! from-telnet))
+  (.flush System/out))
