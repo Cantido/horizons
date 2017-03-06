@@ -46,8 +46,8 @@ There are no endpoints implemented yet.
 
 I plan to implement functionality in this order:
 
-1. *Access the HORIZONS `telnet` API successfully*
-1. Get current orbital coordinates for Earth
+1. [line-through]#Access the HORIZONS `telnet` API successfully#
+1. *Get current orbital coordinates for Earth*
 1. Get past or future orbital coordinates for Earth
 1. Get past or future orbital coordinates for any planet in the Solar System
 
