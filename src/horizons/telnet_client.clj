@@ -22,7 +22,8 @@
         (while [(.isAvailable client)
                 (while (.ready reader) (.write System/out ^int (.read reader)))
                 (while (.ready stdin) (.write writer ^int (.read stdin)))
-                (.flush writer)])
+                (.flush writer)
+                (.flush System/out)])
         (finally
           (.disconnect client))))))
 
