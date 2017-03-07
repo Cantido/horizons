@@ -70,11 +70,13 @@
 
 (defn wait-for-prompt []
   (let [token (next-token)]
-       (if (clojure.string/starts-with? token "Horizons>")
-           (do (print token) (flush))
+       (if (not (clojure.string/starts-with? token "Horizons>"))
            (recur))))
 
-(connect)
-(wait-for-prompt)
-(>!! to-telnet "399")
-(println (next-block))
+(defn get-body
+  [body-id]
+  (do
+    (connect)
+    (wait-for-prompt)
+    (>!! to-telnet body-id)
+    (next-block)))
