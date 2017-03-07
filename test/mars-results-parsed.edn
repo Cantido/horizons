@@ -21,7 +21,7 @@
 "  Geometric albedo      =    0.150        Obliquity to orbit    =  25.19 deg" [:newline "\n"]
 "  Mean sidereal orb per =    1.88081578 y Orbit vel.  km/s      =  24.1309" [:newline "\n"]
 "  Mean sidereal orb per =  686.98 d       Escape vel. km/s      =   5.027" [:newline "\n"]
-"  Hill's sphere rad. Rp =  319.8          Mag. mom (gauss Rp^3) = < 1x10^-4"] [:newline "\n"]
+"  Hill's sphere rad. Rp =  319.8          Mag. mom (gauss Rp^3) = < 1x10^-4" [:newline "\n"]]
  [:separator "*******************************************************************************" [:newline "\n"]]
  [:newline "\n"]
  [:newline "\n"]

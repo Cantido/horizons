@@ -1,6 +1,6 @@
 S ::= separator
       file-header newline newline
-      geophysical-data newline
+      geophysical-data
       separator newline newline separator
       ephemeris-metadata newline separator
       targeting newline separator
