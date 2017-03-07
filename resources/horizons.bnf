@@ -41,9 +41,9 @@ ephemeris-metadata ::=
 "Ephemeris / WWW_USER Mon Mar  6 16:56:26 2017 Pasadena, USA      / Horizons" newline
 
 targeting ::=
-"Target body name: Mars (499)                      {source: mar097}" newline
-"Center body name: Earth (399)                     {source: mar097}" newline
-"Center-site name: GEOCENTRIC" newline
+"Target body name: " "Mars (499)                      " "{source: mar097}" newline
+"Center body name: " "Earth (399)                     " "{source: mar097}" newline
+"Center-site name: " "GEOCENTRIC" newline
 
 time-frame ::=
 "Start time      : A.D. 2017-Feb-24 00:00:00.0000 UT" newline
