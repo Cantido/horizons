@@ -2,8 +2,8 @@ S ::= separator
       file-header newline newline
       geophysical-data newline
       separator newline newline separator
-      ephemeris-metadata newline
-      separator
+      ephemeris-metadata newline separator
+      targeting newline separator
       rest-of-file
 
 separator ::= "*******************************************************************************" newline
@@ -35,12 +35,13 @@ geophysical-data ::=
 ephemeris-metadata ::=
 "Ephemeris / WWW_USER Mon Mar  6 16:56:26 2017 Pasadena, USA      / Horizons"
 
-rest-of-file ::=
+targeting ::=
 "Target body name: Mars (499)                      {source: mar097}
 Center body name: Earth (399)                     {source: mar097}
-Center-site name: GEOCENTRIC
-*******************************************************************************
-Start time      : A.D. 2017-Feb-24 00:00:00.0000 UT
+Center-site name: GEOCENTRIC"
+
+rest-of-file ::=
+"Start time      : A.D. 2017-Feb-24 00:00:00.0000 UT
 Stop  time      : A.D. 2017-Mar-26 00:00:00.0000 UT
 Step-size       : 1440 minutes
 *******************************************************************************
