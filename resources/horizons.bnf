@@ -72,40 +72,9 @@ constants ::=
 
 ephemeris-header ::= " Date__(UT)__HR:MN     R.A._(ICRF/J2000.0)_DEC  APmag  S-brt            delta      deldot    S-O-T /r    S-T-O" newline
 
-ephemeris ::=
-"$$SOE" newline
-" ", ephemeris-datetime, "     ", ascension-declination, "   ", apparent-magnitude, "   ", surface-brightness, " ", range, "  ", range-rate, "  ", sun-observer-target-angle, " ", sun-observer-target-angle-direction, "  ", sun-target-observer-angle, newline,
-" ", ephemeris-datetime, "     ", ascension-declination, "   ", apparent-magnitude, "   ", surface-brightness, " ", range, "  ", range-rate, "  ", sun-observer-target-angle, " ", sun-observer-target-angle-direction, "  ", sun-target-observer-angle, newline,
-" ", ephemeris-datetime, "     ", ascension-declination, "   ", apparent-magnitude, "   ", surface-brightness, " ", range, "  ", range-rate, "  ", sun-observer-target-angle, " ", sun-observer-target-angle-direction, "  ", sun-target-observer-angle, newline,
-" ", ephemeris-datetime, "     ", ascension-declination, "   ", apparent-magnitude, "   ", surface-brightness, " ", range, "  ", range-rate, "  ", sun-observer-target-angle, " ", sun-observer-target-angle-direction, "  ", sun-target-observer-angle, newline,
-" ", ephemeris-datetime, "     ", ascension-declination, "   ", apparent-magnitude, "   ", surface-brightness, " ", range, "  ", range-rate, "  ", sun-observer-target-angle, " ", sun-observer-target-angle-direction, "  ", sun-target-observer-angle, newline,
-" ", ephemeris-datetime, "     ", ascension-declination, "   ", apparent-magnitude, "   ", surface-brightness, " ", range, "  ", range-rate, "  ", sun-observer-target-angle, " ", sun-observer-target-angle-direction, "  ", sun-target-observer-angle, newline,
-" ", ephemeris-datetime, "     ", ascension-declination, "   ", apparent-magnitude, "   ", surface-brightness, " ", range, "  ", range-rate, "  ", sun-observer-target-angle, " ", sun-observer-target-angle-direction, "  ", sun-target-observer-angle, newline,
-" ", ephemeris-datetime, "     ", ascension-declination, "   ", apparent-magnitude, "   ", surface-brightness, " ", range, "  ", range-rate, "  ", sun-observer-target-angle, " ", sun-observer-target-angle-direction, "  ", sun-target-observer-angle, newline,
-" ", ephemeris-datetime, "     ", ascension-declination, "   ", apparent-magnitude, "   ", surface-brightness, " ", range, "  ", range-rate, "  ", sun-observer-target-angle, " ", sun-observer-target-angle-direction, "  ", sun-target-observer-angle, newline,
-" ", ephemeris-datetime, "     ", ascension-declination, "   ", apparent-magnitude, "   ", surface-brightness, " ", range, "  ", range-rate, "  ", sun-observer-target-angle, " ", sun-observer-target-angle-direction, "  ", sun-target-observer-angle, newline,
-" ", ephemeris-datetime, "     ", ascension-declination, "   ", apparent-magnitude, "   ", surface-brightness, " ", range, "  ", range-rate, "  ", sun-observer-target-angle, " ", sun-observer-target-angle-direction, "  ", sun-target-observer-angle, newline,
-" ", ephemeris-datetime, "     ", ascension-declination, "   ", apparent-magnitude, "   ", surface-brightness, " ", range, "  ", range-rate, "  ", sun-observer-target-angle, " ", sun-observer-target-angle-direction, "  ", sun-target-observer-angle, newline,
-" ", ephemeris-datetime, "     ", ascension-declination, "   ", apparent-magnitude, "   ", surface-brightness, " ", range, "  ", range-rate, "  ", sun-observer-target-angle, " ", sun-observer-target-angle-direction, "  ", sun-target-observer-angle, newline,
-" ", ephemeris-datetime, "     ", ascension-declination, "   ", apparent-magnitude, "   ", surface-brightness, " ", range, "  ", range-rate, "  ", sun-observer-target-angle, " ", sun-observer-target-angle-direction, "  ", sun-target-observer-angle, newline,
-" ", ephemeris-datetime, "     ", ascension-declination, "   ", apparent-magnitude, "   ", surface-brightness, " ", range, "  ", range-rate, "  ", sun-observer-target-angle, " ", sun-observer-target-angle-direction, "  ", sun-target-observer-angle, newline,
-" ", ephemeris-datetime, "     ", ascension-declination, "   ", apparent-magnitude, "   ", surface-brightness, " ", range, "  ", range-rate, "  ", sun-observer-target-angle, " ", sun-observer-target-angle-direction, "  ", sun-target-observer-angle, newline,
-" ", ephemeris-datetime, "     ", ascension-declination, "   ", apparent-magnitude, "   ", surface-brightness, " ", range, "  ", range-rate, "  ", sun-observer-target-angle, " ", sun-observer-target-angle-direction, "  ", sun-target-observer-angle, newline,
-" ", ephemeris-datetime, "     ", ascension-declination, "   ", apparent-magnitude, "   ", surface-brightness, " ", range, "  ", range-rate, "  ", sun-observer-target-angle, " ", sun-observer-target-angle-direction, "  ", sun-target-observer-angle, newline,
-" ", ephemeris-datetime, "     ", ascension-declination, "   ", apparent-magnitude, "   ", surface-brightness, " ", range, "  ", range-rate, "  ", sun-observer-target-angle, " ", sun-observer-target-angle-direction, "  ", sun-target-observer-angle, newline,
-" ", ephemeris-datetime, "     ", ascension-declination, "   ", apparent-magnitude, "   ", surface-brightness, " ", range, "  ", range-rate, "  ", sun-observer-target-angle, " ", sun-observer-target-angle-direction, "  ", sun-target-observer-angle, newline,
-" ", ephemeris-datetime, "     ", ascension-declination, "   ", apparent-magnitude, "   ", surface-brightness, " ", range, "  ", range-rate, "  ", sun-observer-target-angle, " ", sun-observer-target-angle-direction, "  ", sun-target-observer-angle, newline,
-" ", ephemeris-datetime, "     ", ascension-declination, "   ", apparent-magnitude, "   ", surface-brightness, " ", range, "  ", range-rate, "  ", sun-observer-target-angle, " ", sun-observer-target-angle-direction, "  ", sun-target-observer-angle, newline,
-" ", ephemeris-datetime, "     ", ascension-declination, "   ", apparent-magnitude, "   ", surface-brightness, " ", range, "  ", range-rate, "  ", sun-observer-target-angle, " ", sun-observer-target-angle-direction, "  ", sun-target-observer-angle, newline,
-" ", ephemeris-datetime, "     ", ascension-declination, "   ", apparent-magnitude, "   ", surface-brightness, " ", range, "  ", range-rate, "  ", sun-observer-target-angle, " ", sun-observer-target-angle-direction, "  ", sun-target-observer-angle, newline,
-" ", ephemeris-datetime, "     ", ascension-declination, "   ", apparent-magnitude, "   ", surface-brightness, " ", range, "  ", range-rate, "  ", sun-observer-target-angle, " ", sun-observer-target-angle-direction, "  ", sun-target-observer-angle, newline,
-" ", ephemeris-datetime, "     ", ascension-declination, "   ", apparent-magnitude, "   ", surface-brightness, " ", range, "  ", range-rate, "  ", sun-observer-target-angle, " ", sun-observer-target-angle-direction, "  ", sun-target-observer-angle, newline,
-" ", ephemeris-datetime, "     ", ascension-declination, "   ", apparent-magnitude, "   ", surface-brightness, " ", range, "  ", range-rate, "  ", sun-observer-target-angle, " ", sun-observer-target-angle-direction, "  ", sun-target-observer-angle, newline,
-" ", ephemeris-datetime, "     ", ascension-declination, "   ", apparent-magnitude, "   ", surface-brightness, " ", range, "  ", range-rate, "  ", sun-observer-target-angle, " ", sun-observer-target-angle-direction, "  ", sun-target-observer-angle, newline,
-" ", ephemeris-datetime, "     ", ascension-declination, "   ", apparent-magnitude, "   ", surface-brightness, " ", range, "  ", range-rate, "  ", sun-observer-target-angle, " ", sun-observer-target-angle-direction, "  ", sun-target-observer-angle, newline,
-" ", ephemeris-datetime, "     ", ascension-declination, "   ", apparent-magnitude, "   ", surface-brightness, " ", range, "  ", range-rate, "  ", sun-observer-target-angle, " ", sun-observer-target-angle-direction, "  ", sun-target-observer-angle, newline,
-" ", ephemeris-datetime, "     ", ascension-declination, "   ", apparent-magnitude, "   ", surface-brightness, " ", range, "  ", range-rate, "  ", sun-observer-target-angle, " ", sun-observer-target-angle-direction, "  ", sun-target-observer-angle, newline,
-"$$EOE", newline
+ephemeris ::= "$$SOE", newline, ephemeris-line-item+, "$$EOE", newline;
+
+ephemeris-line-item ::= " ", ephemeris-datetime, "     ", ascension-declination, "   ", apparent-magnitude, "   ", surface-brightness, " ", range, "  ", range-rate, "  ", sun-observer-target-angle, " ", sun-observer-target-angle-direction, "  ", sun-target-observer-angle, newline;
 
 ephemeris-datetime ::= year "-" month "-" day " 00:00";
 
