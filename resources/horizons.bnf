@@ -4,7 +4,7 @@ S ::= separator
       separator newline newline separator
       ephemeris-metadata newline separator
       targeting separator
-      time-frame newline separator
+      time-frame separator
       constants newline long-separator
       ephemeris-header newline long-separator
       ephemeris newline long-separator
@@ -46,9 +46,9 @@ targeting ::=
 "Center-site name: GEOCENTRIC" newline
 
 time-frame ::=
-"Start time      : A.D. 2017-Feb-24 00:00:00.0000 UT
-Stop  time      : A.D. 2017-Mar-26 00:00:00.0000 UT
-Step-size       : 1440 minutes"
+"Start time      : A.D. 2017-Feb-24 00:00:00.0000 UT" newline
+"Stop  time      : A.D. 2017-Mar-26 00:00:00.0000 UT" newline
+"Step-size       : 1440 minutes" newline
 
 constants ::=
 "Target pole/equ : IAU_MARS                        {East-longitude -}
