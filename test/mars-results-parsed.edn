@@ -39,7 +39,7 @@ Stop  time      : A.D. 2017-Mar-26 00:00:00.0000 UT
 Step-size       : 1440 minutes"
   ] [:newline "\n"]
  [:separator "*******************************************************************************" [:newline "\n"]]
- [:rest-of-file
+ [:constants
 "Target pole/equ : IAU_MARS                        {East-longitude -}
 Target radii    : 3396.2 x 3396.2 x 3376.2 km     {Equator, meridian, pole}
 Center geodetic : 0.00000000,0.00000000,0.0000000 {E-lon(deg),Lat(deg),Alt(km)}
@@ -57,9 +57,10 @@ EOP file        : eop.170306.p170528
 EOP coverage    : DATA-BASED 1962-JAN-20 TO 2017-MAR-06. PREDICTS-> 2017-MAY-27
 Units conversion: 1 au= 149597870.700 km, c= 299792.458 km/s, 1 day= 86400.0 s
 Table cut-offs 1: Elevation (-90.0deg=NO ),Airmass (>38.000=NO), Daylight (NO )
-Table cut-offs 2: Solar Elongation (  0.0,180.0=NO ),Local Hour Angle( 0.0=NO )
-**************************************************************************************************************
- Date__(UT)__HR:MN     R.A._(ICRF/J2000.0)_DEC  APmag  S-brt            delta      deldot    S-O-T /r    S-T-O
+Table cut-offs 2: Solar Elongation (  0.0,180.0=NO ),Local Hour Angle( 0.0=NO )" ] [:newline "\n"]
+ [:long-separator "**************************************************************************************************************" [:newline "\n"]]
+ [:rest-of-file
+" Date__(UT)__HR:MN     R.A._(ICRF/J2000.0)_DEC  APmag  S-brt            delta      deldot    S-O-T /r    S-T-O
 **************************************************************************************************************
 $$SOE
  2017-Feb-24 00:00     01 12 18.78 +07 36 55.3   1.27   4.29 2.00321056835551  11.4427302  44.2386 /T  28.0789
