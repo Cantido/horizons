@@ -1,6 +1,6 @@
 [:S
  [:separator "*******************************************************************************" [:newline "\n"]]
- [:file-header " Revised: Sep 28, 2012                 Mars                             499 / 4"] [:newline "\n"] [:newline "\n"]
+ [:file-header " Revised: Sep 28, 2012                 Mars                             499 / 4" [:newline "\n"]] [:newline "\n"]
  [:geophysical-data
  " GEOPHYSICAL DATA (updated 2009-May-26):" [:newline "\n"]
 "  Mean radius (km)      = 3389.9(2+-4)    Density (g cm^-3)     =  3.933(5+-4)" [:newline "\n"]
@@ -26,7 +26,7 @@
  [:newline "\n"]
  [:newline "\n"]
  [:separator "*******************************************************************************" [:newline "\n"]]
- [:ephemeris-metadata "Ephemeris / WWW_USER Mon Mar  6 16:56:26 2017 Pasadena, USA      / Horizons"] [:newline "\n"]
+ [:ephemeris-metadata "Ephemeris / WWW_USER Mon Mar  6 16:56:26 2017 Pasadena, USA      / Horizons" [:newline "\n"]]
  [:separator "*******************************************************************************" [:newline "\n"]]
  [:targeting
 "Target body name: Mars (499)                      {source: mar097}" [:newline "\n"]

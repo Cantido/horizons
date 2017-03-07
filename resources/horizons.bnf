@@ -1,8 +1,8 @@
 S ::= separator
-      file-header newline newline
+      file-header newline
       geophysical-data
       separator newline newline separator
-      ephemeris-metadata newline separator
+      ephemeris-metadata separator
       targeting separator
       time-frame separator
       constants long-separator
@@ -13,7 +13,7 @@ S ::= separator
 separator ::= "*******************************************************************************" newline
 long-separator ::= "**************************************************************************************************************" newline
 newline ::= "\n"
-file-header ::= " Revised: Sep 28, 2012                 Mars                             499 / 4"
+file-header ::= " Revised: Sep 28, 2012                 Mars                             499 / 4" newline
 
 geophysical-data ::=
 " GEOPHYSICAL DATA (updated 2009-May-26):" newline
@@ -38,7 +38,7 @@ geophysical-data ::=
 "  Hill's sphere rad. Rp =  319.8          Mag. mom (gauss Rp^3) = < 1x10^-4" newline
 
 ephemeris-metadata ::=
-"Ephemeris / WWW_USER Mon Mar  6 16:56:26 2017 Pasadena, USA      / Horizons"
+"Ephemeris / WWW_USER Mon Mar  6 16:56:26 2017 Pasadena, USA      / Horizons" newline
 
 targeting ::=
 "Target body name: Mars (499)                      {source: mar097}" newline
