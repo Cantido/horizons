@@ -33,12 +33,14 @@
 Center body name: Earth (399)                     {source: mar097}
 Center-site name: GEOCENTRIC"] [:newline "\n"]
  [:separator "*******************************************************************************" [:newline "\n"]]
- [:rest-of-file
+ [:time-frame
 "Start time      : A.D. 2017-Feb-24 00:00:00.0000 UT
 Stop  time      : A.D. 2017-Mar-26 00:00:00.0000 UT
-Step-size       : 1440 minutes
-*******************************************************************************
-Target pole/equ : IAU_MARS                        {East-longitude -}
+Step-size       : 1440 minutes"
+  ] [:newline "\n"]
+ [:separator "*******************************************************************************" [:newline "\n"]]
+ [:rest-of-file
+"Target pole/equ : IAU_MARS                        {East-longitude -}
 Target radii    : 3396.2 x 3396.2 x 3376.2 km     {Equator, meridian, pole}
 Center geodetic : 0.00000000,0.00000000,0.0000000 {E-lon(deg),Lat(deg),Alt(km)}
 Center cylindric: 0.00000000,0.00000000,0.0000000 {E-lon(deg),Dxy(km),Dz(km)}
