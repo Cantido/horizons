@@ -3,7 +3,7 @@ S ::= separator
       geophysical-data
       separator newline newline separator
       ephemeris-metadata newline separator
-      targeting newline separator
+      targeting separator
       time-frame newline separator
       constants newline long-separator
       ephemeris-header newline long-separator
@@ -35,15 +35,15 @@ geophysical-data ::=
 "  Geometric albedo      =    0.150        Obliquity to orbit    =  25.19 deg" newline
 "  Mean sidereal orb per =    1.88081578 y Orbit vel.  km/s      =  24.1309" newline
 "  Mean sidereal orb per =  686.98 d       Escape vel. km/s      =   5.027" newline
-"  Hill's sphere rad. Rp =  319.8          Mag. mom (gauss Rp^3) = < 1x10^-4"
+"  Hill's sphere rad. Rp =  319.8          Mag. mom (gauss Rp^3) = < 1x10^-4" newline
 
 ephemeris-metadata ::=
 "Ephemeris / WWW_USER Mon Mar  6 16:56:26 2017 Pasadena, USA      / Horizons"
 
 targeting ::=
-"Target body name: Mars (499)                      {source: mar097}
-Center body name: Earth (399)                     {source: mar097}
-Center-site name: GEOCENTRIC"
+"Target body name: Mars (499)                      {source: mar097}" newline
+"Center body name: Earth (399)                     {source: mar097}" newline
+"Center-site name: GEOCENTRIC" newline
 
 time-frame ::=
 "Start time      : A.D. 2017-Feb-24 00:00:00.0000 UT
