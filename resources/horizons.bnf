@@ -1,8 +1,10 @@
-S ::= rest-of-file
+S ::= separator rest-of-file
+
+separator ::= "*******************************************************************************" newline
+newline ::= "\n"
 
 rest-of-file ::=
-"*******************************************************************************
- Revised: Sep 28, 2012                 Mars                             499 / 4
+" Revised: Sep 28, 2012                 Mars                             499 / 4
 
  GEOPHYSICAL DATA (updated 2009-May-26):
   Mean radius (km)      = 3389.9(2+-4)    Density (g cm^-3)     =  3.933(5+-4)
