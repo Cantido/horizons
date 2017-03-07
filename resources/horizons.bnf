@@ -7,6 +7,7 @@ S ::= separator
       time-frame newline separator
       constants newline long-separator
       ephemeris-header newline long-separator
+      ephemeris newline long-separator
       rest-of-file
 
 separator ::= "*******************************************************************************" newline
@@ -71,7 +72,7 @@ Table cut-offs 2: Solar Elongation (  0.0,180.0=NO ),Local Hour Angle( 0.0=NO )"
 
 ephemeris-header ::= " Date__(UT)__HR:MN     R.A._(ICRF/J2000.0)_DEC  APmag  S-brt            delta      deldot    S-O-T /r    S-T-O"
 
-rest-of-file ::=
+ephemeris ::=
 "$$SOE
  2017-Feb-24 00:00     01 12 18.78 +07 36 55.3   1.27   4.29 2.00321056835551  11.4427302  44.2386 /T  28.0789
  2017-Feb-25 00:00     01 15 01.66 +07 54 13.7   1.28   4.29 2.00981380013486  11.4227410  43.9639 /T  27.9095
@@ -104,9 +105,10 @@ rest-of-file ::=
  2017-Mar-24 00:00     02 29 09.59 +15 01 51.3   1.43   4.29 2.18233507080696  10.6413401  36.4897 /T  23.2364
  2017-Mar-25 00:00     02 31 56.79 +15 15 56.2   1.44   4.29 2.18846986617632  10.6021873  36.2104 /T  23.0599
  2017-Mar-26 00:00     02 34 44.21 +15 29 52.5   1.44   4.29 2.19458168176036  10.5617667  35.9310 /T  22.8832
-$$EOE
-**************************************************************************************************************
-Column meaning:
+$$EOE"
+
+rest-of-file ::=
+"Column meaning:
 
 TIME
 
