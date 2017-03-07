@@ -10,6 +10,7 @@
                  [org.clojure/data.json "0.2.6"]
                  [commons-net/commons-net "3.6"]
                  [compojure "1.3.4"]
+                 [instaparse "1.4.5"]
                  [liberator "0.13"]
                  [ring/ring-core "1.2.1"]
                  [ring/ring-json "0.4.0"]
