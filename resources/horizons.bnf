@@ -8,7 +8,7 @@ S ::= separator
       constants newline long-separator
       ephemeris-header newline long-separator
       ephemeris newline long-separator
-      rest-of-file
+      footer newline newline long-separator
 
 separator ::= "*******************************************************************************" newline
 long-separator ::= "**************************************************************************************************************" newline
@@ -107,7 +107,7 @@ ephemeris ::=
  2017-Mar-26 00:00     02 34 44.21 +15 29 52.5   1.44   4.29 2.19458168176036  10.5617667  35.9310 /T  22.8832
 $$EOE"
 
-rest-of-file ::=
+footer ::=
 "Column meaning:
 
 TIME
@@ -197,7 +197,4 @@ down-leg from target to observer.  Units: DEGREES
      Information: http://ssd.jpl.nasa.gov/
      Connect    : telnet://ssd.jpl.nasa.gov:6775  (via browser)
                   telnet ssd.jpl.nasa.gov 6775    (via command-line)
-     Author     : Jon.Giorgini@jpl.nasa.gov
-
-**************************************************************************************************************
-"
+     Author     : Jon.Giorgini@jpl.nasa.gov"
