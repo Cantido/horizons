@@ -1,6 +1,7 @@
 S ::= separator
       file-header newline newline
       geophysical-data newline
+      separator newline newline separator
       rest-of-file
 
 separator ::= "*******************************************************************************" newline
@@ -30,11 +31,7 @@ geophysical-data ::=
   Hill's sphere rad. Rp =  319.8          Mag. mom (gauss Rp^3) = < 1x10^-4"
 
 rest-of-file ::=
-"*******************************************************************************
-
-
-*******************************************************************************
-Ephemeris / WWW_USER Mon Mar  6 16:56:26 2017 Pasadena, USA      / Horizons
+"Ephemeris / WWW_USER Mon Mar  6 16:56:26 2017 Pasadena, USA      / Horizons
 *******************************************************************************
 Target body name: Mars (499)                      {source: mar097}
 Center body name: Earth (399)                     {source: mar097}
