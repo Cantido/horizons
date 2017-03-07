@@ -74,37 +74,37 @@ ephemeris-header ::= " Date__(UT)__HR:MN     R.A._(ICRF/J2000.0)_DEC  APmag  S-b
 
 ephemeris ::=
 "$$SOE" newline
-" ", ephemeris-datetime, "     ", ascension-declination, "   ", apparent-magnitude, "   ", "4.29", " ", "2.00321056835551", "  ", "11.4427302", "  ", "44.2386", " ", "/T", "  ", "28.0789", newline,
-" ", ephemeris-datetime, "     ", ascension-declination, "   ", apparent-magnitude, "   ", "4.29", " ", "2.00981380013486", "  ", "11.4227410", "  ", "43.9639", " ", "/T", "  ", "27.9095", newline,
-" ", ephemeris-datetime, "     ", ascension-declination, "   ", apparent-magnitude, "   ", "4.29", " ", "2.01640513408896", "  ", "11.4015385", "  ", "43.6889", " ", "/T", "  ", "27.7398", newline,
-" ", ephemeris-datetime, "     ", ascension-declination, "   ", apparent-magnitude, "   ", "4.29", " ", "2.02298387584947", "  ", "11.3791510", "  ", "43.4138", " ", "/T", "  ", "27.5698", newline,
-" ", ephemeris-datetime, "     ", ascension-declination, "   ", apparent-magnitude, "   ", "4.29", " ", "2.02954935871518", "  ", "11.3556468", "  ", "43.1386", " ", "/T", "  ", "27.3994", newline,
-" ", ephemeris-datetime, "     ", ascension-declination, "   ", apparent-magnitude, "   ", "4.29", " ", "2.03610096725679", "  ", "11.3311345", "  ", "42.8632", " ", "/T", "  ", "27.2287", newline,
-" ", ephemeris-datetime, "     ", ascension-declination, "   ", apparent-magnitude, "   ", "4.29", " ", "2.04263815900201", "  ", "11.3057563", "  ", "42.5877", " ", "/T", "  ", "27.0578", newline,
-" ", ephemeris-datetime, "     ", ascension-declination, "   ", apparent-magnitude, "   ", "4.29", " ", "2.04916047992581", "  ", "11.2796738", "  ", "42.3121", " ", "/T", "  ", "26.8865", newline,
-" ", ephemeris-datetime, "     ", ascension-declination, "   ", apparent-magnitude, "   ", "4.29", " ", "2.05566757090948", "  ", "11.2530511", "  ", "42.0364", " ", "/T", "  ", "26.7150", newline,
-" ", ephemeris-datetime, "     ", ascension-declination, "   ", apparent-magnitude, "   ", "4.29", " ", "2.06215916462462", "  ", "11.2260395", "  ", "41.7606", " ", "/T", "  ", "26.5433", newline,
-" ", ephemeris-datetime, "     ", ascension-declination, "   ", apparent-magnitude, "   ", "4.29", " ", "2.06863507430212", "  ", "11.1987650", "  ", "41.4847", " ", "/T", "  ", "26.3713", newline,
-" ", ephemeris-datetime, "     ", ascension-declination, "   ", apparent-magnitude, "   ", "4.29", " ", "2.07509517679921", "  ", "11.1713210", "  ", "41.2086", " ", "/T", "  ", "26.1990", newline,
-" ", ephemeris-datetime, "     ", ascension-declination, "   ", apparent-magnitude, "   ", "4.29", " ", "2.08153939231075", "  ", "11.1437638", "  ", "40.9324", " ", "/T", "  ", "26.0266", newline,
-" ", ephemeris-datetime, "     ", ascension-declination, "   ", apparent-magnitude, "   ", "4.29", " ", "2.08796766255679", "  ", "11.1161115", "  ", "40.6561", " ", "/T", "  ", "25.8539", newline,
-" ", ephemeris-datetime, "     ", ascension-declination, "   ", apparent-magnitude, "   ", "4.29", " ", "2.09437992890070", "  ", "11.0883453", "  ", "40.3797", " ", "/T", "  ", "25.6810", newline,
-" ", ephemeris-datetime, "     ", ascension-declination, "   ", apparent-magnitude, "   ", "4.29", " ", "2.10077611182764", "  ", "11.0604126", "  ", "40.1030", " ", "/T", "  ", "25.5079", newline,
-" ", ephemeris-datetime, "     ", ascension-declination, "   ", apparent-magnitude, "   ", "4.29", " ", "2.10715609336015", "  ", "11.0322340", "  ", "39.8263", " ", "/T", "  ", "25.3346", newline,
-" ", ephemeris-datetime, "     ", ascension-declination, "   ", apparent-magnitude, "   ", "4.29", " ", "2.11351970392719", "  ", "11.0037118", "  ", "39.5493", " ", "/T", "  ", "25.1610", newline,
-" ", ephemeris-datetime, "     ", ascension-declination, "   ", apparent-magnitude, "   ", "4.29", " ", "2.11986671468170", "  ", "10.9747401", "  ", "39.2721", " ", "/T", "  ", "24.9873", newline,
-" ", ephemeris-datetime, "     ", ascension-declination, "   ", apparent-magnitude, "   ", "4.29", " ", "2.12619683533491", "  ", "10.9452134", "  ", "38.9948", " ", "/T", "  ", "24.8133", newline,
-" ", ephemeris-datetime, "     ", ascension-declination, "   ", apparent-magnitude, "   ", "4.29", " ", "2.13250971657745", "  ", "10.9150336", "  ", "38.7173", " ", "/T", "  ", "24.6390", newline,
-" ", ephemeris-datetime, "     ", ascension-declination, "   ", apparent-magnitude, "   ", "4.29", " ", "2.13880495546021", "  ", "10.8841134", "  ", "38.4395", " ", "/T", "  ", "24.4646", newline,
-" ", ephemeris-datetime, "     ", ascension-declination, "   ", apparent-magnitude, "   ", "4.29", " ", "2.14508210190519", "  ", "10.8523769", "  ", "38.1616", " ", "/T", "  ", "24.2899", newline,
-" ", ephemeris-datetime, "     ", ascension-declination, "   ", apparent-magnitude, "   ", "4.29", " ", "2.15134066476118", "  ", "10.8197573", "  ", "37.8834", " ", "/T", "  ", "24.1149", newline,
-" ", ephemeris-datetime, "     ", ascension-declination, "   ", apparent-magnitude, "   ", "4.29", " ", "2.15758011632925", "  ", "10.7861941", "  ", "37.6051", " ", "/T", "  ", "23.9397", newline,
-" ", ephemeris-datetime, "     ", ascension-declination, "   ", apparent-magnitude, "   ", "4.29", " ", "2.16379989488025", "  ", "10.7516294", "  ", "37.3265", " ", "/T", "  ", "23.7642", newline,
-" ", ephemeris-datetime, "     ", ascension-declination, "   ", apparent-magnitude, "   ", "4.29", " ", "2.16999940528009", "  ", "10.7160051", "  ", "37.0478", " ", "/T", "  ", "23.5885", newline,
-" ", ephemeris-datetime, "     ", ascension-declination, "   ", apparent-magnitude, "   ", "4.29", " ", "2.17617801842483", "  ", "10.6792616", "  ", "36.7688", " ", "/T", "  ", "23.4126", newline,
-" ", ephemeris-datetime, "     ", ascension-declination, "   ", apparent-magnitude, "   ", "4.29", " ", "2.18233507080696", "  ", "10.6413401", "  ", "36.4897", " ", "/T", "  ", "23.2364", newline,
-" ", ephemeris-datetime, "     ", ascension-declination, "   ", apparent-magnitude, "   ", "4.29", " ", "2.18846986617632", "  ", "10.6021873", "  ", "36.2104", " ", "/T", "  ", "23.0599", newline,
-" ", ephemeris-datetime, "     ", ascension-declination, "   ", apparent-magnitude, "   ", "4.29", " ", "2.19458168176036", "  ", "10.5617667", "  ", "35.9310", " ", "/T", "  ", "22.8832", newline,
+" ", ephemeris-datetime, "     ", ascension-declination, "   ", apparent-magnitude, "   ", surface-brightness, " ", "2.00321056835551", "  ", "11.4427302", "  ", "44.2386", " ", "/T", "  ", "28.0789", newline,
+" ", ephemeris-datetime, "     ", ascension-declination, "   ", apparent-magnitude, "   ", surface-brightness, " ", "2.00981380013486", "  ", "11.4227410", "  ", "43.9639", " ", "/T", "  ", "27.9095", newline,
+" ", ephemeris-datetime, "     ", ascension-declination, "   ", apparent-magnitude, "   ", surface-brightness, " ", "2.01640513408896", "  ", "11.4015385", "  ", "43.6889", " ", "/T", "  ", "27.7398", newline,
+" ", ephemeris-datetime, "     ", ascension-declination, "   ", apparent-magnitude, "   ", surface-brightness, " ", "2.02298387584947", "  ", "11.3791510", "  ", "43.4138", " ", "/T", "  ", "27.5698", newline,
+" ", ephemeris-datetime, "     ", ascension-declination, "   ", apparent-magnitude, "   ", surface-brightness, " ", "2.02954935871518", "  ", "11.3556468", "  ", "43.1386", " ", "/T", "  ", "27.3994", newline,
+" ", ephemeris-datetime, "     ", ascension-declination, "   ", apparent-magnitude, "   ", surface-brightness, " ", "2.03610096725679", "  ", "11.3311345", "  ", "42.8632", " ", "/T", "  ", "27.2287", newline,
+" ", ephemeris-datetime, "     ", ascension-declination, "   ", apparent-magnitude, "   ", surface-brightness, " ", "2.04263815900201", "  ", "11.3057563", "  ", "42.5877", " ", "/T", "  ", "27.0578", newline,
+" ", ephemeris-datetime, "     ", ascension-declination, "   ", apparent-magnitude, "   ", surface-brightness, " ", "2.04916047992581", "  ", "11.2796738", "  ", "42.3121", " ", "/T", "  ", "26.8865", newline,
+" ", ephemeris-datetime, "     ", ascension-declination, "   ", apparent-magnitude, "   ", surface-brightness, " ", "2.05566757090948", "  ", "11.2530511", "  ", "42.0364", " ", "/T", "  ", "26.7150", newline,
+" ", ephemeris-datetime, "     ", ascension-declination, "   ", apparent-magnitude, "   ", surface-brightness, " ", "2.06215916462462", "  ", "11.2260395", "  ", "41.7606", " ", "/T", "  ", "26.5433", newline,
+" ", ephemeris-datetime, "     ", ascension-declination, "   ", apparent-magnitude, "   ", surface-brightness, " ", "2.06863507430212", "  ", "11.1987650", "  ", "41.4847", " ", "/T", "  ", "26.3713", newline,
+" ", ephemeris-datetime, "     ", ascension-declination, "   ", apparent-magnitude, "   ", surface-brightness, " ", "2.07509517679921", "  ", "11.1713210", "  ", "41.2086", " ", "/T", "  ", "26.1990", newline,
+" ", ephemeris-datetime, "     ", ascension-declination, "   ", apparent-magnitude, "   ", surface-brightness, " ", "2.08153939231075", "  ", "11.1437638", "  ", "40.9324", " ", "/T", "  ", "26.0266", newline,
+" ", ephemeris-datetime, "     ", ascension-declination, "   ", apparent-magnitude, "   ", surface-brightness, " ", "2.08796766255679", "  ", "11.1161115", "  ", "40.6561", " ", "/T", "  ", "25.8539", newline,
+" ", ephemeris-datetime, "     ", ascension-declination, "   ", apparent-magnitude, "   ", surface-brightness, " ", "2.09437992890070", "  ", "11.0883453", "  ", "40.3797", " ", "/T", "  ", "25.6810", newline,
+" ", ephemeris-datetime, "     ", ascension-declination, "   ", apparent-magnitude, "   ", surface-brightness, " ", "2.10077611182764", "  ", "11.0604126", "  ", "40.1030", " ", "/T", "  ", "25.5079", newline,
+" ", ephemeris-datetime, "     ", ascension-declination, "   ", apparent-magnitude, "   ", surface-brightness, " ", "2.10715609336015", "  ", "11.0322340", "  ", "39.8263", " ", "/T", "  ", "25.3346", newline,
+" ", ephemeris-datetime, "     ", ascension-declination, "   ", apparent-magnitude, "   ", surface-brightness, " ", "2.11351970392719", "  ", "11.0037118", "  ", "39.5493", " ", "/T", "  ", "25.1610", newline,
+" ", ephemeris-datetime, "     ", ascension-declination, "   ", apparent-magnitude, "   ", surface-brightness, " ", "2.11986671468170", "  ", "10.9747401", "  ", "39.2721", " ", "/T", "  ", "24.9873", newline,
+" ", ephemeris-datetime, "     ", ascension-declination, "   ", apparent-magnitude, "   ", surface-brightness, " ", "2.12619683533491", "  ", "10.9452134", "  ", "38.9948", " ", "/T", "  ", "24.8133", newline,
+" ", ephemeris-datetime, "     ", ascension-declination, "   ", apparent-magnitude, "   ", surface-brightness, " ", "2.13250971657745", "  ", "10.9150336", "  ", "38.7173", " ", "/T", "  ", "24.6390", newline,
+" ", ephemeris-datetime, "     ", ascension-declination, "   ", apparent-magnitude, "   ", surface-brightness, " ", "2.13880495546021", "  ", "10.8841134", "  ", "38.4395", " ", "/T", "  ", "24.4646", newline,
+" ", ephemeris-datetime, "     ", ascension-declination, "   ", apparent-magnitude, "   ", surface-brightness, " ", "2.14508210190519", "  ", "10.8523769", "  ", "38.1616", " ", "/T", "  ", "24.2899", newline,
+" ", ephemeris-datetime, "     ", ascension-declination, "   ", apparent-magnitude, "   ", surface-brightness, " ", "2.15134066476118", "  ", "10.8197573", "  ", "37.8834", " ", "/T", "  ", "24.1149", newline,
+" ", ephemeris-datetime, "     ", ascension-declination, "   ", apparent-magnitude, "   ", surface-brightness, " ", "2.15758011632925", "  ", "10.7861941", "  ", "37.6051", " ", "/T", "  ", "23.9397", newline,
+" ", ephemeris-datetime, "     ", ascension-declination, "   ", apparent-magnitude, "   ", surface-brightness, " ", "2.16379989488025", "  ", "10.7516294", "  ", "37.3265", " ", "/T", "  ", "23.7642", newline,
+" ", ephemeris-datetime, "     ", ascension-declination, "   ", apparent-magnitude, "   ", surface-brightness, " ", "2.16999940528009", "  ", "10.7160051", "  ", "37.0478", " ", "/T", "  ", "23.5885", newline,
+" ", ephemeris-datetime, "     ", ascension-declination, "   ", apparent-magnitude, "   ", surface-brightness, " ", "2.17617801842483", "  ", "10.6792616", "  ", "36.7688", " ", "/T", "  ", "23.4126", newline,
+" ", ephemeris-datetime, "     ", ascension-declination, "   ", apparent-magnitude, "   ", surface-brightness, " ", "2.18233507080696", "  ", "10.6413401", "  ", "36.4897", " ", "/T", "  ", "23.2364", newline,
+" ", ephemeris-datetime, "     ", ascension-declination, "   ", apparent-magnitude, "   ", surface-brightness, " ", "2.18846986617632", "  ", "10.6021873", "  ", "36.2104", " ", "/T", "  ", "23.0599", newline,
+" ", ephemeris-datetime, "     ", ascension-declination, "   ", apparent-magnitude, "   ", surface-brightness, " ", "2.19458168176036", "  ", "10.5617667", "  ", "35.9310", " ", "/T", "  ", "22.8832", newline,
 "$$EOE", newline
 
 ephemeris-datetime ::= year "-" month "-" day " 00:00";
@@ -116,6 +116,8 @@ day ::= #"[0-9]{2}";
 ascension-declination ::= #"\d\d \d\d \d\d\.\d\d \+\d\d \d\d \d\d\.\d";
 
 apparent-magnitude ::= #"\d.\d\d";
+
+surface-brightness ::= #"\d.\d\d";
 
 footer ::=
 "Column meaning:
