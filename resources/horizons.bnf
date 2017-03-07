@@ -1,12 +1,13 @@
 S ::= separator
       file-header newline newline
+      geophysical-data newline
       rest-of-file
 
 separator ::= "*******************************************************************************" newline
 newline ::= "\n"
 file-header ::= " Revised: Sep 28, 2012                 Mars                             499 / 4"
 
-rest-of-file ::=
+geophysical-data ::=
 " GEOPHYSICAL DATA (updated 2009-May-26):
   Mean radius (km)      = 3389.9(2+-4)    Density (g cm^-3)     =  3.933(5+-4)
   Mass (10^23 kg )      =    6.4185       Flattening, f         =  1/154.409
@@ -26,8 +27,10 @@ rest-of-file ::=
   Geometric albedo      =    0.150        Obliquity to orbit    =  25.19 deg
   Mean sidereal orb per =    1.88081578 y Orbit vel.  km/s      =  24.1309
   Mean sidereal orb per =  686.98 d       Escape vel. km/s      =   5.027
-  Hill's sphere rad. Rp =  319.8          Mag. mom (gauss Rp^3) = < 1x10^-4
-*******************************************************************************
+  Hill's sphere rad. Rp =  319.8          Mag. mom (gauss Rp^3) = < 1x10^-4"
+
+rest-of-file ::=
+"*******************************************************************************
 
 
 *******************************************************************************
