@@ -58,7 +58,7 @@
   "Table cut-offs 1: Elevation (-90.0deg=NO ),Airmass (>38.000=NO), Daylight (NO )" [:newline "\n"]
   "Table cut-offs 2: Solar Elongation (  0.0,180.0=NO ),Local Hour Angle( 0.0=NO )" [:newline "\n"] ]
  [:long-separator "**************************************************************************************************************" [:newline "\n"]]
- [:ephemeris-header " Date__(UT)__HR:MN     R.A._(ICRF/J2000.0)_DEC  APmag  S-brt            delta      deldot    S-O-T /r    S-T-O" ] [:newline "\n"]
+ [:ephemeris-header " Date__(UT)__HR:MN     R.A._(ICRF/J2000.0)_DEC  APmag  S-brt            delta      deldot    S-O-T /r    S-T-O" [:newline "\n"]]
  [:long-separator "**************************************************************************************************************" [:newline "\n"]]
  [:ephemeris
 "$$SOE

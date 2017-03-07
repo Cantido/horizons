@@ -6,7 +6,7 @@ S ::= separator
       targeting separator
       time-frame separator
       constants long-separator
-      ephemeris-header newline long-separator
+      ephemeris-header long-separator
       ephemeris newline long-separator
       footer newline newline long-separator
 
