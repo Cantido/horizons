@@ -22,3 +22,163 @@
   Mean sidereal orb per =  686.98 d       Escape vel. km/s      =   5.027
   Hill's sphere rad. Rp =  319.8          Mag. mom (gauss Rp^3) = < 1x10^-4
 *******************************************************************************
+
+
+*******************************************************************************
+Ephemeris / WWW_USER Mon Mar  6 16:56:26 2017 Pasadena, USA      / Horizons
+*******************************************************************************
+Target body name: Mars (499)                      {source: mar097}
+Center body name: Earth (399)                     {source: mar097}
+Center-site name: GEOCENTRIC
+*******************************************************************************
+Start time      : A.D. 2017-Feb-24 00:00:00.0000 UT
+Stop  time      : A.D. 2017-Mar-26 00:00:00.0000 UT
+Step-size       : 1440 minutes
+*******************************************************************************
+Target pole/equ : IAU_MARS                        {East-longitude -}
+Target radii    : 3396.2 x 3396.2 x 3376.2 km     {Equator, meridian, pole}
+Center geodetic : 0.00000000,0.00000000,0.0000000 {E-lon(deg),Lat(deg),Alt(km)}
+Center cylindric: 0.00000000,0.00000000,0.0000000 {E-lon(deg),Dxy(km),Dz(km)}
+Center pole/equ : High-precision EOP model        {East-longitude +}
+Center radii    : 6378.1 x 6378.1 x 6356.8 km     {Equator, meridian, pole}
+Target primary  : Sun
+Vis. interferer : MOON (R_eq= 1737.400) km        {source: mar097}
+Rel. light bend : Sun, EARTH                      {source: mar097}
+Rel. lght bnd GM: 1.3271E+11, 3.9860E+05 km^3/s^2
+Atmos refraction: NO (AIRLESS)
+RA format       : HMS
+Time format     : CAL
+EOP file        : eop.170306.p170528
+EOP coverage    : DATA-BASED 1962-JAN-20 TO 2017-MAR-06. PREDICTS-> 2017-MAY-27
+Units conversion: 1 au= 149597870.700 km, c= 299792.458 km/s, 1 day= 86400.0 s
+Table cut-offs 1: Elevation (-90.0deg=NO ),Airmass (>38.000=NO), Daylight (NO )
+Table cut-offs 2: Solar Elongation (  0.0,180.0=NO ),Local Hour Angle( 0.0=NO )
+**************************************************************************************************************
+ Date__(UT)__HR:MN     R.A._(ICRF/J2000.0)_DEC  APmag  S-brt            delta      deldot    S-O-T /r    S-T-O
+**************************************************************************************************************
+$$SOE
+ 2017-Feb-24 00:00     01 12 18.78 +07 36 55.3   1.27   4.29 2.00321056835551  11.4427302  44.2386 /T  28.0789
+ 2017-Feb-25 00:00     01 15 01.66 +07 54 13.7   1.28   4.29 2.00981380013486  11.4227410  43.9639 /T  27.9095
+ 2017-Feb-26 00:00     01 17 44.64 +08 11 27.0   1.28   4.29 2.01640513408896  11.4015385  43.6889 /T  27.7398
+ 2017-Feb-27 00:00     01 20 27.73 +08 28 35.1   1.29   4.29 2.02298387584947  11.3791510  43.4138 /T  27.5698
+ 2017-Feb-28 00:00     01 23 10.92 +08 45 37.8   1.29   4.29 2.02954935871518  11.3556468  43.1386 /T  27.3994
+ 2017-Mar-01 00:00     01 25 54.22 +09 02 35.0   1.30   4.29 2.03610096725679  11.3311345  42.8632 /T  27.2287
+ 2017-Mar-02 00:00     01 28 37.63 +09 19 26.5   1.31   4.29 2.04263815900201  11.3057563  42.5877 /T  27.0578
+ 2017-Mar-03 00:00     01 31 21.16 +09 36 12.2   1.31   4.29 2.04916047992581  11.2796738  42.3121 /T  26.8865
+ 2017-Mar-04 00:00     01 34 04.81 +09 52 51.9   1.32   4.29 2.05566757090948  11.2530511  42.0364 /T  26.7150
+ 2017-Mar-05 00:00     01 36 48.58 +10 09 25.6   1.32   4.29 2.06215916462462  11.2260395  41.7606 /T  26.5433
+ 2017-Mar-06 00:00     01 39 32.48 +10 25 53.0   1.33   4.29 2.06863507430212  11.1987650  41.4847 /T  26.3713
+ 2017-Mar-07 00:00     01 42 16.51 +10 42 14.0   1.34   4.29 2.07509517679921  11.1713210  41.2086 /T  26.1990
+ 2017-Mar-08 00:00     01 45 00.67 +10 58 28.5   1.34   4.29 2.08153939231075  11.1437638  40.9324 /T  26.0266
+ 2017-Mar-09 00:00     01 47 44.97 +11 14 36.4   1.35   4.29 2.08796766255679  11.1161115  40.6561 /T  25.8539
+ 2017-Mar-10 00:00     01 50 29.41 +11 30 37.4   1.35   4.29 2.09437992890070  11.0883453  40.3797 /T  25.6810
+ 2017-Mar-11 00:00     01 53 14.00 +11 46 31.5   1.36   4.29 2.10077611182764  11.0604126  40.1030 /T  25.5079
+ 2017-Mar-12 00:00     01 55 58.75 +12 02 18.6   1.37   4.29 2.10715609336015  11.0322340  39.8263 /T  25.3346
+ 2017-Mar-13 00:00     01 58 43.65 +12 17 58.5   1.37   4.29 2.11351970392719  11.0037118  39.5493 /T  25.1610
+ 2017-Mar-14 00:00     02 01 28.72 +12 33 31.2   1.38   4.29 2.11986671468170  10.9747401  39.2721 /T  24.9873
+ 2017-Mar-15 00:00     02 04 13.96 +12 48 56.4   1.38   4.29 2.12619683533491  10.9452134  38.9948 /T  24.8133
+ 2017-Mar-16 00:00     02 06 59.37 +13 04 14.1   1.39   4.29 2.13250971657745  10.9150336  38.7173 /T  24.6390
+ 2017-Mar-17 00:00     02 09 44.97 +13 19 24.2   1.39   4.29 2.13880495546021  10.8841134  38.4395 /T  24.4646
+ 2017-Mar-18 00:00     02 12 30.75 +13 34 26.5   1.40   4.29 2.14508210190519  10.8523769  38.1616 /T  24.2899
+ 2017-Mar-19 00:00     02 15 16.72 +13 49 20.9   1.40   4.29 2.15134066476118  10.8197573  37.8834 /T  24.1149
+ 2017-Mar-20 00:00     02 18 02.89 +14 04 07.4   1.41   4.29 2.15758011632925  10.7861941  37.6051 /T  23.9397
+ 2017-Mar-21 00:00     02 20 49.26 +14 18 45.8   1.41   4.29 2.16379989488025  10.7516294  37.3265 /T  23.7642
+ 2017-Mar-22 00:00     02 23 35.83 +14 33 16.0   1.42   4.29 2.16999940528009  10.7160051  37.0478 /T  23.5885
+ 2017-Mar-23 00:00     02 26 22.60 +14 47 37.9   1.43   4.29 2.17617801842483  10.6792616  36.7688 /T  23.4126
+ 2017-Mar-24 00:00     02 29 09.59 +15 01 51.3   1.43   4.29 2.18233507080696  10.6413401  36.4897 /T  23.2364
+ 2017-Mar-25 00:00     02 31 56.79 +15 15 56.2   1.44   4.29 2.18846986617632  10.6021873  36.2104 /T  23.0599
+ 2017-Mar-26 00:00     02 34 44.21 +15 29 52.5   1.44   4.29 2.19458168176036  10.5617667  35.9310 /T  22.8832
+$$EOE
+**************************************************************************************************************
+Column meaning:
+
+TIME
+
+  Prior to 1962, times are UT1. Dates thereafter are UTC. Any 'b' symbol in
+the 1st-column denotes a B.C. date. First-column blank (" ") denotes an A.D.
+date. Calendar dates prior to 1582-Oct-15 are in the Julian calendar system.
+Later calendar dates are in the Gregorian system.
+
+  Time tags refer to the same instant throughout the solar system, regardless
+of where the observer is located. For example, if an observation from the
+surface of another body has an output time-tag of 12:31:00 UTC, an Earth-based
+time-scale, it refers to the instant on that body simultaneous to 12:31:00 UTC
+on Earth.
+
+  The Barycentric Dynamical Time scale (TDB) is used internally as defined by
+the planetary equations of motion. Conversion between TDB and the selected
+non-uniform UT output time-scale has not been determined for UTC times after
+the next July or January 1st. The last known leap-second is used as a constant
+over future intervals.
+
+  NOTE: "n.a." in output means quantity "not available" at the print-time.
+
+ R.A._(ICRF/J2000.0)_DEC =
+   J2000.0 astrometric right ascension and declination of target center.
+Adjusted for light-time. Units: HMS (HH MM SS.ff) and DMS (DD MM SS.f)
+
+ APmag S-brt =
+   Target's approximate apparent visual magnitude & surface brightness. For
+planets and satellites, values are available only for solar phase angles in the
+range generally visible from Earth. This is to avoid extrapolation of models
+beyond their valid (data-based) limits.
+   Units: MAGNITUDE & VISUAL MAGNITUDES PER SQUARE ARCSECOND
+
+ delta  deldot =
+   Range ("delta") and range-rate ("delta-dot") of target center with respect
+to the observer at the instant light seen by the observer at print-time would
+have left the target center (print-time minus down-leg light-time); the
+distance traveled by a light ray emanating from the center of the target and
+recorded by the observer at print-time. "deldot" is a projection of the
+velocity vector along this ray, the light-time-corrected line-of-sight from the
+coordinate center, and indicates relative motion. A positive "deldot" means the
+target center is moving away from the observer (coordinate center). A negative
+"deldot" means the target center is moving toward the observer.
+Units: AU and KM/S
+
+ S-O-T /r =
+    Sun-Observer-Target angle; target's apparent SOLAR ELONGATION seen from
+the observer location at print-time. Angular units: DEGREES
+
+    The '/r' column indicates the target's apparent position relative to
+the Sun in the observer's sky, as described below:
+
+    For an observing location on the surface of a rotating body
+(considering its rotational sense):
+
+    /T indicates target TRAILS Sun (evening sky; rises and sets AFTER Sun)
+    /L indicates target LEADS Sun  (morning sky; rises and sets BEFORE Sun)
+
+For an observing point NOT on a rotating body (such as a spacecraft), the
+"leading" and "trailing" condition is defined by the observer's
+heliocentric orbital motion: if continuing in the observer's current
+direction of heliocentric motion would encounter the target's apparent
+longitude first, followed by the Sun's, the target LEADS the Sun as seen by
+the observer. If the Sun's apparent longitude would be encountered first,
+followed by the target's, the target TRAILS the Sun.
+
+NOTE: The S-O-T solar elongation angle is numerically the minimum
+separation angle of the Sun and target in the sky in any direction. It
+does NOT indicate the amount of separation in the leading or trailing
+directions, which are defined in the equator of a spherical coordinate
+system.
+
+ S-T-O =
+   "S-T-O" is the Sun->Target->Observer angle; the interior vertex angle at
+target center formed by a vector to the apparent center of the Sun at
+reflection time on the target and the apparent vector to the observer at
+print-time. Slightly different from true PHASE ANGLE (requestable separately)
+at the few arcsecond level in that it includes stellar aberration on the
+down-leg from target to observer.  Units: DEGREES
+
+
+ Computations by ...
+     Solar System Dynamics Group, Horizons On-Line Ephemeris System
+     4800 Oak Grove Drive, Jet Propulsion Laboratory
+     Pasadena, CA  91109   USA
+     Information: http://ssd.jpl.nasa.gov/
+     Connect    : telnet://ssd.jpl.nasa.gov:6775  (via browser)
+                  telnet ssd.jpl.nasa.gov 6775    (via command-line)
+     Author     : Jon.Giorgini@jpl.nasa.gov
+
+**************************************************************************************************************
