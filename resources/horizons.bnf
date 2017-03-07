@@ -6,6 +6,7 @@ S ::= separator
       targeting newline separator
       time-frame newline separator
       constants newline long-separator
+      ephemeris-header newline long-separator
       rest-of-file
 
 separator ::= "*******************************************************************************" newline
@@ -68,10 +69,10 @@ Units conversion: 1 au= 149597870.700 km, c= 299792.458 km/s, 1 day= 86400.0 s
 Table cut-offs 1: Elevation (-90.0deg=NO ),Airmass (>38.000=NO), Daylight (NO )
 Table cut-offs 2: Solar Elongation (  0.0,180.0=NO ),Local Hour Angle( 0.0=NO )"
 
+ephemeris-header ::= " Date__(UT)__HR:MN     R.A._(ICRF/J2000.0)_DEC  APmag  S-brt            delta      deldot    S-O-T /r    S-T-O"
+
 rest-of-file ::=
-" Date__(UT)__HR:MN     R.A._(ICRF/J2000.0)_DEC  APmag  S-brt            delta      deldot    S-O-T /r    S-T-O
-**************************************************************************************************************
-$$SOE
+"$$SOE
  2017-Feb-24 00:00     01 12 18.78 +07 36 55.3   1.27   4.29 2.00321056835551  11.4427302  44.2386 /T  28.0789
  2017-Feb-25 00:00     01 15 01.66 +07 54 13.7   1.28   4.29 2.00981380013486  11.4227410  43.9639 /T  27.9095
  2017-Feb-26 00:00     01 17 44.64 +08 11 27.0   1.28   4.29 2.01640513408896  11.4015385  43.6889 /T  27.7398
