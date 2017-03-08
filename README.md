@@ -44,9 +44,12 @@ There are no endpoints implemented yet.
 I plan to implement functionality in this order:
 
 1. ~~Access the HORIZONS `telnet` API successfully~~
-1. *Get current orbital coordinates for Earth*
-1. Get past or future orbital coordinates for Earth
-1. Get past or future orbital coordinates for any planet in the Solar System
+1. **Return geophysical data for Mars at `/499`**
+1. Return geophysical data for all 8 planets at `/{id}`
+1. Return ephemeris data for all 8 planets in the default time-frame
+1. Above, but in a configurable time-frame
+1. Above, but for all bodies
+1. Expose 100% of HORIZON's `telnet` functionality via HTTP
 
 ## License
 
