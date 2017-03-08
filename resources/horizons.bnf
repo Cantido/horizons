@@ -29,7 +29,6 @@ whitespace ::= (space* | newline*) whitespace*;
 <float> ::= #"\-?\d*\.\d*";
 <float-with-error> ::= (#"\d*\.\d*\(\d\+\-\d\)") | (#"\d*\.\d*\s?\+\-\s?\d*\.\d*");
 <approximate-integer> ::= #"~\d+";
-<spectral-fact> ::= #"\d\d \(x10\^\d\)";
 
 timestamp ::= date, <whitespace>, time;
 
@@ -42,6 +41,14 @@ time ::= #"\d\d:\d\d";
 
 
 
+(* Domain-specific data types *)
+
+body-name ::= "Mars" | "Earth";
+body-id ::= "499" | "399";
+<spectral-fact> ::= #"\d\d \(x10\^\d\)";
+
+
+
 (* Document proper *)
 
 file-header ::=
@@ -51,8 +58,7 @@ file-header ::=
     <" / 4">;
 
 revision-date ::= <"Revised: "> date;
-body-name ::= "Mars";
-body-id ::= "499";
+
 
 geophysical-data ::=
     <whitespace> geophysical-data-header,
@@ -137,10 +143,15 @@ volume ::= <"Volume (x10^10 km^3)"> <equals> float;
 ephemeris-metadata ::=
 "Ephemeris / WWW_USER Mon Mar  6 16:56:26 2017 Pasadena, USA      / Horizons" <whitespace>;
 
-targeting ::=
-"Target body name: " "Mars (499)                      " "{source: mar097}" <whitespace>
-"Center body name: " "Earth (399)                     " "{source: mar097}" <whitespace>
-"Center-site name: " "GEOCENTRIC" <whitespace>;
+targeting ::= target-body, center-body, center-site;
+
+target-body ::= <"Target body name:"> targeting-body <whitespace>
+center-body ::= <"Center body name:"> targeting-body <whitespace>
+center-site ::= <"Center-site name:"> <space> "GEOCENTRIC" <whitespace>;
+
+<targeting-body> := <space> body-name <space> <"("> body-id <")"> <space+> source;
+
+source ::= <"{source:"> <space> "mar097" <"}">;
 
 time-frame ::=
 "Start time      : " "A.D. 2017-Feb-24 00:00:00.0000 UT" <whitespace>
