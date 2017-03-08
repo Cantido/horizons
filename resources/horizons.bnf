@@ -13,6 +13,7 @@ S ::= <separator>
 separator ::= "*******************************************************************************" <newline>
 long-separator ::= "**************************************************************************************************************" <newline>
 newline ::= "\n"
+whitespace ::= #"\s+";
 
 file-header ::= " Revised: Sep 28, 2012                 Mars                             499 / 4" <newline>
 
@@ -75,15 +76,15 @@ ephemeris-header ::= " Date__(UT)__HR:MN     R.A._(ICRF/J2000.0)_DEC  APmag  S-b
 
 ephemeris ::= "$$SOE", <newline>, ephemeris-line-item+, "$$EOE", <newline>;
 
-ephemeris-line-item ::= <" ">,
-    ephemeris-datetime, <"     ">,
-    ascension-declination, <"   ">,
-    apparent-magnitude, <"   ">,
-    surface-brightness, <" ">,
-    range, <"  ">,
-    range-rate, <"  ">,
-    sun-observer-target-angle, <" ">,
-    sun-observer-target-angle-direction, <"  ">,
+ephemeris-line-item ::= <whitespace>,
+    ephemeris-datetime, <whitespace>,
+    ascension-declination, <whitespace>,
+    apparent-magnitude, <whitespace>,
+    surface-brightness, <whitespace>,
+    range, <whitespace>,
+    range-rate, <whitespace>,
+    sun-observer-target-angle, <whitespace>,
+    sun-observer-target-angle-direction, <whitespace>,
     sun-target-observer-angle,
     <newline>;
 
