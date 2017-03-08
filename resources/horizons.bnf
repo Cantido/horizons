@@ -25,7 +25,15 @@ whitespace ::= (space* | newline*) whitespace*;
 <approximate-integer> ::= #"~\d+";
 <spectral-fact> ::= #"\d\d \(x10\^\d\)";
 
-file-header ::= " Revised: Sep 28, 2012                 Mars                             499 / 4" <whitespace>
+file-header ::=
+    revision-date   <space+>
+    body-name       <space+>
+    body-id
+    <" / 4">;
+
+revision-date ::= <"Revised: "> date;
+body-name ::= "Mars";
+body-id ::= "499";
 
 geophysical-data ::=
     <whitespace> geophysical-data-header,
@@ -158,9 +166,9 @@ ephemeris-line-item ::=
 
 timestamp ::= date, <whitespace>, time;
 
-<date> ::= year <"-"> month <"-"> day;
+<date> ::= (year <"-"> month <"-"> day) | (month <" "> day <", "> year);
 
-year ::= "2017";
+year ::= integer;
 month ::= "Jan" | "Feb" | "Mar" | "Apr" | "May" | "Jun" | "Jul" | "Aug" | "Sep" | "Oct" | "Nov" | "Dec";
 day ::= #"[0-9]{2}";
 time ::= #"\d\d:\d\d";
