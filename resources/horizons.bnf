@@ -1,17 +1,18 @@
 S ::= <separator>
       file-header <newline>
-      geophysical-data
-      <separator> <newline> <newline> <separator>
+      geophysical-data <separator>
       ephemeris-metadata <separator>
       targeting <separator>
       time-frame <separator>
-      constants <long-separator>
-      ephemeris-header <long-separator>
-      ephemeris <long-separator>
+      constants <separator>
+      ephemeris-header <separator>
+      ephemeris <separator>
       <footer>
 
-separator ::= "*******************************************************************************" <newline>
-long-separator ::= "**************************************************************************************************************" <newline>
+separator ::= (short-sep | long-sep), <whitespace>, separator?;
+short-sep ::= #"\*{79}";
+long-sep ::= #"\*{110}";
+
 newline ::= "\n"
 spaces ::= #"\s+";
 whitespace ::= spaces | newline+;
