@@ -89,11 +89,12 @@ ephemeris-line-item ::=
     <whitespace>, sun-target-observer-angle,
     <whitespace>;
 
-ephemeris-datetime ::= year <"-"> month <"-"> day " 00:00";
+ephemeris-datetime ::= year <"-"> month <"-"> day <" ">, time;
 
 year ::= "2017";
 month ::= "Feb" | "Mar";
 day ::= #"[0-9]{2}";
+time ::= #"\d\d:\d\d";
 
 ascension-declination ::= #"\d\d \d\d \d\d\.\d\d \+\d\d \d\d \d\d\.\d";
 
