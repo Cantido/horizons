@@ -30,7 +30,7 @@ whitespace ::= (space* | newline*) whitespace*;
 <float-with-error> ::= (#"\d*\.\d*\(\d\+\-\d\)") | (#"\d*\.\d*\s?\+\-\s?\d*\.\d*");
 <approximate-integer> ::= #"~\d+";
 
-timestamp ::= era?, <space>, date, <whitespace>, time, <space>, time-zone?;
+<timestamp> ::= era?, <space>, date, <whitespace>, time, <space>, time-zone?;
 
 <date> ::= (year <"-"> month <"-"> day) | (month <" "> day <", "> year);
 <duration> ::= "1440 minutes";
@@ -188,7 +188,7 @@ ephemeris-header ::= " Date__(UT)__HR:MN     R.A._(ICRF/J2000.0)_DEC  APmag  S-b
 ephemeris ::= <"$$SOE">, <whitespace>, ephemeris-line-item+, <"$$EOE">, <whitespace>;
 
 ephemeris-line-item ::=
-    <whitespace>, timestamp,
+    <whitespace>, measurement-time,
     <whitespace>, ascension-declination,
     <whitespace>, apparent-magnitude,
     <whitespace>, surface-brightness,
@@ -198,6 +198,8 @@ ephemeris-line-item ::=
     <whitespace>, sun-observer-target-angle-direction,
     <whitespace>, sun-target-observer-angle,
     <whitespace>;
+
+measurement-time ::= timestamp;
 
 ascension-declination ::= #"\d\d \d\d \d\d\.\d\d \+\d\d \d\d \d\d\.\d";
 
