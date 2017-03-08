@@ -101,9 +101,9 @@ time ::= #"\d\d:\d\d";
 
 ascension-declination ::= #"\d\d \d\d \d\d\.\d\d \+\d\d \d\d \d\d\.\d";
 
-apparent-magnitude ::= #"\d.\d\d";
+apparent-magnitude ::= #"\d\.\d\d";
 
-surface-brightness ::= #"\d.\d\d";
+surface-brightness ::= #"\d\.\d\d";
 
 range ::= #"\d\.\d{14}";
 range-rate ::= #"\d\d\.\d{7}";
