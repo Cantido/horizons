@@ -20,7 +20,9 @@ system barycenters ). HORIZONS is provided by the Solar System Dynamics Group of
 
 The only ways to access HORIZONS are through `telnet`, email, and a CGI web
 interface intended for end-user access. I want to provide a modern REST-style
-JSON interface to this system. It's written in [Clojure](https://clojure.org/),
+JSON interface to this system.
+ 
+This application is written in [Clojure](https://clojure.org/),
 using [Liberator](http://clojure-liberator.github.io/liberator/) to handle the
 details of RESTful representations.
 
