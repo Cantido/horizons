@@ -1,79 +1,79 @@
-S ::= separator
-      file-header newline
+S ::= <separator>
+      file-header <newline>
       geophysical-data
-      separator newline newline separator
-      ephemeris-metadata separator
-      targeting separator
-      time-frame separator
-      constants long-separator
-      ephemeris-header long-separator
-      ephemeris long-separator
-      footer newline newline long-separator
+      <separator> <newline> <newline> <separator>
+      ephemeris-metadata <separator>
+      targeting <separator>
+      time-frame <separator>
+      constants <long-separator>
+      ephemeris-header <long-separator>
+      ephemeris <long-separator>
+      <footer> <newline> <newline> <long-separator>
 
-separator ::= "*******************************************************************************" newline
-long-separator ::= "**************************************************************************************************************" newline
+separator ::= "*******************************************************************************" <newline>
+long-separator ::= "**************************************************************************************************************" <newline>
 newline ::= "\n"
 
-file-header ::= " Revised: Sep 28, 2012                 Mars                             499 / 4" newline
+file-header ::= " Revised: Sep 28, 2012                 Mars                             499 / 4" <newline>
 
 geophysical-data ::=
-" GEOPHYSICAL DATA (updated 2009-May-26):" newline
-"  Mean radius (km)      = " "3389.9(2+-4)    " "Density (g cm^-3)     = " " 3.933(5+-4)" newline
-"  Mass (10^23 kg )      = " "   6.4185       " "Flattening, f         = " " 1/154.409" newline
-"  Volume (x10^10 km^3)  = " "  16.318        " "Semi-major axis       = " " 3397+-4" newline
-"  Sidereal rot. period  = " "  24.622962 hr  " "Rot. Rate (x10^5 s)   = " " 7.088218" newline
-"  Mean solar day        = " "   1.0274907 d  " "Polar gravity ms^-2   = " " 3.758" newline
-"  Mom. of Inertia       = " "   0.366        " "Equ. gravity  ms^-2   = " " 3.71"  newline
-"  Core radius (km)      = " " ~1700          " "Potential Love # k2   = " " 0.153 +-.017" newline newline
+" GEOPHYSICAL DATA (updated 2009-May-26):" <newline>
+"  Mean radius (km)      = " "3389.9(2+-4)    " "Density (g cm^-3)     = " " 3.933(5+-4)" <newline>
+"  Mass (10^23 kg )      = " "   6.4185       " "Flattening, f         = " " 1/154.409" <newline>
+"  Volume (x10^10 km^3)  = " "  16.318        " "Semi-major axis       = " " 3397+-4" <newline>
+"  Sidereal rot. period  = " "  24.622962 hr  " "Rot. Rate (x10^5 s)   = " " 7.088218" <newline>
+"  Mean solar day        = " "   1.0274907 d  " "Polar gravity ms^-2   = " " 3.758" <newline>
+"  Mom. of Inertia       = " "   0.366        " "Equ. gravity  ms^-2   = " " 3.71"  <newline>
+"  Core radius (km)      = " " ~1700          " "Potential Love # k2   = " " 0.153 +-.017" <newline> <newline>
 
-"  Grav spectral fact u  = " "  14 (x10^5)    " "Topo. spectral fact t = " "96 (x10^5)" newline
-"  Fig. offset (Rcf-Rcm) = " "2.50+-0.07 km   " "Offset (lat./long.)   = " "62d / 88d" newline
-"  GM (km^3 s^-2)        = " "42828.3         " "Equatorial Radius, Re = " "3394.0 km" newline
-"  GM 1-sigma (km^3 s^-2)= " "+- 0.1          " "Mass ratio (Sun/Mars) = " "3098708+-9" newline newline
+"  Grav spectral fact u  = " "  14 (x10^5)    " "Topo. spectral fact t = " "96 (x10^5)" <newline>
+"  Fig. offset (Rcf-Rcm) = " "2.50+-0.07 km   " "Offset (lat./long.)   = " "62d / 88d" <newline>
+"  GM (km^3 s^-2)        = " "42828.3         " "Equatorial Radius, Re = " "3394.0 km" <newline>
+"  GM 1-sigma (km^3 s^-2)= " "+- 0.1          " "Mass ratio (Sun/Mars) = " "3098708+-9" <newline> <newline>
 
-"  Atmos. pressure (bar) = " "   0.0056       " "Max. angular diam.    = " ' 17.9\"' newline
-"  Mean Temperature (K)  = " " 210            " "Visual mag. V(1,0)    = " " -1.52" newline
-"  Geometric albedo      = " "   0.150        " "Obliquity to orbit    = " " 25.19 deg" newline
-"  Mean sidereal orb per = " "   1.88081578 y " "Orbit vel.  km/s      = " " 24.1309" newline
-"  Mean sidereal orb per = " " 686.98 d       " "Escape vel. km/s      = " "  5.027" newline
-"  Hill's sphere rad. Rp = " " 319.8          " "Mag. mom (gauss Rp^3) = " "< 1x10^-4" newline
+"  Atmos. pressure (bar) = " "   0.0056       " "Max. angular diam.    = " ' 17.9\"' <newline>
+"  Mean Temperature (K)  = " " 210            " "Visual mag. V(1,0)    = " " -1.52" <newline>
+"  Geometric albedo      = " "   0.150        " "Obliquity to orbit    = " " 25.19 deg" <newline>
+"  Mean sidereal orb per = " "   1.88081578 y " "Orbit vel.  km/s      = " " 24.1309" <newline>
+"  Mean sidereal orb per = " " 686.98 d       " "Escape vel. km/s      = " "  5.027" <newline>
+"  Hill's sphere rad. Rp = " " 319.8          " "Mag. mom (gauss Rp^3) = " "< 1x10^-4" <newline>
 
 ephemeris-metadata ::=
-"Ephemeris / WWW_USER Mon Mar  6 16:56:26 2017 Pasadena, USA      / Horizons" newline
+"Ephemeris / WWW_USER Mon Mar  6 16:56:26 2017 Pasadena, USA      / Horizons" <newline>
 
 targeting ::=
-"Target body name: " "Mars (499)                      " "{source: mar097}" newline
-"Center body name: " "Earth (399)                     " "{source: mar097}" newline
-"Center-site name: " "GEOCENTRIC" newline
+"Target body name: " "Mars (499)                      " "{source: mar097}" <newline>
+"Center body name: " "Earth (399)                     " "{source: mar097}" <newline>
+"Center-site name: " "GEOCENTRIC" <newline>
 
 time-frame ::=
-"Start time      : " "A.D. 2017-Feb-24 00:00:00.0000 UT" newline
-"Stop  time      : " "A.D. 2017-Mar-26 00:00:00.0000 UT" newline
-"Step-size       : " "1440 minutes" newline
+"Start time      : " "A.D. 2017-Feb-24 00:00:00.0000 UT" <newline>
+"Stop  time      : " "A.D. 2017-Mar-26 00:00:00.0000 UT" <newline>
+"Step-size       : " "1440 minutes" <newline>
 
 constants ::=
-"Target pole/equ : " "IAU_MARS                        " "{East-longitude -}" newline
-"Target radii    : " "3396.2 x 3396.2 x 3376.2 km     " "{Equator, meridian, pole}" newline
-"Center geodetic : " "0.00000000,0.00000000,0.0000000 " "{E-lon(deg),Lat(deg),Alt(km)}" newline
-"Center cylindric: " "0.00000000,0.00000000,0.0000000 " "{E-lon(deg),Dxy(km),Dz(km)}" newline
-"Center pole/equ : " "High-precision EOP model        " "{East-longitude +}" newline
-"Center radii    : " "6378.1 x 6378.1 x 6356.8 km     " "{Equator, meridian, pole}" newline
-"Target primary  : " "Sun" newline
-"Vis. interferer : " "MOON (R_eq= 1737.400) km        " "{source: mar097}" newline
-"Rel. light bend : " "Sun, EARTH                      " "{source: mar097}" newline
-"Rel. lght bnd GM: " "1.3271E+11, 3.9860E+05 km^3/s^2" newline
-"Atmos refraction: " "NO (AIRLESS)" newline
-"RA format       : " "HMS" newline
-"Time format     : " "CAL" newline
-"EOP file        : " "eop.170306.p170528" newline
-"EOP coverage    : " "DATA-BASED 1962-JAN-20 TO 2017-MAR-06. PREDICTS-> 2017-MAY-27" newline
-"Units conversion: " "1 au= 149597870.700 km, c= 299792.458 km/s, 1 day= 86400.0 s" newline
-"Table cut-offs 1: " "Elevation (-90.0deg=NO ),Airmass (>38.000=NO), Daylight (NO )" newline
-"Table cut-offs 2: " "Solar Elongation (  0.0,180.0=NO ),Local Hour Angle( 0.0=NO )" newline
+"Target pole/equ : " "IAU_MARS                        " "{East-longitude -}" <newline>
+"Target radii    : " "3396.2 x 3396.2 x 3376.2 km     " "{Equator, meridian, pole}" <newline>
+"Center geodetic : " "0.00000000,0.00000000,0.0000000 " "{E-lon(deg),Lat(deg),Alt(km)}" <newline>
+"Center cylindric: " "0.00000000,0.00000000,0.0000000 " "{E-lon(deg),Dxy(km),Dz(km)}" <newline>
+"Center pole/equ : " "High-precision EOP model        " "{East-longitude +}" <newline>
+"Center radii    : " "6378.1 x 6378.1 x 6356.8 km     " "{Equator, meridian, pole}" <newline>
+"Target primary  : " "Sun" <newline>
+"Vis. interferer : " "MOON (R_eq= 1737.400) km        " "{source: mar097}" <newline>
+"Rel. light bend : " "Sun, EARTH                      " "{source: mar097}" <newline>
+"Rel. lght bnd GM: " "1.3271E+11, 3.9860E+05 km^3/s^2" <newline>
+"Atmos refraction: " "NO (AIRLESS)" <newline>
+"RA format       : " "HMS" <newline>
+"Time format     : " "CAL" <newline>
+"EOP file        : " "eop.170306.p170528" <newline>
+"EOP coverage    : " "DATA-BASED 1962-JAN-20 TO 2017-MAR-06. PREDICTS-> 2017-MAY-27" <newline>
+"Units conversion: " "1 au= 149597870.700 km, c= 299792.458 km/s, 1 day= 86400.0 s" <newline>
+"Table cut-offs 1: " "Elevation (-90.0deg=NO ),Airmass (>38.000=NO), Daylight (NO )" <newline>
+"Table cut-offs 2: " "Solar Elongation (  0.0,180.0=NO ),Local Hour Angle( 0.0=NO )" <newline>
 
-ephemeris-header ::= " Date__(UT)__HR:MN     R.A._(ICRF/J2000.0)_DEC  APmag  S-brt            delta      deldot    S-O-T /r    S-T-O" newline
+ephemeris-header ::= " Date__(UT)__HR:MN     R.A._(ICRF/J2000.0)_DEC  APmag  S-brt            delta      deldot    S-O-T /r    S-T-O" <newline>
 
-ephemeris ::= "$$SOE", newline, ephemeris-line-item+, "$$EOE", newline;
+ephemeris ::= "$$SOE", <newline>, ephemeris-line-item+, "$$EOE", <newline>;
 
 ephemeris-line-item ::= <" ">,
     ephemeris-datetime, <"     ">,
@@ -85,7 +85,7 @@ ephemeris-line-item ::= <" ">,
     sun-observer-target-angle, <" ">,
     sun-observer-target-angle-direction, <"  ">,
     sun-target-observer-angle,
-    newline;
+    <newline>;
 
 ephemeris-datetime ::= year <"-"> month <"-"> day " 00:00";
 
