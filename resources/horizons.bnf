@@ -1,13 +1,13 @@
-S ::= <separator>
-      file-header <newline>
-      geophysical-data <separator>
-      ephemeris-metadata <separator>
-      targeting <separator>
-      time-frame <separator>
-      constants <separator>
-      ephemeris-header <separator>
-      ephemeris <separator>
-      <footer>
+S ::=
+    <separator>, file-header,
+    <newline>,   geophysical-data,
+    <separator>, ephemeris-metadata,
+    <separator>, targeting,
+    <separator>, time-frame,
+    <separator>, constants,
+    <separator>, ephemeris-header,
+    <separator>, ephemeris,
+    <separator>, <footer>;
 
 separator ::= (short-sep | long-sep), <whitespace>, separator?;
 short-sep ::= #"\*{79}";
