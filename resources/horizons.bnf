@@ -15,11 +15,11 @@ long-sep ::= #"\*{110}";
 
 newline ::= "\n"
 spaces ::= #"\s+";
-whitespace ::= spaces | newline+;
+whitespace ::= (spaces* | newline*) whitespace*;
 
 file-header ::= " Revised: Sep 28, 2012                 Mars                             499 / 4" <whitespace>
 
-geophysical-data ::=
+geophysical-data ::= <whitespace>
 " GEOPHYSICAL DATA (updated 2009-May-26):" <whitespace>
 "  Mean radius (km)      = " "3389.9(2+-4)    " "Density (g cm^-3)     = " " 3.933(5+-4)" <whitespace>
 "  Mass (10^23 kg )      = " "   6.4185       " "Flattening, f         = " " 1/154.409" <whitespace>
@@ -27,12 +27,12 @@ geophysical-data ::=
 "  Sidereal rot. period  = " "  24.622962 hr  " "Rot. Rate (x10^5 s)   = " " 7.088218" <whitespace>
 "  Mean solar day        = " "   1.0274907 d  " "Polar gravity ms^-2   = " " 3.758" <whitespace>
 "  Mom. of Inertia       = " "   0.366        " "Equ. gravity  ms^-2   = " " 3.71"  <whitespace>
-"  Core radius (km)      = " " ~1700          " "Potential Love # k2   = " " 0.153 +-.017" <whitespace> <whitespace>
+"  Core radius (km)      = " " ~1700          " "Potential Love # k2   = " " 0.153 +-.017" <whitespace>
 
 "  Grav spectral fact u  = " "  14 (x10^5)    " "Topo. spectral fact t = " "96 (x10^5)" <whitespace>
 "  Fig. offset (Rcf-Rcm) = " "2.50+-0.07 km   " "Offset (lat./long.)   = " "62d / 88d" <whitespace>
 "  GM (km^3 s^-2)        = " "42828.3         " "Equatorial Radius, Re = " "3394.0 km" <whitespace>
-"  GM 1-sigma (km^3 s^-2)= " "+- 0.1          " "Mass ratio (Sun/Mars) = " "3098708+-9" <whitespace> <whitespace>
+"  GM 1-sigma (km^3 s^-2)= " "+- 0.1          " "Mass ratio (Sun/Mars) = " "3098708+-9" <whitespace>
 
 "  Atmos. pressure (bar) = " "   0.0056       " "Max. angular diam.    = " ' 17.9\"' <whitespace>
 "  Mean Temperature (K)  = " " 210            " "Visual mag. V(1,0)    = " " -1.52" <whitespace>
