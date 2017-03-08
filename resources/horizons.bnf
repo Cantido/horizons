@@ -1,3 +1,5 @@
+(* Overall document structure *)
+
 S ::=
     <separator>, file-header,
     <newline>,   geophysical-data,
@@ -8,6 +10,10 @@ S ::=
     <separator>, ephemeris-header,
     <separator>, ephemeris,
     <separator>, <footer>;
+
+
+
+(* General data types *)
 
 separator ::= (short-sep | long-sep), <whitespace>, separator?;
 short-sep ::= #"\*{79}";
@@ -24,6 +30,19 @@ whitespace ::= (space* | newline*) whitespace*;
 <float-with-error> ::= (#"\d*\.\d*\(\d\+\-\d\)") | (#"\d*\.\d*\s?\+\-\s?\d*\.\d*");
 <approximate-integer> ::= #"~\d+";
 <spectral-fact> ::= #"\d\d \(x10\^\d\)";
+
+timestamp ::= date, <whitespace>, time;
+
+<date> ::= (year <"-"> month <"-"> day) | (month <" "> day <", "> year);
+
+year ::= integer;
+month ::= "Jan" | "Feb" | "Mar" | "Apr" | "May" | "Jun" | "Jul" | "Aug" | "Sep" | "Oct" | "Nov" | "Dec";
+day ::= #"[0-9]{2}";
+time ::= #"\d\d:\d\d";
+
+
+
+(* Document proper *)
 
 file-header ::=
     revision-date   <space+>
@@ -163,15 +182,6 @@ ephemeris-line-item ::=
     <whitespace>, sun-observer-target-angle-direction,
     <whitespace>, sun-target-observer-angle,
     <whitespace>;
-
-timestamp ::= date, <whitespace>, time;
-
-<date> ::= (year <"-"> month <"-"> day) | (month <" "> day <", "> year);
-
-year ::= integer;
-month ::= "Jan" | "Feb" | "Mar" | "Apr" | "May" | "Jun" | "Jul" | "Aug" | "Sep" | "Oct" | "Nov" | "Dec";
-day ::= #"[0-9]{2}";
-time ::= #"\d\d:\d\d";
 
 ascension-declination ::= #"\d\d \d\d \d\d\.\d\d \+\d\d \d\d \d\d\.\d";
 
