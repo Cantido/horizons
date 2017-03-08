@@ -17,6 +17,14 @@ newline ::= "\n"
 space ::= #"\s";
 whitespace ::= (space* | newline*) whitespace*;
 
+<digit> ::= #"\d";
+<integer> ::= #"\d+";
+<integer-with-error> ::= #"\d+\+\-\d+"
+<float> ::= #"\-?\d*\.\d*";
+<float-with-error> ::= (#"\d*\.\d*\(\d\+\-\d\)") | (#"\d*\.\d*\s?\+\-\s?\d*\.\d*");
+<approximate-integer> ::= #"~\d+";
+<spectral-fact> ::= #"\d\d \(x10\^\d\)";
+
 file-header ::= " Revised: Sep 28, 2012                 Mars                             499 / 4" <whitespace>
 
 geophysical-data ::=
@@ -57,45 +65,47 @@ geophysical-data ::=
     <whitespace> escape-velocity
     <whitespace> hill-sphere-radius
     <whitespace> magnetic-moment
-    <whitespace>
+    <whitespace>;
 
 equals ::= space* "=" space*;
 
 geophysical-data-header ::= "GEOPHYSICAL DATA (updated 2009-May-26):"
 
-atmospheric-pressure ::= <"Atmos. pressure (bar)"> <equals> "0.0056"
-core-radius ::= <"Core radius (km)"> <equals> "~1700"
-density ::= <"Density (g cm^-3)"> <equals> "3.933(5+-4)"
-equatorial-gravity ::= <"Equ. gravity  ms^-2"> <equals> "3.71"
-equatorial-radius ::= <"Equatorial Radius, Re"> <equals> "3394.0 km"
-escape-velocity ::= <"Escape vel. km/s"> <equals> "5.027"
-fig-offset ::= <"Fig. offset (Rcf-Rcm)"> <equals> "2.50+-0.07 km"
-flattening ::= <"Flattening, f"> <equals> "1/154.409"
-geometric-albedo ::= <"Geometric albedo"> <equals> "0.150"
-gm-1-sigma ::= <"GM 1-sigma (km^3 s^-2)"> <equals> "+- 0.1"
-grav-spectral-fact ::= <"Grav spectral fact u"> <equals> "14 (x10^5)"
-hill-sphere-radius ::= <"Hill's sphere rad. Rp"> <equals> "319.8"
-magnetic-moment ::= <"Mag. mom (gauss Rp^3)"> <equals> "< 1x10^-4"
-mass ::= <"Mass (10^23 kg )"> <equals> "6.4185"
-mass-ratio-from-sun ::= <"Mass ratio (Sun/Mars)"> <equals> "3098708+-9"
-maximum-angular-diameter ::= <"Max. angular diam."> <equals> "17.9\""
-mean-radius ::= <"Mean radius (km)"> <equals> "3389.9(2+-4)";
-mean-sidereal-orbital-period ::= <"Mean sidereal orb per"> <equals> ("1.88081578 y" | "686.98 d")
-mean-solar-day ::= <"Mean solar day"> <equals> "1.0274907 d"
-mean-temperature ::= <"Mean Temperature (K)"> <equals> "210"
-moment-of-inertia ::= <"Mom. of Inertia"> <equals> "0.366"
-obliquity-to-orbit ::= <"Obliquity to orbit"> <equals> "25.19 deg"
-offset ::= <"Offset (lat./long.)"> <equals> "62d / 88d"
-orbit-velocity ::= <"Orbit vel.  km/s"> <equals> "24.1309"
-polar-gravity ::= <"Polar gravity ms^-2"> <equals> "3.758"
-potential-love-k2 ::= <"Potential Love # k2"> <equals> "0.153 +-.017"
-rotation-rate ::= <"Rot. Rate (x10^5 s)"> <equals> "7.088218"
-semi-major-axis ::= <"Semi-major axis"> <equals> "3397+-4"
-sidereal-rotation-period ::= <"Sidereal rot. period"> <equals> "24.622962 hr"
-standard-gravitational-parameter ::= <"GM (km^3 s^-2)"> <equals> "42828.3"
-topo-spectral-fact ::= <"Topo. spectral fact t"> <equals> "96 (x10^5)"
-visual-magnitude ::= <"Visual mag. V(1,0)"> <equals> "-1.52"
-volume ::= <"Volume (x10^10 km^3)"> <equals> "16.318"
+atmospheric-pressure ::= <"Atmos. pressure (bar)"> <equals> float
+core-radius ::= <"Core radius (km)"> <equals> approximate-integer
+density ::= <"Density (g cm^-3)"> <equals> float-with-error
+equatorial-gravity ::= <"Equ. gravity  ms^-2"> <equals> float
+equatorial-radius ::= <"Equatorial Radius, Re"> <equals> float <" km">
+escape-velocity ::= <"Escape vel. km/s"> <equals> float
+fig-offset ::= <"Fig. offset (Rcf-Rcm)"> <equals> float-with-error <" km">
+flattening ::= <"Flattening, f"> <equals> #"\d/\d\d\d\.\d\d\d"
+geometric-albedo ::= <"Geometric albedo"> <equals> float
+gm-1-sigma ::= <"GM 1-sigma (km^3 s^-2)"> <equals> #"\+\- \d\.\d"
+grav-spectral-fact ::= <"Grav spectral fact u"> <equals> spectral-fact
+hill-sphere-radius ::= <"Hill's sphere rad. Rp"> <equals> float
+magnetic-moment ::= <"Mag. mom (gauss Rp^3)"> <equals> #"< 1x10\^\-\d"
+mass ::= <"Mass (10^23 kg )"> <equals> float
+mass-ratio-from-sun ::= <"Mass ratio (Sun/Mars)"> <equals> integer-with-error
+maximum-angular-diameter ::= <"Max. angular diam."> <equals> #"\d+\.\d+\""
+mean-radius ::= <"Mean radius (km)"> <equals> float-with-error
+mean-sidereal-orbital-period ::= mean-sidereal-orbital-period-years | mean-sidereal-orbital-period-days
+<mean-sidereal-orbital-period-years> ::= <"Mean sidereal orb per"> <equals> float <" y">
+<mean-sidereal-orbital-period-days> ::= <"Mean sidereal orb per"> <equals> float <" d">
+mean-solar-day ::= <"Mean solar day"> <equals> float <" d">
+mean-temperature ::= <"Mean Temperature (K)"> <equals> integer
+moment-of-inertia ::= <"Mom. of Inertia"> <equals> float
+obliquity-to-orbit ::= <"Obliquity to orbit"> <equals> float <" deg">
+offset ::= <"Offset (lat./long.)"> <equals> #"\d\dd \/ \d\dd"
+orbit-velocity ::= <"Orbit vel.  km/s"> <equals> float
+polar-gravity ::= <"Polar gravity ms^-2"> <equals> float
+potential-love-k2 ::= <"Potential Love # k2"> <equals> float-with-error
+rotation-rate ::= <"Rot. Rate (x10^5 s)"> <equals> float
+semi-major-axis ::= <"Semi-major axis"> <equals> integer-with-error
+sidereal-rotation-period ::= <"Sidereal rot. period"> <equals> float <" hr">
+standard-gravitational-parameter ::= <"GM (km^3 s^-2)"> <equals> float
+topo-spectral-fact ::= <"Topo. spectral fact t"> <equals> spectral-fact
+visual-magnitude ::= <"Visual mag. V(1,0)"> <equals> float
+volume ::= <"Volume (x10^10 km^3)"> <equals> float
 
 ephemeris-metadata ::=
 "Ephemeris / WWW_USER Mon Mar  6 16:56:26 2017 Pasadena, USA      / Horizons" <whitespace>
