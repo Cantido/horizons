@@ -75,7 +75,7 @@ constants ::=
 
 ephemeris-header ::= " Date__(UT)__HR:MN     R.A._(ICRF/J2000.0)_DEC  APmag  S-brt            delta      deldot    S-O-T /r    S-T-O" <newline>
 
-ephemeris ::= "$$SOE", <newline>, ephemeris-line-item+, "$$EOE", <newline>;
+ephemeris ::= <"$$SOE">, <newline>, ephemeris-line-item+, <"$$EOE">, <newline>;
 
 ephemeris-line-item ::=
     <whitespace>, ephemeris-datetime,
