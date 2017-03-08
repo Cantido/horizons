@@ -8,7 +8,7 @@ written in Clojure.
 The [HORIZONS] system provides a model for the solar system.
 Through it, queries can be made to find the positions of planets, asteroids, comets, and
 other astronomical bodies.
-This kind of data base is sometimes called an *ephemeris*.
+This kind of data base is sometimes called an *ephemeredes* (singular *ephemeris*).
 
 > The JPL HORIZONS on-line solar system data and ephemeris computation service
 provides access to key solar system data and flexible production of highly
