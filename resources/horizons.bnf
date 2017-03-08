@@ -20,48 +20,84 @@ whitespace ::= (space* | newline*) whitespace*;
 file-header ::= " Revised: Sep 28, 2012                 Mars                             499 / 4" <whitespace>
 
 geophysical-data ::=
-    <whitespace> geophysical-data-header
-    <whitespace> "Mean radius (km)" <equals> "3389.9(2+-4)"
-    <whitespace> "Density (g cm^-3)" <equals> "3.933(5+-4)"
-    <whitespace> "Mass (10^23 kg )" <equals> "6.4185"
-    <whitespace> "Flattening, f" <equals> "1/154.409"
-    <whitespace> "Volume (x10^10 km^3)" <equals> "16.318"
-    <whitespace> "Semi-major axis" <equals> "3397+-4"
-    <whitespace> "Sidereal rot. period" <equals> "24.622962 hr"
-    <whitespace> "Rot. Rate (x10^5 s)" <equals> "7.088218"
-    <whitespace> "Mean solar day" <equals> "1.0274907 d"
-    <whitespace> "Polar gravity ms^-2" <equals> "3.758"
-    <whitespace> "Mom. of Inertia" <equals> "0.366"
-    <whitespace> "Equ. gravity  ms^-2" <equals> "3.71"
-    <whitespace> "Core radius (km)" <equals> "~1700"
-    <whitespace> "Potential Love # k2" <equals> "0.153 +-.017"
+    <whitespace> geophysical-data-header,
+    <whitespace> mean-radius,
+    <whitespace> density,
+    <whitespace> mass,
+    <whitespace> flattening,
+    <whitespace> volume,
+    <whitespace> semi-major-axis,
+    <whitespace> sidereal-rotation-period
+    <whitespace> rotation-rate
+    <whitespace> mean-solar-day
+    <whitespace> polar-gravity
+    <whitespace> moment-of-inertia
+    <whitespace> equatorial-gravity
+    <whitespace> core-radius
+    <whitespace> potential-love-k2
 
-    <whitespace> "Grav spectral fact u" <equals> "14 (x10^5)"
-    <whitespace> "Topo. spectral fact t" <equals> "96 (x10^5)"
-    <whitespace> "Fig. offset (Rcf-Rcm)" <equals> "2.50+-0.07 km"
-    <whitespace> "Offset (lat./long.)" <equals> "62d / 88d"
-    <whitespace> "GM (km^3 s^-2)" <equals> "42828.3"
-    <whitespace> "Equatorial Radius, Re" <equals> "3394.0 km"
-    <whitespace> "GM 1-sigma (km^3 s^-2)" <equals> "+- 0.1"
-    <whitespace> "Mass ratio (Sun/Mars)" <equals> "3098708+-9"
+    <whitespace> grav-spectral-fact
+    <whitespace> topo-spectral-fact
+    <whitespace> fig-offset
+    <whitespace> offset
+    <whitespace> standard-gravitational-parameter
+    <whitespace> equatorial-radius
+    <whitespace> gm-1-sigma
+    <whitespace> mass-ratio-from-sun
 
-    <whitespace> "Atmos. pressure (bar)" <equals> "0.0056"
-    <whitespace> "Max. angular diam." <equals> "17.9\""
-    <whitespace> "Mean Temperature (K)" <equals> "210"
-    <whitespace> "Visual mag. V(1,0)" <equals> "-1.52"
-    <whitespace> "Geometric albedo" <equals> "0.150"
-    <whitespace> "Obliquity to orbit" <equals> "25.19 deg"
-    <whitespace> "Mean sidereal orb per" <equals> "1.88081578 y"
-    <whitespace> "Orbit vel.  km/s" <equals> "24.1309"
-    <whitespace> "Mean sidereal orb per" <equals> "686.98 d"
-    <whitespace> "Escape vel. km/s" <equals> "5.027"
-    <whitespace> "Hill's sphere rad. Rp" <equals> "319.8"
-    <whitespace> "Mag. mom (gauss Rp^3)" <equals> "< 1x10^-4"
+    <whitespace> atmospheric-pressure
+    <whitespace> maximum-angular-diameter
+    <whitespace> mean-temperature
+    <whitespace> visual-magnitude
+    <whitespace> geometric-albedo
+    <whitespace> obliquity-to-orbit
+    <whitespace> mean-sidereal-orbital-period
+    <whitespace> orbit-velocity
+    <whitespace> mean-sidereal-orbital-period
+    <whitespace> escape-velocity
+    <whitespace> hill-sphere-radius
+    <whitespace> magnetic-moment
     <whitespace>
 
 equals ::= space* "=" space*;
 
 geophysical-data-header ::= "GEOPHYSICAL DATA (updated 2009-May-26):"
+
+mean-radius ::= "Mean radius (km)" <equals> "3389.9(2+-4)";
+density ::= "Density (g cm^-3)" <equals> "3.933(5+-4)"
+mass ::= "Mass (10^23 kg )" <equals> "6.4185"
+flattening ::= "Flattening, f" <equals> "1/154.409"
+volume ::= "Volume (x10^10 km^3)" <equals> "16.318"
+semi-major-axis ::= "Semi-major axis" <equals> "3397+-4"
+sidereal-rotation-period ::= "Sidereal rot. period" <equals> "24.622962 hr"
+rotation-rate ::= "Rot. Rate (x10^5 s)" <equals> "7.088218"
+mean-solar-day ::= "Mean solar day" <equals> "1.0274907 d"
+polar-gravity ::= "Polar gravity ms^-2" <equals> "3.758"
+moment-of-inertia ::= "Mom. of Inertia" <equals> "0.366"
+equatorial-gravity ::= "Equ. gravity  ms^-2" <equals> "3.71"
+core-radius ::= "Core radius (km)" <equals> "~1700"
+potential-love-k2 ::= "Potential Love # k2" <equals> "0.153 +-.017"
+
+grav-spectral-fact ::= "Grav spectral fact u" <equals> "14 (x10^5)"
+topo-spectral-fact ::= "Topo. spectral fact t" <equals> "96 (x10^5)"
+fig-offset ::= "Fig. offset (Rcf-Rcm)" <equals> "2.50+-0.07 km"
+offset ::= "Offset (lat./long.)" <equals> "62d / 88d"
+standard-gravitational-parameter ::= "GM (km^3 s^-2)" <equals> "42828.3"
+equatorial-radius ::= "Equatorial Radius, Re" <equals> "3394.0 km"
+gm-1-sigma ::= "GM 1-sigma (km^3 s^-2)" <equals> "+- 0.1"
+mass-ratio-from-sun ::= "Mass ratio (Sun/Mars)" <equals> "3098708+-9"
+
+atmospheric-pressure ::= "Atmos. pressure (bar)" <equals> "0.0056"
+maximum-angular-diameter ::= "Max. angular diam." <equals> "17.9\""
+mean-temperature ::= "Mean Temperature (K)" <equals> "210"
+visual-magnitude ::= "Visual mag. V(1,0)" <equals> "-1.52"
+geometric-albedo ::= "Geometric albedo" <equals> "0.150"
+obliquity-to-orbit ::= "Obliquity to orbit" <equals> "25.19 deg"
+mean-sidereal-orbital-period ::= "Mean sidereal orb per" <equals> ("1.88081578 y" | "686.98 d")
+orbit-velocity ::= "Orbit vel.  km/s" <equals> "24.1309"
+escape-velocity ::= "Escape vel. km/s" <equals> "5.027"
+hill-sphere-radius ::= "Hill's sphere rad. Rp" <equals> "319.8"
+magnetic-moment ::= "Mag. mom (gauss Rp^3)" <equals> "< 1x10^-4"
 
 ephemeris-metadata ::=
 "Ephemeris / WWW_USER Mon Mar  6 16:56:26 2017 Pasadena, USA      / Horizons" <whitespace>
