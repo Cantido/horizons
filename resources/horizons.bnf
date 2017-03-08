@@ -13,6 +13,7 @@ S ::= separator
 separator ::= "*******************************************************************************" newline
 long-separator ::= "**************************************************************************************************************" newline
 newline ::= "\n"
+
 file-header ::= " Revised: Sep 28, 2012                 Mars                             499 / 4" newline
 
 geophysical-data ::=
@@ -74,9 +75,19 @@ ephemeris-header ::= " Date__(UT)__HR:MN     R.A._(ICRF/J2000.0)_DEC  APmag  S-b
 
 ephemeris ::= "$$SOE", newline, ephemeris-line-item+, "$$EOE", newline;
 
-ephemeris-line-item ::= " ", ephemeris-datetime, "     ", ascension-declination, "   ", apparent-magnitude, "   ", surface-brightness, " ", range, "  ", range-rate, "  ", sun-observer-target-angle, " ", sun-observer-target-angle-direction, "  ", sun-target-observer-angle, newline;
+ephemeris-line-item ::= <" ">,
+    ephemeris-datetime, <"     ">,
+    ascension-declination, <"   ">,
+    apparent-magnitude, <"   ">,
+    surface-brightness, <" ">,
+    range, <"  ">,
+    range-rate, <"  ">,
+    sun-observer-target-angle, <" ">,
+    sun-observer-target-angle-direction, <"  ">,
+    sun-target-observer-angle,
+    newline;
 
-ephemeris-datetime ::= year "-" month "-" day " 00:00";
+ephemeris-datetime ::= year <"-"> month <"-"> day " 00:00";
 
 year ::= "2017";
 month ::= "Feb" | "Mar";
