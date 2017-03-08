@@ -78,7 +78,7 @@ ephemeris-header ::= " Date__(UT)__HR:MN     R.A._(ICRF/J2000.0)_DEC  APmag  S-b
 ephemeris ::= <"$$SOE">, <newline>, ephemeris-line-item+, <"$$EOE">, <newline>;
 
 ephemeris-line-item ::=
-    <whitespace>, ephemeris-datetime,
+    <whitespace>, timestamp,
     <whitespace>, ascension-declination,
     <whitespace>, apparent-magnitude,
     <whitespace>, surface-brightness,
@@ -89,7 +89,9 @@ ephemeris-line-item ::=
     <whitespace>, sun-target-observer-angle,
     <whitespace>;
 
-ephemeris-datetime ::= year <"-"> month <"-"> day <" ">, time;
+timestamp ::= date, <whitespace>, time;
+
+<date> ::= year <"-"> month <"-"> day;
 
 year ::= "2017";
 month ::= "Jan" | "Feb" | "Mar" | "Apr" | "May" | "Jun" | "Jul" | "Aug" | "Sep" | "Oct" | "Nov" | "Dec";
