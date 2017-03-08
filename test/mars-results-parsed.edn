@@ -54,9 +54,21 @@
    [:source "mar097"]]
   [:center-site "GEOCENTRIC"]]
  [:time-frame
-  "Start time      : ", "A.D. 2017-Feb-24 00:00:00.0000 UT"
-  "Stop  time      : ", "A.D. 2017-Mar-26 00:00:00.0000 UT"
-  "Step-size       : ", "1440 minutes"]
+  [:start-time
+   [:timestamp
+    [:era "A.D."]
+    [:year "2017"] [:month "Feb"]
+    [:day "24"]
+    [:time "00:00:00.0000"]
+    [:time-zone "UT"]]]
+  [:stop-time
+   [:timestamp
+    [:era "A.D."]
+    [:year "2017"] [:month "Mar"]
+    [:day "26"]
+    [:time "00:00:00.0000"]
+    [:time-zone "UT"]]]
+  [:step-size "1440 minutes"]]
  [:constants
   "Target pole/equ : ", "IAU_MARS                        ", "{East-longitude -}"
   "Target radii    : ", "3396.2 x 3396.2 x 3376.2 km     ", "{Equator, meridian, pole}"

@@ -30,14 +30,17 @@ whitespace ::= (space* | newline*) whitespace*;
 <float-with-error> ::= (#"\d*\.\d*\(\d\+\-\d\)") | (#"\d*\.\d*\s?\+\-\s?\d*\.\d*");
 <approximate-integer> ::= #"~\d+";
 
-timestamp ::= date, <whitespace>, time;
+timestamp ::= era?, <space>, date, <whitespace>, time, <space>, time-zone?;
 
 <date> ::= (year <"-"> month <"-"> day) | (month <" "> day <", "> year);
+<duration> ::= "1440 minutes";
 
+era ::= "A.D."
 year ::= integer;
 month ::= "Jan" | "Feb" | "Mar" | "Apr" | "May" | "Jun" | "Jul" | "Aug" | "Sep" | "Oct" | "Nov" | "Dec";
 day ::= #"[0-9]{2}";
-time ::= #"\d\d:\d\d";
+time ::= #"\d\d:\d\d(\:\d\d\.\d\d\d\d)?";
+time-zone ::= "UT"
 
 
 
@@ -153,10 +156,12 @@ center-site ::= <"Center-site name:"> <space> "GEOCENTRIC" <whitespace>;
 
 source ::= <"{source:"> <space> "mar097" <"}">;
 
-time-frame ::=
-"Start time      : " "A.D. 2017-Feb-24 00:00:00.0000 UT" <whitespace>
-"Stop  time      : " "A.D. 2017-Mar-26 00:00:00.0000 UT" <whitespace>
-"Step-size       : " "1440 minutes" <whitespace>;
+time-frame ::= start-time, stop-time, step-size;
+
+start-time ::= <"Start time      : "> timestamp <whitespace>;
+stop-time ::= <"Stop  time      : "> timestamp <whitespace>;
+step-size ::= <"Step-size       : "> duration <whitespace>;
+
 
 constants ::=
 "Target pole/equ : " "IAU_MARS                        " "{East-longitude -}" <whitespace>
