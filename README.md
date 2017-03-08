@@ -1,13 +1,14 @@
 # HORIZONS API
 
-A RESTful-style API  for [NASA's HORIZONS system](http://ssd.jpl.nasa.gov/?horizons),
+A RESTful-style API for NASA's [HORIZONS] system,
 written in Clojure.
 
 ## Introduction
 
-The [HORIZONS](http://ssd.jpl.nasa.gov/?horizons) system provides a model for the solar system. Through it, queries
-can be made to find the positions of planets, asteroids, comets, and other
-solar system objects.
+The [HORIZONS] system provides a model for the solar system.
+Through it, queries can be made to find the positions of planets, asteroids, comets, and
+other astronomical bodies.
+This kind of data base is sometimes called an *ephemeris*.
 
 > The JPL HORIZONS on-line solar system data and ephemeris computation service
 provides access to key solar system data and flexible production of highly
@@ -18,19 +19,21 @@ system barycenters ). HORIZONS is provided by the Solar System Dynamics Group of
 >
 > &mdash; <cite>NASA's documentation for the HORIZONS system</cite>
 
-The only ways to access HORIZONS are through `telnet`, email, and a CGI web
-interface intended for end-user access. I want to provide a modern REST-style
-JSON interface to this system.
+The only ways to access HORIZONS are through `telnet`, email, and
+a CGI web interface intended for end-user access.
+I want to provide a modern REST-style JSON interface to this system.
  
-This application is written in [Clojure](https://clojure.org/),
-using [Liberator](http://clojure-liberator.github.io/liberator/) to handle the
-details of RESTful representations.
+This application is written in [Clojure],
+and uses [Liberator] to handle the details of RESTful representations.
+
+[Clojure]: https://clojure.org/
+[HORIZONS]: http://ssd.jpl.nasa.gov/?horizons
+[Liberator]: http://clojure-liberator.github.io/liberator/
 
 ## Usage
 
-This application is built using [Leiningen](https://github.com/technomancy/leiningen)
-and [Ring](https://github.com/ring-clojure/ring), so you can easily start a
-development server using the [lein-ring](https://github.com/weavejester/lein-ring) plugin:
+This application is built using [Leiningen] and [Ring],
+so you can easily start a development server using the [lein-ring] plugin:
 
 ```bash
 lein ring server
@@ -40,6 +43,10 @@ See the documentation on `lein-ring` for details.
 
 Beyond that, I'm still working on `telnet` access to the HORIZONS API.
 There are no endpoints implemented yet.
+
+[lein-ring]: https://github.com/weavejester/lein-ring
+[Leiningen]: https://github.com/technomancy/leiningen
+[Ring]: https://github.com/ring-clojure/ring
 
 ## Roadmap
 
