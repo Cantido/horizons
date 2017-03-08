@@ -14,8 +14,8 @@ short-sep ::= #"\*{79}";
 long-sep ::= #"\*{110}";
 
 newline ::= "\n"
-spaces ::= #"\s+";
-whitespace ::= (spaces* | newline*) whitespace*;
+space ::= #"\s";
+whitespace ::= (space* | newline*) whitespace*;
 
 file-header ::= " Revised: Sep 28, 2012                 Mars                             499 / 4" <whitespace>
 
