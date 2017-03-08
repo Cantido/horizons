@@ -1,57 +1,54 @@
-= HORIZONS API
-Robert Richter <robert.c.richter@gmail.com>
+# HORIZONS API
 
-A RESTful-style API  for http://ssd.jpl.nasa.gov/?horizons[NASA's HORIZONS system],
+A RESTful-style API  for [NASA's HORIZONS system](http://ssd.jpl.nasa.gov/?horizons),
 written in Clojure.
 
-== Introduction
+## Introduction
 
-The http://ssd.jpl.nasa.gov/?horizons[HORIZONS] system provides a model for the solar system. Through it, queries
+The [HORIZONS](http://ssd.jpl.nasa.gov/?horizons) system provides a model for the solar system. Through it, queries
 can be made to find the positions of planets, asteroids, comets, and other
 solar system objects.
 
-[quote, NASA's documentation for the HORIZONS system]
-____
-The JPL HORIZONS on-line solar system data and ephemeris computation service
+> The JPL HORIZONS on-line solar system data and ephemeris computation service
 provides access to key solar system data and flexible production of highly
 accurate ephemerides for solar system objects ( 728955 asteroids, 3451 comets,
 178 planetary satellites, 8 planets, the Sun, L1, L2, select spacecraft, and
 system barycenters ). HORIZONS is provided by the Solar System Dynamics Group of
-the Jet Propulsion Laboratory.
-____
+ the Jet Propulsion Laboratory.
+>
+> &mdash; <cite>NASA's documentation for the HORIZONS system</cite>
 
 The only ways to access HORIZONS are through `telnet`, email, and a CGI web
 interface intended for end-user access. I want to provide a modern REST-style
-JSON interface to this system. It's written in https://clojure.org/[Clojure],
-using http://clojure-liberator.github.io/liberator/[Liberator] to handle the
+JSON interface to this system. It's written in [Clojure](https://clojure.org/),
+using [Liberator](http://clojure-liberator.github.io/liberator/) to handle the
 details of RESTful representations.
 
-== Usage
+## Usage
 
-This application is built using https://github.com/technomancy/leiningen[Leiningen]
-and https://github.com/ring-clojure/ring[Ring], so you can easily start a
-development server using the https://github.com/weavejester/lein-ring[lein-ring] plugin:
+This application is built using [Leiningen](https://github.com/technomancy/leiningen)
+and [Ring](https://github.com/ring-clojure/ring), so you can easily start a
+development server using the [lein-ring](https://github.com/weavejester/lein-ring) plugin:
 
-[source, bash]
-----
+```bash
 lein ring server
-----
+```
 
 See the documentation on `lein-ring` for details.
 
 Beyond that, I'm still working on `telnet` access to the HORIZONS API.
 There are no endpoints implemented yet.
 
-== Roadmap
+## Roadmap
 
 I plan to implement functionality in this order:
 
-1. [line-through]#Access the HORIZONS `telnet` API successfully#
+1. ~~Access the HORIZONS `telnet` API successfully~~
 1. *Get current orbital coordinates for Earth*
 1. Get past or future orbital coordinates for Earth
 1. Get past or future orbital coordinates for any planet in the Solar System
 
-== License
+## License
 
 Copyright © 2017  Robert Richter
 
