@@ -18,5 +18,8 @@
   (is (= (parse-file txt-name)
          (get-edn edn-name))))
 
-(deftest grammar-test
+(deftest all-sections-grammar-test
   (assert-parse-result "mars-results.txt" "mars-results-parsed.edn"))
+
+(deftest prelim-section-grammar-test
+  (assert-parse-result "mars-initial-results.txt" "mars-initial-results-parsed.edn"))
