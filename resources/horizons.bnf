@@ -1,37 +1,22 @@
 (* Overall document structure *)
 
-S ::= geophysical-only | earth-sections | all-sections;
-
-<geophysical-only> ::=
-    <separator>
-    <file-header>
-    geophysical-data
-    <separator>
-    <select-prompt>;
-
-<earth-sections> ::=
-    <separator> <file-header>
-    <ws>        physical-properties
-    <ws>        dynamical-characteristics
-    <ws>
-    <separator> <select-prompt>;
-
-<all-sections> ::=
+S ::=
     <separator>, file-header,
-    <ws>,        geophysical-data,
-    <separator>, <ephemeris-metadata>,
-    <separator>, targeting,
-    <separator>, time-frame,
-    <separator>, constants,
-    <separator>, <ephemeris-header>,
-    <separator>, ephemeris,
-    <separator>, <footer>;
-
-
+    (<ws>        geophysical-data)?
+    (<ws>        physical-properties)?
+    (<ws>        dynamical-characteristics)?
+    (<separator>, <ephemeris-metadata>)?
+    (<separator>, targeting)?
+    (<separator>, time-frame)?
+    (<separator>, constants)?
+    (<separator>, <ephemeris-header>)?
+    (<separator>, ephemeris)?
+    (<separator>, <footer>)?
+    (<separator> <select-prompt>)?;
 
 (* General data types *)
 
-separator ::= (short-sep | long-sep), <ws>, separator?;
+separator ::= <ws>, (short-sep | long-sep), <ws>, separator?;
 short-sep ::= #"\*{79}";
 long-sep ::= #"\*{110}";
 

@@ -1,11 +1,18 @@
 [:S
+ [:file-header
+  [:revision-date
+   [:month "Jul"]
+   [:day "31"]
+   [:year "2013"]]
+  [:body-name "Earth"]
+  [:body-id "399"]]
  [:physical-properties
   [:mean-radius "6371.01+-0.01"]
   [:mass "5.97219+-0.0006"]
   [:equatorial-radius "6378.14+-0.01"]
   [:polar-axis "6356.752"]
   [:atmospheric-mass "5.1   x 10^18"]
-"Flattening               = 1/298.257         oceans         = 1.4   x 10^21 kg
+  "Flattening               = 1/298.257         oceans         = 1.4   x 10^21 kg
  Density, gm cm^-3        = 5.515             crust          = 2.6   x 10^22 kg
  J2  (GEM T2, 1990)       = 0.0010826265      mantle         = 4.043 x 10^24 kg
  gp, m s^-2 (polar)       = 9.8321863685      outer core     = 1.835 x 10^24 kg

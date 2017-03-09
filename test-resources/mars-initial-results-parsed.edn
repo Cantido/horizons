@@ -1,4 +1,11 @@
 [:S
+ [:file-header
+  [:revision-date
+   [:month "Sep"]
+   [:day "28"]
+   [:year "2012"]]
+  [:body-name "Mars"]
+  [:body-id "499"]]
  [:geophysical-data
   [:mean-radius "3389.9(2+-4)"],
   [:density "3.933(5+-4)"],
