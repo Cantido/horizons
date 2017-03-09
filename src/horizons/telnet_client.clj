@@ -62,11 +62,10 @@
   ([] (next-block ""))
   ([block-so-far]
    (let [next-word (next-token)]
-     (if (or
-           (clojure.string/starts-with? next-word "Horizons>")
-           (clojure.string/starts-with? next-word "<cr>:"))
-         block-so-far
-         (recur (str block-so-far next-word))))))
+     (cond
+       (clojure.string/starts-with? next-word "Horizons>") block-so-far
+       (clojure.string/starts-with? next-word "<cr>:") (str block-so-far next-word)
+       :else (recur (str block-so-far next-word))))))
 
 (defn wait-for-prompt []
   (let [token (next-token)]
