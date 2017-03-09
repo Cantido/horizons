@@ -4,7 +4,6 @@
   [:body-name "Mars"]
   [:body-id "499"]]
  [:geophysical-data
-  [:geophysical-data-header "GEOPHYSICAL DATA (updated 2009-May-26):"],
   [:mean-radius "3389.9(2+-4)"],
   [:density "3.933(5+-4)"],
   [:mass "6.4185"],
@@ -42,7 +41,6 @@
   [:hill-sphere-radius "319.8"]
   [:magnetic-moment "< 1x10^-4"]]
 
- [:ephemeris-metadata "Ephemeris / WWW_USER Mon Mar  6 16:56:26 2017 Pasadena, USA      / Horizons"]
  [:targeting
   [:target-body
    [:body-name "Mars"]
@@ -86,7 +84,6 @@
   [:units-conversion "1 au= 149597870.700 km, c= 299792.458 km/s, 1 day= 86400.0 s"]
   [:table-cutoffs-1 "Elevation (-90.0deg=NO ),Airmass (>38.000=NO), Daylight (NO )"]
   [:table-cutoffs-2 "Solar Elongation (  0.0,180.0=NO ),Local Hour Angle( 0.0=NO )"]]
- [:ephemeris-header " Date__(UT)__HR:MN     R.A._(ICRF/J2000.0)_DEC  APmag  S-brt            delta      deldot    S-O-T /r    S-T-O"]
  [:ephemeris
   [:ephemeris-line-item, [:measurement-time [:year "2017"], [:month "Feb"], [:day "24"] [:time "00:00"]], [:ascension-declination "01 12 18.78 +07 36 55.3"], [:apparent-magnitude "1.27"], [:surface-brightness "4.29"], [:range "2.00321056835551"], [:range-rate "11.4427302"], [:sun-observer-target-angle "44.2386"], [:sun-observer-target-angle-direction "/T"], [:sun-target-observer-angle "28.0789"] ],
   [:ephemeris-line-item, [:measurement-time [:year "2017"], [:month "Feb"], [:day "25"] [:time "00:00"]], [:ascension-declination "01 15 01.66 +07 54 13.7"], [:apparent-magnitude "1.28"], [:surface-brightness "4.29"], [:range "2.00981380013486"], [:range-rate "11.4227410"], [:sun-observer-target-angle "43.9639"], [:sun-observer-target-angle-direction "/T"], [:sun-target-observer-angle "27.9095"] ],

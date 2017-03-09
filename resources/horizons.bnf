@@ -3,11 +3,11 @@
 S ::=
     <separator>, file-header,
     <ws>,        geophysical-data,
-    <separator>, ephemeris-metadata,
+    <separator>, <ephemeris-metadata>,
     <separator>, targeting,
     <separator>, time-frame,
     <separator>, constants,
-    <separator>, ephemeris-header,
+    <separator>, <ephemeris-header>,
     <separator>, ephemeris,
     <separator>, <footer>;
 
@@ -63,7 +63,7 @@ revision-date ::= <"Revised: "> date;
 
 
 geophysical-data ::=
-    <ws> geophysical-data-header,
+    <ws> <geophysical-data-header>,
     <ws> mean-radius,
     <ws> density,
     <ws> mass,
