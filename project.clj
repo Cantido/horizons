@@ -3,6 +3,7 @@
   :url "https://github.com/Cantido/horizons"
   :license {:name "GNU General Public License"
             :url "http://www.gnu.org/licenses/gpl.txt"}
+  :profiles {:dev {:resource-paths ["test-resources"]}}
   :plugins [[lein-ring "0.8.11"]]
   :ring {:handler horizons.core/handler}
   :dependencies [[org.clojure/clojure "1.8.0"]
