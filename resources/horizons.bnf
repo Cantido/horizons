@@ -162,6 +162,7 @@ stop-time ::= <"Stop  time      : "> timestamp <ws>;
 step-size ::= <"Step-size       : "> duration <ws>;
 
 colon ::= ws ":" ws;
+by ::= ws "x" ws;
 
 constants ::=
     target-pole-equ,
@@ -185,9 +186,9 @@ constants ::=
 
 
 target-pole-equ ::= <"Target pole/equ"> <colon> "IAU_MARS" <ws> <"{East-longitude -}"> <ws>;
-target-radii ::= <"Target radii"> <colon> "3396.2 x 3396.2 x 3376.2 km" <ws> <"{Equator, meridian, pole}"> <ws>;
-center-geodetic ::= <"Center geodetic"> <colon> "0.00000000,0.00000000,0.0000000" <ws> <"{E-lon(deg),Lat(deg),Alt(km)}"> <ws>;
-center-cylindric ::= <"Center cylindric"> <colon> "0.00000000,0.00000000,0.0000000" <ws> <"{E-lon(deg),Dxy(km),Dz(km)}"> <ws>;
+target-radii ::= <"Target radii"> <colon> equator <by> meridian <by> pole <" km"> <ws> <"{Equator, meridian, pole}"> <ws>;
+center-geodetic ::= <"Center geodetic"> <colon> longitude <","> latitude <","> altitude <ws> <"{E-lon(deg),Lat(deg),Alt(km)}"> <ws>;
+center-cylindric ::= <"Center cylindric"> <colon> longitude <","> xy-dimension <","> z-dimension <ws> <"{E-lon(deg),Dxy(km),Dz(km)}"> <ws>;
 center-pole-equ ::= <"Center pole/equ"> <colon> "High-precision EOP model" <ws> <"{East-longitude +}"> <ws>;
 center-radii ::= <"Center radii"> <colon> "6378.1 x 6378.1 x 6356.8 km" <ws> <"{Equator, meridian, pole}"> <ws>;
 target-primary ::= <"Target primary"> <colon> "Sun" <ws>;
@@ -202,6 +203,17 @@ eop-coverage ::= <"EOP coverage"> <colon> "DATA-BASED 1962-JAN-20 TO 2017-MAR-06
 units-conversion ::= <"Units conversion"> <colon> "1 au= 149597870.700 km, c= 299792.458 km/s, 1 day= 86400.0 s" <ws>;
 table-cutoffs-1 ::= <"Table cut-offs 1"> <colon> "Elevation (-90.0deg=NO ),Airmass (>38.000=NO), Daylight (NO )" <ws>;
 table-cutoffs-2 ::= <"Table cut-offs 2"> <colon> "Solar Elongation (  0.0,180.0=NO ),Local Hour Angle( 0.0=NO )" <ws>;
+
+equator ::= float;
+meridian ::= float;
+pole ::= float;
+
+longitude ::= float;
+latitude ::= float;
+altitude ::= float
+
+xy-dimension ::= float;
+z-dimension ::= float;
 
 ephemeris-header ::= " Date__(UT)__HR:MN     R.A._(ICRF/J2000.0)_DEC  APmag  S-brt            delta      deldot    S-O-T /r    S-T-O" <ws>;
 

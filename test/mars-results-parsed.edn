@@ -69,9 +69,9 @@
   [:step-size "1440 minutes"]]
  [:constants
   [:target-pole-equ "IAU_MARS"]
-  [:target-radii "3396.2 x 3396.2 x 3376.2 km"]
-  [:center-geodetic "0.00000000,0.00000000,0.0000000"]
-  [:center-cylindric "0.00000000,0.00000000,0.0000000"]
+  [:target-radii [:equator "3396.2"] [:meridian "3396.2"] [:pole "3376.2"]]
+  [:center-geodetic [:longitude "0.00000000"] [:latitude "0.00000000"] [:altitude "0.0000000"]]
+  [:center-cylindric [:longitude "0.00000000"] [:xy-dimension "0.00000000"] [:z-dimension "0.0000000"]]
   [:center-pole-equ "High-precision EOP model"]
   [:center-radii "6378.1 x 6378.1 x 6356.8 km"]
   [:target-primary "Sun"]
