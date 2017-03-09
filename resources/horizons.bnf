@@ -164,24 +164,44 @@ step-size ::= <"Step-size       : "> duration <ws>;
 colon ::= ws ":" ws;
 
 constants ::=
-"Target pole/equ" <colon> "IAU_MARS" <ws> "{East-longitude -}" <ws>
-"Target radii" <colon> "3396.2 x 3396.2 x 3376.2 km" <ws> "{Equator, meridian, pole}" <ws>
-"Center geodetic" <colon> "0.00000000,0.00000000,0.0000000" <ws> "{E-lon(deg),Lat(deg),Alt(km)}" <ws>
-"Center cylindric" <colon> "0.00000000,0.00000000,0.0000000" <ws> "{E-lon(deg),Dxy(km),Dz(km)}" <ws>
-"Center pole/equ" <colon> "High-precision EOP model" <ws> "{East-longitude +}" <ws>
-"Center radii" <colon> "6378.1 x 6378.1 x 6356.8 km" <ws> "{Equator, meridian, pole}" <ws>
-"Target primary" <colon> "Sun" <ws>
-"Vis. interferer" <colon> "MOON (R_eq= 1737.400) km" <ws> "{source: mar097}" <ws>
-"Rel. light bend" <colon> "Sun, EARTH" <ws> "{source: mar097}" <ws>
-"Rel. lght bnd GM" <colon> "1.3271E+11, 3.9860E+05 km^3/s^2" <ws>
-"Atmos refraction" <colon> "NO (AIRLESS)" <ws>
-"RA format" <colon> "HMS" <ws>
-"Time format" <colon> "CAL" <ws>
-"EOP file" <colon> "eop.170306.p170528" <ws>
-"EOP coverage" <colon> "DATA-BASED 1962-JAN-20 TO 2017-MAR-06. PREDICTS-> 2017-MAY-27" <ws>
-"Units conversion" <colon> "1 au= 149597870.700 km, c= 299792.458 km/s, 1 day= 86400.0 s" <ws>
-"Table cut-offs 1" <colon> "Elevation (-90.0deg=NO ),Airmass (>38.000=NO), Daylight (NO )" <ws>
-"Table cut-offs 2" <colon> "Solar Elongation (  0.0,180.0=NO ),Local Hour Angle( 0.0=NO )" <ws>;
+    target-pole-equ,
+    target-radii,
+    center-geodetic,
+    center-cylindric,
+    center-pole-equ,
+    center-radii,
+    target-primary,
+    visibility-interferer,
+    rel-light-bend,
+    rel-light-bend-gm,
+    atmospheric-refraction,
+    ra-format,
+    time-format,
+    eop-file,
+    eop-coverage,
+    units-conversion,
+    table-cutoffs-1,
+    table-cutoffs-2;
+
+
+target-pole-equ ::= <"Target pole/equ"> <colon> "IAU_MARS" <ws> <"{East-longitude -}"> <ws>;
+target-radii ::= <"Target radii"> <colon> "3396.2 x 3396.2 x 3376.2 km" <ws> <"{Equator, meridian, pole}"> <ws>;
+center-geodetic ::= <"Center geodetic"> <colon> "0.00000000,0.00000000,0.0000000" <ws> <"{E-lon(deg),Lat(deg),Alt(km)}"> <ws>;
+center-cylindric ::= <"Center cylindric"> <colon> "0.00000000,0.00000000,0.0000000" <ws> <"{E-lon(deg),Dxy(km),Dz(km)}"> <ws>;
+center-pole-equ ::= <"Center pole/equ"> <colon> "High-precision EOP model" <ws> <"{East-longitude +}"> <ws>;
+center-radii ::= <"Center radii"> <colon> "6378.1 x 6378.1 x 6356.8 km" <ws> <"{Equator, meridian, pole}"> <ws>;
+target-primary ::= <"Target primary"> <colon> "Sun" <ws>;
+visibility-interferer ::= <"Vis. interferer"> <colon> "MOON (R_eq= 1737.400) km" <ws> <source> <ws>;
+rel-light-bend ::= <"Rel. light bend"> <colon> "Sun, EARTH" <ws> <source> <ws>;
+rel-light-bend-gm ::= <"Rel. lght bnd GM"> <colon> "1.3271E+11, 3.9860E+05 km^3/s^2" <ws>;
+atmospheric-refraction ::= <"Atmos refraction"> <colon> "NO (AIRLESS)" <ws>;
+ra-format ::= <"RA format"> <colon> "HMS" <ws>;
+time-format ::= <"Time format"> <colon> "CAL" <ws>;
+eop-file ::= <"EOP file"> <colon> "eop.170306.p170528" <ws>;
+eop-coverage ::= <"EOP coverage"> <colon> "DATA-BASED 1962-JAN-20 TO 2017-MAR-06. PREDICTS-> 2017-MAY-27" <ws>;
+units-conversion ::= <"Units conversion"> <colon> "1 au= 149597870.700 km, c= 299792.458 km/s, 1 day= 86400.0 s" <ws>;
+table-cutoffs-1 ::= <"Table cut-offs 1"> <colon> "Elevation (-90.0deg=NO ),Airmass (>38.000=NO), Daylight (NO )" <ws>;
+table-cutoffs-2 ::= <"Table cut-offs 2"> <colon> "Solar Elongation (  0.0,180.0=NO ),Local Hour Angle( 0.0=NO )" <ws>;
 
 ephemeris-header ::= " Date__(UT)__HR:MN     R.A._(ICRF/J2000.0)_DEC  APmag  S-brt            delta      deldot    S-O-T /r    S-T-O" <ws>;
 

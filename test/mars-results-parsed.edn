@@ -68,24 +68,24 @@
    [:time-zone "UT"]]
   [:step-size "1440 minutes"]]
  [:constants
-  "Target pole/equ", "IAU_MARS", "{East-longitude -}"
-  "Target radii", "3396.2 x 3396.2 x 3376.2 km", "{Equator, meridian, pole}"
-  "Center geodetic", "0.00000000,0.00000000,0.0000000", "{E-lon(deg),Lat(deg),Alt(km)}"
-  "Center cylindric", "0.00000000,0.00000000,0.0000000", "{E-lon(deg),Dxy(km),Dz(km)}"
-  "Center pole/equ", "High-precision EOP model", "{East-longitude +}"
-  "Center radii", "6378.1 x 6378.1 x 6356.8 km", "{Equator, meridian, pole}"
-  "Target primary", "Sun"
-  "Vis. interferer", "MOON (R_eq= 1737.400) km", "{source: mar097}"
-  "Rel. light bend", "Sun, EARTH", "{source: mar097}"
-  "Rel. lght bnd GM", "1.3271E+11, 3.9860E+05 km^3/s^2"
-  "Atmos refraction", "NO (AIRLESS)"
-  "RA format", "HMS"
-  "Time format", "CAL"
-  "EOP file", "eop.170306.p170528"
-  "EOP coverage", "DATA-BASED 1962-JAN-20 TO 2017-MAR-06. PREDICTS-> 2017-MAY-27"
-  "Units conversion", "1 au= 149597870.700 km, c= 299792.458 km/s, 1 day= 86400.0 s"
-  "Table cut-offs 1", "Elevation (-90.0deg=NO ),Airmass (>38.000=NO), Daylight (NO )"
-  "Table cut-offs 2", "Solar Elongation (  0.0,180.0=NO ),Local Hour Angle( 0.0=NO )"]
+  [:target-pole-equ "IAU_MARS"]
+  [:target-radii "3396.2 x 3396.2 x 3376.2 km"]
+  [:center-geodetic "0.00000000,0.00000000,0.0000000"]
+  [:center-cylindric "0.00000000,0.00000000,0.0000000"]
+  [:center-pole-equ "High-precision EOP model"]
+  [:center-radii "6378.1 x 6378.1 x 6356.8 km"]
+  [:target-primary "Sun"]
+  [:visibility-interferer "MOON (R_eq= 1737.400) km"]
+  [:rel-light-bend "Sun, EARTH"]
+  [:rel-light-bend-gm "1.3271E+11, 3.9860E+05 km^3/s^2"]
+  [:atmospheric-refraction "NO (AIRLESS)"]
+  [:ra-format "HMS"]
+  [:time-format "CAL"]
+  [:eop-file "eop.170306.p170528"]
+  [:eop-coverage "DATA-BASED 1962-JAN-20 TO 2017-MAR-06. PREDICTS-> 2017-MAY-27"]
+  [:units-conversion "1 au= 149597870.700 km, c= 299792.458 km/s, 1 day= 86400.0 s"]
+  [:table-cutoffs-1 "Elevation (-90.0deg=NO ),Airmass (>38.000=NO), Daylight (NO )"]
+  [:table-cutoffs-2 "Solar Elongation (  0.0,180.0=NO ),Local Hour Angle( 0.0=NO )"]]
  [:ephemeris-header " Date__(UT)__HR:MN     R.A._(ICRF/J2000.0)_DEC  APmag  S-brt            delta      deldot    S-O-T /r    S-T-O"]
  [:ephemeris
   [:ephemeris-line-item, [:measurement-time [:year "2017"], [:month "Feb"], [:day "24"] [:time "00:00"]], [:ascension-declination "01 12 18.78 +07 36 55.3"], [:apparent-magnitude "1.27"], [:surface-brightness "4.29"], [:range "2.00321056835551"], [:range-rate "11.4427302"], [:sun-observer-target-angle "44.2386"], [:sun-observer-target-angle-direction "/T"], [:sun-target-observer-angle "28.0789"] ],
