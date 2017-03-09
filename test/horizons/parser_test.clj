@@ -3,17 +3,20 @@
             [clojure.test :refer :all]
             [horizons.parser :refer :all]))
 
-(def mars-results
+(defn get-file [name]
   (slurp
     (io/file
-      (io/resource "mars-results.txt"))))
+      (io/resource name))))
 
-(def mars-results-parsed
-  (read-string
-    (slurp
-      (io/file
-        (io/resource "mars-results-parsed.edn")))))
+(defn get-edn [name]
+  (read-string (get-file name)))
+
+(defn parse-file [name]
+  (parse (get-file name)))
+
+(defn assert-parse-result [txt-name edn-name]
+  (is (= (parse-file txt-name)
+         (get-edn edn-name))))
 
 (deftest grammar-test
-  (is (= (parse mars-results)
-         mars-results-parsed)))
+  (assert-parse-result "mars-results.txt" "mars-results-parsed.edn"))
