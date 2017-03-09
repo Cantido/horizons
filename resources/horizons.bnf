@@ -7,7 +7,7 @@ S ::= geophysical-only | all-sections;
     <file-header>
     geophysical-data
     <separator>
-    <select-prompt>
+    <select-prompt>;
 
 <all-sections> ::=
     <separator>, file-header,
