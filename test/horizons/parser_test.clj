@@ -23,3 +23,6 @@
 
 (deftest prelim-section-grammar-test
   (assert-parse-result "mars-initial-results.txt" "mars-initial-results-parsed.edn"))
+
+(deftest earth-grammar-test
+  (assert-parse-result "earth-initial-results.txt" "earth-initial-results-parsed.edn"))
