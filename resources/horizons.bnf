@@ -2,7 +2,7 @@
 
 S ::=
     <separator>, file-header,
-    <newline>,   geophysical-data,
+    <ws>,        geophysical-data,
     <separator>, ephemeris-metadata,
     <separator>, targeting,
     <separator>, time-frame,
@@ -15,13 +15,12 @@ S ::=
 
 (* General data types *)
 
-separator ::= (short-sep | long-sep), <whitespace>, separator?;
+separator ::= (short-sep | long-sep), <ws>, separator?;
 short-sep ::= #"\*{79}";
 long-sep ::= #"\*{110}";
 
-newline ::= "\n";
 space ::= #"\s";
-whitespace ::= (space* | newline*) whitespace*;
+ws ::= space*;
 
 <digit> ::= #"\d";
 <integer> ::= #"\d+";
@@ -30,7 +29,7 @@ whitespace ::= (space* | newline*) whitespace*;
 <float-with-error> ::= (#"\d*\.\d*\(\d\+\-\d\)") | (#"\d*\.\d*\s?\+\-\s?\d*\.\d*");
 <approximate-integer> ::= #"~\d+";
 
-<timestamp> ::= era?, <space>, date, <whitespace>, time, <space>, time-zone?;
+<timestamp> ::= era?, <space>, date, <ws>, time, <space>, time-zone?;
 
 <date> ::= (year <"-"> month <"-"> day) | (month <" "> day <", "> year);
 <duration> ::= "1440 minutes";
@@ -64,44 +63,44 @@ revision-date ::= <"Revised: "> date;
 
 
 geophysical-data ::=
-    <whitespace> geophysical-data-header,
-    <whitespace> mean-radius,
-    <whitespace> density,
-    <whitespace> mass,
-    <whitespace> flattening,
-    <whitespace> volume,
-    <whitespace> semi-major-axis,
-    <whitespace> sidereal-rotation-period
-    <whitespace> rotation-rate
-    <whitespace> mean-solar-day
-    <whitespace> polar-gravity
-    <whitespace> moment-of-inertia
-    <whitespace> equatorial-gravity
-    <whitespace> core-radius
-    <whitespace> potential-love-k2
+    <ws> geophysical-data-header,
+    <ws> mean-radius,
+    <ws> density,
+    <ws> mass,
+    <ws> flattening,
+    <ws> volume,
+    <ws> semi-major-axis,
+    <ws> sidereal-rotation-period
+    <ws> rotation-rate
+    <ws> mean-solar-day
+    <ws> polar-gravity
+    <ws> moment-of-inertia
+    <ws> equatorial-gravity
+    <ws> core-radius
+    <ws> potential-love-k2
 
-    <whitespace> grav-spectral-fact
-    <whitespace> topo-spectral-fact
-    <whitespace> fig-offset
-    <whitespace> offset
-    <whitespace> standard-gravitational-parameter
-    <whitespace> equatorial-radius
-    <whitespace> gm-1-sigma
-    <whitespace> mass-ratio-from-sun
+    <ws> grav-spectral-fact
+    <ws> topo-spectral-fact
+    <ws> fig-offset
+    <ws> offset
+    <ws> standard-gravitational-parameter
+    <ws> equatorial-radius
+    <ws> gm-1-sigma
+    <ws> mass-ratio-from-sun
 
-    <whitespace> atmospheric-pressure
-    <whitespace> maximum-angular-diameter
-    <whitespace> mean-temperature
-    <whitespace> visual-magnitude
-    <whitespace> geometric-albedo
-    <whitespace> obliquity-to-orbit
-    <whitespace> mean-sidereal-orbital-period
-    <whitespace> orbit-velocity
-    <whitespace> mean-sidereal-orbital-period
-    <whitespace> escape-velocity
-    <whitespace> hill-sphere-radius
-    <whitespace> magnetic-moment
-    <whitespace>;
+    <ws> atmospheric-pressure
+    <ws> maximum-angular-diameter
+    <ws> mean-temperature
+    <ws> visual-magnitude
+    <ws> geometric-albedo
+    <ws> obliquity-to-orbit
+    <ws> mean-sidereal-orbital-period
+    <ws> orbit-velocity
+    <ws> mean-sidereal-orbital-period
+    <ws> escape-velocity
+    <ws> hill-sphere-radius
+    <ws> magnetic-moment
+    <ws>;
 
 equals ::= space* "=" space*;
 
@@ -144,13 +143,13 @@ visual-magnitude ::= <"Visual mag. V(1,0)"> <equals> float;
 volume ::= <"Volume (x10^10 km^3)"> <equals> float;
 
 ephemeris-metadata ::=
-"Ephemeris / WWW_USER Mon Mar  6 16:56:26 2017 Pasadena, USA      / Horizons" <whitespace>;
+"Ephemeris / WWW_USER Mon Mar  6 16:56:26 2017 Pasadena, USA      / Horizons" <ws>;
 
 targeting ::= target-body, center-body, center-site;
 
-target-body ::= <"Target body name:"> targeting-body <whitespace>
-center-body ::= <"Center body name:"> targeting-body <whitespace>
-center-site ::= <"Center-site name:"> <space> "GEOCENTRIC" <whitespace>;
+target-body ::= <"Target body name:"> targeting-body <ws>
+center-body ::= <"Center body name:"> targeting-body <ws>
+center-site ::= <"Center-site name:"> <space> "GEOCENTRIC" <ws>;
 
 <targeting-body> := <space> body-name <space> <"("> body-id <")"> <space+> source;
 
@@ -158,46 +157,46 @@ source ::= <"{source:"> <space> "mar097" <"}">;
 
 time-frame ::= start-time, stop-time, step-size;
 
-start-time ::= <"Start time      : "> timestamp <whitespace>;
-stop-time ::= <"Stop  time      : "> timestamp <whitespace>;
-step-size ::= <"Step-size       : "> duration <whitespace>;
+start-time ::= <"Start time      : "> timestamp <ws>;
+stop-time ::= <"Stop  time      : "> timestamp <ws>;
+step-size ::= <"Step-size       : "> duration <ws>;
 
 
 constants ::=
-"Target pole/equ : " "IAU_MARS                        " "{East-longitude -}" <whitespace>
-"Target radii    : " "3396.2 x 3396.2 x 3376.2 km     " "{Equator, meridian, pole}" <whitespace>
-"Center geodetic : " "0.00000000,0.00000000,0.0000000 " "{E-lon(deg),Lat(deg),Alt(km)}" <whitespace>
-"Center cylindric: " "0.00000000,0.00000000,0.0000000 " "{E-lon(deg),Dxy(km),Dz(km)}" <whitespace>
-"Center pole/equ : " "High-precision EOP model        " "{East-longitude +}" <whitespace>
-"Center radii    : " "6378.1 x 6378.1 x 6356.8 km     " "{Equator, meridian, pole}" <whitespace>
-"Target primary  : " "Sun" <whitespace>
-"Vis. interferer : " "MOON (R_eq= 1737.400) km        " "{source: mar097}" <whitespace>
-"Rel. light bend : " "Sun, EARTH                      " "{source: mar097}" <whitespace>
-"Rel. lght bnd GM: " "1.3271E+11, 3.9860E+05 km^3/s^2" <whitespace>
-"Atmos refraction: " "NO (AIRLESS)" <whitespace>
-"RA format       : " "HMS" <whitespace>
-"Time format     : " "CAL" <whitespace>
-"EOP file        : " "eop.170306.p170528" <whitespace>
-"EOP coverage    : " "DATA-BASED 1962-JAN-20 TO 2017-MAR-06. PREDICTS-> 2017-MAY-27" <whitespace>
-"Units conversion: " "1 au= 149597870.700 km, c= 299792.458 km/s, 1 day= 86400.0 s" <whitespace>
-"Table cut-offs 1: " "Elevation (-90.0deg=NO ),Airmass (>38.000=NO), Daylight (NO )" <whitespace>
-"Table cut-offs 2: " "Solar Elongation (  0.0,180.0=NO ),Local Hour Angle( 0.0=NO )" <whitespace>;
+"Target pole/equ : " "IAU_MARS                        " "{East-longitude -}" <ws>
+"Target radii    : " "3396.2 x 3396.2 x 3376.2 km     " "{Equator, meridian, pole}" <ws>
+"Center geodetic : " "0.00000000,0.00000000,0.0000000 " "{E-lon(deg),Lat(deg),Alt(km)}" <ws>
+"Center cylindric: " "0.00000000,0.00000000,0.0000000 " "{E-lon(deg),Dxy(km),Dz(km)}" <ws>
+"Center pole/equ : " "High-precision EOP model        " "{East-longitude +}" <ws>
+"Center radii    : " "6378.1 x 6378.1 x 6356.8 km     " "{Equator, meridian, pole}" <ws>
+"Target primary  : " "Sun" <ws>
+"Vis. interferer : " "MOON (R_eq= 1737.400) km        " "{source: mar097}" <ws>
+"Rel. light bend : " "Sun, EARTH                      " "{source: mar097}" <ws>
+"Rel. lght bnd GM: " "1.3271E+11, 3.9860E+05 km^3/s^2" <ws>
+"Atmos refraction: " "NO (AIRLESS)" <ws>
+"RA format       : " "HMS" <ws>
+"Time format     : " "CAL" <ws>
+"EOP file        : " "eop.170306.p170528" <ws>
+"EOP coverage    : " "DATA-BASED 1962-JAN-20 TO 2017-MAR-06. PREDICTS-> 2017-MAY-27" <ws>
+"Units conversion: " "1 au= 149597870.700 km, c= 299792.458 km/s, 1 day= 86400.0 s" <ws>
+"Table cut-offs 1: " "Elevation (-90.0deg=NO ),Airmass (>38.000=NO), Daylight (NO )" <ws>
+"Table cut-offs 2: " "Solar Elongation (  0.0,180.0=NO ),Local Hour Angle( 0.0=NO )" <ws>;
 
-ephemeris-header ::= " Date__(UT)__HR:MN     R.A._(ICRF/J2000.0)_DEC  APmag  S-brt            delta      deldot    S-O-T /r    S-T-O" <whitespace>;
+ephemeris-header ::= " Date__(UT)__HR:MN     R.A._(ICRF/J2000.0)_DEC  APmag  S-brt            delta      deldot    S-O-T /r    S-T-O" <ws>;
 
-ephemeris ::= <"$$SOE">, <whitespace>, ephemeris-line-item+, <"$$EOE">, <whitespace>;
+ephemeris ::= <"$$SOE">, <ws>, ephemeris-line-item+, <"$$EOE">, <ws>;
 
 ephemeris-line-item ::=
-    <whitespace>, measurement-time,
-    <whitespace>, ascension-declination,
-    <whitespace>, apparent-magnitude,
-    <whitespace>, surface-brightness,
-    <whitespace>, range,
-    <whitespace>, range-rate,
-    <whitespace>, sun-observer-target-angle,
-    <whitespace>, sun-observer-target-angle-direction,
-    <whitespace>, sun-target-observer-angle,
-    <whitespace>;
+    <ws>, measurement-time,
+    <ws>, ascension-declination,
+    <ws>, apparent-magnitude,
+    <ws>, surface-brightness,
+    <ws>, range,
+    <ws>, range-rate,
+    <ws>, sun-observer-target-angle,
+    <ws>, sun-observer-target-angle-direction,
+    <ws>, sun-target-observer-angle,
+    <ws>;
 
 measurement-time ::= timestamp;
 
