@@ -108,19 +108,19 @@ physical-properties ::=
     <ws>;
 
 
-j2 ::= "J2  (GEM T2, 1990)       = " "0.0010826265";
-mantle-mass ::= "mantle         = " "4.043 x 10^24" " kg";
-g-polar ::= "gp, m s^-2 (polar)       = " "9.8321863685";
-outer-core-mass ::= "outer core     = " "1.835 x 10^24" " kg";
-g-equatorial ::= "ge, m s^-2 (equatorial)  = " "9.7803267715";
-inner-core-mass ::= "inner core     = " "9.675 x 10^22" " kg";
-g-o ::= "go, m s^-2               = " "9.82022";
-fluid-core-radius ::= "Fluid core rad   = " "3480" " km";
-inner-core-radius ::= "Inner core rad   = " "1215" " km";
+j2 ::= <"J2  (GEM T2, 1990)       = "> "0.0010826265";
+mantle-mass ::= <"mantle         = "> "4.043 x 10^24" <" kg">;
+g-polar ::= <"gp, m s^-2 (polar)       = "> "9.8321863685";
+outer-core-mass ::= <"outer core     = "> "1.835 x 10^24" <" kg">;
+g-equatorial ::= <"ge, m s^-2 (equatorial)  = "> "9.7803267715";
+inner-core-mass ::= <"inner core     = "> "9.675 x 10^22" <" kg">;
+g-o ::= <"go, m s^-2               = "> "9.82022";
+fluid-core-radius ::= <"Fluid core rad   = "> "3480" <" km">;
+inner-core-radius ::= <"Inner core rad   = "> "1215" <" km">;
 surface-area-title ::= "Surface Area:";
-surface-area-land ::= "land           = " "1.48 x 10^8" " km";
-surface-area-sea ::= "sea            = " "3.62 x 10^8" " km";
-solar-constant ::= "Solar constant, W/m^2    = " "1367.6";
+surface-area-land ::= <"land           = "> "1.48 x 10^8" <" km">;
+surface-area-sea ::= <"sea            = "> "3.62 x 10^8" <" km">;
+solar-constant ::= <"Solar constant, W/m^2    = "> "1367.6";
 
 
 physical-properties-header ::= "PHYSICAL PROPERTIES (revised Sep 18, 2013):";
