@@ -1,6 +1,7 @@
 (* Overall document structure *)
 
 S ::=
+    <garbage*>,
     <separator>, file-header,
     (<ws>        geophysical-data)?
     (<ws>        physical-properties)?
@@ -12,10 +13,11 @@ S ::=
     (<separator>, <ephemeris-header>)?
     (<separator>, ephemeris)?
     (<separator>, <footer>)?
-    (<separator> <select-prompt>)?;
+    (<separator> <#"."*> <select-prompt>)?;
 
 (* General data types *)
 
+<garbage> ::= #"[\d\\[\?1h\\= \^\>]+" | <ws>;
 separator ::= <ws>, (short-sep | long-sep), <ws>, separator?;
 short-sep ::= #"\*{79}";
 long-sep ::= #"\*{110}";
