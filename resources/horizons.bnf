@@ -1,6 +1,15 @@
 (* Overall document structure *)
 
-S ::=
+S ::= geophysical-only | all-sections;
+
+<geophysical-only> ::=
+    <separator>
+    <file-header>
+    geophysical-data
+    <separator>
+    <select-prompt>
+
+<all-sections> ::=
     <separator>, file-header,
     <ws>,        geophysical-data,
     <separator>, <ephemeris-metadata>,
@@ -246,5 +255,7 @@ sun-observer-target-angle ::= #"\d\d\.\d\d\d\d";
 sun-observer-target-angle-direction ::= "/T" | "/L";
 
 sun-target-observer-angle ::= #"\d\d\.\d{4}";
+
+select-prompt ::= "Select ... [E]phemeris, [F]tp, [M]ail, [R]edisplay, ?, <cr>:";
 
 footer ::= "Column meaning:", #"[\s\S\w\W.]*";
