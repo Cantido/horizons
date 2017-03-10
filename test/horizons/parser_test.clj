@@ -26,3 +26,9 @@
 
 (deftest earth-grammar-test
   (assert-parse-result "earth-initial-results.txt" "earth-initial-results-parsed.edn"))
+
+(deftest tree->map-test
+  (is (= (tree->map []) {}))
+  (is (= (tree->map [:S []]) {:S {}}))
+  (is (= (tree->map [:S [:key "value"]]) {:S {:key "value"}}))
+  (is (= (tree->map [:S [:key [:subkey "value"]] {:S {:key {:subkey "value"}}}]))))
