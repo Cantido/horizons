@@ -12,7 +12,7 @@
              :available-media-types ["application/json"]
              :exists? (fn [_] (supported? id))
              :handle-ok (fn [ctx]
-                          {:body (get-planetary-body id)}))
+                          (get-planetary-body id)))
 
 (defroutes handler
            (GET "/" [] (resource-response "index.html" {:root "public"}))
