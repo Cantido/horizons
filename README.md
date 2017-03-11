@@ -53,8 +53,8 @@ There are no endpoints implemented yet.
 I plan to implement functionality in this order:
 
 1. ~~Access the HORIZONS `telnet` API successfully~~
-1. **Return geophysical data for Mars at `/499`**
-1. Return geophysical data for all 8 planets at `/{id}`
+1. ~~Return geophysical data for Mars at `/499`.~~
+1. **Return geophysical data for all 8 planets at `/{id}`**
 1. Return ephemeris data for all 8 planets in the default time-frame
 1. Above, but in a configurable time-frame
 1. Above, but for all bodies
