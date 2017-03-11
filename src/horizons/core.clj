@@ -15,4 +15,7 @@
   (contains? supported-bodies (int (bigdec id))))
 
 (defn get-planetary-body [id]
-  (:S (restructure (parse (get-body id)))))
+  (let [body-data (parse (get-body id))]
+    (if (instaparse.core/failure? body-data)
+      body-data
+      (:S (restructure body-data)))))
