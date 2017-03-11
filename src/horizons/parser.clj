@@ -15,7 +15,9 @@
 
 (defn transform
   [tree]
-  (transform/transform transform-rules tree))
+  (if (core/failure? tree)
+    tree
+    (transform/transform transform-rules tree)))
 
 (defn coll-of-colls?
   [form]
@@ -32,15 +34,19 @@
   and the remaining members are that node's children. This function will turn that tree into a
   map traversable by node names."
   [tree]
-  (clojure.walk/postwalk
-    (fn [form]
-      (cond
-        (coll-of-colls? form) {(first form) (into {} (rest form))}
-        :else form))
-   tree))
+  (if (core/failure? tree)
+    tree
+    (clojure.walk/postwalk
+      (fn [form]
+        (cond
+          (coll-of-colls? form) {(first form) (into {} (rest form))}
+          :else form))
+     tree)))
 
 (defn restructure
   [tree]
-  (->> tree
-       transform
-       tree->map))
+  (if (core/failure? tree)
+    tree
+    (->> tree
+         transform
+         tree->map)))
