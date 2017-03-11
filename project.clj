@@ -5,7 +5,7 @@
             :url "http://www.gnu.org/licenses/gpl.txt"}
   :profiles {:dev {:resource-paths ["test-resources"]}}
   :plugins [[lein-ring "0.8.11"]]
-  :ring {:handler horizons.core/app}
+  :ring {:handler horizons.web/app}
   :dependencies [[org.clojure/clojure "1.8.0"]
                  [org.clojure/core.async "0.3.441"]
                  [org.clojure/data.json "0.2.6"]
