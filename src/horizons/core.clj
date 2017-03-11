@@ -7,8 +7,7 @@
             [compojure.core :refer :all]))
 
 (defroutes handler
-           (ANY "/" []
-                {:body (:S (restructure (parse (get-body 499))))}))
+           (GET "/bodies/:id" [id] {:body (:S (restructure (parse (get-body id))))}))
 
 (def app
   (-> handler
