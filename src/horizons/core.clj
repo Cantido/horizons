@@ -2,18 +2,17 @@
   (:require [horizons.telnet-client :refer :all]
             [horizons.parser :refer :all]
             [liberator.core :refer [resource defresource]]
-            [ring.middleware.json :refer [wrap-json-response]]
+            [ring.middleware.json :refer [wrap-json-body wrap-json-params wrap-json-response]]
             [ring.middleware.params :refer [wrap-params]]
             [compojure.core :refer :all]))
 
-
-
-
-(defroutes app
+(defroutes handler
            (ANY "/" []
-                (str (parse (get-body 499)))))
+                {:body (:S (restructure (parse (get-body 499))))}))
 
-(def handler
-  (-> app
+(def app
+  (-> handler
+      wrap-json-body
+      wrap-json-params
       wrap-json-response
       wrap-params))

@@ -4,5 +4,5 @@
             [ring.mock.request :as mock]))
 
 (deftest index-test
-  (is (= (:status (horizons.core/handler (mock/request :get "/")))
+  (is (= (:status (horizons.core/app (mock/request :get "/")))
          200)))
