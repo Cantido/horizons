@@ -40,8 +40,11 @@
   [:volume "108.321"]
   [:geometric-albedo "0.367"]]
  [:dynamical-characteristics
-  "DYNAMICAL CHARACTERISTICS:
- Obliquity to orbit, deg  = 23.45           Sidereal period  = 1.0000174  yrs
- Orbit velocity, km s^-1  = 29.7859         Sidereal period  = 365.25636  days
- Mean daily motion, n     = 0.9856474 deg/d Escape velocity  = 11.186 km s^-1
- Hill's sphere radius     = 234.9           Magnetic moment  = 0.61 gauss Rp^3"]]
+  [:obliquity-to-orbit "23.45"]
+  [:mean-sidereal-orbital-period-years "1.0000174"]
+  [:orbit-velocity "29.7859"]
+  [:mean-sidereal-orbital-period-days "365.25636"]
+  [:mean-daily-motion "0.9856474"]
+  [:escape-velocity "11.186"]
+  [:hill-sphere-radius "234.9"]
+  [:magnetic-moment "0.61"]]]
