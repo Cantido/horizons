@@ -28,7 +28,70 @@
   (assert-parse-result "earth-initial-results.txt" "earth-initial-results-parsed.edn"))
 
 (deftest tree->map-test
-  (is (= (tree->map []) {}))
-  (is (= (tree->map [:S []]) {:S {}}))
-  (is (= (tree->map [:S [:key "value"]]) {:S {:key "value"}}))
-  (is (= (tree->map [:S [:key [:subkey "value"]] {:S {:key {:subkey "value"}}}]))))
+  (is (= (tree->map
+           [:revision-date
+            [:month "Jul"]
+            [:day "31"]
+            [:year "2013"]])
+         {:revision-date
+          {:month "Jul"
+           :day "31"
+           :year "2013"}}))
+  (is (= (tree->map
+           [:file-header
+            [:revision-date
+             [:month "Jul"]
+             [:day "31"]
+             [:year "2013"]]])
+         {:file-header
+          {:revision-date
+           {:month "Jul"
+            :day "31"
+            :year "2013"}}}))
+  (is (= (tree->map
+           [:file-header
+            [:revision-date
+             [:month "Jul"]
+             [:day "31"]
+             [:year "2013"]]
+            [:body-name "Mars"]
+            [:body-id "499"]])
+         {:file-header
+          {:revision-date
+           {:month "Jul"
+            :day "31"
+            :year "2013"}
+           :body-name "Mars"
+           :body-id "499"}}))
+  (is (= (tree->map
+           [:geophysical-data
+            [:mean-radius "3389.9(2+-4)"]
+            [:density "3.933(5+-4)"]
+            [:mass "6.4185"]])
+         {:geophysical-data
+          {:mean-radius "3389.9(2+-4)"
+           :density "3.933(5+-4)"
+           :mass "6.4185"}})))
+  ;(is (= (tree->map
+  ;         [:ephemeris
+  ;          [:line-item "first"]
+  ;          [:line-item "second"]
+  ;          [:line-item "third"]])
+  ;       {:ephemeris #{
+  ;                     {:line-item "first"}
+  ;                     {:line-item "second"}
+  ;                     {:line-item "third"}}})))
+
+(deftest set-of-maps-test
+  (is (= (set-of-maps
+            [:data [:k "x"]]
+            [:data [:k "y"]]
+            [:data [:k "z"]])
+         #{
+           {:data [:k "x"]}
+           {:data [:k "y"]}
+           {:data [:k "z"]}})))
+
+;(deftest parse-to-map-test
+;  (is (= (tree->map (get-edn "mars-results-parsed.edn"))
+;         (get-edn "mars-results-map.edn"))))

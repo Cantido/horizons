@@ -144,9 +144,9 @@ geophysical-data ::=
     <ws> visual-magnitude
     <ws> geometric-albedo
     <ws> obliquity-to-orbit
-    <ws> mean-sidereal-orbital-period
+    <ws> mean-sidereal-orbital-period-years
     <ws> orbit-velocity
-    <ws> mean-sidereal-orbital-period
+    <ws> mean-sidereal-orbital-period-days
     <ws> escape-velocity
     <ws> hill-sphere-radius
     <ws> magnetic-moment
@@ -185,9 +185,8 @@ mass ::= <"Mass (10^23 kg )" | "Mass, 10^24 kg">  <equals> (float | float-with-e
 mass-ratio-from-sun ::= <"Mass ratio (Sun/Mars)"> <equals> integer-with-error;
 maximum-angular-diameter ::= <"Max. angular diam."> <equals> #'\d+\.\d+\"';
 mean-radius ::= <"Mean radius" ws ", "? "("? "km" ")"?> <equals> float-with-error;
-mean-sidereal-orbital-period ::= mean-sidereal-orbital-period-years | mean-sidereal-orbital-period-days;
-<mean-sidereal-orbital-period-years> ::= <"Mean sidereal orb per"> <equals> float <" y">;
-<mean-sidereal-orbital-period-days> ::= <"Mean sidereal orb per"> <equals> float <" d">;
+mean-sidereal-orbital-period-years ::= <"Mean sidereal orb per"> <equals> float <" y">;
+mean-sidereal-orbital-period-days ::= <"Mean sidereal orb per"> <equals> float <" d">;
 mean-solar-day ::= <"Mean solar day" ", days"?> <equals> float <" d"?>;
 mean-temperature ::= <"Mean Temperature" (" (K)" | ", K")> <equals> integer;
 moment-of-inertia ::= <("Mom. of Inertia" | "Moment of inertia")> <equals> float;
