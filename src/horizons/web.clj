@@ -13,8 +13,8 @@
              :exists? (fn [_] (supported? id))
              :handle-ok (fn [ctx]
                           (get-planetary-body id))
-             :handle-exception (fn [ctx])
-                               (resource-response "index.html" {:root "public"}))
+             :handle-exception (fn [ctx]
+                                 (resource-response "index.html" {:root "public"})))
 
 (defroutes handler
            (GET "/" [] (resource-response "index.html" {:root "public"}))
