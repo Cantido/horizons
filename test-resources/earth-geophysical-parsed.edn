@@ -1,9 +1,10 @@
 [:S
  [:file-header
   [:revision-date
-   [:month "Jul"]
-   [:day "31"]
-   [:year "2013"]]
+   [:date
+    [:month "Jul"]
+    [:day "31"]
+    [:year "2013"]]]
   [:body-name "Earth"]
   [:body-id "399"]]
  [:physical-properties

@@ -7,9 +7,11 @@
 
 (def transform-rules
   {
+   :date (fn [& args] [:date (into {} args)])
    :ephemeris (fn [& args] {:ephemeris (set args)})
    :ephemeris-line-item (fn [& args] (into {} args))
-   :measurement-time (fn [& args] {:measurement-time (into {} args)})})
+   :measurement-time (fn [& args] {:measurement-time (into {} args)})
+   :timestamp (fn [& args] [:timestamp (into {} args)])})
 
 ;; If we could give insta/transform a default rule, it should
 ;; be (fn [& rest] {:label (into {} rest)}). But alas...

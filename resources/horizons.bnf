@@ -35,9 +35,9 @@ ws ::= space*;
 (* example: 5.1   x 10^18 *)
 <sci-not> ::= #"\-?\d*\.\d* *[x\*] ?10\^\-?\d+";
 
-<timestamp> ::= era?, <space>, date, <ws>, time, <space>, time-zone?;
+timestamp ::= era?, <space>, date, <ws>, time, <space>, time-zone?;
 
-<date> ::= (year <"-"> month <"-"> day) | (month <" "> day <", "> year);
+date ::= (year <"-"> month <"-"> day) | (month <" "> day <", "> year);
 <duration> ::= "1440 minutes";
 
 era ::= "A.D."

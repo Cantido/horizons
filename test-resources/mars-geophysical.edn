@@ -1,9 +1,10 @@
 [:S
  [:file-header
   [:revision-date
-   [:month "Sep"]
-   [:day "28"]
-   [:year "2012"]]
+   [:date
+    [:month "Sep"]
+    [:day "28"]
+    [:year "2012"]]]
   [:body-name "Mars"]
   [:body-id "499"]]
  [:geophysical-data

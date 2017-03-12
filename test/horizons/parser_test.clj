@@ -18,16 +18,14 @@
   (is (= (parse-file txt-name)
          (get-edn edn-name))))
 
-(deftest all-sections-grammar-test
+
+
+(deftest full-grammar-test
   (assert-parse-result "mars-full.txt" "mars-full-parsed.edn"))
 
-(deftest prelim-section-grammar-test
-  (assert-parse-result "mars-geophysical.txt" "mars-geophysical.edn"))
-
-(deftest earth-grammar-test
-  (assert-parse-result "earth-geophysical.txt" "earth-geophysical-parsed.edn"))
-
-(deftest mercury-grammar-test
+(deftest geophysical-grammar-test
+  (assert-parse-result "mars-geophysical.txt" "mars-geophysical.edn")
+  (assert-parse-result "earth-geophysical.txt" "earth-geophysical-parsed.edn")
   (assert-parse-result "mercury-geophysical.txt" "mercury-geophysical-parsed.edn"))
 
 (deftest tree->map-test
@@ -114,11 +112,7 @@
   (is (= (transform ephemeris-input)
          ephemeris-output)))
 
-
 (deftest transform-test
-  (is (= (restructure ephemeris-input)
-         ephemeris-output))
-  (is (= (restructure (get-edn "mars-full-parsed.edn"))
-         (get-edn "mars-full-map.edn")))
-  (is (= (restructure (get-edn "mercury-geophysical-parsed.edn"))
-         (get-edn "mercury-geophysical-map.edn"))))
+  (is (= (restructure ephemeris-input) ephemeris-output))
+  (is (= (restructure (get-edn "mars-full-parsed.edn")) (get-edn "mars-full-map.edn")))
+  (is (= (restructure (get-edn "mercury-geophysical-parsed.edn")) (get-edn "mercury-geophysical-map.edn"))))
