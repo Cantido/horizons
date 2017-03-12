@@ -27,7 +27,7 @@ ws ::= space*;
 
 <digit> ::= #"\d";
 <integer> ::= #"\d+";
-<integer-with-error> ::= #"\d+\+\-\d+";
+<integer-with-error> ::= #"\d+\(?\+\-\d+\)?";
 <float> ::= #"\-?\d*\.\d*";
 <float-with-error> ::= (#"\d*\.\d*\(\d\+\-\d\)") | (#"\d*\.\d*\s?\+\-\s?\d*\.\d*");
 <approximate-integer> ::= #"~\d+";
@@ -117,45 +117,7 @@ dynamical-characteristics ::=
     <ws> magnetic-moment
     <ws>;
 
-
-
-<mercury-wip> ::=
-    <ws> <geophysical-data-header>
-    <ws> "Mean radius (km)      =  2440(+-1)"
-    <ws> "Density (g cm^-3)     =  5.427"
-    <ws> "Mass (10^23 kg )      =     3.302"
-    <ws> "Flattening, f         ="
-    <ws> "Volume (x10^10 km^3)  =     6.085"
-    <ws> "Semi-major axis       ="
-    <ws> "Sidereal rot. period  =    58.6462 d"
-    <ws> "Rot. Rate (x10^5 s)   =  0.124001"
-    <ws> "Mean solar day        =   175.9421 d"
-    <ws> "Polar gravity ms^-2   ="
-    <ws> "Mom. of Inertia       =     0.33"
-    <ws> "Equ. gravity  ms^-2   =  3.701"
-    <ws> "Core radius (km)      = ~1600"
-    <ws> "Potential Love # k2   ="
-    <ws> "GM (km^3 s^-2)        = 22032.09"
-    <ws> "Equatorial Radius, Re =    2440 km"
-    <ws> "GM 1-sigma (km^3 s^-2)=   +-0.91"
-    <ws> "Mass ratio (sun/plnt) = 6023600"
-    <ws> "Atmos. pressure (bar) ="
-    <ws> "Max. angular diam.    = 11.0\""
-    <ws> "Mean Temperature (K)  ="
-    <ws> "Visual mag. V(1,0)    = -0.42"
-    <ws> "Geometric albedo      =   0.106"
-    <ws> "Obliquity to orbit[1] = 2.11' +/- 0.1'"
-    <ws> "Sidereal orb. per.    =   0.2408467 y"
-    <ws> "Mean Orbit vel.  km/s = 47.362"
-    <ws> "Sidereal orb. per.    =  87.969257  d"
-    <ws> "Escape vel. km/s      =  4.435"
-    <ws> "Hill's sphere rad. Rp =  94.4"
-    <ws> "Planetary Solar Const = 9936.9 (Wm^2)"
-    <ws> "[1] Margot et al., Science 316, 2007";
-
-geophysical-data ::= geophysical-data-proper | mercury-wip;
-
-<geophysical-data-proper> ::=
+geophysical-data ::=
     <ws> <geophysical-data-header>,
     <ws> mean-radius,
     <ws> density,
@@ -172,10 +134,10 @@ geophysical-data ::= geophysical-data-proper | mercury-wip;
     <ws> core-radius
     <ws> potential-love-k2
 
-    <ws> grav-spectral-fact
-    <ws> topo-spectral-fact
-    <ws> fig-offset
-    <ws> offset
+    (<ws> grav-spectral-fact)?
+    (<ws> topo-spectral-fact)?
+    (<ws> fig-offset)?
+    (<ws> offset)?
     <ws> standard-gravitational-parameter
     <ws> equatorial-radius
     <ws> gm-1-sigma
@@ -192,7 +154,9 @@ geophysical-data ::= geophysical-data-proper | mercury-wip;
     <ws> mean-sidereal-orbital-period-days
     <ws> escape-velocity
     <ws> hill-sphere-radius
-    <ws> magnetic-moment
+    (<ws> solar-constant)?
+    (<ws> magnetic-moment)?
+    (<ws> <obliquity-source>)?
     <ws>;
 
 equals ::= space* "=" space*;
@@ -202,22 +166,22 @@ dynamical-characteristics-header ::= "DYNAMICAL CHARACTERISTICS:";
 physical-properties-header ::= "PHYSICAL PROPERTIES (revised " date "):";
 
 atmospheric-mass ::= <"Atmos"> <equals> sci-not <" kg">;
-atmospheric-pressure ::= <("Atm." | "Atmos.") " pressure" " (bar)"?> <equals> float <" bar"?>;
+atmospheric-pressure ::= <("Atm." | "Atmos.") " pressure" " (bar)"?> <equals> float? <" bar"?>;
 core-radius ::= <"Core radius (km)"> <equals> approximate-integer;
 crust-mass ::= <"crust"> <equals> sci-not <" kg">;
 density ::= <"Density", (", gm cm^-3" | " (g cm^-3)")> <equals> (float | float-with-error);
 equatorial-gravity ::= <"Equ. gravity  ms^-2"> <equals> float;
-equatorial-radius ::= <"Equatorial Radius, Re" | "Equ. radius, km"> <equals> (float | float-with-error) <" km"?>;
+equatorial-radius ::= <"Equatorial Radius, Re" | "Equ. radius, km"> <equals> (integer | float | float-with-error) <" km"?>;
 escape-velocity ::= <("Escape vel. km/s" | "Escape velocity")> <equals> float <ws> <"km s^-1"?>;
 fig-offset ::= <"Fig. offset (Rcf-Rcm)"> <equals> float-with-error <" km">;
-flattening ::= <"Flattening" ", f"?> <equals> #"\d/\d\d\d\.\d\d\d";
+flattening ::= <"Flattening" ", f"?> <equals> #"\d/\d\d\d\.\d\d\d"?;
 fluid-core-radius ::= <"Fluid core rad   = "> integer <" km">;
 (* equatorial & polar gravity? units seem right. What is g-o? *)
 g-equatorial ::= <"ge, m s^-2 (equatorial)  = "> float;
 g-o ::= <"go, m s^-2               = "> float;
 g-polar ::= <"gp, m s^-2 (polar)       = "> float;
 geometric-albedo ::= <"Geometric albedo"> <equals> float;
-gm-1-sigma ::= <"GM 1-sigma (km^3 s^-2)"> <equals> #"\+\- \d\.\d";
+gm-1-sigma ::= <"GM 1-sigma (km^3 s^-2)"> <equals> #"\+\- ?\d\.\d+";
 grav-spectral-fact ::= <"Grav spectral fact u"> <equals> spectral-fact;
 hill-sphere-radius ::= <("Hill's sphere rad. Rp" | "Hill's sphere radius")> <equals> float;
 inner-core-mass ::= <"inner core     = "> sci-not <" kg">;
@@ -226,27 +190,27 @@ j2 ::= <"J2  (GEM T2, 1990)       = "> float;
 magnetic-moment ::= <("Mag. mom (gauss Rp^3)" | "Magnetic moment")> <equals> (#"< 1x10\^\-\d" | (float <ws> <"gauss Rp^3">));
 mantle-mass ::= <"mantle         = "> sci-not <" kg">;
 mass ::= <"Mass (10^23 kg )" | "Mass, 10^24 kg">  <equals> (float | float-with-error);
-mass-ratio-from-sun ::= <"Mass ratio (Sun/Mars)"> <equals> integer-with-error;
+mass-ratio-from-sun ::= <"Mass ratio " ("(Sun/Mars)" | "(sun/plnt)")> <equals> (integer | integer-with-error);
 maximum-angular-diameter ::= <"Max. angular diam."> <equals> #'\d+\.\d+\"';
 mean-daily-motion ::= <"Mean daily motion, n"> <equals> float <ws> <"deg/d">;
-mean-radius ::= <"Mean radius" ws ", "? "("? "km" ")"?> <equals> float-with-error;
-mean-sidereal-orbital-period-years ::= <("Mean sidereal orb per" | "Sidereal period")> <equals> float  <ws> <("yrs" | "y")?>;
-mean-sidereal-orbital-period-days ::= <("Mean sidereal orb per" | "Sidereal period")> <equals> float <ws> <("d" | "days")>;
+mean-radius ::= <"Mean radius" ws ", "? "("? "km" ")"?> <equals> (float-with-error | integer-with-error);
+mean-sidereal-orbital-period-years ::= <("Mean sidereal orb per" | "Sidereal period" | "Sidereal orb. per.")> <equals> float  <ws> <("yrs" | "y")?>;
+mean-sidereal-orbital-period-days ::= <("Mean sidereal orb per" | "Sidereal period" | "Sidereal orb. per.")> <equals> float <ws> <("d" | "days")>;
 mean-solar-day ::= <"Mean solar day" ", days"?> <equals> float <" d"?>;
-mean-temperature ::= <"Mean Temperature" (" (K)" | ", K")> <equals> integer;
+mean-temperature ::= <"Mean Temperature" (" (K)" | ", K")> <equals> integer?;
 moment-of-inertia ::= <("Mom. of Inertia" | "Moment of inertia")> <equals> float;
 ocean-mass ::= <"oceans"> <equals> "1.4   x 10^21" <" kg">;
-obliquity-to-orbit ::= <"Obliquity to orbit"> <", deg"?> <equals> float <" deg"?>;
+obliquity-to-orbit ::= <"Obliquity to orbit"> <"[1]"?> <", deg"?> <equals> (float | #"\d.\d\d' \+/\- \d\.\d'") <" deg"?>;
 offset ::= <"Offset (lat./long.)"> <equals> #"\d\dd \/ \d\dd";
-orbit-velocity ::= <("Orbit vel.  km/s" | "Orbit velocity, km s^-1")> <equals> float;
+orbit-velocity ::= <("Orbit vel.  km/s" | "Orbit velocity, km s^-1" | "Mean Orbit vel.  km/s")> <equals> float;
 outer-core-mass ::= <"outer core     = "> sci-not <" kg">;
-polar-gravity ::= <"Polar gravity ms^-2"> <equals> float;
+polar-gravity ::= <"Polar gravity ms^-2"> <equals> float?;
 polar-axis ::= <"Polar axis, km"> <equals> float;
-potential-love-k2 ::= <("Potential Love # k2" | "Love no., k2")> <equals> (float | float-with-error);
+potential-love-k2 ::= <("Potential Love # k2" | "Love no., k2")> <equals> (float | float-with-error)?;
 rotation-rate ::= <("Rot. Rate (x10^5 s)" | "Mean rot. rate, rad s^-1")> <equals> (float | sci-not);
-semi-major-axis ::= <"Semi-major axis"> <equals> integer-with-error;
-solar-constant ::= <"Solar constant, W/m^2    = "> float;
-sidereal-rotation-period ::= <("Sidereal rot. period" | "Sidereal period, hr" | "Sidereal period")> <equals> float <ws> <"hr"?>;
+semi-major-axis ::= <"Semi-major axis"> <equals> integer-with-error?;
+solar-constant ::= <("Solar constant, W/m^2" | "Planetary Solar Const")> <equals> float  <(ws "(Wm^2)")?>;
+sidereal-rotation-period ::= <("Sidereal rot. period" | "Sidereal period, hr" | "Sidereal period")> <equals> float <ws> <("hr" | "d")?>;
 standard-gravitational-parameter ::= <"GM" (", km^3 s^-2" | " (km^3 s^-2)")> <equals> float;
 surface-area-title ::= "Surface Area:";
 surface-area-land ::= <"land           = "> sci-not <" km">;
@@ -267,6 +231,7 @@ center-site ::= <"Center-site name:"> <space> "GEOCENTRIC" <ws>;
 <targeting-body> := <space> body-name <space> <"("> body-id <")"> <space+> source;
 
 source ::= <"{source:"> <space> "mar097" <"}">;
+obliquity-source ::= "[1] Margot et al., Science 316, 2007";
 
 time-frame ::= start-time, stop-time, step-size;
 
