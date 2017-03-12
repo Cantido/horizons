@@ -120,8 +120,9 @@ dynamical-characteristics ::=
 
 
 <mercury-wip> ::=
-"GEOPHYSICAL DATA (updated 2008-Feb-07):
-  Mean radius (km)      =  2440(+-1)     Density (g cm^-3)     =  5.427
+    <ws> <geophysical-data-header>
+    <ws>
+"Mean radius (km)      =  2440(+-1)     Density (g cm^-3)     =  5.427
   Mass (10^23 kg )      =     3.302      Flattening, f         =
   Volume (x10^10 km^3)  =     6.085      Semi-major axis       =
   Sidereal rot. period  =    58.6462 d   Rot. Rate (x10^5 s)   =  0.124001
@@ -185,9 +186,9 @@ geophysical-data ::= geophysical-data-proper | mercury-wip;
 
 equals ::= space* "=" space*;
 
-geophysical-data-header ::= "GEOPHYSICAL DATA (updated 2009-May-26):"
+geophysical-data-header ::= "GEOPHYSICAL DATA (updated " date "):"
 dynamical-characteristics-header ::= "DYNAMICAL CHARACTERISTICS:";
-physical-properties-header ::= "PHYSICAL PROPERTIES (revised Sep 18, 2013):";
+physical-properties-header ::= "PHYSICAL PROPERTIES (revised " date "):";
 
 atmospheric-mass ::= <"Atmos"> <equals> sci-not <" kg">;
 atmospheric-pressure ::= <("Atm." | "Atmos.") " pressure" " (bar)"?> <equals> float <" bar"?>;

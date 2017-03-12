@@ -7,8 +7,7 @@
   [:body-name "Mercury"]
   [:body-id "199"]]
  [:geophysical-data
-  "GEOPHYSICAL DATA (updated 2008-Feb-07):
-  Mean radius (km)      =  2440(+-1)     Density (g cm^-3)     =  5.427
+  "Mean radius (km)      =  2440(+-1)     Density (g cm^-3)     =  5.427
   Mass (10^23 kg )      =     3.302      Flattening, f         =
   Volume (x10^10 km^3)  =     6.085      Semi-major axis       =
   Sidereal rot. period  =    58.6462 d   Rot. Rate (x10^5 s)   =  0.124001
