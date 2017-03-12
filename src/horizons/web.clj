@@ -10,6 +10,7 @@
 (defresource planetary-body-resource [id]
              :allowed-methods [:get]
              :available-media-types ["application/json"]
+             :available-languages ["en-US"]
              :exists? (fn [_] (supported? id))
              :handle-ok (fn [ctx]
                           (get-planetary-body id))
