@@ -26,6 +26,12 @@
     (vector? form)
     (every? #(and (coll? %) (not (set? %))) (rest form))))
 
+(defn into-map-or-nil
+  [form]
+  (if (empty? form)
+    nil
+    (into {} form)))
+
 (defn tree->map
   "Transforms a parse tree into a nested map, where the first entry in a non-leaf node becomes the key,
   and the remaining children of the node are placed into a map. Leaf nodes are skipped, so leaf nodes
@@ -40,7 +46,7 @@
     (clojure.walk/postwalk
       (fn [form]
         (cond
-          (coll-of-colls? form) {(first form) (into {} (rest form))}
+          (coll-of-colls? form) {(first form) (into-map-or-nil (rest form))}
           :else form))
      tree)))
 

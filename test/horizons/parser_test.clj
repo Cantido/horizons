@@ -119,4 +119,6 @@
   (is (= (restructure ephemeris-input)
          ephemeris-output))
   (is (= (restructure (get-edn "mars-full-parsed.edn"))
-         (get-edn "mars-full-map.edn"))))
+         (get-edn "mars-full-map.edn")))
+  (is (= (restructure (get-edn "mercury-geophysical-parsed.edn"))
+         (get-edn "mercury-geophysical-map.edn"))))
