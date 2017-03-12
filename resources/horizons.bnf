@@ -44,7 +44,13 @@ era ::= "A.D."
 year ::= integer;
 month ::= "Jan" | "Feb" | "Mar" | "Apr" | "May" | "Jun" | "Jul" | "Aug" | "Sep" | "Oct" | "Nov" | "Dec";
 day ::= #"[0-9]{2}";
-time ::= #"\d\d:\d\d(\:\d\d\.\d\d\d\d)?";
+time ::= hour-of-day <":"> minute-of-hour (<":"> second-of-minute <"."> millisecond-of-second)?;
+
+hour-of-day ::= #"\d\d";
+minute-of-hour ::= #"\d\d";
+second-of-minute ::= #"\d\d";
+millisecond-of-second ::= #"\d\d\d\d";
+
 time-zone ::= "UT"
 
 
