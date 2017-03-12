@@ -3,7 +3,7 @@
             [horizons.parser :refer :all]))
 
 (def supported-bodies
-  #{499 399})
+  #{199 499 399})
 
 (defn supported? [id]
   (contains? supported-bodies (int (bigdec id))))
