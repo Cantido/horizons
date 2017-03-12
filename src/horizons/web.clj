@@ -1,5 +1,5 @@
 (ns horizons.web
-  (:require [horizons.core :refer :all]
+  (:require [horizons.core :as horizons]
             [liberator.core :refer [resource defresource]]
             [ring.middleware.json :refer [wrap-json-body wrap-json-params wrap-json-response]]
             [ring.middleware.params :refer [wrap-params]]
@@ -11,9 +11,9 @@
              :allowed-methods [:get]
              :available-media-types ["application/json"]
              :available-languages ["en-US"]
-             :exists? (fn [_] (supported? id))
+             :exists? (fn [_] (horizons/supported? id))
              :handle-ok (fn [ctx]
-                          (get-planetary-body id))
+                          (horizons/get-planetary-body id))
              :handle-exception (fn [ctx]
                                  (resource-response "index.html" {:root "public"})))
 
