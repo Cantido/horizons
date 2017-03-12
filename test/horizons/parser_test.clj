@@ -27,6 +27,9 @@
 (deftest earth-grammar-test
   (assert-parse-result "earth-geophysical.txt" "earth-geophysical-parsed.edn"))
 
+(deftest mercury-grammar-test
+  (assert-parse-result "mercury-geophysical.txt" "mercury-geophysical-parsed.edn"))
+
 (deftest tree->map-test
   (is (= (tree->map
            [:revision-date
