@@ -19,13 +19,13 @@
          (get-edn edn-name))))
 
 (deftest all-sections-grammar-test
-  (assert-parse-result "mars-results.txt" "mars-results-parsed.edn"))
+  (assert-parse-result "mars-full.txt" "mars-full-parsed.edn"))
 
 (deftest prelim-section-grammar-test
-  (assert-parse-result "mars-initial-results.txt" "mars-initial-results-parsed.edn"))
+  (assert-parse-result "mars-geophysical.txt" "mars-geophysical.edn"))
 
 (deftest earth-grammar-test
-  (assert-parse-result "earth-initial-results.txt" "earth-initial-results-parsed.edn"))
+  (assert-parse-result "earth-geophysical.txt" "earth-geophysical-parsed.edn"))
 
 (deftest tree->map-test
   (is (= (tree->map
@@ -115,5 +115,5 @@
 (deftest transform-test
   (is (= (restructure ephemeris-input)
          ephemeris-output))
-  (is (= (restructure (get-edn "mars-results-parsed.edn"))
-         (get-edn "mars-results-map.edn"))))
+  (is (= (restructure (get-edn "mars-full-parsed.edn"))
+         (get-edn "mars-full-map.edn"))))
