@@ -39,10 +39,10 @@ so you can easily start a development server using the [lein-ring] plugin:
 lein ring server
 ```
 
-See the documentation on `lein-ring` for details.
+The server will start up on port 3000 by default, and will present you with
+an index page giving you a list of the currently-supported planetary bodies.
 
-Beyond that, I'm still working on `telnet` access to the HORIZONS API.
-There are no endpoints implemented yet.
+See the documentation on `lein-ring` for details.
 
 [lein-ring]: https://github.com/weavejester/lein-ring
 [Leiningen]: https://github.com/technomancy/leiningen
