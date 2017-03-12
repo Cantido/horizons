@@ -6,9 +6,10 @@
   (core/parser (clojure.java.io/resource "horizons.bnf")))
 
 (def transform-rules
-  {:ephemeris (fn [& rest] {:ephemeris (set rest)})
-   :ephemeris-line-item (fn [& rest] (into {} rest))
-   :measurement-time (fn [& rest] {:measurement-time (into {} rest)})})
+  {
+   :ephemeris (fn [& args] {:ephemeris (set args)})
+   :ephemeris-line-item (fn [& args] (into {} args))
+   :measurement-time (fn [& args] {:measurement-time (into {} args)})})
 
 ;; If we could give insta/transform a default rule, it should
 ;; be (fn [& rest] {:label (into {} rest)}). But alas...
