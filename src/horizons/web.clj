@@ -15,7 +15,7 @@
              :handle-ok (fn [ctx]
                           (horizons/get-planetary-body id))
              :handle-exception (fn [ctx]
-                                 (resource-response "index.html" {:root "public"})))
+                                 (resource-response "500.html" {:root "public"})))
 
 (defroutes handler
            (GET "/" [] (resource-response "index.html" {:root "public"}))
