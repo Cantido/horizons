@@ -57,8 +57,8 @@ time-zone ::= "UT"
 
 (* Domain-specific data types *)
 
-body-name ::= "Mars" | "Earth" | "Mercury";
-body-id ::= "199" | "399" | "499";
+body-name ::= #"\w+";
+body-id ::= #"\d+";
 <spectral-fact> ::= #"\d\d \(x10\^\d\)";
 
 
@@ -123,7 +123,34 @@ dynamical-characteristics ::=
     <ws> magnetic-moment
     <ws>;
 
-geophysical-data ::=
+geophysical-data ::= geophysical-wip | jupiter-wip;
+
+<jupiter-wip> ::=
+"PHYSICAL DATA (updated 2009-Jan-28):
+  Mass (10^24 kg)       =  1898.13+-.19   Density (g/cm^3)       =  1.326
+  Equat. radius (1 bar) = 71492+-4 km     Polar radius (km)      = 66854+-10
+  Volumetric mean radius= 69911+-6 km     Flattening             =  0.06487
+
+  Rotation period       = 9h 55m 29.685s  Rot. rate(10^-4 rad/s) =  1.75865
+  m = w^2a^3/GM         =  0.089195       Hydrostatic flat., fh  =  0.06509
+  Inferred rot. period  =  9.894+-0.02 hr ks = 3*J2/m            =  0.494
+  Mom. of inert. I/MRo^2=  0.254          I/MRo^2 (upper bound)  =  0.267
+  Rocky core mass (Mc/M)=  0.0261         Y factor (He/H ratio)  =  0.18+-0.04
+
+  GM (km^3/s^2)         = 126,686,511     GM 1-sigma (km^3/s^2)  = +-100
+  Equ. grav, ge (m/s^2) = 24.79           Pol. grav, gp (m/s^2)  = 28.34
+
+  Geometric albedo      =  0.52           Visual magnitude V(1,0)= -9.40
+  Vis. mag. (opposition)= -2.70           Obliquity to orbit     =  3.12 deg
+  Sidereal orbit period = 11.862615 yr    Sidereal orbit period  = 4332.820 d
+  Mean daily motion     = 0.0831294 deg/d Mean orbit velocity    = 13.0697 km/s
+
+  Atmos. temp. (1 bar)  = 165+-5 K        Heat flow/mass (x10^7) = 15 erg/gm*s
+  Planetary Solar Const =  50.5 W/m^2     Dipole tilt/offset     = 9.6deg/0.1Rp
+  Escape velocity (km/s)=  59.5           Mag.dip.mom(gauss-Rp^3)= 4.2
+  A_roche(ice)/Rp       =  2.76           Hill's sphere rad. Rp  = 740"
+
+<geophysical-wip> ::=
     <ws> <geophysical-data-header>,
     <ws> mean-radius,
     <ws> density,

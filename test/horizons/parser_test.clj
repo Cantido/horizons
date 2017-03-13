@@ -30,7 +30,8 @@
 (deftest geophysical-grammar-test
   (assert-parse-result "mars-geophysical.txt" "mars-geophysical.edn")
   (assert-parse-result "earth-geophysical.txt" "earth-geophysical-parsed.edn")
-  (assert-parse-result "mercury-geophysical.txt" "mercury-geophysical-parsed.edn"))
+  (assert-parse-result "mercury-geophysical.txt" "mercury-geophysical-parsed.edn")
+  (assert-parse-result "jupiter-geophysical.txt" "jupiter-geophysical-parsed.edn"))
 
 (deftest tree->map-test
   (is (= (tree->map
