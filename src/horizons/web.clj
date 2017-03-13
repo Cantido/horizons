@@ -41,8 +41,10 @@
              :exists? (fn [_] (horizons/supported? id))
              :handle-ok (fn [ctx]
                           (iso-format-dates (horizons/get-planetary-body id)))
-             :handle-exception (fn [ctx]
-                                 (resource-response "500.html" {:root "public"})))
+             :handle-exception (fn [e]
+                                 (println e)
+                                 (liberator.representation/ring-response (resource-response "500.json" {:root "public"}))))
+
 
 (defroutes handler
            (GET "/" [] (resource-response "index.html" {:root "public"}))
