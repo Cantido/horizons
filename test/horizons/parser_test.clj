@@ -1,7 +1,11 @@
 (ns horizons.parser-test
-  (:require [clojure.java.io :as io]
-            [clojure.test :refer :all]
-            [horizons.parser :refer :all]))
+  (:require
+    [clj-time.core :as t]
+    [clojure.java.io :as io]
+    [clojure.test :refer :all]
+    [horizons.parser :refer :all]
+    [horizons.parser-test-mercury :refer :all]
+    [horizons.parser-test-mars :refer :all]))
 
 (defn get-file [name]
   (slurp
@@ -75,13 +79,19 @@
            :mass "6.4185"}})))
 
 (def ephemeris-input
-  [ :ephemeris
-   [ :ephemeris-line-item
-    [ :measurement-time
-     [:year "2017"],
-     [:month "Feb"],
-     [:day "24"]
-     [:time "00:00"]]
+  [:ephemeris
+   [:ephemeris-line-item
+    [:measurement-time
+     [:timestamp
+      [:date
+       [:year "2017"]
+       [:month "Feb"]
+       [:day "24"]]
+      [:time
+       [:hour-of-day "00"]
+       [:minute-of-hour "00"]
+       [:second-of-minute "00"]
+       [:millisecond-of-second "0000"]]]]
     [:ascension-declination "01 12 18.78 +07 36 55.3"],
     [:apparent-magnitude "1.27"],
     [:surface-brightness "4.29"],
@@ -95,10 +105,7 @@
   {:ephemeris #{
                 {
                  :measurement-time {
-                                    :year "2017"
-                                    :month "Feb"
-                                    :day "24"
-                                    :time "00:00"}
+                                    :timestamp (t/date-time 2017 2 24 0 0 0 0)}
                  :ascension-declination "01 12 18.78 +07 36 55.3"
                  :apparent-magnitude "1.27"
                  :surface-brightness "4.29"
@@ -114,5 +121,25 @@
 
 (deftest transform-test
   (is (= (restructure ephemeris-input) ephemeris-output))
-  (is (= (restructure (get-edn "mars-full-parsed.edn")) (get-edn "mars-full-map.edn")))
-  (is (= (restructure (get-edn "mercury-geophysical-parsed.edn")) (get-edn "mercury-geophysical-map.edn"))))
+  (is (= (restructure (get-edn "mars-full-parsed.edn")) mars-map))
+  (is (= (restructure (get-edn "mercury-geophysical-parsed.edn")) mercury-map)))
+
+(def timestamp-tree
+  [:timestamp
+   [:era "A.D."]
+   [:date
+    [:year "2017"]
+    [:month "Feb"]
+    [:day "24"]]
+   [:time
+    [:hour-of-day "00"]
+    [:minute-of-hour "00"]
+    [:second-of-minute "00"]
+    [:millisecond-of-second "0000"]]
+   [:time-zone "UT"]])
+
+(def timestamp-map
+  {:timestamp (t/date-time 2017 2 24 0 0 0 0)})
+
+(deftest timestamp-transformation-test
+  (is (= (restructure timestamp-tree) timestamp-map)))

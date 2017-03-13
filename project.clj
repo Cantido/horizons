@@ -9,6 +9,7 @@
   :dependencies [[org.clojure/clojure "1.8.0"]
                  [org.clojure/core.async "0.3.441"]
                  [org.clojure/data.json "0.2.6"]
+                 [clj-time "0.13.0"]
                  [commons-net/commons-net "3.6"]
                  [compojure "1.3.4"]
                  [instaparse "1.4.5"]
