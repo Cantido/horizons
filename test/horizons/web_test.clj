@@ -5,6 +5,6 @@
 
 (deftest mars-test
          (let [response (app (mock/request :get "/bodies/499"))]
-           (is (= (:status response) 200)
-               (not (empty? (:body response))))))
+           (is (= (:status response) 200))
+           (is (not (empty? (:body response))))))
 
