@@ -74,8 +74,8 @@ body-id ::= #"\d+";
 file-header ::=
     revision-date   <space+>
     body-name       <space+>
-    body-id
-    <(" / 4" | " / 1")?>;
+    body-id         <space+>
+    <#"\/ \d"?>
 
 revision-date ::= <"Revised: "> date;
 
