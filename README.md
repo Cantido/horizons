@@ -50,15 +50,8 @@ See the documentation on `lein-ring` for details.
 
 ## Project Roadmap
 
-I plan to implement functionality in this order:
-
-1. ~~Access the HORIZONS `telnet` API successfully~~
-1. ~~Return geophysical data for Mars at `/499`.~~
-1. **Return geophysical data for all 8 planets at `/{id}`**
-1. Return ephemeris data for all 8 planets in the default time-frame
-1. Above, but in a configurable time-frame
-1. Above, but for all bodies
-1. Expose 100% of HORIZON's `telnet` functionality via HTTP
+See (this project's Kanban board)[https://github.com/Cantido/horizons/projects/1]
+for the current state of the to-do list.
 
 ## License
 
