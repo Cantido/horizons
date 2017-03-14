@@ -16,7 +16,7 @@
                           :flattening nil
                           :volume "6.085"
                           :semi-major-axis nil
-                          :sidereal-rotation-period "58.6462"
+                          :sidereal-rotation-period {:duration {:days "58.6462"}}
                           :rotation-rate "0.124001"
                           :mean-solar-day "175.9421"
                           :polar-gravity nil

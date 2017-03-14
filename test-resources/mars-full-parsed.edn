@@ -14,7 +14,7 @@
   [:flattening "1/154.409"]
   [:volume "16.318"]
   [:semi-major-axis "3397+-4"]
-  [:sidereal-rotation-period "24.622962"]
+  [:sidereal-rotation-period [:duration [:hours "24.622962"]]]
   [:rotation-rate "7.088218"]
   [:mean-solar-day "1.0274907"]
   [:polar-gravity "3.758"]
