@@ -50,7 +50,7 @@ See the documentation on `lein-ring` for details.
 
 ## Project Roadmap
 
-See (this project's Kanban board)[https://github.com/Cantido/horizons/projects/1]
+See [this project's Kanban board](https://github.com/Cantido/horizons/projects/1)
 for the current state of the to-do list.
 
 ## License
