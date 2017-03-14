@@ -59,7 +59,7 @@
        :time-frame {
                     :start-time { :timestamp (t/date-time 2017 2 24)}
                     :stop-time { :timestamp (t/date-time 2017 3 26)}
-                    :step-size "1440 minutes"}
+                    :step-size {:duration {:minutes "1440"}}}
        :constants {
                    :target-pole-equ "IAU_MARS"
                    :target-radii {

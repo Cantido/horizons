@@ -82,7 +82,7 @@
      [:second-of-minute "00"]
      [:millisecond-of-second "0000"]]
     [:time-zone "UT"]]]
-  [:step-size "1440 minutes"]]
+  [:step-size [:duration [:minutes "1440"]]]]
  [:constants
   [:target-pole-equ "IAU_MARS"]
   [:target-radii [:equator "3396.2"] [:meridian "3396.2"] [:pole "3376.2"]]

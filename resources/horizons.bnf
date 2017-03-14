@@ -38,7 +38,6 @@ ws ::= space*;
 timestamp ::= era?, <space>, date, <ws>, time, <space>, time-zone?;
 
 date ::= (year <"-"> month <"-"> day) | (month <" "> day <", "> year);
-<duration> ::= "1440 minutes";
 
 era ::= "A.D."
 year ::= integer;
@@ -50,6 +49,12 @@ hour-of-day ::= #"\d\d";
 minute-of-hour ::= #"\d\d";
 second-of-minute ::= #"\d\d";
 millisecond-of-second ::= #"\d\d\d\d";
+
+duration ::= (hours <("h" | "hr") ws>)? (minutes <ws? ("m" | "minutes") ws?>)? (seconds <"."> milliseconds <"s">)?;
+hours ::= integer;
+minutes ::= integer;
+seconds ::= integer;
+milliseconds ::= integer;
 
 time-zone ::= "UT"
 
