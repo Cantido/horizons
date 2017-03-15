@@ -1,78 +1,28 @@
 (ns horizons.parser
   "Parses and transforms output from the HORIZONS telnet client."
   (:require
-    [clj-time.core :as t]
-    [clj-time.format :as f]
+    [horizons.time :as t]
     [instaparse.core :as core]
     [instaparse.transform :as transform]))
-
-(def month-formatter (f/formatter "MMM"))
 
 (def parse
   "Parse the a string into a parse tree."
   (core/parser (clojure.java.io/resource "horizons.bnf")))
 
-
-(defn- month->int
-  [s]
-  (t/month (f/parse month-formatter s)))
-
-(defn- string->int [s]
+(defn ^:private string->int [s]
   (Integer/parseInt s))
 
-(defn- datemap->date
-  [m]
-  (t/date-time (:year m) (:month m) (:day m)))
-
-(defn date-and-time->datetime
-  [date time]
-  (cond
-    (nil? (:hour-of-day time))  (t/date-time
-                                  (t/year date)
-                                  (t/month date)
-                                  (t/day date))
-    (nil? (:minute-of-hour time)) (t/date-time
-                                    (t/year date)
-                                    (t/month date)
-                                    (t/day date)
-                                    (:hour-of-day time))
-    (nil? (:second-of-minute time)) (t/date-time
-                                      (t/year date)
-                                      (t/month date)
-                                      (t/day date)
-                                      (:hour-of-day time)
-                                      (:minute-of-hour time))
-    (nil? (:millisecond-of-second  time)) (t/date-time
-                                            (t/year date)
-                                            (t/month date)
-                                            (t/day date)
-                                            (:hour-of-day time)
-                                            (:minute-of-hour time)
-                                            (:second-of-minute time))
-    :else (t/date-time
-            (t/year date)
-            (t/month date)
-            (t/day date)
-            (:hour-of-day time)
-            (:minute-of-hour time)
-            (:second-of-minute time)
-            (:millisecond-of-second time))))
-
-(defn timestamp-transformer
-  ([date time] {:timestamp (date-and-time->datetime (last date) (:time time))})
-  ([era date time time-zone] {:timestamp (date-and-time->datetime (last date) (:time time))}))
-
-(def transform-rules
+(def ^:private transform-rules
   {
-   :date (fn [& more] [:date (datemap->date (into {} more))])
+   :date (fn [& more] [:date (t/datemap->date (into {} more))])
    :ephemeris (fn [& more] {:ephemeris (set more)})
    :ephemeris-line-item (fn [& more] (into {} more))
    :float bigdec
    :integer string->int
    :measurement-time (fn [& more] {:measurement-time (into {} more)})
-   :month (fn [s] [:month (month->int s)])
+   :month (fn [s] [:month (t/month->int s)])
    :time (fn [& more]  {:time (into {} more)})
-   :timestamp timestamp-transformer})
+   :timestamp t/timestamp-transformer})
 
 ;; If we could give insta/transform a default rule, it should
 ;; be (fn [& rest] {:label (into {} rest)}). But alas...
@@ -83,13 +33,13 @@
     coll
     (transform/transform transform-rules coll)))
 
-(defn- coll-of-colls?
+(defn ^:private coll-of-colls?
   [coll]
   (and
     (vector? coll)
     (every? #(and (coll? %) (not (set? %))) (rest coll))))
 
-(defn- into-map-or-nil
+(defn ^:private into-map-or-nil
   "Applies `(into {} form)` if the argument is not nil. Otherwise returns nil."
   [coll]
   (when (not (empty? coll))
