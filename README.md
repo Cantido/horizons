@@ -1,7 +1,9 @@
-# HORIZONS API
+# HORIZONS API 
 
 A RESTful-style API for NASA's [HORIZONS] system,
 written in Clojure.
+
+[![Build Status](https://travis-ci.org/Cantido/horizons.svg?branch=master)](https://travis-ci.org/Cantido/horizons)
 
 ## Introduction
 
