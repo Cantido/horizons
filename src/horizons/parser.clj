@@ -65,6 +65,7 @@
    :date (fn [& args] [:date (datemap->date (into {} args))])
    :ephemeris (fn [& args] {:ephemeris (set args)})
    :ephemeris-line-item (fn [& args] (into {} args))
+   :float bigdec
    :integer string->int
    :measurement-time (fn [& args] {:measurement-time (into {} args)})
    :month (fn [mo] [:month (month->int mo)])
