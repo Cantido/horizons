@@ -1,26 +1,25 @@
 (ns horizons.parser
+  "Parses and transforms output from the HORIZONS telnet client."
   (:require
     [clj-time.core :as t]
     [clj-time.format :as f]
     [instaparse.core :as core]
     [instaparse.transform :as transform]))
 
+(def- month-formatter (f/formatter "MMM"))
+
 (def parse
+  "Parse the a string into a parse tree."
   (core/parser (clojure.java.io/resource "horizons.bnf")))
 
-(defn string->int
+
+(defn- month->int
   [s]
-  (Integer/parseInt s))
+  (t/month (f/parse month-formatter s)))
 
-(def month-formatter (f/formatter "MMM"))
-
-(defn month->int
-  [month]
-  (t/month (f/parse month-formatter month)))
-
-(defn datemap->date
-  [datemap]
-  (t/date-time (:year datemap) (:month datemap) (:day datemap)))
+(defn- datemap->date
+  [m]
+  (t/date-time (:year m) (:month m) (:day m)))
 
 (defn date-and-time->datetime
   [date time]
@@ -60,38 +59,38 @@
   ([date time] {:timestamp (date-and-time->datetime (last date) (:time time))})
   ([era date time time-zone] {:timestamp (date-and-time->datetime (last date) (:time time))}))
 
-(def transform-rules
+(def- transform-rules
   {
-   :date (fn [& args] [:date (datemap->date (into {} args))])
-   :ephemeris (fn [& args] {:ephemeris (set args)})
-   :ephemeris-line-item (fn [& args] (into {} args))
+   :date (fn [& more] [:date (datemap->date (into {} more))])
+   :ephemeris (fn [& more] {:ephemeris (set more)})
+   :ephemeris-line-item (fn [& more] (into {} more))
    :float bigdec
-   :integer string->int
-   :measurement-time (fn [& args] {:measurement-time (into {} args)})
-   :month (fn [mo] [:month (month->int mo)])
-   :time (fn [& args]  {:time (into {} args)})
+   :integer Integer/parseInt
+   :measurement-time (fn [& more] {:measurement-time (into {} more)})
+   :month (fn [s] [:month (month->int s)])
+   :time (fn [& more]  {:time (into {} more)})
    :timestamp timestamp-transformer})
 
 ;; If we could give insta/transform a default rule, it should
 ;; be (fn [& rest] {:label (into {} rest)}). But alas...
 
 (defn transform
-  [tree]
-  (if (core/failure? tree)
-    tree
+  [coll]
+  (if (core/failure? coll)
+    coll
     (transform/transform transform-rules tree)))
 
-(defn coll-of-colls?
-  [form]
+(defn- coll-of-colls?
+  [coll]
   (and
-    (vector? form)
-    (every? #(and (coll? %) (not (set? %))) (rest form))))
+    (vector? coll)
+    (every? #(and (coll? %) (not (set? %))) (rest coll))))
 
-(defn into-map-or-nil
-  [form]
-  (if (empty? form)
-    nil
-    (into {} form)))
+(defn- into-map-or-nil
+  "Applies `(into {} form)` if the argument is not nil. Otherwise returns nil."
+  [coll]
+  (when (not (empty? coll))
+    (into {} coll)))
 
 (defn tree->map
   "Transforms a parse tree into a nested map, where the first entry in a non-leaf node becomes the key,
@@ -101,17 +100,18 @@
   Imagine that your tree is labeled, where the first member of every node vector is that node's name,
   and the remaining members are that node's children. This function will turn that tree into a
   map traversable by node names."
-  [tree]
-  (if (core/failure? tree)
+  [coll]
+  (if (core/failure? coll)
     tree
     (clojure.walk/postwalk
       (fn [form]
         (cond
           (coll-of-colls? form) {(first form) (into-map-or-nil (rest form))}
           :else form))
-     tree)))
+     coll)))
 
 (defn check-for-nil
+  "Throws a `NullPointerException` if the argument is nil. Otherwise, returns its argument"
   [msg x]
   (if (nil? x)
       (throw (NullPointerException. msg))
@@ -119,6 +119,7 @@
 
 
 (defn restructure
+  "Applies tree transformations to a parse tree, then recursively converts all remaining key-value vectors into maps."
   [tree]
   (if (core/failure? tree)
     tree
