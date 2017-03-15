@@ -3,10 +3,10 @@
   [:revision-date
    [:date
     [:month "Sep"]
-    [:day "28"]
-    [:year "2012"]]]
+    [:day [:integer "28"]]
+    [:year [:integer "2012"]]]]
   [:body-name "Mars"]
-  [:body-id "499"]]
+  [:body-id [:integer "499"]]]
  [:geophysical-data
   [:mean-radius "3389.9(2+-4)"],
   [:density "3.933(5+-4)"],
@@ -34,7 +34,7 @@
 
   [:atmospheric-pressure "0.0056"]
   [:maximum-angular-diameter "17.9\""]
-  [:mean-temperature "210"]
+  [:mean-temperature [:integer "210"]]
   [:visual-magnitude "-1.52"]
   [:geometric-albedo "0.150"]
   [:obliquity-to-orbit "25.19"]

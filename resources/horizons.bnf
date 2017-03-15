@@ -26,7 +26,7 @@ space ::= #"[\s\n\r]";
 ws ::= space*;
 
 <digit> ::= #"\d";
-<integer> ::= #"\d+" | comma-separated-integer;
+integer ::= #"\d+" | comma-separated-integer;
 <comma-separated-integer> ::= #"\d?\d?\d?,(\d\d\d,)+\d\d\d";
 <integer-with-error> ::= #"\d+\(?\+\-\d+\)?";
 <float> ::= #"\-?\d*\.\d*";
@@ -43,13 +43,13 @@ date ::= (year <"-"> month <"-"> day) | (month <" "> day <", "> year);
 era ::= "A.D."
 year ::= integer;
 month ::= "Jan" | "Feb" | "Mar" | "Apr" | "May" | "Jun" | "Jul" | "Aug" | "Sep" | "Oct" | "Nov" | "Dec";
-day ::= #"[0-9]{2}";
+day ::= integer
 time ::= hour-of-day <":"> minute-of-hour (<":"> second-of-minute <"."> millisecond-of-second)?;
 
-hour-of-day ::= #"\d\d";
-minute-of-hour ::= #"\d\d";
-second-of-minute ::= #"\d\d";
-millisecond-of-second ::= #"\d\d\d\d";
+hour-of-day ::= integer;
+minute-of-hour ::= integer;
+second-of-minute ::= integer;
+millisecond-of-second ::= integer;
 
 duration ::= days? (hours <ws? ("h" | "hr") ws>)? (minutes <ws? ("m" | "minutes") ws?>)? (seconds <"."> milliseconds <"s">)?;
 days ::= (float | integer) <ws? "d" ws?>;
@@ -71,7 +71,7 @@ unit-KEL ::= "K";
 (* Domain-specific data types *)
 
 body-name ::= #"\w+";
-body-id ::= #"\d+";
+body-id ::= integer;
 <spectral-fact> ::= #"\d\d \(x10\^\d\)";
 
 

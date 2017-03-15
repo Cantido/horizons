@@ -63,18 +63,13 @@
 (def transform-rules
   {
    :date (fn [& args] [:date (datemap->date (into {} args))])
-   :day (fn [d] [:day (string->int d)])
    :ephemeris (fn [& args] {:ephemeris (set args)})
    :ephemeris-line-item (fn [& args] (into {} args))
-   :hour-of-day (fn [h] [:hour-of-day (string->int h)])
+   :integer string->int
    :measurement-time (fn [& args] {:measurement-time (into {} args)})
-   :millisecond-of-second (fn [ms] [:millisecond-of-second (string->int ms)])
-   :minute-of-hour (fn [m] [:minute-of-hour (string->int m)])
    :month (fn [mo] [:month (month->int mo)])
-   :second-of-minute (fn [s] [:second-of-minute (string->int s)])
    :time (fn [& args]  {:time (into {} args)})
-   :timestamp timestamp-transformer
-   :year (fn [y] [:year (string->int y)])})
+   :timestamp timestamp-transformer})
 
 ;; If we could give insta/transform a default rule, it should
 ;; be (fn [& rest] {:label (into {} rest)}). But alas...

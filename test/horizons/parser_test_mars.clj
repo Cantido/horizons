@@ -7,7 +7,7 @@
        :file-header {
                      :revision-date {:date (t/date-time 2012 9 28)}
                      :body-name "Mars"
-                     :body-id "499"}
+                     :body-id 499}
        :geophysical-data {
                           :mean-radius "3389.9(2+-4)"
                           :density "3.933(5+-4)"
@@ -35,7 +35,7 @@
 
                           :atmospheric-pressure "0.0056"
                           :maximum-angular-diameter "17.9\""
-                          :mean-temperature "210"
+                          :mean-temperature 210
                           :visual-magnitude "-1.52"
                           :geometric-albedo "0.150"
                           :obliquity-to-orbit "25.19"
@@ -49,17 +49,17 @@
        :targeting {
                    :target-body {
                                  :body-name "Mars"
-                                 :body-id "499"
+                                 :body-id 499
                                  :source "mar097"}
                    :center-body {
                                  :body-name "Earth"
-                                 :body-id "399"
+                                 :body-id 399
                                  :source "mar097"}
                    :center-site "GEOCENTRIC"}
        :time-frame {
                     :start-time { :timestamp (t/date-time 2017 2 24)}
                     :stop-time { :timestamp (t/date-time 2017 3 26)}
-                    :step-size {:duration {:minutes "1440"}}}
+                    :step-size {:duration {:minutes 1440}}}
        :constants {
                    :target-pole-equ "IAU_MARS"
                    :target-radii {

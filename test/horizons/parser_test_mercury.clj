@@ -8,7 +8,7 @@
                      :revision-date {
                                      :date (t/date-time 2013 07 31)}
                      :body-name "Mercury"
-                     :body-id "199"}
+                     :body-id 199}
        :geophysical-data {
                           :mean-radius "2440(+-1)"
                           :density "5.427"
@@ -26,9 +26,9 @@
                           :potential-love-k2 nil
 
                           :standard-gravitational-parameter "22032.09"
-                          :equatorial-radius "2440"
+                          :equatorial-radius 2440
                           :gm-1-sigma "+-0.91"
-                          :mass-ratio-from-sun "6023600"
+                          :mass-ratio-from-sun 6023600
 
                           :atmospheric-pressure nil
                           :maximum-angular-diameter "11.0\""

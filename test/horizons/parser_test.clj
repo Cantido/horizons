@@ -37,38 +37,38 @@
   (is (= (tree->map
            [:revision-date
             [:month "Jul"]
-            [:day "31"]
-            [:year "2013"]])
+            [:day 31]
+            [:year 2013]])
          {:revision-date
           {:month "Jul"
-           :day "31"
-           :year "2013"}}))
+           :day 31
+           :year 2013}}))
   (is (= (tree->map
            [:file-header
             [:revision-date
              [:month "Jul"]
-             [:day "31"]
-             [:year "2013"]]])
+             [:day 31]
+             [:year 2013]]])
          {:file-header
           {:revision-date
            {:month "Jul"
-            :day "31"
-            :year "2013"}}}))
+            :day 31
+            :year 2013}}}))
   (is (= (tree->map
            [:file-header
             [:revision-date
              [:month "Jul"]
-             [:day "31"]
-             [:year "2013"]]
+             [:day 31]
+             [:year 2013]]
             [:body-name "Mars"]
-            [:body-id "499"]])
+            [:body-id 499]])
          {:file-header
           {:revision-date
            {:month "Jul"
-            :day "31"
-            :year "2013"}
+            :day 31
+            :year 2013}
            :body-name "Mars"
-           :body-id "499"}}))
+           :body-id 499}}))
   (is (= (tree->map
            [:geophysical-data
             [:mean-radius "3389.9(2+-4)"]
@@ -85,14 +85,14 @@
     [:measurement-time
      [:timestamp
       [:date
-       [:year "2017"]
+       [:year [:integer "2017"]]
        [:month "Feb"]
-       [:day "24"]]
+       [:day [:integer "24"]]]
       [:time
-       [:hour-of-day "00"]
-       [:minute-of-hour "00"]
-       [:second-of-minute "00"]
-       [:millisecond-of-second "0000"]]]]
+       [:hour-of-day [:integer "00"]]
+       [:minute-of-hour [:integer "00"]]
+       [:second-of-minute [:integer "00"]]
+       [:millisecond-of-second [:integer "0000"]]]]]
     [:ascension-declination "01 12 18.78 +07 36 55.3"],
     [:apparent-magnitude "1.27"],
     [:surface-brightness "4.29"],
@@ -129,14 +129,14 @@
   [:timestamp
    [:era "A.D."]
    [:date
-    [:year "2017"]
+    [:year [:integer "2017"]]
     [:month "Feb"]
-    [:day "24"]]
+    [:day [:integer "24"]]]
    [:time
-    [:hour-of-day "00"]
-    [:minute-of-hour "00"]
-    [:second-of-minute "00"]
-    [:millisecond-of-second "0000"]]
+    [:hour-of-day [:integer "00"]]
+    [:minute-of-hour [:integer "00"]]
+    [:second-of-minute [:integer "00"]]
+    [:millisecond-of-second [:integer "0000"]]]
    [:time-zone "UT"]])
 
 (def timestamp-map
