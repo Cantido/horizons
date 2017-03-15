@@ -22,16 +22,28 @@
   [date]
   (f/unparse iso-8601-date-time-formatter date))
 
+(defn iso-format-duration
+  [duration]
+  (let [years (get duration :years 0)
+        months (get duration :months 0)
+        days (get duration :days 0)
+        hours (get duration :hours 0)
+        minutes (get duration :minutes 0)
+        seconds (get duration :seconds 0)
+        milliseconds (get duration :milliseconds 0)]
+    (str "P" years "Y" months "M" days "DT" hours "H" minutes "M" (format "%d.%03dS" seconds milliseconds))))
+
 (defn iso-format-dates
   [tree]
   (clojure.walk/postwalk
     (fn [form]
-        (cond
-         (not (map? form)) form
-         (contains? form :date) (assoc form :date (format-date (:date form)))
-         (contains? form :timestamp) (assoc form :timestamp (format-date-time (:timestamp form)))
-         :else form))
-     tree))
+      (cond
+        (not (map? form)) form
+        (contains? form :date) (update-in form [:date] format-date)
+        (contains? form :timestamp) (update-in form [:timestamp] format-date-time)
+        (contains? form :duration) (update-in form [:duration] iso-format-duration)
+        :else form))
+    tree))
 
 
 (defresource planetary-body-resource [id]

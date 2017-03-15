@@ -15,9 +15,10 @@
 
 (defn- month->int
   [s]
-  {:pre [(string? s)]
-   :post [(> % 0), (<= % 13)]}
   (t/month (f/parse month-formatter s)))
+
+(defn- string->int [s]
+  (Integer/parseInt s))
 
 (defn- datemap->date
   [m]
@@ -67,7 +68,7 @@
    :ephemeris (fn [& more] {:ephemeris (set more)})
    :ephemeris-line-item (fn [& more] (into {} more))
    :float bigdec
-   :integer Integer/parseInt
+   :integer string->int
    :measurement-time (fn [& more] {:measurement-time (into {} more)})
    :month (fn [s] [:month (month->int s)])
    :time (fn [& more]  {:time (into {} more)})
@@ -78,11 +79,9 @@
 
 (defn transform
   [coll]
-  {:pre [(not (nil? coll))]}
-   :post [(or (core/failure? %) (coll? %))]}
   (if (core/failure? coll)
     coll
-    (transform/transform transform-rules tree)))
+    (transform/transform transform-rules coll)))
 
 (defn- coll-of-colls?
   [coll]
@@ -105,20 +104,18 @@
   and the remaining members are that node's children. This function will turn that tree into a
   map traversable by node names."
   [coll]
-  {:pre [(not (nil? coll))]}
   (if (core/failure? coll)
-    tree
+    coll
     (clojure.walk/postwalk
       (fn [form]
         (cond
           (coll-of-colls? form) {(first form) (into-map-or-nil (rest form))}
           :else form))
-     coll)))
+      coll)))
 
 (defn restructure
   "Applies tree transformations to a parse tree, then recursively converts all remaining key-value vectors into maps."
   [tree]
-  {:pre [(not (nil? tree))]}
   (if (core/failure? tree)
     tree
     (->> tree
