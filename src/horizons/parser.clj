@@ -6,7 +6,7 @@
     [instaparse.core :as core]
     [instaparse.transform :as transform]))
 
-(def- month-formatter (f/formatter "MMM"))
+(def month-formatter (f/formatter "MMM"))
 
 (def parse
   "Parse the a string into a parse tree."
@@ -61,7 +61,7 @@
   ([date time] {:timestamp (date-and-time->datetime (last date) (:time time))})
   ([era date time time-zone] {:timestamp (date-and-time->datetime (last date) (:time time))}))
 
-(def- transform-rules
+(def transform-rules
   {
    :date (fn [& more] [:date (datemap->date (into {} more))])
    :ephemeris (fn [& more] {:ephemeris (set more)})
