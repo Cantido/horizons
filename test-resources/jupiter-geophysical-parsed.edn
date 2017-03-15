@@ -14,33 +14,40 @@
   [:polar-radius "66854+-10"]
   [:mean-radius "69911+-6"]
   [:flattening "0.06487"]
-  "Rotation period       " "9h 55m 29.685s"
-  "Rot. rate(10^-4 rad/s) " "1.75865"
-  "m = w^2a^3/GM         " "0.089195"
-  "Hydrostatic flat., fh  " "0.06509"
-  "Inferred rot. period  " "9.894+-0.02 hr"
-  "ks = 3*J2/m            " "0.494"
-  "Mom. of inert. I/MRo^2" "0.254"
-  "I/MRo^2 (upper bound)  " "0.267"
-  "Rocky core mass (Mc/M)" "0.0261"
-  "Y factor (He/H ratio)  " "0.18+-0.04"
-  "GM (km^3/s^2)         " "126,686,511"
-  "GM 1-sigma (km^3/s^2)  " "+-100"
-  "Equ. grav, ge (m/s^2) " "24.79"
-  "Pol. grav, gp (m/s^2)  " "28.34"
-  "Geometric albedo      " "0.52"
-  "Visual magnitude V(1,0)" "-9.40"
-  "Vis. mag. (opposition)" "-2.70"
-  "Obliquity to orbit     " "3.12 deg"
-  "Sidereal orbit period " "11.862615 yr"
-  "Sidereal orbit period  " "4332.820 d"
-  "Mean daily motion     " "0.0831294 deg/d"
-  "Mean orbit velocity    " "13.0697 km/s"
-  "Atmos. temp. (1 bar)  " "165+-5 K"
-  "Heat flow/mass (x10^7) " "15 erg/gm*s"
-  "Planetary Solar Const " "50.5 W/m^2"
-  "Dipole tilt/offset     " "9.6deg/0.1Rp"
-  "Escape velocity (km/s)" "59.5"
-  "Mag.dip.mom(gauss-Rp^3)" "4.2"
-  "A_roche(ice)/Rp       " "2.76"
-  "Hill's sphere rad. Rp  " "740"]]
+  [:sidereal-rotation-period
+   [:duration
+    [:hours "9"]
+    [:minutes "55"]
+    [:seconds "29"]
+    [:milliseconds "685"]]]
+  [:rotation-rate "1.75865"]
+  [:m "0.089195"]
+  [:hydrostatic-flattening "0.06509"]
+  [:inferred-rotation-period
+   [:duration
+    [:hours "9.894+-0.02"]]]
+  [:ks "0.494"]
+  [:moment-of-inertia "0.254"]
+  [:monent-of-inertia-upper-bound "0.267"]
+  [:rocky-core-mass "0.0261"]
+  [:y-factor "0.18+-0.04"]
+  [:standard-gravitational-parameter "126,686,511"]
+  [:gm-1-sigma "+-100"]
+  [:g-equatorial "24.79"]
+  [:g-polar "28.34"]
+  [:geometric-albedo "0.52"]
+  [:visual-magnitude "-9.40"]
+  [:visual-magnitude-opposition "-2.70"]
+  [:obliquity-to-orbit "3.12"]
+  [:mean-sidereal-orbital-period-years "11.862615"]
+  [:mean-sidereal-orbital-period-days "4332.820"]
+  [:mean-daily-motion "0.0831294"]
+  [:orbit-velocity "13.0697"]
+  [:mean-temperature "165+-5"]
+  [:heat-flow-mass "15"]
+  [:solar-constant "50.5"]
+  [:dipole-tilt-offset "9.6deg/0.1Rp"]
+  [:escape-velocity "59.5"]
+  [:magnetic-moment "4.2"]
+  [:a-roche-ice "2.76"]
+  [:hill-sphere-radius "740"]]]
