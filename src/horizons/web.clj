@@ -26,30 +26,29 @@
   [tree]
   (clojure.walk/postwalk
     (fn [form]
-      (cond
-        (not (map? form)) form
-        (contains? form :date) (assoc form :date (format-date (:date form)))
-        (contains? form :timestamp) (assoc form :timestamp (format-date-time (:timestamp form)))
-        :else form))
-    tree))
+        (cond
+         (not (map? form)) form
+         (contains? form :date) (assoc form :date (format-date (:date form)))
+         (contains? form :timestamp) (assoc form :timestamp (format-date-time (:timestamp form)))
+         :else form))
+     tree))
 
 
 (defresource planetary-body-resource [id]
-             :allowed-methods [:get]
-             :available-media-types ["application/json"]
-             :available-languages ["en-US"]
-             :exists? (fn [_] (horizons/supported? id))
-             :handle-ok (fn [ctx]
-                          (iso-format-dates (horizons/get-planetary-body id)))
-             :handle-exception (fn [e]
-                                 (println e)
-                                 (liberator.representation/ring-response (resource-response "500.json" {:root "public"}))))
-
+  :allowed-methods [:get]
+  :available-media-types ["application/json"]
+  :available-languages ["en-US"]
+  :exists? (fn [_] (horizons/supported? id))
+  :handle-ok (fn [ctx]
+                 (iso-format-dates (horizons/get-planetary-body id)))
+  :handle-exception (fn [e]
+                        (println e)
+                        (liberator.representation/ring-response (resource-response "500.json" {:root "public"}))))
 
 (defroutes handler
-           (GET "/" [] (resource-response "index.html" {:root "public"}))
-           (ANY ["/bodies/:id", :id #"[0-9]+"] [id] (planetary-body-resource id))
-           (route/resources "/"))
+  (GET "/" [] (resource-response "index.html" {:root "public"}))
+  (ANY ["/bodies/:id", :id #"[0-9]+"] [id] (planetary-body-resource id))
+  (route/resources "/"))
 
 (def app
   (-> handler
