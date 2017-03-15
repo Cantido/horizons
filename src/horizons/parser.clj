@@ -15,6 +15,8 @@
 
 (defn- month->int
   [s]
+  {:pre [(string? s)]
+   :post [(> % 0), (<= % 13)]}
   (t/month (f/parse month-formatter s)))
 
 (defn- datemap->date
@@ -76,6 +78,8 @@
 
 (defn transform
   [coll]
+  {:pre [(not (nil? coll))]}
+   :post [(or (core/failure? %) (coll? %))]}
   (if (core/failure? coll)
     coll
     (transform/transform transform-rules tree)))
@@ -101,6 +105,7 @@
   and the remaining members are that node's children. This function will turn that tree into a
   map traversable by node names."
   [coll]
+  {:pre [(not (nil? coll))]}
   (if (core/failure? coll)
     tree
     (clojure.walk/postwalk
@@ -110,22 +115,12 @@
           :else form))
      coll)))
 
-(defn check-for-nil
-  "Throws a `NullPointerException` if the argument is nil. Otherwise, returns its argument"
-  [msg x]
-  (if (nil? x)
-      (throw (NullPointerException. msg))
-      x))
-
-
 (defn restructure
   "Applies tree transformations to a parse tree, then recursively converts all remaining key-value vectors into maps."
   [tree]
+  {:pre [(not (nil? tree))]}
   (if (core/failure? tree)
     tree
     (->> tree
-         (check-for-nil "tree was null")
          transform
-         (check-for-nil "Result of transform was null")
-         tree->map
-         (check-for-nil "Result of tree->map was null"))))
+         tree->map)))
