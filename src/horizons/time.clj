@@ -14,39 +14,15 @@
   [m]
   (t/date-time (:year m) (:month m) (:day m)))
 
-(defn- date-and-time->datetime
-  [date time]
-  (cond
-    (nil? (:hour-of-day time))  (t/date-time
-                                  (t/year date)
-                                  (t/month date)
-                                  (t/day date))
-    (nil? (:minute-of-hour time)) (t/date-time
-                                    (t/year date)
-                                    (t/month date)
-                                    (t/day date)
-                                    (:hour-of-day time))
-    (nil? (:second-of-minute time)) (t/date-time
-                                      (t/year date)
-                                      (t/month date)
-                                      (t/day date)
-                                      (:hour-of-day time)
-                                      (:minute-of-hour time))
-    (nil? (:millisecond-of-second  time)) (t/date-time
-                                            (t/year date)
-                                            (t/month date)
-                                            (t/day date)
-                                            (:hour-of-day time)
-                                            (:minute-of-hour time)
-                                            (:second-of-minute time))
-    :else (t/date-time
-            (t/year date)
-            (t/month date)
-            (t/day date)
-            (:hour-of-day time)
-            (:minute-of-hour time)
-            (:second-of-minute time)
-            (:millisecond-of-second time))))
+(defn- date-and-time->datetime [date time]
+  (t/date-time
+    (t/year date)
+    (t/month date)
+    (t/day date)
+    (get time :hour-of-day 0)
+    (get time :minute-of-hour 0)
+    (get time :second-of-minute 0)
+    (get time :millisecond-of-second 0)))
 
 (def iso-8601-date-time-formatter
   (f/formatters :date-time))
