@@ -22,4 +22,4 @@
         body-parse-tree (parse body-string)]
     (if (instaparse.core/failure? body-parse-tree)
         (throw-parse-exception body-string body-parse-tree)
-        (:S (restructure body-parse-tree)))))
+        (::S (restructure body-parse-tree)))))
