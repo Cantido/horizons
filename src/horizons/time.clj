@@ -48,6 +48,31 @@
             (:second-of-minute time)
             (:millisecond-of-second time))))
 
+(def iso-8601-date-time-formatter
+  (f/formatters :date-time))
+
+(def iso-8601-date-formatter
+  (f/formatters :date))
+
+(defn format-date
+  [date]
+  (f/unparse iso-8601-date-formatter date))
+
+(defn format-date-time
+  [date]
+  (f/unparse iso-8601-date-time-formatter date))
+
+(defn iso-format-duration
+  [duration]
+  (let [years (get duration :years 0)
+        months (get duration :months 0)
+        days (get duration :days 0)
+        hours (get duration :hours 0)
+        minutes (get duration :minutes 0)
+        seconds (get duration :seconds 0)
+        milliseconds (get duration :milliseconds 0)]
+    (str "P" years "Y" months "M" days "DT" hours "H" minutes "M" (format "%d.%03dS" seconds milliseconds))))
+
 (defn timestamp-transformer
   ([date time] {:timestamp (date-and-time->datetime (last date) (:time time))})
   ([era date time time-zone] {:timestamp (date-and-time->datetime (last date) (:time time))}))
