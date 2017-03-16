@@ -1,12 +1,14 @@
 (ns horizons.web
-  (:require [horizons.core :as h]
+  (:require [compojure.core :refer :all]
+            [compojure.route :as route]
+            [horizons.core :as h]
             [horizons.time :as t]
-            [liberator.core :refer [resource defresource]]
-            [ring.middleware.json :refer [wrap-json-body wrap-json-params wrap-json-response]]
+            [liberator.core :refer [defresource]]
+            [ring.middleware.json :refer [wrap-json-body
+                                          wrap-json-params
+                                          wrap-json-response]]
             [ring.middleware.params :refer [wrap-params]]
-            [ring.util.response :refer [resource-response]]
-            [compojure.core :refer :all]
-            [compojure.route :as route]))
+            [ring.util.response :refer [resource-response]]))
 
 (defn iso-format-dates
   [tree]

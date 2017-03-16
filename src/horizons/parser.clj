@@ -1,9 +1,8 @@
 (ns horizons.parser
   "Parses and transforms output from the HORIZONS telnet client."
-  (:require
-    [horizons.time :as t]
-    [instaparse.core :as core]
-    [instaparse.transform :as transform]))
+  (:require [horizons.time :as t]
+            [instaparse.core :as core]
+            [instaparse.transform :as transform]))
 
 (def parse
   "Parse the a string into a parse tree."

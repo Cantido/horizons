@@ -1,8 +1,7 @@
 (ns horizons.time
   "Parses and transforms times and dates"
-  (:require
-    [clj-time.core :as t]
-    [clj-time.format :as f]))
+  (:require [clj-time.core :as t]
+            [clj-time.format :as f]))
 
 (def ^:private month-formatter (f/formatter "MMM"))
 
