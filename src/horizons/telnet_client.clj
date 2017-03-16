@@ -1,5 +1,5 @@
 (ns horizons.telnet-client
-  (:require [clojure.core.async :refer [alts!! chan go timeout sliding-buffer <!! <! >!! >!]])
+  (:require [clojure.core.async :refer [alts!! chan go go-loop timeout sliding-buffer <!! <! >!! >!]])
   (:import (org.apache.commons.net.telnet TelnetClient)
            (java.io BufferedReader BufferedWriter InputStreamReader OutputStreamWriter PrintStream)
            (java.nio.charset StandardCharsets Charset)))
@@ -24,29 +24,30 @@
           writer (writer client)]
 
         (try
-          (go
-            (while true
-              (>! from-telnet (str (char (.read reader))))))
-          (go
-            (while true
+          (go-loop []
+              (>! from-telnet (str (char (.read reader))))
+              (recur))
+          (go-loop []
               (.write writer ^String (str (<! to-telnet) \newline))
-              (.flush writer))))))))
+              (.flush writer)
+              (recur)))))))
 
 (defn pipe-stdin-to-telnet []
   (let
     [stdin (new BufferedReader (new InputStreamReader System/in))]
-    (go
-      (while true
+    (go-loop []
         (let [got-from-stdin (.read stdin)]
           (println "Got this from STDIN. Char: " (char got-from-stdin) ", int: " (int got-from-stdin) ", type: " (type got-from-stdin))
-          (>!! to-telnet got-from-stdin))))))
+          (>!! to-telnet got-from-stdin)
+          (recur)))))
 
 (defn show-telnet-out []
   (let
     [stdout (new BufferedWriter (new OutputStreamWriter System/out))]
-    (while true
+    (go-loop []
       (.write stdout ^String (<!! from-telnet))
-      (.flush stdout))))
+      (.flush stdout)
+      (recur))))
 
 (defn next-token
   ([] (next-token ""))
