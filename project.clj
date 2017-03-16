@@ -4,9 +4,7 @@
   :license {:name "GNU General Public License"
             :url "http://www.gnu.org/licenses/gpl.txt"}
   :profiles {:dev {:resource-paths ["test-resources"]}}
-  :plugins [
-            [lein-kibit "0.1.3"]
-            [lein-ring "0.8.11"]]
+  :plugins [[lein-ring "0.8.11"]]
   :ring {:handler horizons.web/app}
   :dependencies [[org.clojure/clojure "1.8.0"]
                  [org.clojure/core.async "0.3.441"]
