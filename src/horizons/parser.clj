@@ -57,10 +57,15 @@
   (if (core/failure? coll)
     coll
     (clojure.walk/postwalk
-      (fn [form]
-        (cond
-          (coll-of-colls? form) {(first form) (into-map-or-nil (rest form))}
-          :else form))
+      (comp
+        (fn [form]
+          (cond
+            (coll-of-colls? form) {(first form) (into-map-or-nil (rest form))}
+            :else form))
+        (fn [form]
+          (if (keyword? form)
+              (keyword "horizons.core" (name form))
+              form)))
       coll)))
 
 (defn restructure
