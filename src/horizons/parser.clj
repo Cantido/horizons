@@ -42,8 +42,7 @@
 (defn ^:private into-map-or-nil
   "Applies `(into {} form)` if the argument is not nil. Otherwise returns nil."
   [coll]
-  (when (not (empty? coll))
-    (into {} coll)))
+  (when (seq coll) (into {} coll)))
 
 (defn tree->map
   "Transforms a parse tree into a nested map, where the first entry in a non-leaf node becomes the key,
