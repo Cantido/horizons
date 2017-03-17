@@ -1,11 +1,11 @@
 (ns horizons.telnet.client
-  (:require [clojure.core.async :refer [alts!! chan go go-loop timeout sliding-buffer <! <!! >! >!!]])
+  (:require [clojure.core.async :as async])
   (:import (org.apache.commons.net.telnet TelnetClient)
            (java.io BufferedReader BufferedWriter InputStreamReader OutputStreamWriter PrintStream)
            (java.nio.charset StandardCharsets Charset)))
 
-(def from-telnet (chan (sliding-buffer 1000)))
-(def to-telnet (chan))
+(def from-telnet (async/chan (async/sliding-buffer 1000)))
+(def to-telnet (async/chan))
 
 (defn reader [^TelnetClient client]
   (new BufferedReader (new InputStreamReader (.getInputStream client) StandardCharsets/US_ASCII)))
@@ -24,18 +24,18 @@
           writer (writer client)]
 
         (try
-          (go-loop []
-              (>! from-telnet (str (char (.read reader))))
+          (async/go-loop []
+              (async/>! from-telnet (str (char (.read reader))))
               (recur))
-          (go-loop []
-              (.write writer ^String (str (<! to-telnet) \newline))
+          (async/go-loop []
+              (.write writer ^String (str (async/<! to-telnet) \newline))
               (.flush writer)
               (recur)))))))
 
 (defn next-token
   ([] (next-token ""))
   ([word-so-far]
-   (let [next-char (<!! from-telnet)
+   (let [next-char (async/<!! from-telnet)
           next-word (str word-so-far next-char)]
         (if (clojure.string/blank? next-char)
             next-word
@@ -61,5 +61,5 @@
   (do
     (connect)
     (wait-for-prompt)
-    (>!! to-telnet body-id)
+    (async/>!! to-telnet body-id)
     (next-block)))
