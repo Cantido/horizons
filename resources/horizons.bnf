@@ -28,9 +28,13 @@ ws ::= space*;
 <digit> ::= #"\d";
 integer ::= #"-?\d+" | comma-separated-integer;
 <comma-separated-integer> ::= #"\d?\d?\d?,(\d\d\d,)+\d\d\d";
+
 <integer-with-error> ::= #"\d+\(?\+\-\d+\)?";
 float ::= #"\-?\d*\.\d*";
-<float-with-error> ::= (#"\d*\.\d*\(\d\+\-\d\)") | (#"\d*\.\d*\s?\+\-\s?\d*\.\d*");
+
+float-with-error ::= (float <ws? "+-" ws?> error) | (float decimal-error);
+decimal-error ::= <"("> integer <"+-"> integer <")">;
+error ::= float;
 <approximate-integer> ::= #"~\d+";
 
 sci-not ::= significand <ws "("? sci-not-separator> exponent <")"?>
