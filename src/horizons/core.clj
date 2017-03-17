@@ -1,7 +1,7 @@
 (ns horizons.core
   "Provides access to NASA's HORIZONS solar system body database."
   (:require [horizons.parser :refer :all]
-            [horizons.telnet-client :refer :all]))
+            [horizons.telnet.client :refer :all]))
 
 (def supported-bodies
   #{199 399 499})
