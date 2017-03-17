@@ -5,7 +5,7 @@
             [instaparse.transform :as transform]))
 
 (def parse
-  "Parse the a string into a parse tree."
+  "Parse a string into a parse tree."
   (core/parser (clojure.java.io/resource "horizons.bnf")))
 
 (defn ^:private string->int [s]
