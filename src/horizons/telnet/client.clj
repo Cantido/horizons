@@ -1,17 +1,12 @@
 (ns horizons.telnet.client
-  (:require [clojure.core.async :as async])
+  (:require [clojure.core.async :as async]
+            [clojure.java.io :as io])
   (:import (org.apache.commons.net.telnet TelnetClient)
            (java.io BufferedReader BufferedWriter InputStreamReader OutputStreamWriter PrintStream)
            (java.nio.charset StandardCharsets Charset)))
 
 (def from-telnet (async/chan (async/sliding-buffer 1000)))
 (def to-telnet (async/chan))
-
-(defn reader [^TelnetClient client]
-  (new BufferedReader (new InputStreamReader (.getInputStream client) StandardCharsets/US_ASCII)))
-
-(defn writer [^TelnetClient client]
-  (new BufferedWriter (new OutputStreamWriter (.getOutputStream client) StandardCharsets/US_ASCII)))
 
 (defn connect
   "Connects to the HORIZONS telnet service, attaching its input and output to channels."
@@ -20,8 +15,8 @@
     (try
       (.connect client "ssd.jpl.nasa.gov" 6775)
       (let
-        [ reader (reader client)
-          writer (writer client)]
+        [reader (io/reader (.getInputStream client) :encoding "US-ASCII")
+         writer (io/writer (.getOutputStream client) :encoding "US-ASCII")]
 
         (try
           (async/go-loop []
