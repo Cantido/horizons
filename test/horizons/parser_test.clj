@@ -23,8 +23,6 @@
   (is (= (parse-file txt-name)
          (get-edn edn-name))))
 
-
-
 (deftest full-grammar-test
   (assert-parse-result "mars-full.txt" "mars-full-parsed.edn"))
 
@@ -120,6 +118,18 @@
   (is (= (restructure ephemeris-input) ephemeris-output))
   (is (= (restructure (get-edn "mars-full-parsed.edn")) mars-map))
   (is (= (restructure (get-edn "mercury-geophysical-parsed.edn")) mercury-map)))
+
+(deftest sci-not-transform-test
+  (is (= (restructure
+           [:sci-not
+            [:significand [:float "5.05"]]
+            [:mantissa [:integer "22"]]])
+         5.05E22M))
+  (is (= (restructure
+           [:sci-not
+            [:significand [:integer "5"]]
+            [:mantissa [:integer "22"]]])
+         5E22M)))
 
 (def timestamp-tree
   [:timestamp

@@ -26,15 +26,17 @@ space ::= #"[\s\n\r]";
 ws ::= space*;
 
 <digit> ::= #"\d";
-integer ::= #"\d+" | comma-separated-integer;
+integer ::= #"-?\d+" | comma-separated-integer;
 <comma-separated-integer> ::= #"\d?\d?\d?,(\d\d\d,)+\d\d\d";
 <integer-with-error> ::= #"\d+\(?\+\-\d+\)?";
 float ::= #"\-?\d*\.\d*";
 <float-with-error> ::= (#"\d*\.\d*\(\d\+\-\d\)") | (#"\d*\.\d*\s?\+\-\s?\d*\.\d*");
 <approximate-integer> ::= #"~\d+";
 
-(* example: 5.1   x 10^18 *)
-<sci-not> ::= #"\-?\d*\.\d* *[x\*] ?10\^\-?\d+";
+sci-not ::= significand <ws "("? sci-not-separator> exponent <")"?>
+<sci-not-separator> := (("x" | "*") ws "10^") | "E";
+significand ::= float | integer;
+exponent ::= integer;
 
 timestamp ::= era?, <space>, date, <ws>, time, <space>, time-zone?;
 
@@ -72,9 +74,6 @@ unit-KEL ::= "K";
 
 body-name ::= #"\w+";
 body-id ::= integer;
-<spectral-fact> ::= #"\d\d \(x10\^\d\)";
-
-
 
 (* Document proper *)
 
@@ -183,7 +182,7 @@ g-o ::= <"go, m s^-2               = "> float;
 g-polar ::= <"gp, m s^-2 (polar)" | "Pol. grav, gp (m/s^2)"> <equals> float;
 geometric-albedo ::= <"Geometric albedo"> <equals> float;
 gm-1-sigma ::= <"GM 1-sigma " ("(km^3 s^-2)" | "(km^3/s^2)")> <equals> #"\+\- ?\d\.?\d+";
-grav-spectral-fact ::= <"Grav spectral fact u"> <equals> spectral-fact;
+grav-spectral-fact ::= <"Grav spectral fact u"> <equals> sci-not;
 heat-flow-mass ::= <"Heat flow/mass (x10^7)"> <equals>  integer <ws "erg/gm*s">;
 hill-sphere-radius ::= <("Hill's sphere rad. Rp" | "Hill's sphere radius")> <equals> (float | integer);
 hydrostatic-flattening ::= <"Hydrostatic flat., fh"> <equals> float;
@@ -207,7 +206,7 @@ mean-solar-day ::= <"Mean solar day" ", days"?> <equals> float <" d"?>;
 mean-temperature ::= <("Atmos. temp. (1 bar)") | ("Mean Temperature" (" (" | ", ") unit-KEL ")"?)> <equals> (integer | integer-with-error)? <ws> <unit-KEL?>;
 moment-of-inertia ::= <("Mom. of Inertia" | "Moment of inertia" | "Mom. of inert. I/MRo^2")> <equals> float;
 monent-of-inertia-upper-bound ::= <"I/MRo^2 (upper bound)"> <equals> float;
-ocean-mass ::= <"oceans"> <equals> "1.4   x 10^21" <" kg">;
+ocean-mass ::= <"oceans"> <equals> sci-not <" kg">;
 obliquity-to-orbit ::= <"Obliquity to orbit"> <"[1]"?> <", deg"?> <equals> (float | #"\d.\d\d' \+/\- \d\.\d'") <" deg"?>;
 offset ::= <"Offset (lat./long.)"> <equals> #"\d\dd \/ \d\dd";
 orbit-velocity ::= <"Mean"? ws ("Orbit" | "orbit") ws ("vel." | "velocity") ","? ws unit-M62?> <equals> float <ws> <unit-M62?>;
@@ -225,7 +224,7 @@ standard-gravitational-parameter ::= <"GM" (", km^3 s^-2" | " (km^3 s^-2)" | " (
 surface-area-title ::= "Surface Area:";
 surface-area-land ::= <"land           = "> sci-not <" km">;
 surface-area-sea ::= <"sea            = "> sci-not <" km">;
-topo-spectral-fact ::= <"Topo. spectral fact t"> <equals> spectral-fact;
+topo-spectral-fact ::= <"Topo. spectral fact t"> <equals> sci-not;
 visual-magnitude ::= <("Visual" | "Vis.") ws ("mag." | "magnitude") ws "V(1,0)"> <equals> float;
 visual-magnitude-opposition ::= <"Vis. mag. (opposition)"> <equals> float;
 volume ::= <("Volume (x10^10 km^3)" | "Volume, 10^10 km^3")> <equals> float;

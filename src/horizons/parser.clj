@@ -11,6 +11,11 @@
 (defn ^:private string->int [s]
   (Integer/parseInt s))
 
+(defn sci-not->bigdec [significand-coll mantissa-coll]
+  (let [significand (last significand-coll)
+        mantissa (last mantissa-coll)]
+       (bigdec (str significand "E" mantissa))))
+
 (def ^:private transform-rules
   {:date (fn [& more] [:date (t/datemap->date (into {} more))])
    :ephemeris (fn [& more] {:ephemeris (set more)})
@@ -19,6 +24,7 @@
    :integer string->int
    :measurement-time (fn [& more] {:measurement-time (into {} more)})
    :month (fn [s] [:month (t/month->int s)])
+   :sci-not sci-not->bigdec
    :time (fn [& more]  {:time (into {} more)})
    :timestamp t/timestamp-transformer})
 

@@ -24,8 +24,8 @@
      ::h/equatorial-gravity 3.71M
      ::h/core-radius "~1700"
      ::h/potential-love-k2 "0.153 +-.017"
-     ::h/grav-spectral-fact "14 (x10^5)"
-     ::h/topo-spectral-fact "96 (x10^5)"
+     ::h/grav-spectral-fact 14E5M
+     ::h/topo-spectral-fact 96E5M
      ::h/fig-offset "2.50+-0.07"
      ::h/offset "62d / 88d"
      ::h/standard-gravitational-parameter 42828.3M

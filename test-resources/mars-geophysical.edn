@@ -23,8 +23,8 @@
   [:core-radius "~1700"]
   [:potential-love-k2 "0.153 +-.017"]
 
-  [:grav-spectral-fact "14 (x10^5)"]
-  [:topo-spectral-fact "96 (x10^5)"]
+  [:grav-spectral-fact [:sci-not [:significand [:integer "14"]] [:exponent [:integer "5"]]]]
+  [:topo-spectral-fact [:sci-not [:significand [:integer "96"]] [:exponent [:integer "5"]]]]
   [:fig-offset "2.50+-0.07"]
   [:offset "62d / 88d"]
   [:standard-gravitational-parameter [:float "42828.3"]]
