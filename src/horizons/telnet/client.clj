@@ -6,20 +6,21 @@
             [horizons.telnet.connect :as conn]))
 
 (defn ^:private next-token
-  "Get the next whitespace-delimited word from the Telnet connection"
-  ([chan] (next-token chan ""))
-  ([chan word-so-far]
-   (let [next-char (async/<!! chan)
-         next-word (str word-so-far next-char)]
-     (if (string/blank? next-char)
-         next-word
-         (recur chan next-word)))))
+  "Returns a channel that will provide the next
+   whitespace-delimited word from the given channel"
+  [chan]
+  (async/go-loop [word-so-far ""]
+    (let [next-char (async/<!! chan)
+          next-word (str word-so-far next-char)]
+      (if (string/blank? next-char)
+          next-word
+          (recur next-word)))))
 
 (defn ^:private next-block
   "Get everything from the HORIZONS client until the next input prompt"
   ([chan] (next-block chan ""))
   ([chan block-so-far]
-   (let [next-word (next-token chan)]
+   (let [next-word (async/<!! (next-token chan))]
      (cond
       (string/starts-with? next-word "Horizons>") block-so-far
       (string/starts-with? next-word "<cr>:") (str block-so-far next-word)
@@ -28,7 +29,7 @@
 (defn ^:private wait-for-prompt
   "Blocks until the next input prompt is received from HORIZONS."
   [chan]
-  (let [token (next-token chan)]
+  (let [token (async/<!! (next-token chan))]
     (when-not (clojure.string/starts-with? token "Horizons>") (recur chan))))
 
 (defn get-body
