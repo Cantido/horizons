@@ -23,16 +23,14 @@
   (let [client (TelnetClient.)
         to-telnet (async/chan)
         from-telnet (async/chan (async/sliding-buffer 1000))]
-    (try
-      (.connect client "ssd.jpl.nasa.gov" 6775)
-      (let [writer (-> client .getOutputStream (io/writer :encoding "US-ASCII"))
-            reader-seq (-> client .getInputStream (io/reader :encoding "US-ASCII") char-seq)]
-        (try
-          (async/go-loop [remaining-reader-seq reader-seq]
-            (async/>! from-telnet (first remaining-reader-seq))
-            (recur (rest remaining-reader-seq)))
-          (async/go-loop []
-            (.write writer ^String (str (async/<! to-telnet) \newline))
-            (.flush writer)
-            (recur)))))
+    (.connect client "ssd.jpl.nasa.gov" 6775)
+    (let [writer (-> client .getOutputStream (io/writer :encoding "US-ASCII"))
+          reader-seq (-> client .getInputStream (io/reader :encoding "US-ASCII") char-seq)]
+      (async/go-loop [remaining-reader-seq reader-seq]
+        (async/>! from-telnet (first remaining-reader-seq))
+        (recur (rest remaining-reader-seq)))
+      (async/go-loop []
+        (.write writer ^String (str (async/<! to-telnet) \newline))
+        (.flush writer)
+        (recur)))
     [to-telnet from-telnet]))
