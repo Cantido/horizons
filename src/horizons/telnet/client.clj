@@ -17,14 +17,15 @@
           (recur next-word)))))
 
 (defn ^:private next-block
-  "Get everything from the HORIZONS client until the next input prompt"
-  ([chan] (next-block chan ""))
-  ([chan block-so-far]
-   (let [next-word (async/<!! (next-token chan))]
-     (cond
-      (string/starts-with? next-word "Horizons>") block-so-far
-      (string/starts-with? next-word "<cr>:") (str block-so-far next-word)
-      :else (recur chan (str block-so-far next-word))))))
+  "Returns a channel that will provide everything from
+   the HORIZONS client until the next input prompt"
+  [chan]
+  (async/go-loop [block-so-far ""]
+    (let [next-word (async/<! (next-token chan))]
+      (cond
+       (string/starts-with? next-word "Horizons>") block-so-far
+       (string/starts-with? next-word "<cr>:") (str block-so-far next-word)
+       :else (recur (str block-so-far next-word))))))
 
 (defn ^:private wait-for-prompt
   "Blocks until the next input prompt is received from HORIZONS."
@@ -39,4 +40,4 @@
    (let [[in out] (conn/connect)]
      (wait-for-prompt out)
      (async/put! in body-id)
-     (next-block out))))
+     (async/<!! (next-block out)))))
