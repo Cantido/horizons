@@ -34,6 +34,11 @@
     (let [token (async/<! (next-token chan))]
       (when-not (clojure.string/starts-with? token "Horizons>") (recur)))))
 
+(defn ^:private reset-client
+  "Brings the given client back to a command prompt"
+  [conn]
+  (async/>!! conn ""))
+
 (defn get-body
   "Get a block of String data from the HORIZONS system about the given body-id"
   [body-id]
@@ -41,6 +46,6 @@
     (async/<!! (wait-for-prompt out))
     (async/>!! in body-id)
     (let [result (async/<!! (next-block out))]
-      (async/>!! in "")
+      (reset-client in)
       (pool/release [in out])
       result)))
