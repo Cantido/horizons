@@ -1,9 +1,8 @@
 (ns horizons.telnet.client
   "Communicates to the HORIZONS Telnet server."
   (:require [clojure.core.async :as async]
-            [clojure.java.io :as io]
             [clojure.string :as string]
-            [horizons.telnet.connect :as conn]))
+            [horizons.telnet.pool :as pool]))
 
 (defn ^:private next-token
   "Returns a channel that will provide the next
@@ -35,37 +34,13 @@
     (let [token (async/<! (next-token chan))]
       (when-not (clojure.string/starts-with? token "Horizons>") (recur)))))
 
-(def ^:private connection-pool
-  (ref #{}))
-
-(def ^:private connections-in-use
-  (ref #{}))
-
-(defn ^:private ensure-available-pool []
-  (dosync
-    (when (empty? @connection-pool)
-      (alter connection-pool conj (conn/connect)))))
-
-(defn ^:private connect []
-  (dosync
-    (ensure-available-pool)
-    (let [connection (first @connection-pool)]
-      (alter connection-pool disj connection)
-      (alter connections-in-use conj connection)
-      connection)))
-
-(defn ^:private release [conn]
-  (dosync
-    (alter connections-in-use disj conn)
-    (alter connection-pool conj conn)))
-
 (defn get-body
   "Get a block of String data from the HORIZONS system about the given body-id"
   [body-id]
-  (let [[in out] (connect)]
+  (let [[in out] (pool/connect)]
     (async/<!! (wait-for-prompt out))
     (async/>!! in body-id)
     (let [result (async/<!! (next-block out))]
       (async/>!! in "")
-      (release [in out])
+      (pool/release [in out])
       result)))
