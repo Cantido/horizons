@@ -28,10 +28,11 @@
   :available-languages ["en-US"]
   :exists? (fn [_] (h/supported? id))
   :handle-ok (fn [ctx]
-                 (iso-format-dates (h/get-planetary-body id)))
+                 (-> id h/get-planetary-body iso-format-dates))
   :handle-exception (fn [e]
                         (println e)
-                        (liberator.representation/ring-response (resource-response "500.json" {:root "public"}))))
+                        (liberator.representation/ring-response
+                          (resource-response "500.json" {:root "public"}))))
 
 (defroutes handler
   (GET "/" [] (resource-response "index.html" {:root "public"}))

@@ -15,7 +15,7 @@
 (defn ^:private char-seq
   "Returns a lazy sequence of single-character strings as read from the given reader."
   [rdr]
-  (repeatedly #(next-char rdr)))
+  (repeatedly (partial next-char rdr)))
 
 (defn connect
   "Connects to the HORIZONS telnet service, attaching its input and output to channels."

@@ -46,11 +46,19 @@
         minutes (get duration :minutes 0)
         seconds (get duration :seconds 0)
         milliseconds (get duration :milliseconds 0)]
-    (str "P" years "Y" months "M" days "DT" hours "H" minutes "M" (format "%d.%03dS" seconds milliseconds))))
+    (str "P"
+         years "Y"
+         months "M"
+         days "D"
+         "T"
+         hours "H"
+         minutes "M"
+         (format "%d.%03dS" seconds milliseconds))))
 
 (defn timestamp-transformer
-  ([date time] {:timestamp (date-and-time->datetime (last date) (:time time))})
-  ([era date time time-zone] {:timestamp (date-and-time->datetime (last date) (:time time))}))
-
-
-
+  ([date time]
+   {:timestamp
+    (date-and-time->datetime (last date) (:time time))})
+  ([era date time time-zone]
+   {:timestamp
+    (date-and-time->datetime (last date) (:time time))}))

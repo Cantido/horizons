@@ -9,7 +9,10 @@
 (defn supported?
   "Check if the given body ID is definitely supported by this system."
   [id]
-  (contains? supported-bodies (int (bigdec id))))
+  (->> id
+       bigdec
+       int
+       (contains? supported-bodies)))
 
 (defn- throw-parse-exception
   "Throw an exception documenting a parse exception"

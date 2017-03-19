@@ -6,7 +6,9 @@
 
 (def parse
   "Parse a string into a parse tree."
-  (core/parser (clojure.java.io/resource "horizons.bnf")))
+  (-> "horizons.bnf"
+      clojure.java.io/resource
+      core/parser))
 
 (defn ^:private string->int [s]
   (Integer/parseInt s))
@@ -14,7 +16,7 @@
 (defn sci-not->bigdec [significand-coll mantissa-coll]
   (let [significand (last significand-coll)
         mantissa (last mantissa-coll)]
-       (bigdec (str significand "E" mantissa))))
+    (bigdec (str significand "E" mantissa))))
 
 (def ^:private transform-rules
   {:date (fn [& more] [:date (t/datemap->date (into {} more))])
@@ -40,7 +42,7 @@
   [coll]
   (and
    (vector? coll)
-   (every? #(and (coll? %) (not (set? %))) (rest coll))))
+   (every? (every-pred coll? (complement set?)) (rest coll))))
 
 (defn ^:private into-map-or-nil
   "Applies `(into {} form)` if the argument is not nil. Otherwise returns nil."
@@ -52,8 +54,8 @@
    Else, returns that element."
   [form]
   (if (keyword? form)
-    (keyword "horizons.core" (name form))
-    form))
+      (keyword "horizons.core" (name form))
+      form))
 
 (defn tree-vec->map
   "Transforms a list into a nested map, where the first list element is the key,
