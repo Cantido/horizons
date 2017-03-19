@@ -7,9 +7,6 @@
            (java.io BufferedReader BufferedWriter InputStreamReader OutputStreamWriter PrintStream)
            (java.nio.charset StandardCharsets Charset)))
 
-(def ^:private from-telnet (async/chan (async/sliding-buffer 1000)))
-(def ^:private to-telnet (async/chan))
-
 (defn next-char
   "Gets the next character from the given reader"
   [rdr]
@@ -23,7 +20,9 @@
 (defn ^:private connect
   "Connects to the HORIZONS telnet service, attaching its input and output to channels."
   []
-  (let [client (TelnetClient.)]
+  (let [client (TelnetClient.)
+        to-telnet (async/chan)
+        from-telnet (async/chan (async/sliding-buffer 1000))]
     (try
      (.connect client "ssd.jpl.nasa.gov" 6775)
      (let [writer (-> client .getOutputStream (io/writer :encoding "US-ASCII"))
@@ -35,39 +34,40 @@
         (async/go-loop []
           (.write writer ^String (str (async/<! to-telnet) \newline))
           (.flush writer)
-          (recur)))))))
+          (recur)))))
+    [to-telnet from-telnet]))
 
 (defn ^:private next-token
   "Get the next whitespace-delimited word from the Telnet connection"
-  ([] (next-token ""))
-  ([word-so-far]
-   (let [next-char (async/<!! from-telnet)
+  ([chan] (next-token chan ""))
+  ([chan word-so-far]
+   (let [next-char (async/<!! chan)
          next-word (str word-so-far next-char)]
      (if (string/blank? next-char)
          next-word
-         (recur next-word)))))
+         (recur chan next-word)))))
 
 (defn ^:private next-block
   "Get everything from the HORIZONS client until the next input prompt"
-  ([] (next-block ""))
-  ([block-so-far]
-   (let [next-word (next-token)]
+  ([chan] (next-block chan ""))
+  ([chan block-so-far]
+   (let [next-word (next-token chan)]
      (cond
       (string/starts-with? next-word "Horizons>") block-so-far
       (string/starts-with? next-word "<cr>:") (str block-so-far next-word)
-      :else (recur (str block-so-far next-word))))))
+      :else (recur chan (str block-so-far next-word))))))
 
 (defn ^:private wait-for-prompt
   "Blocks until the next input prompt is received from HORIZONS."
-  []
-  (let [token (next-token)]
-    (when-not (clojure.string/starts-with? token "Horizons>") (recur))))
+  [chan]
+  (let [token (next-token chan)]
+    (when-not (clojure.string/starts-with? token "Horizons>") (recur chan))))
 
 (defn get-body
   "Get a block of String data from the HORIZONS system about the given body-id"
   [body-id]
   (do
-   (connect)
-   (wait-for-prompt)
-   (async/>!! to-telnet body-id)
-   (next-block)))
+   (let [[in out] (connect)]
+     (wait-for-prompt out)
+     (async/put! in body-id)
+     (next-block out))))
