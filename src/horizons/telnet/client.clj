@@ -28,16 +28,18 @@
        :else (recur (str block-so-far next-word))))))
 
 (defn ^:private wait-for-prompt
-  "Blocks until the next input prompt is received from HORIZONS."
+  "Returns a channel that will close once the next
+   input prompt is received from HORIZONS."
   [chan]
-  (let [token (async/<!! (next-token chan))]
-    (when-not (clojure.string/starts-with? token "Horizons>") (recur chan))))
+  (async/go-loop []
+    (let [token (async/<! (next-token chan))]
+      (when-not (clojure.string/starts-with? token "Horizons>") (recur)))))
 
 (defn get-body
   "Get a block of String data from the HORIZONS system about the given body-id"
   [body-id]
   (do
    (let [[in out] (conn/connect)]
-     (wait-for-prompt out)
+     (async/<!! (wait-for-prompt out))
      (async/put! in body-id)
      (async/<!! (next-block out)))))
