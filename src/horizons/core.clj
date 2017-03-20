@@ -12,7 +12,7 @@
   (->> id
        bigdec
        int
-       (contains? supported-bodies)))
+       supported-bodies))
 
 (defn- throw-parse-exception
   "Throw an exception documenting a parse exception"
