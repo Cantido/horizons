@@ -4,19 +4,35 @@
             [instaparse.core :as core]
             [instaparse.transform :as transform]))
 
+(defn ^:private throw-parse-exception
+  "Throw an exception documenting a parse exception"
+  [failure]
+  (throw (Exception. (str "Unable to parse HORIZONS response."
+                          "\n\nGot the following failure: \n" (with-out-str (print failure))))))
+
+(defn ^:private assert-success
+  [x]
+  (if (instaparse.core/failure? x)
+    (throw-parse-exception x)
+    x))
+
 (def parse
   "Parse a string into a parse tree."
-  (-> "horizons.bnf"
+  (comp
+    (-> "horizons.bnf"
       clojure.java.io/resource
-      core/parser))
+      core/parser)
+    assert-success))
 
 (defn ^:private string->int [s]
   (Integer/parseInt s))
 
 (defn sci-not->bigdec [significand-coll mantissa-coll]
-  (let [significand (last significand-coll)
-        mantissa (last mantissa-coll)]
-    (bigdec (str significand "E" mantissa))))
+  (->> [significand-coll mantissa-coll]
+    (map last)
+    (interpose "E")
+    (apply str)
+    bigdec))
 
 (def ^:private transform-rules
   {:date (fn [& more] [:date (t/datemap->date (into {} more))])
@@ -90,3 +106,11 @@
       (->> tree
            transform
            tree->map)))
+
+(defn horizons-response->data-structure
+  "Parses and transforms a response from HORIZONS
+   into a useful data structure."
+  [s]
+  (->> s
+       parse
+       restructure))

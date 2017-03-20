@@ -11,17 +11,22 @@
 
 (defn datemap->date
   [m]
-  (t/date-time (:year m) (:month m) (:day m)))
+  (apply t/date-time ((juxt :year :month :day) m)))
+
+(def ^:private midnight
+  {:hour-of-day 0
+   :minute-of-hour 0
+   :second-of-minute 0
+   :millisecond-of-second 0})
 
 (defn- date-and-time->datetime [date time]
-  (t/date-time
-    (t/year date)
-    (t/month date)
-    (t/day date)
-    (get time :hour-of-day 0)
-    (get time :minute-of-hour 0)
-    (get time :second-of-minute 0)
-    (get time :millisecond-of-second 0)))
+  (apply t/date-time
+     (flatten
+       [((juxt t/year t/month t/day) date)
+        (map (merge midnight time) [:hour-of-day
+                                    :minute-of-hour
+                                    :second-of-minute
+                                    :millisecond-of-second])])))
 
 (def iso-8601-date-time-formatter
   (f/formatters :date-time))

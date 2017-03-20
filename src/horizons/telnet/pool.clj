@@ -34,15 +34,19 @@
   {:post [(partial contains? connections-in-use)]}
   (dosync
     (ensure-available-pool)
-    (let [connection (first @connection-pool)]
-      (alter connection-pool disj connection)
-      (alter connections-in-use conj connection)
-      connection)))
+    (last
+      ((juxt
+         (partial alter connection-pool disj)
+         (partial alter connections-in-use conj)
+         identity)
+       (first @connection-pool)))))
 
 (defn release
   "Put an [in out] Telnet connection back in the pool."
   [conn]
   {:pre [(partial contains? connections-in-use)]}
   (dosync
-    (alter connections-in-use disj conn)
-    (alter connection-pool conj conn)))
+    ((juxt
+      (partial alter connections-in-use disj)
+      (partial alter connection-pool conj))
+     conn)))
