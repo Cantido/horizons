@@ -13,6 +13,6 @@ indent_size = 2
 indent_style = space
 indent_size = 2
 
-[.travis.yml}]
+[.travis.yml]
 indent_style = space
 indent_size = 2
