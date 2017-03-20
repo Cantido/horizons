@@ -2,7 +2,7 @@
   (:require [compojure.core :refer :all]
             [compojure.route :as route]
             [horizons.core :as h]
-            [horizons.time :as t]
+            [horizons.parsing.time :as t]
             [liberator.core :refer [defresource]]
             [ring.middleware.json :refer [wrap-json-body
                                           wrap-json-params

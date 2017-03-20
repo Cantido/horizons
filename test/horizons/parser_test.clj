@@ -4,7 +4,7 @@
     [clojure.java.io :as io]
     [clojure.test :refer :all]
     [horizons.core :as h]
-    [horizons.parser :refer :all]
+    [horizons.parsing.parser :refer :all]
     [horizons.parser-test-mercury :refer :all]
     [horizons.parser-test-mars :refer :all]))
 
