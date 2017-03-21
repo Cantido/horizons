@@ -1,6 +1,7 @@
 (ns horizons.web
   (:require [compojure.core :refer :all]
             [compojure.route :as route]
+            [clojure.tools.logging :as log]
             [environ.core :as environ]
             [horizons.core :as h]
             [horizons.parsing.time :as t]
@@ -32,7 +33,7 @@
   :handle-ok (fn [ctx]
                  (-> id h/get-planetary-body iso-format-dates))
   :handle-exception (fn [e]
-                        (println e)
+                        (log/error e)
                         (liberator.representation/ring-response
                           (resource-response "500.json" {:root "public"}))))
 
@@ -49,7 +50,9 @@
       wrap-params))
 
 (defn -main [& [port]]
-  (web/run app
-           :host "0.0.0.0"
-           :port (or port (environ/env :port) 3000)
-           :path "/"))
+  (let [port (or port (environ/env :port) 3000)]
+    (log/info "Starting HORIZONS on port" port)
+    (web/run app
+             :host "0.0.0.0"
+             :port port
+             :path "/")))

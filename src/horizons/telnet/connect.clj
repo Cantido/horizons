@@ -2,7 +2,8 @@
   "Connects to the HORIZONS Telnet server."
   (:require [clojure.core.async :as async]
             [clojure.java.io :as io]
-            [clojure.string :as string])
+            [clojure.string :as string]
+            [clojure.tools.logging :as log])
   (:import (org.apache.commons.net.telnet TelnetClient)
            (java.io BufferedReader BufferedWriter InputStreamReader OutputStreamWriter PrintStream)
            (java.nio.charset StandardCharsets Charset)))
@@ -20,6 +21,7 @@
 (defn connect
   "Connects to the HORIZONS telnet service, attaching its input and output to channels."
   []
+  (log/info "Initiating a Telnet connection to ssd.jpl.nasa.gov:6775.")
   (let [client (TelnetClient.)
         to-telnet (async/chan)
         from-telnet (async/chan (async/sliding-buffer 1000))]
@@ -33,4 +35,5 @@
         (.write writer ^String (str (async/<! to-telnet) \newline))
         (.flush writer)
         (recur)))
+    (log/info "Connection to ssd.jpl.nasa.gov:6775 established.")
     [to-telnet from-telnet]))
