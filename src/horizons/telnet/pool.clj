@@ -1,7 +1,7 @@
 (ns horizons.telnet.pool
   "Pools connections to the HORIZONS Telnet server."
   (:require [clojure.core.async :as async]
-    [horizons.telnet.connect :as conn]))
+            [horizons.telnet.connect :as conn]))
 
 (defn ^:private valid-connection?
   [conn]
