@@ -1,2 +1,9 @@
 language: clojure
 jdk: oraclejdk8
+deploy:
+  provider: heroku
+  api_key:
+    secure: JNzOT5ZuzDl5Fwb3uTIgRNCIh0mcCPPUcET9gSWBj4sLdln7Ru84s3k6Ke6RW9f2+Gb4SccRR1lRSEiIlkXEjXLo85CH8tRYWvfywotgQ0AANwwweJ9nS9M0LQ6d3xsbJdA/H0Qg8ukT480SxH2esw19d/fvcn3PHH/YYxcuOPDRk+75rdgkA6sw59qLOrXl900yJklSeH1yYpxNI7fgBUHaf8fJEjO5Bj9cpi/On/sIf2URvDaiQL+lJNBxyfBAakkN8gnvbwDkEvSxi1Gwtm3Fc9qAH2HeqDq8hFg1H0AWOTi7ayTMsSZSlYjOHIK2/Mogsjp9QAtIAEGNafjRgO5dl2cnHMzW7ZDAaTDvnLpox/ydmbz/sPtAWOvvugbZJVQu5/KQpMbvq7tg4CcTQeqBCzJNNxC/XcBbc0eHDNDOmmY2pQtwSvyuDvN00K4lcHkT6FOwKSpzOhGnL+loa0X/1N75EZStjduJxqvlmu/2qcqreLR06jYMG/Hkd7rHt3IFcfluONOluJdr6ES3gN+4s+xsjrSIaIxIOuFPZRbhG1IF5vTNKvdZtT1rZ2aGCVrcsaulg2ebFUh+vA77PLMG8EMue4oGir797pPO+Klsl+c81uVERYo2ANIIUq3Oir9Bihql9Mhx6jhVrBvMJPBuJn7RunSJN8WirUqDP/4=
+  app: secure-gorge-17286
+  on:
+    repo: Cantido/horizons
