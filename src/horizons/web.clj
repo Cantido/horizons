@@ -1,8 +1,10 @@
 (ns horizons.web
   (:require [compojure.core :refer :all]
             [compojure.route :as route]
+            [environ.core :as environ]
             [horizons.core :as h]
             [horizons.parsing.time :as t]
+            [immutant.web :as web]
             [liberator.core :refer [defresource]]
             [ring.middleware.json :refer [wrap-json-body
                                           wrap-json-params
@@ -45,3 +47,9 @@
       wrap-json-params
       wrap-json-response
       wrap-params))
+
+(defn -main [& [port]]
+  (web/run app
+           :host "0.0.0.0"
+           :port (or port (environ/env :port) 3000)
+           :path "/"))
