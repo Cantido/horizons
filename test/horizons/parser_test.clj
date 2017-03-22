@@ -31,7 +31,8 @@
   (assert-parse-result "venus-geophysical.txt" "venus-geophysical-parsed.edn")
   (assert-parse-result "earth-geophysical.txt" "earth-geophysical-parsed.edn")
   (assert-parse-result "mars-geophysical.txt" "mars-geophysical.edn")
-  (assert-parse-result "jupiter-geophysical.txt" "jupiter-geophysical-parsed.edn"))
+  (assert-parse-result "jupiter-geophysical.txt" "jupiter-geophysical-parsed.edn")
+  (assert-parse-result "saturn-geophysical.txt" "saturn-geophysical-parsed.edn"))
 
 (deftest tree->map-test
   (is (= (tree->map
