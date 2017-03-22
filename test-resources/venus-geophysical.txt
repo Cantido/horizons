@@ -1,0 +1,25 @@
+*******************************************************************************
+ Revised: Jul 31, 2013              Venus                               299 / 2
+
+ GEOPHYSICAL DATA (updated 2014-Mar-13):
+  Mean radius (km)      =   6051.8(4+-1)  Density (g cm^-3)     =  5.204
+  Mass (10^23 kg )      =     48.685      Flattening, f         =
+  Volume (x10^10 km^3)  =     92.843      Semi-major axis       =
+  Sidereal rot. period  =   -243.0185 d   Rot. Rate (x10^5 s)   = -0.029924
+  Mean solar day        =    116.7490 d   Polar gravity ms^-2   =
+  Mom. of Inertia       =      0.33       Equ. gravity  ms^-2   =  8.870
+  Core radius (km)      =  ~3200          Potential Love # k2   = ~0.25
+
+  Grav spectral fact u  =      1.5        Topo. spectral fact t =  23
+  Fig. offset (Rcf-Rcm) =      0.19+-01   Offset (lat./long.)   = 11/102 dg/dg
+  GM (km^3 s^-2)        = 324858.63       Equatorial Radius, Re = 6051.893 km
+  GM 1-sigma (km^3 s^-2)=    +-0.04       Mass ratio (Sun/Venus)= 408523.72
+
+  Atmos. pressure (bar) =    90           Max. angular diam.    =   60.2"
+  Mean Temperature (K)  =  735            Visual mag. V(1,0)    =   -4.40
+  Geometric albedo      =    0.65         Obliquity to orbit    =  177.3 deg
+  Sidereal orb. per.    =    0.61519726 y Orbit vel.  km/s      =   35.0214
+  Sidereal orb. per.    =  224.70079922 d Escape vel. km/s      =   10.361
+  Hill's sphere rad. Rp =  167.1          Planetary Solar Const = 2613.9 (Wm^2)
+*******************************************************************************
+ Select ... [E]phemeris, [F]tp, [M]ail, [R]edisplay, ?, <cr>:
