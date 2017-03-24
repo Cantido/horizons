@@ -11,7 +11,7 @@
                                           wrap-json-params
                                           wrap-json-response]]
             [ring.middleware.params :refer [wrap-params]]
-            [ring.util.response :refer [resource-response]]))
+            [ring.util.response :as response]))
 
 (defn iso-format-dates
   [tree]
@@ -34,11 +34,13 @@
                  (-> id h/get-planetary-body iso-format-dates))
   :handle-exception (fn [e]
                         (log/error e)
-                        (liberator.representation/ring-response
-                          (resource-response "500.json" {:root "public"}))))
+                        (-> "500.json"
+                          (response/resource-response {:root "public"})
+                          (response/status 500)
+                          (liberator.representation/ring-response))))
 
 (defroutes handler
-  (GET "/" [] (resource-response "index.html" {:root "public"}))
+  (GET "/" [] (response/resource-response "index.html" {:root "public"}))
   (ANY ["/bodies/:id", :id #"[0-9]+"] [id] (planetary-body-resource id))
   (route/resources "/"))
 
