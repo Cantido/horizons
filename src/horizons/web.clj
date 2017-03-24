@@ -42,7 +42,8 @@
 (defroutes handler
   (GET "/" [] (response/resource-response "index.html" {:root "public"}))
   (ANY ["/bodies/:id", :id #"[0-9]+"] [id] (planetary-body-resource id))
-  (route/resources "/"))
+  (route/resources "/")
+  (route/not-found (response/not-found "Resource not found.")))
 
 (def app
   (-> handler
