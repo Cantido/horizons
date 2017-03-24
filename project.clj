@@ -6,8 +6,7 @@
   :uberjar-name "horizons-standalone.jar"
   :profiles {:dev {:resource-paths ["test-resources"]}
              :production {:env {:production true}}
-             :uberjar {:aot :all}
-             :test {:dependencies [[ring/ring-mock "0.3.0"]]}}
+             :uberjar {:aot :all}}
   :min-lein-version "2.0.0"
   :hooks [environ.leiningen.hooks]
   :plugins [[lein-ring "0.8.11"]
@@ -25,4 +24,5 @@
                  [liberator "0.13"]
                  [org.immutant/web "2.1.6"]
                  [ring/ring-core "1.2.1"]
-                 [ring/ring-json "0.4.0"]])
+                 [ring/ring-json "0.4.0"]
+                 [ring/ring-mock "0.3.0"]])
