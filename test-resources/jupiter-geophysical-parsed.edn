@@ -31,7 +31,7 @@
   [:monent-of-inertia-upper-bound [:float "0.267"]]
   [:rocky-core-mass [:float "0.0261"]]
   [:y-factor "0.18+-0.04"]
-  [:standard-gravitational-parameter [:integer "126,686,511"]]
+  [:standard-gravitational-parameter [:integer [:comma-separated-integer "126,686,511"]]]
   [:gm-1-sigma "+-100"]
   [:g-equatorial [:float "24.79"]]
   [:g-polar [:float "28.34"]]

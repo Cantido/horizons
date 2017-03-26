@@ -35,7 +35,8 @@
     bigdec))
 
 (def ^:private transform-rules
-  {:date (fn [& more] [:date (t/datemap->date (into {} more))])
+  {:comma-separated-integer #(clojure.string/replace % "," "")
+   :date (fn [& more] [:date (t/datemap->date (into {} more))])
    :ephemeris (fn [& more] {:ephemeris (set more)})
    :ephemeris-line-item (fn [& more] (into {} more))
    :float bigdec

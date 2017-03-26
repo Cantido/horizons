@@ -152,3 +152,7 @@
 
 (deftest timestamp-transformation-test
   (is (= (restructure timestamp-tree) timestamp-map)))
+
+(deftest comma-separated-integer-transform-test
+  (is (= (transform [:integer [:comma-separated-integer "123,456,789"]])
+         123456789)))
