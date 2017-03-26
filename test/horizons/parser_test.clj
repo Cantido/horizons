@@ -3,10 +3,12 @@
     [clj-time.core :as t]
     [clojure.java.io :as io]
     [clojure.test :refer :all]
+    [instaparse.core :as insta]
     [horizons.core :as h]
     [horizons.parsing.parser :refer :all]
     [horizons.parser-test-mercury :refer :all]
     [horizons.parser-test-mars :refer :all]))
+
 
 (defn get-file [name]
   (slurp
@@ -23,6 +25,9 @@
   (is (= (parse-file txt-name)
          (get-edn edn-name))))
 
+(defn success? [x]
+  (not (insta/failure? x)))
+
 (deftest full-grammar-test
   (assert-parse-result "mars-full.txt" "mars-full-parsed.edn"))
 
@@ -32,7 +37,8 @@
   (assert-parse-result "earth-geophysical.txt" "earth-geophysical-parsed.edn")
   (assert-parse-result "mars-geophysical.txt" "mars-geophysical.edn")
   (assert-parse-result "jupiter-geophysical.txt" "jupiter-geophysical-parsed.edn")
-  (assert-parse-result "saturn-geophysical.txt" "saturn-geophysical-parsed.edn"))
+  (assert-parse-result "saturn-geophysical.txt" "saturn-geophysical-parsed.edn")
+  (is (success? (parse-file "uranus-geophysical.txt"))))
 
 (deftest tree->map-test
   (is (= (tree->map
