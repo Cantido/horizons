@@ -68,6 +68,7 @@
     <orderEntry type="library" name="Leiningen: ring/ring-codec:1.0.0" level="project" />
     <orderEntry type="library" name="Leiningen: ring/ring-core:1.2.1" level="project" />
     <orderEntry type="library" name="Leiningen: ring/ring-json:0.4.0" level="project" />
+    <orderEntry type="library" name="Leiningen: ring/ring-mock:0.3.0" level="project" />
     <orderEntry type="library" name="Leiningen: tigris:0.1.1" level="project" />
   </component>
 </module>
