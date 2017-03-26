@@ -1,30 +1,29 @@
 [:S
- "*******************************************************************************
-Ephemeris / PORT_LOGIN Sat Mar 25 20:10:59 2017 Pasadena, USA    / Horizons
-*******************************************************************************
-Target body name: Mars (499)                      {source: mar097}
+ "Ephemeris / PORT_LOGIN Sat Mar 25 20:10:59 2017 Pasadena, USA    / Horizons"
+
+ "Target body name: Mars (499)                      {source: mar097}
 Center body name: Earth (399)                     {source: mar097}
-Center-site name: BODY CENTER
-*******************************************************************************
-Start time      : A.D. 2017-Mar-26 00:00:00.0000 TDB
+Center-site name: BODY CENTER"
+
+ "Start time      : A.D. 2017-Mar-26 00:00:00.0000 TDB
 Stop  time      : A.D. 2017-Apr-09 00:00:00.0000 TDB
-Step-size       : 60 minutes
-*******************************************************************************
-Center geodetic : 0.00000000,0.00000000,0.0000000 {E-lon(deg),Lat(deg),Alt(km)}
+Step-size       : 60 minutes"
+
+ "Center geodetic : 0.00000000,0.00000000,0.0000000 {E-lon(deg),Lat(deg),Alt(km)}
 Center cylindric: 0.00000000,0.00000000,0.0000000 {E-lon(deg),Dxy(km),Dz(km)}
 Center radii    : 6378.1 x 6378.1 x 6356.8 km     {Equator, meridian, pole}
 Output units    : KM-D
 Output type     : GEOMETRIC cartesian states
 Output format   : 3 (position, velocity, LT, range, range-rate)
 Reference frame : ICRF/J2000.0
-Coordinate systm: Ecliptic and Mean Equinox of Reference Epoch
-*******************************************************************************
-JDTDB
+Coordinate systm: Ecliptic and Mean Equinox of Reference Epoch"
+
+ "JDTDB
    X     Y     Z
    VX    VY    VZ
-   LT    RG    RR
-*******************************************************************************
-$$SOE
+   LT    RG    RR"
+
+ "$$SOE
 2457838.500000000 = A.D. 2017-Mar-26 00:00:00.0000 TDB
    2.469362459741699E+08  2.163270043150773E+08  1.830259394692242E+06
   -1.998813030648808E+06  3.666065138258934E+06  6.696681569533017E+04
@@ -49,9 +48,9 @@ $$SOE
    2.465186753423841E+08  2.170902983879470E+08  1.844207412130415E+06
   -2.009863243848363E+06  3.661551684284421E+06  6.693415437482002E+04
    1.268184459848234E-02  3.284860058628230E+08  9.118865288893367E+05
-$$EOE
-*******************************************************************************
-Coordinate system description:
+$$EOE"
+
+ "Coordinate system description:
 
   Ecliptic and Mean Equinox of Reference Epoch
 
@@ -86,5 +85,4 @@ Geometric states/elements have no aberrations applied.
      Connect    : telnet://ssd.jpl.nasa.gov:6775  (via browser)
                   http://ssd.jpl.nasa.gov/?horizons
                   telnet ssd.jpl.nasa.gov 6775    (via command-line)
-     Author     : Jon.D.Giorgini@jpl.nasa.gov
-*******************************************************************************\n"]
+     Author     : Jon.D.Giorgini@jpl.nasa.gov"]
