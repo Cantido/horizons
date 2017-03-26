@@ -160,7 +160,7 @@ physical-properties ::= <physical-properties-header>  (<ws> geophysical-field)+;
 
 equals ::= space* "=" space*;
 
-geophysical-data-header ::= ("GEOPHYSICAL DATA (updated " date "):") |  ("PHYSICAL DATA (updated " date "):");
+geophysical-data-header ::= ("GEOPHYSICAL DATA (updated " date "):") |  ("PHYSICAL DATA (updated " date "):") | ("PHYSICAL DATA (update " date "):");
 dynamical-characteristics-header ::= "DYNAMICAL CHARACTERISTICS:";
 physical-properties-header ::= "PHYSICAL PROPERTIES (revised " date "):";
 
@@ -170,7 +170,7 @@ atmospheric-pressure ::= <("Atm." | "Atmos.") " pressure" " (bar)"?> <equals> (f
 core-radius ::= <"Core radius (km)"> <equals> approximate-integer;
 crust-mass ::= <"crust"> <equals> sci-not <" kg">;
 density ::= <"Density", (", gm cm^-3" | " (g cm^-3)" | " (g/cm^3)")> <equals> (float | float-with-error);
-dipole-tilt-offset ::= <"Dipole tilt/offset"> <equals> #"\d+\.\d+de?g/\d+\.\d+Rp"
+dipole-tilt-offset ::= <"Dipole tilt/offset"> <equals> #"\d+\.?\d*de?g/\d+\.\d+Rp"
 equatorial-gravity ::= <"Equ. gravity  ms^-2"> <equals> float;
 equatorial-radius ::= <"Equatorial Radius, Re" | "Equ. radius, km" | "Equat. radius (1 bar)"> <equals> (integer | integer-with-error | float | float-with-error) <" km"?>;
 escape-velocity ::= <"Escape" ws ("vel." | "velocity") ws? unit-M62?> <equals> float <ws> <unit-M62?>;
@@ -205,7 +205,7 @@ mean-sidereal-orbital-period-years ::= <mean-sidereal-orbit-label> <equals> floa
 mean-sidereal-orbital-period-days ::= <mean-sidereal-orbit-label> <equals> float <ws> <("d" | "days")>;
 mean-solar-day ::= <"Mean solar day" ", days"?> <equals> float <" d"?>;
 mean-temperature ::= <("Atmos. temp. (1 bar)") | ("Mean Temperature" (" (" | ", ") unit-KEL ")"?)> <equals> (integer | integer-with-error)? <ws> <unit-KEL?>;
-moment-of-inertia ::= <("Mom. of Inertia" | "Moment of inertia" | "Mom. of inert. I/MRo^2")> <equals> float;
+moment-of-inertia ::= <("Mom. of Inertia" | "Moment of inertia" | "Mom. of inert. I/MRo^2")> <equals> float?;
 monent-of-inertia-upper-bound ::= <"I/MRo^2 (upper bound)"> <equals> float;
 ocean-mass ::= <"oceans"> <equals> sci-not <" kg">;
 obliquity-to-orbit ::= <"Obliquity to orbit"> <"[1]"?> <", deg"?> <equals> (float | #"\d.\d\d' \+/\- \d\.\d'") <" deg"?>;
@@ -216,7 +216,7 @@ polar-gravity ::= <"Polar gravity ms^-2"> <equals> float?;
 polar-axis ::= <"Polar axis, km"> <equals> float;
 polar-radius ::= <"Polar radius (km)"> <equals> integer-with-error;
 potential-love-k2 ::= <("Potential Love # k2" | "Love no., k2")> <equals> <"~"?> (float | float-with-error)?;
-rocky-core-mass ::= <"Rocky core mass (Mc/M)"> <equals> float;
+rocky-core-mass ::= <"Rocky core mass (Mc/M)"> <equals> float?;
 rotation-rate ::= <("Rot. Rate (x10^5 s)" | "Mean rot. rate, rad s^-1" | "Rot. rate(10^-4 rad/s)")> <equals> (float | sci-not);
 semi-major-axis ::= <"Semi-major axis"> <equals> integer-with-error?;
 solar-constant ::= <("Solar constant, " unit-D54) | "Planetary Solar Const"> <equals> float  <ws "("? unit-D54 ")"?>?;
