@@ -40,6 +40,9 @@
   (testing "neptune-geophysical.txt"
     (is (success? (parse-file "neptune-geophysical.txt")))))
 
+(deftest ephemeredes-grammar-test
+  (assert-parse-result "mars-ephemeredes.txt" "mars-ephemeredes-parsed.edn"))
+
 (deftest tree->map-test
   (is (= (tree->map
            [::h/revision-date
