@@ -5,7 +5,7 @@
             [clojure.tools.logging :as log]))
 
 (def supported-bodies
-  #{199 299 399 499 599 699 799})
+  #{199 299 399 499 599 699 799 899})
 
 (defn supported?
   "Check if the given body ID is definitely supported by this system."
