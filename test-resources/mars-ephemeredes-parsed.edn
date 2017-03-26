@@ -1,88 +1,71 @@
 [:S
- "Ephemeris / PORT_LOGIN Sat Mar 25 20:10:59 2017 Pasadena, USA    / Horizons"
-
- "Target body name: Mars (499)                      {source: mar097}
+ [:targeting "Target body name: Mars (499)                      {source: mar097}
 Center body name: Earth (399)                     {source: mar097}
-Center-site name: BODY CENTER"
+Center-site name: BODY CENTER"]
 
- "Start time      : A.D. 2017-Mar-26 00:00:00.0000 TDB
-Stop  time      : A.D. 2017-Apr-09 00:00:00.0000 TDB
-Step-size       : 60 minutes"
+ [:time-frame
+  [:start-time
+   [:timestamp
+    [:era "A.D."]
+    [:date
+     [:year [:integer "2017"]]
+     [:month "Mar"]
+     [:day [:integer "26"]]]
+    [:time
+     [:hour-of-day [:integer "00"]]
+     [:minute-of-hour [:integer "00"]]
+     [:second-of-minute [:integer "00"]]
+     [:millisecond-of-second [:integer "0000"]]]
+    [:time-zone "TDB"]]]
+  [:stop-time
+   [:timestamp
+    [:era "A.D."]
+    [:date
+     [:year [:integer "2017"]]
+     [:month "Apr"]
+     [:day [:integer "09"]]]
+    [:time
+     [:hour-of-day [:integer "00"]]
+     [:minute-of-hour [:integer "00"]]
+     [:second-of-minute [:integer "00"]]
+     [:millisecond-of-second [:integer "0000"]]]
+    [:time-zone "TDB"]]]
+  [:step-size
+   [:duration
+    [:minutes [:integer "60"]]]]]
 
- "Center geodetic : 0.00000000,0.00000000,0.0000000 {E-lon(deg),Lat(deg),Alt(km)}
+ [:ephemeris-metadata "Center geodetic : 0.00000000,0.00000000,0.0000000 {E-lon(deg),Lat(deg),Alt(km)}
 Center cylindric: 0.00000000,0.00000000,0.0000000 {E-lon(deg),Dxy(km),Dz(km)}
 Center radii    : 6378.1 x 6378.1 x 6356.8 km     {Equator, meridian, pole}
 Output units    : KM-D
 Output type     : GEOMETRIC cartesian states
 Output format   : 3 (position, velocity, LT, range, range-rate)
 Reference frame : ICRF/J2000.0
-Coordinate systm: Ecliptic and Mean Equinox of Reference Epoch"
+Coordinate systm: Ecliptic and Mean Equinox of Reference Epoch"]
 
- "JDTDB
-   X     Y     Z
-   VX    VY    VZ
-   LT    RG    RR"
+ [:ephemeredes
+  [:ephemeris
+   [:julian-day-number [:float "2457838.500000000"]]
+   [:timestamp
+    [:era "A.D."]
+    [:date
+     [:year [:integer "2017"]]
+     [:month "Mar"]
+     [:day [:integer "26"]]]
+    [:time
+     [:hour-of-day [:integer "00"]]
+     [:minute-of-hour [:integer "00"]]
+     [:second-of-minute [:integer "00"]]
+     [:millisecond-of-second [:integer "0000"]]]
+    [:time-zone "TDB"]]
+   [:x-position [:sci-not [:significand [:float "2.469362459741699"]] [:exponent [:integer "+08"]]]]
+   [:y-position [:sci-not [:significand [:float "2.163270043150773"]] [:exponent [:integer "+08"]]]]
+   [:z-position [:sci-not [:significand [:float "1.830259394692242"]] [:exponent [:integer "+06"]]]]
+   [:x-velocity [:sci-not [:significand [:float "-1.998813030648808"]] [:exponent [:integer "+06"]]]]
+   [:y-velocity [:sci-not [:significand [:float "3.666065138258934"]] [:exponent [:integer "+06"]]]]
+   [:z-velocity [:sci-not [:significand [:float "6.696681569533017"]] [:exponent [:integer "+04"]]]]
+   [:lt [:sci-not [:significand [:float "1.267450720461575"]] [:exponent [:integer "-02"]]]]
+   [:range [:sci-not [:significand [:float "3.282959521852242"]] [:exponent [:integer "+08"]]]]
+   [:range-rate [:sci-not [:significand [:float "9.126279731446180"]] [:exponent [:integer "+05"]]]]]]]
 
- "$$SOE
-2457838.500000000 = A.D. 2017-Mar-26 00:00:00.0000 TDB
-   2.469362459741699E+08  2.163270043150773E+08  1.830259394692242E+06
-  -1.998813030648808E+06  3.666065138258934E+06  6.696681569533017E+04
-   1.267450720461575E-02  3.282959521852242E+08  9.126279731446180E+05
-2457838.541666667 = A.D. 2017-Mar-26 01:00:00.0000 TDB
-   2.468529160360132E+08  2.164797382910827E+08  1.833049542549446E+06
-  -2.001023930041054E+06  3.665165459382345E+06  6.696028166693833E+04
-   1.267597516016114E-02  3.283339752701266E+08  9.124800700851079E+05
-2457838.583333333 = A.D. 2017-Mar-26 02:00:00.0000 TDB
-   2.467694939859131E+08  2.166324347491285E+08  1.835839418182880E+06
-  -2.003234403636737E+06  3.664264275887711E+06  6.695374894435656E+04
-   1.267744287763115E-02  3.283719921883844E+08  9.123319740644478E+05
-2457838.625000000 = A.D. 2017-Mar-26 03:00:00.0000 TDB
-   2.466859798416550E+08  2.167850936264845E+08  1.838629021642193E+06
-  -2.005444449170344E+06  3.663361586019475E+06  6.694721722265016E+04
-   1.267891035671491E-02  3.284100029319452E+08  9.121836846421708E+05
-2457838.666666667 = A.D. 2017-Mar-26 04:00:00.0000 TDB
-   2.466023736211360E+08  2.169377148603601E+08  1.841418352956861E+06
-  -2.007654063627803E+06  3.662457388759074E+06  6.694068589220142E+04
-   1.268037759710164E-02  3.284480074927596E+08  9.120352024186496E+05
-2457838.708333333 = A.D. 2017-Mar-26 05:00:00.0000 TDB
-   2.465186753423841E+08  2.170902983879470E+08  1.844207412130415E+06
-  -2.009863243848363E+06  3.661551684284421E+06  6.693415437482002E+04
-   1.268184459848234E-02  3.284860058628230E+08  9.118865288893367E+05
-$$EOE"
 
- "Coordinate system description:
-
-  Ecliptic and Mean Equinox of Reference Epoch
-
-    Reference epoch: J2000.0
-    XY-plane: plane of the Earth's orbit at the reference epoch
-              Note: obliquity of 84381.448 arcseconds wrt ICRF equator (IAU76)
-    X-axis  : out along ascending node of instantaneous plane of the Earth's
-              orbit and the Earth's mean equator at the reference epoch
-    Z-axis  : perpendicular to the xy-plane in the directional (+ or -) sense
-              of Earth's north pole at the reference epoch.
-
-  Symbol meaning [1 day=86400.0 s]:
-
-    JDTDB    Julian Day Number, Barycentric Dynamical Time
-      X      X-component of position vector (km)
-      Y      Y-component of position vector (km)
-      Z      Z-component of position vector (km)
-      VX     X-component of velocity vector (km/day)
-      VY     Y-component of velocity vector (km/day)
-      VZ     Z-component of velocity vector (km/day)
-      LT     One-way down-leg Newtonian light-time (day)
-      RG     Range; distance from coordinate center (km)
-      RR     Range-rate; radial velocity wrt coord. center (km/day)
-
-Geometric states/elements have no aberrations applied.
-
- Computations by ...
-     Solar System Dynamics Group, Horizons On-Line Ephemeris System
-     4800 Oak Grove Drive, Jet Propulsion Laboratory
-     Pasadena, CA  91109   USA
-     Information: http://ssd.jpl.nasa.gov/
-     Connect    : telnet://ssd.jpl.nasa.gov:6775  (via browser)
-                  http://ssd.jpl.nasa.gov/?horizons
-                  telnet ssd.jpl.nasa.gov 6775    (via command-line)
-     Author     : Jon.D.Giorgini@jpl.nasa.gov"]
