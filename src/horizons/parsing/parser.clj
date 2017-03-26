@@ -2,7 +2,8 @@
   "Parses and transforms output from the HORIZONS telnet client."
   (:require [horizons.parsing.time :as t]
             [instaparse.core :as core]
-            [instaparse.transform :as transform]))
+            [instaparse.transform :as transform]
+            [clojure.tools.logging :as log]))
 
 (defn ^:private throw-parse-exception
   "Throw an exception documenting a parse exception"
@@ -12,6 +13,7 @@
 
 (defn ^:private assert-success
   [x]
+  (log/debug "Checking parse tree for failure")
   (if (instaparse.core/failure? x)
     (throw-parse-exception x)
     x))
@@ -21,8 +23,8 @@
   (comp
     (-> "horizons.bnf"
       clojure.java.io/resource
-      core/parser)
-    assert-success))
+      core/parser)))
+
 
 (defn ^:private string->int [s]
   (Integer/parseInt s))
@@ -108,10 +110,17 @@
            transform
            tree->map)))
 
+(defn log-parse-result [s]
+  (log/debug "Resulting parse tree:\n" s)
+  s)
+
 (defn horizons-response->data-structure
   "Parses and transforms a response from HORIZONS
    into a useful data structure."
   [s]
+  {:post [(complement empty?)]}
   (->> s
        parse
+       assert-success
+       log-parse-result
        restructure))
