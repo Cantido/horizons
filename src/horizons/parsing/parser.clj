@@ -39,11 +39,8 @@
 (def ^:private transform-rules
   {:comma-separated-integer #(clojure.string/replace % "," "")
    :date (fn [& more] [:date (t/datemap->date (into {} more))])
-   :ephemeris (fn [& more] {:ephemeris (set more)})
-   :ephemeris-line-item (fn [& more] (into {} more))
    :float bigdec
    :integer string->int
-   :measurement-time (fn [& more] {:measurement-time (into {} more)})
    :month (fn [s] [:month (t/month->int s)])
    :sci-not sci-not->bigdec
    :time (fn [& more]  {:time (into {} more)})

@@ -86,44 +86,7 @@
            ::h/density "3.933(5+-4)"
            ::h/mass "6.4185"}})))
 
-(def ephemeris-input
-  [:ephemeris
-   [:ephemeris-line-item
-    [:measurement-time
-     [:timestamp
-      [:date
-       [:year [:integer "2017"]]
-       [:month "Feb"]
-       [:day [:integer "24"]]]
-      [:time
-       [:hour-of-day [:integer "00"]]
-       [:minute-of-hour [:integer "00"]]
-       [:second-of-minute [:integer "00"]]
-       [:millisecond-of-second [:integer "0000"]]]]]
-    [:ascension-declination "01 12 18.78 +07 36 55.3"],
-    [:apparent-magnitude "1.27"],
-    [:surface-brightness "4.29"],
-    [:range "2.00321056835551"],
-    [:range-rate "11.4427302"],
-    [:sun-observer-target-angle "44.2386"],
-    [:sun-observer-target-angle-direction "/T"],
-    [:sun-target-observer-angle "28.0789"]]])
-
-(def ephemeris-output
-  {::h/ephemeris
-   #{
-     {::h/measurement-time {::h/timestamp (t/date-time 2017 2 24 0 0 0 0)}
-      ::h/ascension-declination "01 12 18.78 +07 36 55.3"
-      ::h/apparent-magnitude "1.27"
-      ::h/surface-brightness "4.29"
-      ::h/range "2.00321056835551"
-      ::h/range-rate "11.4427302"
-      ::h/sun-observer-target-angle "44.2386"
-      ::h/sun-observer-target-angle-direction "/T"
-      ::h/sun-target-observer-angle "28.0789"}}})
-
 (deftest transform-test
-  (is (= (restructure ephemeris-input) ephemeris-output))
   (is (= (restructure (get-edn "mercury-geophysical-parsed.edn")) mercury-map)))
 
 (deftest sci-not-transform-test
