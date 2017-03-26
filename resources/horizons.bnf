@@ -160,7 +160,7 @@ physical-properties ::= <physical-properties-header>  (<ws> geophysical-field)+;
 
 equals ::= space* "=" space*;
 
-geophysical-data-header ::= ("GEOPHYSICAL DATA (updated " date "):") |  ("PHYSICAL DATA (updated " date "):") | ("PHYSICAL DATA (update " date "):");
+geophysical-data-header ::= "GEO"? "PHYSICAL DATA" ws "(update" "d"? ws date "):";
 dynamical-characteristics-header ::= "DYNAMICAL CHARACTERISTICS:";
 physical-properties-header ::= "PHYSICAL PROPERTIES (revised " date "):";
 
