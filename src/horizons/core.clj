@@ -4,7 +4,7 @@
             [horizons.telnet.client :refer :all]))
 
 (def supported-bodies
-  #{199 299 399 499 599})
+  #{199 299 399 499 599 699})
 
 (defn supported?
   "Check if the given body ID is definitely supported by this system."
