@@ -1,19 +1,14 @@
 (* Overall document structure *)
 
-S ::=
+S ::= geophysical-document;
+
+<geophysical-document> ::=
     <garbage*>,
     <separator>, file-header,
     (<ws>        geophysical-data)?
     (<ws>        physical-properties)?
     (<ws>        dynamical-characteristics)?
-    (<separator>, <ephemeris-metadata>)?
-    (<separator>, targeting)?
-    (<separator>, time-frame)?
-    (<separator>, constants)?
-    (<separator>, <ephemeris-header>)?
-    (<separator>, ephemeris)?
-    (<separator>, <footer>)?
-    (<separator> <#"."*> <select-prompt>)?;
+    <separator> <#"."*> <select-prompt>;
 
 (* General data types *)
 
@@ -231,112 +226,7 @@ visual-magnitude-opposition ::= <"Vis. mag. (opposition)"> <equals> <"+"?> float
 volume ::= <("Volume (x10^10 km^3)" | "Volume, 10^10 km^3")> <equals> float;
 y-factor ::= <"Y factor (He/H ratio)"> <equals> float-with-error?;
 
-ephemeris-metadata ::=
-"Ephemeris / WWW_USER Mon Mar  6 16:56:26 2017 Pasadena, USA      / Horizons" <ws>;
-
-targeting ::= target-body, center-body, center-site;
-
-target-body ::= <"Target body name:"> targeting-body <ws>
-center-body ::= <"Center body name:"> targeting-body <ws>
-center-site ::= <"Center-site name:"> <space> "GEOCENTRIC" <ws>;
-
-<targeting-body> := <space> body-name <space> <"("> body-id <")"> <space+> source;
-
-source ::= <"{source:"> <space> "mar097" <"}">;
 obliquity-source ::= "[1] Margot et al., Science 316, 2007";
-
-time-frame ::= start-time, stop-time, step-size;
-
-start-time ::= <"Start time      : "> timestamp <ws>;
-stop-time ::= <"Stop  time      : "> timestamp <ws>;
-step-size ::= <"Step-size       : "> duration <ws>;
-
-colon ::= ws ":" ws;
-by ::= ws "x" ws;
-
-constants ::=
-    target-pole-equ,
-    target-radii,
-    center-geodetic,
-    center-cylindric,
-    center-pole-equ,
-    center-radii,
-    target-primary,
-    visibility-interferer,
-    rel-light-bend,
-    rel-light-bend-gm,
-    atmospheric-refraction,
-    ra-format,
-    time-format,
-    eop-file,
-    eop-coverage,
-    units-conversion,
-    table-cutoffs-1,
-    table-cutoffs-2;
-
-
-target-pole-equ ::= <"Target pole/equ"> <colon> "IAU_MARS" <ws> <"{East-longitude -}"> <ws>;
-target-radii ::= <"Target radii"> <colon> equator <by> meridian <by> pole <" km"> <ws> <"{Equator, meridian, pole}"> <ws>;
-center-geodetic ::= <"Center geodetic"> <colon> longitude <","> latitude <","> altitude <ws> <"{E-lon(deg),Lat(deg),Alt(km)}"> <ws>;
-center-cylindric ::= <"Center cylindric"> <colon> longitude <","> xy-dimension <","> z-dimension <ws> <"{E-lon(deg),Dxy(km),Dz(km)}"> <ws>;
-center-pole-equ ::= <"Center pole/equ"> <colon> "High-precision EOP model" <ws> <"{East-longitude +}"> <ws>;
-center-radii ::= <"Center radii"> <colon> "6378.1 x 6378.1 x 6356.8 km" <ws> <"{Equator, meridian, pole}"> <ws>;
-target-primary ::= <"Target primary"> <colon> "Sun" <ws>;
-visibility-interferer ::= <"Vis. interferer"> <colon> "MOON (R_eq= 1737.400) km" <ws> <source> <ws>;
-rel-light-bend ::= <"Rel. light bend"> <colon> "Sun, EARTH" <ws> <source> <ws>;
-rel-light-bend-gm ::= <"Rel. lght bnd GM"> <colon> "1.3271E+11, 3.9860E+05 km^3/s^2" <ws>;
-atmospheric-refraction ::= <"Atmos refraction"> <colon> "NO (AIRLESS)" <ws>;
-ra-format ::= <"RA format"> <colon> "HMS" <ws>;
-time-format ::= <"Time format"> <colon> "CAL" <ws>;
-eop-file ::= <"EOP file"> <colon> "eop.170306.p170528" <ws>;
-eop-coverage ::= <"EOP coverage"> <colon> "DATA-BASED 1962-JAN-20 TO 2017-MAR-06. PREDICTS-> 2017-MAY-27" <ws>;
-units-conversion ::= <"Units conversion"> <colon> "1 au= 149597870.700 km, c= 299792.458 km/s, 1 day= 86400.0 s" <ws>;
-table-cutoffs-1 ::= <"Table cut-offs 1"> <colon> "Elevation (-90.0deg=NO ),Airmass (>38.000=NO), Daylight (NO )" <ws>;
-table-cutoffs-2 ::= <"Table cut-offs 2"> <colon> "Solar Elongation (  0.0,180.0=NO ),Local Hour Angle( 0.0=NO )" <ws>;
-
-equator ::= float;
-meridian ::= float;
-pole ::= float;
-
-longitude ::= float;
-latitude ::= float;
-altitude ::= float
-
-xy-dimension ::= float;
-z-dimension ::= float;
-
-ephemeris-header ::= " Date__(UT)__HR:MN     R.A._(ICRF/J2000.0)_DEC  APmag  S-brt            delta      deldot    S-O-T /r    S-T-O" <ws>;
-
-ephemeris ::= <"$$SOE">, <ws>, ephemeris-line-item+, <"$$EOE">, <ws>;
-
-ephemeris-line-item ::=
-    <ws>, measurement-time,
-    <ws>, ascension-declination,
-    <ws>, apparent-magnitude,
-    <ws>, surface-brightness,
-    <ws>, range,
-    <ws>, range-rate,
-    <ws>, sun-observer-target-angle,
-    <ws>, sun-observer-target-angle-direction,
-    <ws>, sun-target-observer-angle,
-    <ws>;
-
-measurement-time ::= timestamp;
-
-ascension-declination ::= #"\d\d \d\d \d\d\.\d\d \+\d\d \d\d \d\d\.\d";
-
-apparent-magnitude ::= float;
-
-surface-brightness ::= float;
-
-range ::= float;
-range-rate ::= float;
-sun-observer-target-angle ::= float;
-
-sun-observer-target-angle-direction ::= "/T" | "/L";
-
-sun-target-observer-angle ::= float;
 
 select-prompt ::= "Select ... [E]phemeris, [F]tp, [M]ail, [R]edisplay, ?, <cr>:" <ws>;
 
-footer ::= "Column meaning:", #"[\s\S\w\W.]*";

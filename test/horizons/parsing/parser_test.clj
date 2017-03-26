@@ -6,8 +6,7 @@
     [instaparse.core :as insta]
     [horizons.core :as h]
     [horizons.parsing.parser :refer :all]
-    [horizons.parsing.parser-test-mercury :refer :all]
-    [horizons.parsing.parser-test-mars :refer :all]))
+    [horizons.parsing.parser-test-mercury :refer :all]))
 
 
 (defn get-file [name]
@@ -27,9 +26,6 @@
 
 (defn success? [x]
   (not (insta/failure? x)))
-
-(deftest full-grammar-test
-  (assert-parse-result "mars-full.txt" "mars-full-parsed.edn"))
 
 (deftest geophysical-grammar-test
   (assert-parse-result "mercury-geophysical.txt" "mercury-geophysical-parsed.edn")
@@ -125,7 +121,6 @@
 
 (deftest transform-test
   (is (= (restructure ephemeris-input) ephemeris-output))
-  (is (= (restructure (get-edn "mars-full-parsed.edn")) mars-map))
   (is (= (restructure (get-edn "mercury-geophysical-parsed.edn")) mercury-map)))
 
 (deftest sci-not-transform-test
