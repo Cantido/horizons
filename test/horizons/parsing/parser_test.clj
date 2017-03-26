@@ -1,4 +1,4 @@
-(ns horizons.parser-test
+(ns horizons.parsing.parser-test
   (:require
     [clj-time.core :as t]
     [clojure.java.io :as io]
@@ -6,8 +6,8 @@
     [instaparse.core :as insta]
     [horizons.core :as h]
     [horizons.parsing.parser :refer :all]
-    [horizons.parser-test-mercury :refer :all]
-    [horizons.parser-test-mars :refer :all]))
+    [horizons.parsing.parser-test-mercury :refer :all]
+    [horizons.parsing.parser-test-mars :refer :all]))
 
 
 (defn get-file [name]

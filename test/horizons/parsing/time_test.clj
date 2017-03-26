@@ -1,4 +1,4 @@
-(ns horizons.time-test
+(ns horizons.parsing.time-test
   (:require [clojure.test :refer :all]
             [clj-time.core :as t]
             [horizons.core :as h]

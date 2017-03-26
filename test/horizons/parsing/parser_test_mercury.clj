@@ -1,4 +1,4 @@
-(ns horizons.parser-test-mercury
+(ns horizons.parsing.parser-test-mercury
   (:require
     [horizons.core :as h]
     [clj-time.core :as t]))

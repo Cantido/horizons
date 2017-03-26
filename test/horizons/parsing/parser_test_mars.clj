@@ -1,4 +1,4 @@
-(ns horizons.parser-test-mars
+(ns horizons.parsing.parser-test-mars
   (:require
     [horizons.core :as h]
     [clj-time.core :as t]))
