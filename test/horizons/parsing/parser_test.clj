@@ -21,8 +21,9 @@
   (parse (get-file name)))
 
 (defn assert-parse-result [txt-name edn-name]
-  (is (= (parse-file txt-name)
-         (get-edn edn-name))))
+  (testing txt-name
+    (is (= (parse-file txt-name)
+           (get-edn edn-name)))))
 
 (defn success? [x]
   (not (insta/failure? x)))
@@ -34,8 +35,10 @@
   (assert-parse-result "mars-geophysical.txt" "mars-geophysical.edn")
   (assert-parse-result "jupiter-geophysical.txt" "jupiter-geophysical-parsed.edn")
   (assert-parse-result "saturn-geophysical.txt" "saturn-geophysical-parsed.edn")
-  (is (success? (parse-file "uranus-geophysical.txt")))
-  (is (success? (parse-file "neptune-geophysical.txt"))))
+  (testing "uranus-geophysical.txt"
+    (is (success? (parse-file "uranus-geophysical.txt"))))
+  (testing "neptune-geophysical.txt"
+    (is (success? (parse-file "neptune-geophysical.txt")))))
 
 (deftest tree->map-test
   (is (= (tree->map
