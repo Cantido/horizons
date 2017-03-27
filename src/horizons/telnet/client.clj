@@ -15,16 +15,20 @@
           next-word
           (recur next-word)))))
 
+(def block-endings
+  #{"Horizons> "
+    "Select ... [E]phemeris, [F]tp, [M]ail, [R]edisplay, ?, <cr>: "})
+
 (defn ^:private next-block
   "Returns a channel that will provide everything from
    the HORIZONS client until the next input prompt"
   [chan]
   (async/go-loop [block-so-far ""]
-    (let [next-word (async/<! (next-token chan))]
+    (let [next-word (async/<! (next-token chan))
+          new-next-block (str block-so-far next-word)]
       (cond
-       (string/starts-with? next-word "Horizons>") block-so-far
-       (string/starts-with? next-word "<cr>:") (str block-so-far next-word)
-       :else (recur (str block-so-far next-word))))))
+       (some #(.endsWith new-next-block %) block-endings) new-next-block
+       :else (recur new-next-block)))))
 
 (defn ^:private wait-for-prompt
   "Returns a channel that will close once the next
