@@ -1,0 +1,104 @@
+*******************************************************************************
+Ephemeris / PORT_LOGIN Sun Mar 26 17:34:22 2017 Pasadena, USA    / Horizons
+*******************************************************************************
+Target body name: Mercury (199)                   {source: DE431mx}
+Center body name: Earth (399)                     {source: DE431mx}
+Center-site name: BODY CENTER
+*******************************************************************************
+Start time      : A.D. 2017-Mar-27 00:00:00.0000 TDB
+Stop  time      : A.D. 2017-Apr-10 00:00:00.0000 TDB
+Step-size       : 60 minutes
+*******************************************************************************
+Center geodetic : 0.00000000,0.00000000,0.0000000 {E-lon(deg),Lat(deg),Alt(km)}
+Center cylindric: 0.00000000,0.00000000,0.0000000 {E-lon(deg),Dxy(km),Dz(km)}
+Center radii    : 6378.1 x 6378.1 x 6356.8 km     {Equator, meridian, pole}
+Output units    : AU-D
+Output type     : GEOMETRIC cartesian states
+Output format   : 3 (position, velocity, LT, range, range-rate)
+Reference frame : ICRF/J2000.0
+Coordinate systm: Ecliptic and Mean Equinox of Reference Epoch
+*******************************************************************************
+JDTDB
+   X     Y     Z
+   VX    VY    VZ
+   LT    RG    RR
+*******************************************************************************
+$$SOE
+2457839.500000000 = A.D. 2017-Mar-27 00:00:00.0000 TDB
+   9.444204034775714E-01  4.152648684645536E-01  2.935768354442082E-02
+  -3.504697594616541E-02  1.389161271722503E-02  2.798990525361818E-03
+   5.960930021552327E-03  1.032103038978530E+00 -2.640066691872877E-02
+2457839.541666667 = A.D. 2017-Mar-27 01:00:00.0000 TDB
+   9.429602628376325E-01  4.158410494646521E-01  2.947405764868691E-02
+  -3.503968246684885E-02  1.376510115613508E-02  2.786960283265107E-03
+   5.954574961057782E-03  1.031002694363579E+00 -2.641582917170814E-02
+2457839.583333333 = A.D. 2017-Mar-27 02:00:00.0000 TDB
+   9.415004376203799E-01  4.164119624049921E-01  2.958992972107495E-02
+  -3.503183590495818E-02  1.363874636924822E-02  2.774893060699729E-03
+   5.948216284622880E-03  1.029901723667963E+00 -2.643071875557635E-02
+2457839.625000000 = A.D. 2017-Mar-27 03:00:00.0000 TDB
+   9.400409508398012E-01  4.169776138827692E-01  2.970529822892250E-02
+  -3.502343775791855E-02  1.351255147074336E-02  2.762789250916739E-03
+   5.941854057889375E-03  1.028800138257200E+00 -2.644533546558466E-02
+2457839.666666667 = A.D. 2017-Mar-27 04:00:00.0000 TDB
+   9.385818254470308E-01  4.175380106245846E-01  2.982016165596586E-02
+  -3.501448954523296E-02  1.338651955786594E-02  2.750649247797150E-03
+   5.935488346546965E-03  1.027697949505108E+00 -2.645967910799938E-02
+2457839.708333333 = A.D. 2017-Mar-27 05:00:00.0000 TDB
+   9.371230843294345E-01  4.180931594857349E-01  2.993451850236562E-02
+  -3.500499280827020E-02  1.326065371074134E-02  2.738473445816867E-03
+   5.929119216330644E-03  1.026595168793349E+00 -2.647374950006661E-02
+2457839.750000000 = A.D. 2017-Mar-27 06:00:00.0000 TDB
+   9.356647503097022E-01  4.186430674494958E-01  3.004836728473055E-02
+  -3.499494911005104E-02  1.313495699219136E-02  2.726262240011751E-03
+   5.922746733018071E-03  1.025491807510971E+00 -2.648754646997556E-02
+2457839.791666667 = A.D. 2017-Mar-27 07:00:00.0000 TDB
+   9.342068461449513E-01  4.191877416263967E-01  3.016170653614049E-02
+  -3.498436003503258E-02  1.300943244755380E-02  2.714016025942767E-03
+   5.916370962426941E-03  1.024387877053955E+00 -2.650106985682076E-02
+2457839.833333333 = A.D. 2017-Mar-27 08:00:00.0000 TDB
+   9.327493945258362E-01  4.197271892534890E-01  3.027453480616703E-02
+  -3.497322718889121E-02  1.288408310450523E-02  2.701735199661232E-03
+   5.909991970412352E-03  1.023283388824757E+00 -2.651431951056298E-02
+$$EOE
+*******************************************************************************
+Coordinate system description:
+
+  Ecliptic and Mean Equinox of Reference Epoch
+
+    Reference epoch: J2000.0
+    XY-plane: plane of the Earth's orbit at the reference epoch
+              Note: obliquity of 84381.448 arcseconds wrt ICRF equator (IAU76)
+    X-axis  : out along ascending node of instantaneous plane of the Earth's
+              orbit and the Earth's mean equator at the reference epoch
+    Z-axis  : perpendicular to the xy-plane in the directional (+ or -) sense
+              of Earth's north pole at the reference epoch.
+
+  Symbol meaning [1 au= 149597870.700 km, 1 day= 86400.0 s]:
+
+    JDTDB    Julian Day Number, Barycentric Dynamical Time
+      X      X-component of position vector (au)
+      Y      Y-component of position vector (au)
+      Z      Z-component of position vector (au)
+      VX     X-component of velocity vector (au/day)
+      VY     Y-component of velocity vector (au/day)
+      VZ     Z-component of velocity vector (au/day)
+      LT     One-way down-leg Newtonian light-time (day)
+      RG     Range; distance from coordinate center (au)
+      RR     Range-rate; radial velocity wrt coord. center (au/day)
+
+Geometric states/elements have no aberrations applied.
+
+ Computations by ...
+     Solar System Dynamics Group, Horizons On-Line Ephemeris System
+     4800 Oak Grove Drive, Jet Propulsion Laboratory
+     Pasadena, CA  91109   USA
+     Information: http://ssd.jpl.nasa.gov/
+     Connect    : telnet://ssd.jpl.nasa.gov:6775  (via browser)
+                  http://ssd.jpl.nasa.gov/?horizons
+                  telnet ssd.jpl.nasa.gov 6775    (via command-line)
+     Author     : Jon.D.Giorgini@jpl.nasa.gov
+*******************************************************************************
+
+ >>> Select... [A]gain, [N]ew-case, [F]tp, [K]ermit, [M]ail, [R]edisplay, ? :
+
