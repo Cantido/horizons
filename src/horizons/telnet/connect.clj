@@ -24,7 +24,7 @@
   (log/info "Initiating a Telnet connection to ssd.jpl.nasa.gov:6775.")
   (let [client (TelnetClient.)
         to-telnet (async/chan)
-        from-telnet (async/chan (async/sliding-buffer 1000))]
+        from-telnet (async/chan)]
     (.connect client "ssd.jpl.nasa.gov" 6775)
     (let [writer (-> client .getOutputStream (io/writer :encoding "US-ASCII"))
           reader-seq (-> client .getInputStream (io/reader :encoding "US-ASCII") char-seq)]
