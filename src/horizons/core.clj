@@ -29,3 +29,12 @@
     log-response
     parser/horizons-response->data-structure
     ::S))
+
+(defn get-ephemeris [id]
+  (log/debug "Getting ephemeris for" id)
+  (->>
+    id
+    telnet/get-ephemeris-data
+    log-response
+    parser/horizons-response->data-structure
+    ::S))

@@ -2,7 +2,8 @@
   "Communicates to the HORIZONS Telnet server."
   (:require [clojure.core.async :as async]
             [clojure.string :as string]
-            [horizons.telnet.pool :as pool]))
+            [horizons.telnet.pool :as pool]
+            [clojure.tools.logging :as log]))
 
 (defn ^:private next-token
   "Returns a channel that will provide the next
@@ -16,8 +17,17 @@
           (recur next-word)))))
 
 (def block-endings
-  #{"Horizons> "
-    "Select ... [E]phemeris, [F]tp, [M]ail, [R]edisplay, ?, <cr>: "})
+  #{#"Horizons> "
+    #"<cr>: "
+    #"Select\.\.\. \[A\]gain, \[N\]ew-case, \[F\]tp, \[K\]ermit, \[M\]ail, \[R\]edisplay, \? : "
+    #"Observe, Elements, Vectors  \[o,e,v,\?\] : "
+    #"Coordinate center \[ <id>,coord,geo  \] : "
+    #"Use previous center  \[ cr=\(y\), n, \? \] : "
+    #"Reference plane \[eclip, frame, body \] : "
+    #"Starting TDB \[>=\s+\d+(BC)?-[a-zA-Z]+-\d+ \d\d:\d\d\] : "
+    #"Ending   TDB \[<=\s+\d+(BC)?-[a-zA-Z]+-\d+ \d\d:\d\d\] : "
+    #"Output interval \[ex: 10m, 1h, 1d, \? \] : "
+    #"Accept default output \[ cr=\(y\), n, \?\] : "})
 
 (defn ^:private next-block
   "Returns a channel that will provide everything from
@@ -26,8 +36,9 @@
   (async/go-loop [block-so-far ""]
     (let [next-word (async/<! (next-token chan))
           new-next-block (str block-so-far next-word)]
+      (log/trace "Block so far:\n" new-next-block)
       (cond
-       (some #(.endsWith new-next-block %) block-endings) new-next-block
+       (some #(re-find % new-next-block) block-endings) new-next-block
        :else (recur new-next-block)))))
 
 (defn ^:private wait-for-prompt
@@ -42,6 +53,36 @@
   "Brings the given client back to a command prompt"
   [conn]
   (async/>!! conn ""))
+
+(defn get-ephemeris-data
+  "Get a block of String data from the HORIZONS system
+   with geophysical data about the given body-id"
+  [body-id]
+  (let [[in out] (pool/connect)]
+    (async/<!! (wait-for-prompt out))
+    (async/>!! in body-id)
+    (log/debug (async/<!! (next-block out)))
+    (log/debug "Sending E")
+    (async/>!! in "E")
+    (log/debug (async/<!! (next-block out)))
+    (async/>!! in "v")
+    (log/debug (async/<!! (next-block out)))
+    (async/>!! in "")
+    (log/debug (async/<!! (next-block out)))
+    (async/>!! in "eclip")
+    (log/debug (async/<!! (next-block out)))
+    (async/>!! in "")
+    (log/debug (async/<!! (next-block out)))
+    (async/>!! in "")
+    (log/debug (async/<!! (next-block out)))
+    (async/>!! in "")
+    (log/debug (async/<!! (next-block out)))
+    (async/>!! in "")
+    (let [result (async/<!! (next-block out))]
+      (log/debug result)
+      (async/>!! in "N")
+      (async/<!! (next-block out))
+      result)))
 
 (defn get-body
   "Get a block of String data from the HORIZONS system about the given body-id"

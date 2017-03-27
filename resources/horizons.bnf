@@ -11,6 +11,7 @@ S ::= geophysical-document | ephemeredes-document;
     <separator> <#"."*> <select-prompt>;
 
 <ephemeredes-document> ::=
+    <ws "Working" " ... " ("/" | "\\")*, "  ", #"."*>
     <separator> <ephemeris-header>
     <separator> <targeting>
     <separator> time-frame

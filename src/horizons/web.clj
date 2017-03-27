@@ -25,24 +25,35 @@
         :else form))
     tree))
 
+(defn handle-exception [e]
+  (log/error e)
+  (-> "500.json"
+      (response/resource-response {:root "public"})
+      (response/status 500)
+      (liberator.representation/ring-response)))
+
 (defresource planetary-body-resource [id]
   :allowed-methods [:get]
   :available-media-types ["application/json"]
   :available-languages ["en-US"]
   :exists? (fn [_] (h/supported? id))
-  :handle-ok (fn [ctx]
-                 (-> id h/get-planetary-body iso-format-dates))
-  :handle-exception (fn [e]
-                        (log/error e)
-                        (-> "500.json"
-                          (response/resource-response {:root "public"})
-                          (response/status 500)
-                          (liberator.representation/ring-response))))
+  :handle-ok (fn [ctx] (-> id h/get-planetary-body iso-format-dates))
+  :handle-exception handle-exception)
+
+(defresource ephemeris-resource [id]
+  :allowed-methods [:get]
+  :available-media-types ["application/json"]
+  :available-languages ["en-US"]
+  :exists? (fn [_] (h/supported? id))
+  :handle-ok (fn [ctx] (-> id h/get-ephemeris iso-format-dates))
+  :handle-exception handle-exception)
 
 (defroutes handler
   (GET "/" [] (response/resource-response "index.html" {:root "public"}))
-  (ANY ["/bodies/:id", :id #"[0-9]+"] [id] (planetary-body-resource id))
   (route/resources "/")
+  (context ["/bodies/:id", :id #"[0-9]+"] [id]
+    (ANY "/" [] (planetary-body-resource id))
+    (ANY "/ephemeris" [] (ephemeris-resource id)))
   (route/not-found (response/not-found "Resource not found.")))
 
 (def app
