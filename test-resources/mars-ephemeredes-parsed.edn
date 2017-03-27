@@ -1,8 +1,4 @@
 [:S
- [:targeting "Target body name: Mars (499)                      {source: mar097}
-Center body name: Earth (399)                     {source: mar097}
-Center-site name: BODY CENTER"]
-
  [:time-frame
   [:start-time
    [:timestamp
@@ -33,15 +29,6 @@ Center-site name: BODY CENTER"]
   [:step-size
    [:duration
     [:minutes [:integer "60"]]]]]
-
- [:ephemeris-metadata "Center geodetic : 0.00000000,0.00000000,0.0000000 {E-lon(deg),Lat(deg),Alt(km)}
-Center cylindric: 0.00000000,0.00000000,0.0000000 {E-lon(deg),Dxy(km),Dz(km)}
-Center radii    : 6378.1 x 6378.1 x 6356.8 km     {Equator, meridian, pole}
-Output units    : KM-D
-Output type     : GEOMETRIC cartesian states
-Output format   : 3 (position, velocity, LT, range, range-rate)
-Reference frame : ICRF/J2000.0
-Coordinate systm: Ecliptic and Mean Equinox of Reference Epoch"]
 
  [:ephemeredes
   [:ephemeris

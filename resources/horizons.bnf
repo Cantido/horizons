@@ -12,9 +12,9 @@ S ::= geophysical-document | ephemeredes-document;
 
 <ephemeredes-document> ::=
     <separator> <ephemeris-header>
-    <separator> targeting
+    <separator> <targeting>
     <separator> time-frame
-    <separator> ephemeris-metadata
+    <separator> <ephemeris-metadata>
     <separator> <ephemeris-legend>
     <separator> ephemeredes
     <separator> <coordinate-system-description>
