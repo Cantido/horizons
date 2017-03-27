@@ -28,12 +28,14 @@
     (.connect client "ssd.jpl.nasa.gov" 6775)
     (let [writer (-> client .getOutputStream (io/writer :encoding "US-ASCII"))
           reader-seq (-> client .getInputStream (io/reader :encoding "US-ASCII") char-seq)]
-      (async/go-loop [remaining-reader-seq reader-seq]
-        (async/>! from-telnet (first remaining-reader-seq))
-        (recur (rest remaining-reader-seq)))
-      (async/go-loop []
-        (.write writer ^String (str (async/<! to-telnet) \newline))
-        (.flush writer)
-        (recur)))
+      (async/thread
+        (loop [remaining-reader-seq reader-seq]
+          (async/>!! from-telnet (first remaining-reader-seq))
+          (recur (rest remaining-reader-seq))))
+      (async/thread
+        (loop []
+          (.write writer ^String (str (async/<!! to-telnet) \newline))
+          (.flush writer)
+          (recur))))
     (log/info "Connection to ssd.jpl.nasa.gov:6775 established.")
     [to-telnet from-telnet]))
