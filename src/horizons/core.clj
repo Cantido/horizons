@@ -1,7 +1,7 @@
 (ns horizons.core
   "Provides access to NASA's HORIZONS solar system body database."
-  (:require [horizons.parsing.parser :refer :all]
-            [horizons.telnet.client :refer :all]
+  (:require [horizons.parsing.parser :as parser]
+            [horizons.telnet.client :as telnet]
             [clojure.tools.logging :as log]))
 
 (def supported-bodies
@@ -25,7 +25,7 @@
   (log/debug "Getting body" id)
   (->>
     id
-    get-body
+    telnet/get-body
     log-response
-    horizons-response->data-structure
+    parser/horizons-response->data-structure
     ::S))
