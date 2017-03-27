@@ -1,26 +1,28 @@
 (* Overall document structure *)
 
-S ::= geophysical-document | ephemeredes-document;
+S ::= <garbage*> (geophysical-document | ephemeredes-document);
 
 <geophysical-document> ::=
-    <garbage*>,
     <separator>, file-header,
     (<ws>        geophysical-data)?
     (<ws>        physical-properties)?
     (<ws>        dynamical-characteristics)?
-    <separator> <#"."*> <select-prompt>;
+    <separator> <any*> <select-prompt>;
 
 <ephemeredes-document> ::=
-    <ws "Working" " ... " ("/" | "\\")*, "  ", #"."*>
+    <ws "Working" " ... " ("/" | "\\")*, "  "?, any*>?
     <separator> <ephemeris-header>
     <separator> <targeting>
     <separator> time-frame
     <separator> <ephemeris-metadata>
     <separator> <ephemeris-legend>
     <separator> ephemeredes
-    <separator> <coordinate-system-description>
     <separator>
-    <select-prompt?>;
+    <coordinate-system-description>
+    <separator>
+    <garbage*>
+    <select-prompt>
+    <ws?>;
 
 ephemeris-header ::=
 "Ephemeris / PORT_LOGIN" ws date ws time ws year ws "Pasadena, USA    / Horizons"
@@ -78,51 +80,52 @@ range-rate ::= sci-not;
 coordinate-system-description ::=
 "Coordinate system description:" ws
 
-"  Ecliptic and Mean Equinox of Reference Epoch" ws
+  "Ecliptic and Mean Equinox of Reference Epoch" ws
 
-"    Reference epoch: J2000.0" ws
-"    XY-plane: plane of the Earth's orbit at the reference epoch" ws
-"              Note: obliquity of 84381.448 arcseconds wrt ICRF equator (IAU76)" ws
-"    X-axis  : out along ascending node of instantaneous plane of the Earth's" ws
-"              orbit and the Earth's mean equator at the reference epoch" ws
-"    Z-axis  : perpendicular to the xy-plane in the directional (+ or -) sense" ws
-"              of Earth's north pole at the reference epoch." ws
+    "Reference epoch: J2000.0
+    XY-plane: plane of the Earth's orbit at the reference epoch
+              Note: obliquity of 84381.448 arcseconds wrt ICRF equator (IAU76)
+    X-axis  : out along ascending node of instantaneous plane of the Earth's
+              orbit and the Earth's mean equator at the reference epoch
+    Z-axis  : perpendicular to the xy-plane in the directional (+ or -) sense
+              of Earth's north pole at the reference epoch." ws
 
-"  Symbol meaning [" "1 au= 149597870.700 km, "? "1 day=" ws? "86400.0 s]:" ws
+  "Symbol meaning [1 au= 149597870.700 km, 1 day= 86400.0 s]:" ws
 
-"    JDTDB    Julian Day Number, Barycentric Dynamical Time" ws
-"      X      X-component of position vector (" ("km" | "au") ")" ws
-"      Y      Y-component of position vector (" ("km" | "au") ")" ws
-"      Z      Z-component of position vector (" ("km" | "au") ")" ws
-"      VX     X-component of velocity vector (" ("km" | "au") "/day)" ws
-"      VY     Y-component of velocity vector (" ("km" | "au") "/day)" ws
-"      VZ     Z-component of velocity vector (" ("km" | "au") "/day)" ws
-"      LT     One-way down-leg Newtonian light-time (day)" ws
-"      RG     Range; distance from coordinate center (" ("km" | "au") ")" ws
-"      RR     Range-rate; radial velocity wrt coord. center (" ("km" | "au") "/day)" ws
+    "JDTDB    Julian Day Number, Barycentric Dynamical Time
+      X      X-component of position vector (au)
+      Y      Y-component of position vector (au)
+      Z      Z-component of position vector (au)
+      VX     X-component of velocity vector (au/day)
+      VY     Y-component of velocity vector (au/day)
+      VZ     Z-component of velocity vector (au/day)
+      LT     One-way down-leg Newtonian light-time (day)
+      RG     Range; distance from coordinate center (au)
+      RR     Range-rate; radial velocity wrt coord. center (au/day)" ws
 
 "Geometric states/elements have no aberrations applied." ws
 
-" Computations by ..." ws
-"     Solar System Dynamics Group, Horizons On-Line Ephemeris System" ws
-"     4800 Oak Grove Drive, Jet Propulsion Laboratory" ws
-"     Pasadena, CA  91109   USA" ws
-"     Information: http://ssd.jpl.nasa.gov/" ws
-"     Connect    : telnet://ssd.jpl.nasa.gov:6775  (via browser)" ws
-"                  http://ssd.jpl.nasa.gov/?horizons" ws
-"                  telnet ssd.jpl.nasa.gov 6775    (via command-line)" ws
-"     Author     : Jon.D.Giorgini@jpl.nasa.gov"
+"Computations by ...
+     Solar System Dynamics Group, Horizons On-Line Ephemeris System
+     4800 Oak Grove Drive, Jet Propulsion Laboratory
+     Pasadena, CA  91109   USA
+     Information: http://ssd.jpl.nasa.gov/
+     Connect    : telnet://ssd.jpl.nasa.gov:6775  (via browser)
+                  http://ssd.jpl.nasa.gov/?horizons" ws
+                  "telnet ssd.jpl.nasa.gov 6775    (via command-line)" ws
+     "Author     :" ws "Jon.D.Giorgini@jpl.nasa.gov";
 
 
 (* General data types *)
 
-<garbage> ::= #"[\d\\[\?1h\\= \^\>]+" | <ws>;
+<garbage> ::= #"[\d\\[\?1h\\= \^\>l]+" | <ws>;
 separator ::= <ws>, (short-sep | long-sep), <ws>, separator?;
 short-sep ::= #"\*{79}";
 long-sep ::= #"\*{110}";
 
-space ::= #"[\s\n\r]";
+space ::= #"\p{Space}";
 ws ::= space*;
+any ::= #"(?s).";
 
 <digit> ::= #"\d";
 integer ::= #"[-\+]?\d+" | comma-separated-integer;
@@ -336,6 +339,6 @@ y-factor ::= <"Y factor (He/H ratio)"> <equals> float-with-error?;
 obliquity-source ::= "[1] Margot et al., Science 316, 2007";
 
 select-prompt ::= (ws ">>>" ws)?
-                  ("Select ... [E]phemeris, [F]tp, [M]ail, [R]edisplay, ?, <cr>:" |
-                   "Select... [A]gain, [N]ew-case, [F]tp, [K]ermit, [M]ail, [R]edisplay, ? :") <ws>;
+                  ("Select" " ... " "[E]phemeris, " "[F]tp, " "[M]ail, " "[R]edisplay, " "?, " "<cr>:" |
+                   "Select... " "[A]gain, " "[N]ew-case, " "[F]tp, " "[K]ermit, " "[M]ail, " "[R]edisplay, " "? :");
 
