@@ -11,7 +11,7 @@ S ::= geophysical-document | ephemeredes-document;
     <separator> <#"."*> <select-prompt>;
 
 <ephemeredes-document> ::=
-    <ws "Working" " ... " ("/" | "\\")*, "  ", #"."*>
+    <ws "Working" " ... ", "/", "  ", ws>
     <separator> <ephemeris-header>
     <separator> <targeting>
     <separator> time-frame
@@ -20,7 +20,7 @@ S ::= geophysical-document | ephemeredes-document;
     <separator> ephemeredes
     <separator> <coordinate-system-description>
     <separator>
-    <select-prompt?>;
+    <select-prompt>;
 
 ephemeris-header ::=
 "Ephemeris / PORT_LOGIN" ws date ws time ws year ws "Pasadena, USA    / Horizons"
