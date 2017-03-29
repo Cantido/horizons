@@ -54,6 +54,10 @@
   [conn]
   (async/>!! conn ""))
 
+(defn swallow-next-block [chan]
+  (let [block (async/<!! (next-block chan))]
+    (log/debug block)))
+
 (defn get-ephemeris-data
   "Get a block of String data from the HORIZONS system
    with geophysical data about the given body-id"
@@ -61,27 +65,27 @@
   (let [[in out] (pool/connect)]
     (async/<!! (wait-for-prompt out))
     (async/>!! in body-id)
-    (log/debug (async/<!! (next-block out)))
     (log/debug "Sending E")
     (async/>!! in "E")
-    (log/debug (async/<!! (next-block out)))
+    (swallow-next-block out)
     (async/>!! in "v")
-    (log/debug (async/<!! (next-block out)))
+    (swallow-next-block out)
     (async/>!! in "")
-    (log/debug (async/<!! (next-block out)))
+    (swallow-next-block out)
     (async/>!! in "eclip")
-    (log/debug (async/<!! (next-block out)))
+    (swallow-next-block out)
     (async/>!! in "")
-    (log/debug (async/<!! (next-block out)))
+    (swallow-next-block out)
     (async/>!! in "")
-    (log/debug (async/<!! (next-block out)))
+    (swallow-next-block out)
     (async/>!! in "")
-    (log/debug (async/<!! (next-block out)))
+    (swallow-next-block out)
     (async/>!! in "")
     (let [result (async/<!! (next-block out))]
       (log/debug result)
       (async/>!! in "N")
-      (async/<!! (next-block out))
+      (swallow-next-block out)
+      (pool/release [in out])
       result)))
 
 (defn get-body
