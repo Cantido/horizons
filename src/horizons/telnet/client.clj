@@ -86,6 +86,7 @@
       (log/debug result)
       (async/>!! in "N")
       (swallow-next-block out)
+      (reset-client in)
       (pool/release [in out])
       result)))
 
