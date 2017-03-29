@@ -11,7 +11,8 @@ S ::= geophysical-document | ephemeredes-document;
     <separator> <#"."*> <select-prompt>;
 
 <ephemeredes-document> ::=
-    <ws "Working" " ...", spinning-bar, ws>
+    <ws "Working" " ...", spinning-bar>
+    <garbage*>
     <separator> <ephemeris-header>
     <separator> <targeting>
     <separator> time-frame
