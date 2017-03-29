@@ -93,6 +93,7 @@
   "Get a block of String data from the HORIZONS system about the given body-id"
   [body-id]
   (let [[in out] (pool/connect)]
+    (log/debug "Got a connection to HORIZONS, waiting for prompt before asking for data.")
     (async/<!! (wait-for-prompt out))
     (async/>!! in body-id)
     (let [result (async/<!! (next-block out))]
