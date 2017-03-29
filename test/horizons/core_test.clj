@@ -11,3 +11,6 @@
   (testing "Getting Mars (ID 599)"
     (is (not (insta/failure? (get-planetary-body 499))))))
 
+(deftest get-ephemeris-integration-test
+  (testing "Getting Mercury (ID 199)"
+    (is (not (insta/failure? (get-ephemeris 199))))))
