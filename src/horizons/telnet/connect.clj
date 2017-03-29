@@ -11,7 +11,11 @@
 (defn ^:private next-char
   "Gets the next character from the given reader"
   [rdr]
-  (-> rdr .read char str))
+  (let [read-int (.read rdr)
+        read-char (char read-int)
+        read-str (str read-char)]
+    (log/trace "Got integer" read-int "resulting in character" read-char "and string" read-str)
+    read-str))
 
 (defn ^:private char-seq
   "Returns a lazy sequence of single-character strings as read from the given reader."
