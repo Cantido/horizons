@@ -65,6 +65,7 @@
   (let [[in out] (pool/connect)]
     (async/<!! (wait-for-prompt out))
     (async/>!! in body-id)
+    (swallow-next-block out)
     (log/debug "Sending E")
     (async/>!! in "E")
     (swallow-next-block out)
