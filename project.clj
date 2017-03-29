@@ -16,6 +16,7 @@
                  [org.clojure/core.async "0.3.441"]
                  [org.clojure/data.json "0.2.6"]
                  [org.clojure/tools.logging "0.3.1"]
+                 [ch.qos.logback/logback-classic "1.1.3"]
                  [clj-time "0.13.0"]
                  [commons-net/commons-net "3.6"]
                  [compojure "1.3.4"]
