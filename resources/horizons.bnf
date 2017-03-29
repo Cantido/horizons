@@ -11,7 +11,7 @@ S ::= geophysical-document | ephemeredes-document;
     <separator> <#"."*> <select-prompt>;
 
 <ephemeredes-document> ::=
-    <ws "Working" " ... ", "/", "  ", ws>
+    <ws "Working" " ...", spinning-bar, ws>
     <separator> <ephemeris-header>
     <separator> <targeting>
     <separator> time-frame
@@ -21,6 +21,13 @@ S ::= geophysical-document | ephemeredes-document;
     <separator> <coordinate-system-description>
     <separator>
     <select-prompt>;
+
+spinning-bar ::= (forward-slash | pipe | back-slash | hyphen | ws | backspace)+;
+
+forward-slash ::= "/";
+pipe ::= "|";
+back-slash ::= "\\";
+hyphen ::= "-";
 
 ephemeris-header ::=
 "Ephemeris / PORT_LOGIN" ws date ws time ws year ws "Pasadena, USA    / Horizons"
@@ -123,6 +130,9 @@ long-sep ::= #"\*{110}";
 
 space ::= #"[\s\n\r]";
 ws ::= space*;
+backspace ::= "\u0008";
+escape ::= "\u001B"
+delete ::= "\u007F";
 
 <digit> ::= #"\d";
 integer ::= #"[-\+]?\d+" | comma-separated-integer;
