@@ -21,6 +21,7 @@ S ::= geophysical-document | ephemeredes-document;
     <separator> ephemeredes
     <separator> <coordinate-system-description>
     <separator>
+    <garbage>
     <select-prompt>;
 
 spinning-bar ::= (forward-slash | pipe | back-slash | hyphen | ws | backspace)+;
@@ -121,7 +122,7 @@ coordinate-system-description ::=
 
 (* General data types *)
 
-<garbage> ::= #"[\d\\[\?1h\\= \^\>]+" | <ws>;
+<garbage> ::= (#"[\d\[\?1h\= \^\>l]" | "K" | escape | <ws>)+;
 separator ::= <ws>, (short-sep | long-sep), <ws>, separator?;
 short-sep ::= #"\*{79}";
 long-sep ::= #"\*{110}";
@@ -343,7 +344,6 @@ y-factor ::= <"Y factor (He/H ratio)"> <equals> float-with-error?;
 
 obliquity-source ::= "[1] Margot et al., Science 316, 2007";
 
-select-prompt ::= (ws ">>>" ws)?
-                  ("Select ... [E]phemeris, [F]tp, [M]ail, [R]edisplay, ?, <cr>:" |
-                   "Select... [A]gain, [N]ew-case, [F]tp, [K]ermit, [M]ail, [R]edisplay, ? :") <ws>;
+select-prompt ::= ("Select ... [E]phemeris, [F]tp, [M]ail, [R]edisplay, ?, <cr>: " |
+                   ">>> Select... [A]gain, [N]ew-case, [F]tp, [K]ermit, [M]ail, [R]edisplay, ? : ");
 
