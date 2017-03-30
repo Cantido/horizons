@@ -52,13 +52,10 @@ ephemeris-metadata ::=
 "Output type     : GEOMETRIC cartesian states" ws
 "Output format   : 3 (position, velocity, LT, range, range-rate)" ws
 "Reference frame : ICRF/J2000.0" ws
-"Coordinate " ("systm" | "system description" ) ": Ecliptic and Mean Equinox of Reference Epoch" ws;
+"Coordinate " ("systm" | "system description" ) ": Ecliptic and Mean Equinox of Reference Epoch";
 
 ephemeris-legend ::=
-"JDTDB
-   X     Y     Z
-   VX    VY    VZ
-   LT    RG    RR"
+"JDTDB" ws "X" ws "Y" ws "Z" ws "VX" ws "VY" ws "VZ" ws "LT" ws "RG" ws "RR";
 
 ephemeredes ::=
 <"$$SOE"> <ws> (ephemeris <ws>)+ <"$$EOE">;
