@@ -157,7 +157,7 @@ year ::= integer;
 month ::= "Jan" | "Feb" | "Mar" | "Apr" | "May" | "Jun" | "Jul" | "Aug" | "Sep" | "Oct" | "Nov" | "Dec";
 day ::= integer
 time ::= hour-of-day <":"> minute-of-hour (<":"> second-of-minute (<"."> millisecond-of-second)?)?;
-day-of-week ::= "Mon" | "Tues" | "Wed" | "Thurs" | "Fri" | "Sat" | "Sun";
+day-of-week ::= "Mon" | "Tue" | "Wed" | "Thu" | "Fri" | "Sat" | "Sun";
 
 hour-of-day ::= integer;
 minute-of-hour ::= integer;
