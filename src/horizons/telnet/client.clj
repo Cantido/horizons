@@ -58,6 +58,20 @@
   (let [block (async/<!! (next-block chan))]
     (log/debug block)))
 
+(defn swallow-echo
+  "Swallows the echo of arg s from channel chan"
+  [s chan]
+  ; The echoed text is length (count s) and it is followed by a carriage return and a line feed.
+  (dotimes [n (+ 2 (count (str s)))]
+    (async/<!! chan)))
+
+(defn transmit
+  "Send a string to the given channels, and returns the next block."
+  [s in out]
+  (async/>!! in s)
+  (swallow-echo s out)
+  (async/<!! (next-block out)))
+
 (defn get-ephemeris-data
   "Get a block of String data from the HORIZONS system
    with geophysical data about the given body-id"
@@ -96,8 +110,7 @@
   (let [[in out] (pool/connect)]
     (log/debug "Got a connection to HORIZONS, waiting for prompt before asking for data.")
     (async/<!! (wait-for-prompt out))
-    (async/>!! in body-id)
-    (let [result (async/<!! (next-block out))]
+    (let [result (transmit body-id in out)]
       (reset-client in)
       (pool/release [in out])
       result)))
