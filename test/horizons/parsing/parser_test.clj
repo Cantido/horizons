@@ -47,65 +47,52 @@
 
 
 (deftest tree->map-test
-  (is (= (tree->map
-           [::h/revision-date
-            [::h/month "Jul"]
-            [::h/day 31]
-            [::h/year 2013]])
-         {::h/revision-date
-          {::h/month "Jul"
-           ::h/day 31
-           ::h/year 2013}}))
-  (is (= (tree->map
-           [::h/file-header
-            [::h/revision-date
-             [::h/month "Jul"]
-             [::h/day 31]
-             [::h/year 2013]]])
-         {::h/file-header
-          {::h/revision-date
-           {::h/month "Jul"
-            ::h/day 31
-            ::h/year 2013}}}))
-  (is (= (tree->map
-           [::h/file-header
-            [::h/revision-date
-             [::h/month "Jul"]
-             [::h/day 31]
-             [::h/year 2013]]
-            [::h/body-name "Mars"]
-            [::h/body-id 499]])
-         {::h/file-header
-          {::h/revision-date
-           {::h/month "Jul"
-            ::h/day 31
-            ::h/year 2013}
-           ::h/body-name "Mars"
-           ::h/body-id 499}}))
-  (is (= (tree->map
-           [::h/geophysical-data
-            [::h/mean-radius "3389.9(2+-4)"]
-            [::h/density "3.933(5+-4)"]
-            [::h/mass "6.4185"]])
-         {::h/geophysical-data
-          {::h/mean-radius "3389.9(2+-4)"
-           ::h/density "3.933(5+-4)"
-           ::h/mass "6.4185"}})))
-
-(deftest transform-test
-  (is (= (restructure (get-edn "mercury-geophysical-parsed.edn")) mercury-map)))
-
-(deftest sci-not-transform-test
-  (is (= (restructure
-           [:sci-not
-            [:significand [:float "5.05"]]
-            [:mantissa [:integer "22"]]])
-         5.05E22M))
-  (is (= (restructure
-           [:sci-not
-            [:significand [:integer "5"]]
-            [:mantissa [:integer "22"]]])
-         5E22M)))
+  (testing "date trees to maps"
+    (is (= (tree->map
+             [::h/revision-date
+              [::h/month "Jul"]
+              [::h/day 31]
+              [::h/year 2013]])
+           {::h/revision-date
+            {::h/month "Jul"
+             ::h/day 31
+             ::h/year 2013}}))
+    (is (= (tree->map
+             [::h/file-header
+              [::h/revision-date
+               [::h/month "Jul"]
+               [::h/day 31]
+               [::h/year 2013]]])
+           {::h/file-header
+            {::h/revision-date
+             {::h/month "Jul"
+              ::h/day 31
+              ::h/year 2013}}}))
+    (is (= (tree->map
+             [::h/file-header
+              [::h/revision-date
+               [::h/month "Jul"]
+               [::h/day 31]
+               [::h/year 2013]]
+              [::h/body-name "Mars"]
+              [::h/body-id 499]])
+           {::h/file-header
+            {::h/revision-date
+             {::h/month "Jul"
+              ::h/day 31
+              ::h/year 2013}
+             ::h/body-name "Mars"
+             ::h/body-id 499}})))
+  (testing "geophysical data tree to map"
+    (is (= (tree->map
+             [::h/geophysical-data
+              [::h/mean-radius "3389.9(2+-4)"]
+              [::h/density "3.933(5+-4)"]
+              [::h/mass "6.4185"]])
+           {::h/geophysical-data
+            {::h/mean-radius "3389.9(2+-4)"
+             ::h/density "3.933(5+-4)"
+             ::h/mass "6.4185"}}))))
 
 (def timestamp-tree
   [:timestamp
@@ -124,9 +111,24 @@
 (def timestamp-map
   {::h/timestamp (t/date-time 2017 2 24 0 0 0 0)})
 
-(deftest timestamp-transformation-test
-  (is (= (restructure timestamp-tree) timestamp-map)))
+(deftest restructure-test
+  (testing "restructuring mercury-geophysical-parsed.edn"
+    (is (= (restructure (get-edn "mercury-geophysical-parsed.edn")) mercury-map)))
+  (testing "scientific notation"
+    (is (= (restructure
+             [:sci-not
+              [:significand [:float "5.05"]]
+              [:mantissa [:integer "22"]]])
+           5.05E22M))
+    (is (= (restructure
+             [:sci-not
+              [:significand [:integer "5"]]
+              [:mantissa [:integer "22"]]])
+           5E22M)))
+  (testing "timestamps"
+    (is (= (restructure timestamp-tree) timestamp-map))))
 
-(deftest comma-separated-integer-transform-test
-  (is (= (transform [:integer [:comma-separated-integer "123,456,789"]])
-         123456789)))
+(deftest transform-test
+  (testing "comma-separated integers"
+    (is (= (transform [:integer [:comma-separated-integer "123,456,789"]])
+           123456789))))
