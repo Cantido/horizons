@@ -131,4 +131,14 @@
 (deftest transform-test
   (testing "comma-separated integers"
     (is (= (transform [:integer [:comma-separated-integer "123,456,789"]])
-           123456789))))
+           123456789)))
+  (testing "ephemeredes tree to set"
+    (is (= (transform  [:ephemeredes
+                        [:ephemeris [:x-position 1]]
+                        [:ephemeris [:x-position 2]]
+                        [:ephemeris [:x-position 3]]])
+           [:ephemeredes
+            #{
+              {:x-position 1}
+              {:x-position 2}
+              {:x-position 3}}]))))

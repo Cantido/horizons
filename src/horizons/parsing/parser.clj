@@ -39,6 +39,8 @@
 (def ^:private transform-rules
   {:comma-separated-integer #(clojure.string/replace % "," "")
    :date (fn [& more] [:date (t/datemap->date (into {} more))])
+   :ephemeredes (fn [& more] [:ephemeredes (into #{} more)])
+   :ephemeris (fn [& more] (into {} more))
    :float bigdec
    :integer string->int
    :month (fn [s] [:month (t/month->int s)])
