@@ -72,4 +72,3 @@ Geometric states/elements have no aberrations applied.
 *******************************************************************************
 
 [K[?1l> >>> Select... [A]gain, [N]ew-case, [F]tp, [K]ermit, [M]ail, [R]edisplay, ? : 
-

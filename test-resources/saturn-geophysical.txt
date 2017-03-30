@@ -1,3 +1,4 @@
+ [?1h=
 *******************************************************************************
  Revised: Jun 17, 2016                Saturn                                699
 
@@ -25,4 +26,5 @@
   Escape velocity (km/s)=  35.5           Mag.dip.mom(gauss-Rp^3)= 0.21
   Aroche(ice)/Rp        =  2.71           Hill's sphere rad. Rp  = 1100
 *******************************************************************************
- Select ... [E]phemeris, [F]tp, [M]ail, [R]edisplay, ?, <cr>:
+
+[K[?1l> Select ... [E]phemeris, [F]tp, [M]ail, [R]edisplay, ?, <cr>: 

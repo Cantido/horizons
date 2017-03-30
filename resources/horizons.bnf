@@ -3,16 +3,16 @@
 S ::= geophysical-document | ephemeredes-document;
 
 <geophysical-document> ::=
-    <garbage*>,
+    <garbage>,
     <separator>, file-header,
     (<ws>        geophysical-data)?
     (<ws>        physical-properties)?
     (<ws>        dynamical-characteristics)?
-    <separator> <#"."*> <select-prompt>;
+    <separator> <garbage> <select-prompt>;
 
 <ephemeredes-document> ::=
     <ws "Working" " ...", spinning-bar>
-    <garbage*>
+    <garbage>
     <separator> <ephemeris-header>
     <separator> <targeting>
     <separator> time-frame

@@ -1,3 +1,4 @@
+ [?1h=
 *******************************************************************************
  Revised: Jul 31, 2013              Venus                               299 / 2
 
@@ -22,4 +23,5 @@
   Sidereal orb. per.    =  224.70079922 d Escape vel. km/s      =   10.361
   Hill's sphere rad. Rp =  167.1          Planetary Solar Const = 2613.9 (Wm^2)
 *******************************************************************************
- Select ... [E]phemeris, [F]tp, [M]ail, [R]edisplay, ?, <cr>:
+
+[K[?1l> Select ... [E]phemeris, [F]tp, [M]ail, [R]edisplay, ?, <cr>: 

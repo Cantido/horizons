@@ -19,3 +19,4 @@ indent_size = 2
 
 [test-resources/*.txt]
 trim_trailing_whitespace = false
+insert_final_newline = false

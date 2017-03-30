@@ -1,3 +1,4 @@
+ [?1h=
 *******************************************************************************
  Revised: Sep 13, 2016              Jupiter                                 599
 
@@ -25,4 +26,5 @@
   Escape velocity (km/s)=  59.5           Mag.dip.mom(gauss-Rp^3)= 4.2
   A_roche(ice)/Rp       =  2.76           Hill's sphere rad. Rp  = 740
 *******************************************************************************
- Select ... [E]phemeris, [F]tp, [M]ail, [R]edisplay, ?, <cr>:
+
+[K[?1l> Select ... [E]phemeris, [F]tp, [M]ail, [R]edisplay, ?, <cr>: 
