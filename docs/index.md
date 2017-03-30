@@ -6,7 +6,7 @@ title: HORIZONS Web API
 # HORIZONS API
 
 A RESTful-style API for NASA's [HORIZONS] system,
-written in Clojure.
+written in Clojure. [Check it out](https://secure-gorge-17286.herokuapp.com/).
 
 ## Introduction
 
