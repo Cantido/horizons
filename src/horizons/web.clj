@@ -70,6 +70,7 @@
 (defn -main [& [port]]
   (let [port (or port (environ/env :port) 3000)]
     (log/info "Starting HORIZONS on port" port)
+    (log/debug "DEBUG logging enabled")
     (log/trace "TRACE logging enabled")
     (web/run app
              :host "0.0.0.0"

@@ -11,30 +11,24 @@
   "Check if the given body ID is definitely supported by this system."
   [id]
   (->> id
-       bigdec
-       int
-       supported-bodies))
-
-(defn log-response [s]
-  (log/debug "Got response from HORIZONS:\n" s)
-  s)
+    bigdec
+    int
+    supported-bodies))
 
 (defn get-planetary-body
   "Get geophysical data about a solar system body with the given ID."
   [id]
-  (log/debug "Getting body" id)
-  (->>
-    id
+  (->> id
+    (log/spyf "Getting body %s")
     telnet/get-body
-    log-response
+    (log/spyf "Got response from HORIZONS:\n%s")
     parser/horizons-response->data-structure
     ::S))
 
 (defn get-ephemeris [id]
-  (log/debug "Getting ephemeris for" id)
-  (->>
-    id
+  (->> id
+    (log/spyf "Getting ephemeris for %s")
     telnet/get-ephemeris-data
-    log-response
+    (log/spyf "Got response from HORIZONS:\n%s")
     parser/horizons-response->data-structure
     ::S))

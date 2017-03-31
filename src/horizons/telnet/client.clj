@@ -87,9 +87,8 @@
   (let [[in out] (connect)
         tx (partial transmit in out)
         result (penultimate (map tx [body-id "E" "v" "" "eclip" "" "" "" "" "N"]))]
-    (log/debug result)
     (release [in out])
-    result))
+    (log/spy result)))
 
 (defn get-body
   "Get a block of String data from the HORIZONS system about the given body-id"
