@@ -44,7 +44,7 @@ Each line item contains the position of a body at a point in time.
 
 HORIZONS provides this description for coordinate values:
 
-> ####Coordinate system description:
+> #### Coordinate system description:
 > 
 > Ecliptic and Mean Equinox of Reference Epoch
 > 
