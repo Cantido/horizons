@@ -16,7 +16,7 @@
           next-word
           (recur next-word)))))
 
-(def block-endings
+(def ^:private block-endings
   #{#"Horizons> "
     #"<cr>: "
     #"Select\.\.\. \[A\]gain, \[N\]ew-case, \[F\]tp, \[K\]ermit, \[M\]ail, \[R\]edisplay, \? : "
@@ -54,63 +54,47 @@
   [conn]
   (async/>!! conn ""))
 
-(defn swallow-next-block [chan]
-  (let [block (async/<!! (next-block chan))]
-    (log/debug block)))
-
-(defn swallow-echo
+(defn ^:private swallow-echo
   "Swallows the echo of arg s from channel chan"
   [s chan]
   ; The echoed text is length (count s) and it is followed by a carriage return and a line feed.
   (dotimes [n (+ 2 (count (str s)))]
     (async/<!! chan)))
 
-(defn transmit
+(defn ^:private connect []
+  (let [[in out] (pool/connect)]
+    (async/<!! (wait-for-prompt out))
+    [in out]))
+
+(defn ^:private release [[in out]]
+  (reset-client in)
+  (pool/release [in out]))
+
+(defn ^:private transmit
   "Send a string to the given channels, and returns the next block."
-  [s in out]
+  [in out s]
   (async/>!! in s)
   (swallow-echo s out)
   (async/<!! (next-block out)))
+
+(def ^:private penultimate
+  (comp second reverse))
 
 (defn get-ephemeris-data
   "Get a block of String data from the HORIZONS system
    with geophysical data about the given body-id"
   [body-id]
-  (let [[in out] (pool/connect)]
-    (async/<!! (wait-for-prompt out))
-    (async/>!! in body-id)
-    (swallow-next-block out)
-    (log/debug "Sending E")
-    (async/>!! in "E")
-    (swallow-next-block out)
-    (async/>!! in "v")
-    (swallow-next-block out)
-    (async/>!! in "")
-    (swallow-next-block out)
-    (async/>!! in "eclip")
-    (swallow-next-block out)
-    (async/>!! in "")
-    (swallow-next-block out)
-    (async/>!! in "")
-    (swallow-next-block out)
-    (async/>!! in "")
-    (swallow-next-block out)
-    (async/>!! in "")
-    (let [result (async/<!! (next-block out))]
-      (log/debug result)
-      (async/>!! in "N")
-      (swallow-next-block out)
-      (reset-client in)
-      (pool/release [in out])
-      result)))
+  (let [[in out] (connect)
+        tx (partial transmit in out)
+        result (penultimate (map tx [body-id "E" "v" "" "eclip" "" "" "" "" "N"]))]
+    (log/debug result)
+    (release [in out])
+    result))
 
 (defn get-body
   "Get a block of String data from the HORIZONS system about the given body-id"
   [body-id]
-  (let [[in out] (pool/connect)]
-    (log/debug "Got a connection to HORIZONS, waiting for prompt before asking for data.")
-    (async/<!! (wait-for-prompt out))
-    (let [result (transmit body-id in out)]
-      (reset-client in)
-      (pool/release [in out])
-      result)))
+  (let [[in out] (connect)
+        result (transmit in out body-id)]
+    (release [in out])
+    result))
