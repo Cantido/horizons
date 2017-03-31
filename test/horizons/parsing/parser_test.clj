@@ -43,7 +43,9 @@
 (deftest ephemeredes-grammar-test
   (assert-parse-result "mars-ephemeredes.txt" "mars-ephemeredes-parsed.edn")
   (testing "mercury-ephemeredes.txt"
-    (is (success? (parse-file "mercury-ephemeredes.txt")))))
+    (is (success? (parse-file "mercury-ephemeredes.txt"))))
+  (testing "jupiter-ephemeredes.txt"
+    (is (success? (parse-file "jupiter-ephemeredes.txt")))))
 
 
 (deftest tree->map-test

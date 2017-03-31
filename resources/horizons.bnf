@@ -35,8 +35,8 @@ ephemeris-header ::=
 "Ephemeris / PORT_LOGIN" ws date ws time ws year ws "Pasadena, USA    / Horizons"
 
 targeting ::=
-"Target body name:" ws body-name ws "(" body-id ")" ws "{source: " #"[a-zA-Z0-9]+" "}" ws
-"Center body name:" ws body-name ws "(" body-id ")" ws "{source: " #"[a-zA-Z0-9]+" "}" ws
+"Target body name:" ws body-name ws "(" body-id ")" ws "{source: " #"[\w]+" "}" ws
+"Center body name:" ws body-name ws "(" body-id ")" ws "{source: " #"[\w]+" "}" ws
 "Center-site name: BODY CENTER"
 
 time-frame ::= start-time, stop-time, step-size;
