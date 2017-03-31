@@ -25,5 +25,6 @@
                  [liberator "0.13"]
                  [org.immutant/web "2.1.6"]
                  [ring/ring-core "1.2.1"]
+                 [ring/ring-defaults "0.2.3"]
                  [ring/ring-json "0.4.0"]
                  [ring/ring-mock "0.3.0"]])

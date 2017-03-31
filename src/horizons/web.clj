@@ -7,6 +7,7 @@
             [horizons.parsing.time :as t]
             [immutant.web :as web]
             [liberator.core :refer [defresource]]
+            [ring.middleware.defaults :as defaults]
             [ring.middleware.json :refer [wrap-json-body
                                           wrap-json-params
                                           wrap-json-response]]
@@ -49,15 +50,18 @@
   :handle-exception handle-exception)
 
 (defroutes handler
-  (GET "/" [] (response/resource-response "index.html" {:root "public"}))
-  (route/resources "/")
+  (GET "/" [] (response/redirect "/index.html"))
   (context ["/bodies/:id", :id #"[0-9]+"] [id]
     (ANY "/" [] (planetary-body-resource id))
     (ANY "/ephemeris" [] (ephemeris-resource id)))
   (route/not-found (response/not-found "Resource not found.")))
 
+(def handler-options
+  {:static {:resources "public"}})
+
 (def app
   (-> handler
+      (defaults/wrap-defaults (merge defaults/api-defaults handler-options))
       wrap-json-body
       wrap-json-params
       wrap-json-response
