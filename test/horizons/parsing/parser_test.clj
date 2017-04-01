@@ -6,7 +6,8 @@
     [instaparse.core :as insta]
     [horizons.core :as h]
     [horizons.parsing.parser :refer :all]
-    [horizons.parsing.parser-test-mercury :refer :all]))
+    [horizons.parsing.parser-test-mercury :refer :all]
+    [horizons.parsing.parser-test-jupiter :refer :all]))
 
 
 (defn get-file [name]
@@ -116,6 +117,8 @@
 (deftest restructure-test
   (testing "restructuring mercury-geophysical-parsed.edn"
     (is (= (restructure (get-edn "mercury-geophysical-parsed.edn")) mercury-map)))
+  (testing "restructuring jupiter-geophysical-parsed.edn"
+    (is (= (restructure (get-edn "jupiter-geophysical-parsed.edn")) jupiter-map)))
   (testing "scientific notation"
     (is (= (restructure
              [:sci-not

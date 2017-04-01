@@ -53,6 +53,7 @@
    :ephemeredes (fn [& more] [:ephemeredes (into #{} more)])
    :ephemeris (fn [& more] (into {} more))
    :float bigdec
+   :heat-flow-mass (partial value-with-exponent->bigdec :heat-flow-mass)
    :integer string->int
    :mass (partial value-with-exponent->bigdec :mass)
    :month (fn [s] [:month (t/month->int s)])

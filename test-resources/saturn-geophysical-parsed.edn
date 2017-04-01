@@ -42,7 +42,7 @@
   [:mean-daily-motion [:float "0.0334979"]]
   [:orbit-velocity [:float "9.6624"]]
   [:mean-temperature "134+-4"]
-  [:heat-flow-mass [:integer "15"]]
+  [:heat-flow-mass [:exponent [:integer "7"]] [:integer "15"]]
   [:solar-constant [:float "15.04"]]
   [:dipole-tilt-offset "0.0deg/0.0Rp"]
   [:escape-velocity [:float "35.5"]]
