@@ -6,8 +6,7 @@
 (def mercury-map
   {::h/S
    {::h/file-header
-    {::h/revision-date
-     {::h/date (t/date-time 2013 07 31)}
+    {::h/revision-date {::h/date (t/date-time 2013 7 31)}
      ::h/body-name "Mercury"
      ::h/body-id 199}
     ::h/geophysical-data
