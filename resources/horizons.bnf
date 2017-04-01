@@ -149,8 +149,8 @@ exponent ::= integer;
 timestamp ::= era?, <space>, date, <ws>, time, <space>, time-zone?;
 
 date ::= (year <"-"> month <"-"> day) |
-         (month <" "> day <", "> year) |
-         (day-of-week <" "> month <" "> day);
+         (month <" "+> day <", "> year) |
+         (day-of-week <" "+> month <" "+> day);
 
 era ::= "A.D."
 year ::= integer;
