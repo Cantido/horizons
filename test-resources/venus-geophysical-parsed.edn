@@ -15,7 +15,7 @@
   [:volume [:exponent [:integer "10"]] [:float "92.843"]]
   [:semi-major-axis]
   [:sidereal-rotation-period [:duration [:days [:float "-243.0185"]]]]
-  [:rotation-rate [:float "-0.029924"]]
+  [:rotation-rate [:exponent [:integer "5"]] [:float "-0.029924"]]
   [:mean-solar-day [:float "116.7490"]]
   [:polar-gravity]
   [:moment-of-inertia [:float "0.33"]]

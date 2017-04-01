@@ -18,7 +18,7 @@
      ::h/volume 6.085E10M
      ::h/semi-major-axis nil
      ::h/sidereal-rotation-period {::h/duration {::h/days 58.6462M}}
-     ::h/rotation-rate 0.124001M
+     ::h/rotation-rate 12400.1M
      ::h/mean-solar-day 175.9421M
      ::h/polar-gravity nil
      ::h/moment-of-inertia 0.33M

@@ -39,6 +39,14 @@
 (defn sci-not->bigdec [significand mantissa]
   (.scaleByPowerOfTen (bigdec significand) mantissa))
 
+(defn value-with-exponent->bigdec
+  ([label value]
+   [label value])
+  ([label exponent-coll value]
+   (if (number? value)
+     [label (sci-not->bigdec value (last exponent-coll))]
+     [label [:value value] exponent-coll])))
+
 (def ^:private transform-rules
   {:comma-separated-integer #(clojure.string/replace % "," "")
    :date (fn [& more] [:date (t/datemap->date (into {} more))])
@@ -46,19 +54,13 @@
    :ephemeris (fn [& more] (into {} more))
    :float bigdec
    :integer string->int
-   :mass (fn [exponent value]
-           (if (number? value)
-             [:mass (sci-not->bigdec value (last exponent))]
-             [:mass [:value value] exponent]))
+   :mass (partial value-with-exponent->bigdec :mass)
    :month (fn [s] [:month (t/month->int s)])
+   :rotation-rate (partial value-with-exponent->bigdec :rotation-rate)
    :sci-not sci-not-coll->bigdec
    :time (fn [& more]  {:time (into {} more)})
    :timestamp t/timestamp-transformer
-   :volume
-     (fn [exponent value]
-       (if (number? value)
-         [:volume (sci-not->bigdec value (last exponent))]
-         [:volume [:value value] exponent]))})
+   :volume (partial value-with-exponent->bigdec :volume)})
 
 (defn transform
   "Applies transformation functions to all nodes in the parse tree."

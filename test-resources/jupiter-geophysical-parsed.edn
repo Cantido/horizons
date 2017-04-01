@@ -20,7 +20,7 @@
     [:minutes [:integer "55"]]
     [:seconds [:integer "29"]]
     [:milliseconds [:integer "685"]]]]
-  [:rotation-rate [:float "1.75865"]]
+  [:rotation-rate [:exponent [:integer "-4"]] [:float "1.75865"]]
   [:m [:float "0.089195"]]
   [:hydrostatic-flattening [:float "0.06509"]]
   [:inferred-rotation-period

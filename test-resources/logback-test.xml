@@ -6,7 +6,7 @@
         </encoder>
     </appender>
 
-    <logger name="horizons" level="INFO" />
+    <logger name="horizons" level="DEBUG" />
 
     <root level="info">
         <appender-ref ref="STDOUT" />
