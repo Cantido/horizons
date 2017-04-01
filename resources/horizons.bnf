@@ -339,7 +339,7 @@ surface-area-sea ::= <"sea            = "> sci-not <" km">;
 topo-spectral-fact ::= <"Topo. spectral fact t"> <equals> (sci-not | integer);
 visual-magnitude ::= <("Visual" | "Vis.") ws ("mag." | "magnitude") ws "V(1,0)"> <equals> float;
 visual-magnitude-opposition ::= <"Vis. mag. (opposition)"> <equals> <"+"?> float;
-volume ::= <("Volume (x10^10 km^3)" | "Volume, 10^10 km^3")> <equals> float;
+volume ::= < "Volume" ","? " " "("? "x"? "10^"> exponent <" km^3" ")"?> <equals> float;
 y-factor ::= <"Y factor (He/H ratio)"> <equals> float-with-error?;
 
 obliquity-source ::= "[1] Margot et al., Science 316, 2007";

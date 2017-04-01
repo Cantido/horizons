@@ -38,7 +38,7 @@
   [:atmospheric-pressure [:float "1.0"]]
   [:solar-constant [:float "1367.6"]]
   [:visual-magnitude [:float "-3.86"]]
-  [:volume [:float "108.321"]]
+  [:volume [:exponent [:integer "10"]] [:float "108.321"]]
   [:geometric-albedo [:float "0.367"]]]
  [:dynamical-characteristics
   [:obliquity-to-orbit [:float "23.45"]]

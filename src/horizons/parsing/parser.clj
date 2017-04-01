@@ -53,7 +53,12 @@
    :month (fn [s] [:month (t/month->int s)])
    :sci-not sci-not-coll->bigdec
    :time (fn [& more]  {:time (into {} more)})
-   :timestamp t/timestamp-transformer})
+   :timestamp t/timestamp-transformer
+   :volume
+     (fn [exponent value]
+       (if (number? value)
+         [:volume (sci-not->bigdec value (last exponent))]
+         [:volume [:value value] exponent]))})
 
 (defn transform
   "Applies transformation functions to all nodes in the parse tree."

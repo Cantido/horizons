@@ -15,7 +15,7 @@
      ::h/density 5.427M
      ::h/mass 3.302E23M
      ::h/flattening nil
-     ::h/volume 6.085M
+     ::h/volume 6.085E10M
      ::h/semi-major-axis nil
      ::h/sidereal-rotation-period {::h/duration {::h/days 58.6462M}}
      ::h/rotation-rate 0.124001M

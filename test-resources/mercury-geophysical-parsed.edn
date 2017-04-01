@@ -12,7 +12,7 @@
   [:density [:float "5.427"]]
   [:mass [:exponent [:integer "23"]]  [:float "3.302"]]
   [:flattening]
-  [:volume [:float "6.085"]]
+  [:volume [:exponent [:integer "10"]] [:float "6.085"]]
   [:semi-major-axis]
   [:sidereal-rotation-period [:duration [:days [:float "58.6462"]]]]
   [:rotation-rate [:float "0.124001"]]
