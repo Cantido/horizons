@@ -29,12 +29,15 @@
 (defn ^:private string->int [s]
   (Integer/parseInt s))
 
-(defn sci-not->bigdec [significand-coll mantissa-coll]
+(defn sci-not-coll->bigdec [significand-coll mantissa-coll]
   (->> [significand-coll mantissa-coll]
     (map last)
     (interpose "E")
     (apply str)
     bigdec))
+
+(defn sci-not->bigdec [significand mantissa]
+  (.scaleByPowerOfTen (bigdec significand) mantissa))
 
 (def ^:private transform-rules
   {:comma-separated-integer #(clojure.string/replace % "," "")
@@ -43,8 +46,12 @@
    :ephemeris (fn [& more] (into {} more))
    :float bigdec
    :integer string->int
+   :mass (fn [exponent value]
+           (if (number? value)
+             [:mass (sci-not->bigdec value (last exponent))]
+             [:mass [:value value] exponent]))
    :month (fn [s] [:month (t/month->int s)])
-   :sci-not sci-not->bigdec
+   :sci-not sci-not-coll->bigdec
    :time (fn [& more]  {:time (into {} more)})
    :timestamp t/timestamp-transformer})
 

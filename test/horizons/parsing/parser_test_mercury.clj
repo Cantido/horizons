@@ -13,7 +13,7 @@
     ::h/geophysical-data
     {::h/mean-radius "2440(+-1)"
      ::h/density 5.427M
-     ::h/mass 3.302M
+     ::h/mass 3.302E23M
      ::h/flattening nil
      ::h/volume 6.085M
      ::h/semi-major-axis nil

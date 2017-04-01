@@ -306,7 +306,7 @@ ks ::= <"ks = 3*J2/m"> <equals> float;
 m ::= <"m = w^2a^3/GM"> <equals> float;
 magnetic-moment ::= <"Mag. mom (gauss Rp^3)" | "Magnetic moment" | "Mag.dip.mom(gauss-Rp^3)"> <equals> (#"< 1x10\^\-\d" | (float <ws "gauss Rp^3">?));
 mantle-mass ::= <"mantle         = "> sci-not <" kg">;
-mass ::= <"Mass (10^23 kg )" | "Mass, 10^24 kg" | "Mass (10^24 kg)" | "Mass (10^26 kg)">  <equals> (float | float-with-error);
+mass ::= <"Mass" ","? " " "("? "10^"> exponent <" "? "kg" " "? ")"?> <equals> (float | float-with-error);
 mass-ratio-from-sun ::= <"Mass ratio " ("(Sun/" body-name ")" | "(sun/plnt)")> <equals> (integer | integer-with-error | float);
 maximum-angular-diameter ::= <"Max. angular diam."> <equals> #'\d+\.\d+\"';
 mean-daily-motion ::= <"Mean daily motion" ", n"?> <equals> float <ws> <"deg/d" | "dg/d">;

@@ -8,7 +8,7 @@
   [:body-name "Jupiter"]
   [:body-id [:integer "599"]]]
  [:geophysical-data
-  [:mass "1898.13+-.19"]
+  [:mass [:exponent [:integer "24"]] "1898.13+-.19"]
   [:density [:float "1.326"]]
   [:equatorial-radius "71492+-4"]
   [:polar-radius "66854+-10"]

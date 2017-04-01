@@ -10,7 +10,7 @@
  [:geophysical-data
   [:mean-radius "6051.8(4+-1)"]
   [:density [:float "5.204"]]
-  [:mass [:float "48.685"]]
+  [:mass [:exponent [:integer "23"]] [:float "48.685"]]
   [:flattening]
   [:volume [:float "92.843"]]
   [:semi-major-axis]

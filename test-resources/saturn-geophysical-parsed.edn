@@ -8,7 +8,7 @@
   [:body-name "Saturn"]
   [:body-id [:integer "699"]]]
  [:geophysical-data
-  [:mass [:float "5.68319"]]
+  [:mass [:exponent [:integer "26"]] [:float "5.68319"]]
   [:density "0.687+-.001"]
   [:equatorial-radius "60268+-4"]
   [:polar-radius "54364+-10"]
