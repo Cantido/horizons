@@ -47,6 +47,14 @@
      [label (sci-not->bigdec value (last exponent-coll))]
      [label [:value value] exponent-coll])))
 
+(defn value-with-unit->structured-value
+  ([label x]
+   [label x])
+  ([label x y]
+   (if (coll? x)
+     [label x [:value y]]
+     [label y [:value x]])))
+
 (def ^:private transform-rules
   {:comma-separated-integer #(clojure.string/replace % "," "")
    :date (fn [& more] [:date (t/datemap->date (into {} more))])
@@ -56,11 +64,13 @@
    :heat-flow-mass (partial value-with-exponent->bigdec :heat-flow-mass)
    :integer string->int
    :mass (partial value-with-exponent->bigdec :mass)
+   :mean-radius (partial value-with-unit->structured-value :mean-radius)
    :month (fn [s] [:month (t/month->int s)])
    :rotation-rate (partial value-with-exponent->bigdec :rotation-rate)
    :sci-not sci-not-coll->bigdec
    :time (fn [& more]  {:time (into {} more)})
    :timestamp t/timestamp-transformer
+   :unit-KMT (fn [x] [:unit-code "KMT"])
    :volume (partial value-with-exponent->bigdec :volume)})
 
 (defn transform

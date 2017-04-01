@@ -181,6 +181,7 @@ time-zone ::= "UT" | "TDB";
 unit-D54 ::= "W/m^2" | "Wm^2"; (* [sic] *)
 unit-M62 ::= "("? ("km/s" | "km s^-1") ")"?;
 unit-KEL ::= "K";
+unit-KMT ::= "km";
 
 (* Domain-specific data types *)
 
@@ -310,7 +311,7 @@ mass ::= <"Mass" ","? " " "("? "10^"> exponent <" "? "kg" " "? ")"?> <equals> (f
 mass-ratio-from-sun ::= <"Mass ratio " ("(Sun/" body-name ")" | "(sun/plnt)")> <equals> (integer | integer-with-error | float);
 maximum-angular-diameter ::= <"Max. angular diam."> <equals> #'\d+\.\d+\"';
 mean-daily-motion ::= <"Mean daily motion" ", n"?> <equals> float <ws> <"deg/d" | "dg/d">;
-mean-radius ::= <(("Mean radius" ws ", "? "("? "km" ")"?) | "Volumetric mean radius")> <equals> (float-with-error | integer-with-error) <ws "km">?;
+mean-radius ::= <"Volumetric "? ("M" | "m") "ean radius" " "? ", "? "("?> unit-KMT? <")"? > <equals> (float-with-error | integer-with-error) <ws?> unit-KMT?;
 <mean-sidereal-orbit-label> ::= <"Mean"? ws ("sidereal" | "Sidereal") ws (("orb" "."?)  | "orbit")? ws? (("per" "."?) | "period")>;
 mean-sidereal-orbital-period-years ::= <mean-sidereal-orbit-label> <equals> float <ws> <("yrs" | "y" | "yr")?>;
 mean-sidereal-orbital-period-days ::= <mean-sidereal-orbit-label> <equals> float <ws> <("d" | "days")>;

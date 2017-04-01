@@ -146,4 +146,9 @@
             #{
               {:x-position 1}
               {:x-position 2}
-              {:x-position 3}}]))))
+              {:x-position 3}}])))
+  (testing "value with units"
+    (is (= (transform [:mean-radius [:unit-KMT "km"] "2440(+-1)"])
+           [:mean-radius [:unit-code "KMT"] [:value "2440(+-1)"]]))
+    (is (= (transform [:mean-radius "2440(+-1)" [:unit-KMT "km"]])
+           [:mean-radius [:unit-code "KMT"] [:value "2440(+-1)"]]))))

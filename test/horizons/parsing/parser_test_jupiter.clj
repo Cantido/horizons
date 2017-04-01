@@ -14,7 +14,7 @@
      ::h/density 1.326M
      ::h/equatorial-radius "71492+-4"
      ::h/polar-radius "66854+-10"
-     ::h/mean-radius "69911+-6"
+     ::h/mean-radius {::h/unit-code "KMT" ::h/value "69911+-6"}
      ::h/flattening 0.06487M
      ::h/sidereal-rotation-period
       {::h/duration

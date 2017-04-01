@@ -10,7 +10,7 @@
      ::h/body-name "Mercury"
      ::h/body-id 199}
     ::h/geophysical-data
-    {::h/mean-radius "2440(+-1)"
+    {::h/mean-radius {::h/unit-code "KMT" ::h/value "2440(+-1)"}
      ::h/density 5.427M
      ::h/mass 3.302E23M
      ::h/flattening nil
