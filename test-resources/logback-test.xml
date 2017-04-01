@@ -6,7 +6,6 @@
         </encoder>
     </appender>
 
-    <!--<logger name="horizons.telnet.connect" level="TRACE" />-->
     <logger name="horizons" level="INFO" />
 
     <root level="info">
