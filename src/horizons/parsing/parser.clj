@@ -60,6 +60,7 @@
    :date (fn [& more] [:date (t/datemap->date (into {} more))])
    :ephemeredes (fn [& more] [:ephemeredes (into #{} more)])
    :ephemeris (fn [& more] (into {} more))
+   :equatorial-radius (partial value-with-unit->structured-value :equatorial-radius)
    :float bigdec
    :heat-flow-mass (partial value-with-exponent->bigdec :heat-flow-mass)
    :integer string->int

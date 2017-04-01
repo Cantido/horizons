@@ -24,7 +24,7 @@
   [:potential-love-k2]
 
   [:standard-gravitational-parameter [:float "22032.09"]]
-  [:equatorial-radius [:integer "2440"]]
+  [:equatorial-radius [:integer "2440"] [:unit-KMT "km"]]
   [:gm-1-sigma "+-0.91"]
   [:mass-ratio-from-sun [:integer "6023600"]]
 

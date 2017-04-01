@@ -25,7 +25,7 @@
      ::h/core-radius "~1600"
      ::h/potential-love-k2 nil
      ::h/standard-gravitational-parameter 22032.09M
-     ::h/equatorial-radius 2440
+     ::h/equatorial-radius {::h/value 2440 ::h/unit-code "KMT"}
      ::h/gm-1-sigma "+-0.91"
      ::h/mass-ratio-from-sun 6023600
      ::h/atmospheric-pressure nil

@@ -28,7 +28,7 @@
   [:fig-offset "2.50+-0.07"]
   [:offset "62d / 88d"]
   [:standard-gravitational-parameter [:float "42828.3"]]
-  [:equatorial-radius [:float "3394.0"]]
+  [:equatorial-radius [:float "3394.0"] [:unit-KMT "km"]]
   [:gm-1-sigma "+- 0.1"]
   [:mass-ratio-from-sun  "3098708+-9"]
 

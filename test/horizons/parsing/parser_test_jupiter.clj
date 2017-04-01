@@ -12,7 +12,7 @@
     ::h/geophysical-data
     {::h/mass {::h/exponent 24 ::h/value "1898.13+-.19"}
      ::h/density 1.326M
-     ::h/equatorial-radius "71492+-4"
+     ::h/equatorial-radius {::h/value "71492+-4" ::h/unit-code "KMT"}
      ::h/polar-radius "66854+-10"
      ::h/mean-radius {::h/unit-code "KMT" ::h/value "69911+-6"}
      ::h/flattening 0.06487M

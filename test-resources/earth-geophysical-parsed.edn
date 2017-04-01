@@ -10,7 +10,7 @@
  [:physical-properties
   [:mean-radius [:unit-KMT "km"] "6371.01+-0.01"]
   [:mass [:exponent [:integer "24"]] "5.97219+-0.0006"]
-  [:equatorial-radius "6378.14+-0.01"]
+  [:equatorial-radius [:unit-KMT "km"] "6378.14+-0.01"]
   [:polar-axis [:float "6356.752"]]
   [:atmospheric-mass [:sci-not [:significand [:float "5.1"]] [:exponent [:integer "18"]]]]
   [:flattening "1/298.257"]
