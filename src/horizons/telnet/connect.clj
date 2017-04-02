@@ -22,6 +22,14 @@
   [rdr]
   (repeatedly (partial next-char rdr)))
 
+(defn ^:private write
+  [writer s]
+  (.write writer ^String (str s \newline))
+  (.flush writer))
+
+(defmacro forever [& body]
+  `(while true ~@body))
+
 (defn connect
   "Connects to the HORIZONS telnet service, attaching its input and output to channels."
   []
@@ -33,13 +41,9 @@
     (let [writer (-> client .getOutputStream (io/writer :encoding "US-ASCII"))
           reader-seq (-> client .getInputStream (io/reader :encoding "US-ASCII") char-seq)]
       (async/thread
-        (loop [remaining-reader-seq reader-seq]
-          (async/>!! from-telnet (first remaining-reader-seq))
-          (recur (rest remaining-reader-seq))))
+        (async/onto-chan from-telnet reader-seq))
       (async/thread
-        (loop []
-          (.write writer ^String (str (async/<!! to-telnet) \newline))
-          (.flush writer)
-          (recur))))
+        (forever
+          (write writer (async/<!! to-telnet)))))
     (log/info "Connection to ssd.jpl.nasa.gov:6775 established.")
     [to-telnet from-telnet]))
