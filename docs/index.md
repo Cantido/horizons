@@ -3,14 +3,18 @@ layout: default
 title: HORIZONS Web API
 ---
 
-# HORIZONS API
+# HORIZONS Web API
 
-A RESTful-style API for NASA's [HORIZONS] system,
-written in Clojure. [Check it out](https://secure-gorge-17286.herokuapp.com/).
+<!-- https://github.com/pussinboots/heroku-badge -->
+[![Build Status](https://travis-ci.org/Cantido/horizons.svg?branch=master)](https://travis-ci.org/Cantido/horizons)
+[![Heroku](https://heroku-badge.herokuapp.com/?app=secure-gorge-17286)](https://secure-gorge-17286.herokuapp.com/index.html)
+
+A RESTful-style API for NASA's HORIZONS system,
+written in Clojure.
 
 ## Introduction
 
-The [HORIZONS] system provides a model for the solar system.
+The HORIZONS system provides a model for the solar system.
 Through it, queries can be made to find the positions of planets, asteroids, comets, and
 other astronomical bodies.
 This kind of data base is sometimes called an *ephemeredes* (singular *ephemeris*).
@@ -22,7 +26,7 @@ accurate ephemerides for solar system objects ( 728955 asteroids, 3451 comets,
 system barycenters ). HORIZONS is provided by the Solar System Dynamics Group of
  the Jet Propulsion Laboratory.
 >
-> &mdash; <cite>NASA's documentation for the HORIZONS system</cite>
+> &mdash; <cite>[NASA's documentation for the HORIZONS system][HORIZONS]</cite>
 
 The only ways to access HORIZONS are through `telnet`, email, and
 a CGI web interface intended for end-user access.
@@ -35,7 +39,7 @@ and uses [Liberator] to handle the details of RESTful representations.
 [HORIZONS]: http://ssd.jpl.nasa.gov/?horizons
 [Liberator]: http://clojure-liberator.github.io/liberator/
 
-## Usage
+## Local Usage
 
 This application is built using [Leiningen] and [Ring],
 so you can easily start a development server using the [lein-ring] plugin:
