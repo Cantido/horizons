@@ -7,7 +7,7 @@ title: HORIZONS Web API
 
 <!-- https://github.com/pussinboots/heroku-badge -->
 [![Build Status](https://travis-ci.org/Cantido/horizons.svg?branch=master)](https://travis-ci.org/Cantido/horizons)
-[![Heroku](https://heroku-badge.herokuapp.com/?app=secure-gorge-17286?style=flat&svg=1)](https://secure-gorge-17286.herokuapp.com/index.html)
+[![Heroku](https://img.shields.io/badge/heroku-deployed-blue.svg)](https://secure-gorge-17286.herokuapp.com/index.html)
 
 A RESTful-style API for NASA's HORIZONS system,
 written in Clojure.
