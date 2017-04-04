@@ -3,7 +3,6 @@ gems:
   - jekyll-seo-tag
 
 description: A RESTful-style API for NASA's HORIZONS system, written in Clojure.
-lang: en-US
 
 author:
   twitter: Lord_Cantido
