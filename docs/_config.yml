@@ -1,1 +1,23 @@
 baseurl: /horizons
+gems:
+  - jekyll-seo-tag
+
+description: A RESTful-style API for NASA's HORIZONS system, written in Clojure.
+lang: en-US
+
+author:
+  twitter: Lord_Cantido
+
+google_site_verification: 6GGjpRMhHXMgAIyAwrOKu8obsRZE9bHif6IoZWcbzJI
+
+social:
+  name: Robert Richter
+  links:
+    - https://about.me/robert.richter
+    - https://twitter.com/Lord_Cantido
+    - https://www.facebook.com/rrichter
+    - https://www.linkedin.com/in/robertcrichter
+    - https://plus.google.com/+RobertRichter1
+    - https://github.com/cantido
+    - https://keybase.io/cantido
+    - https://medium.com/@cantido
