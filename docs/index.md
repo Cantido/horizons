@@ -6,7 +6,7 @@ title: HORIZONS Web API
 # HORIZONS Web API
 
 <!-- https://github.com/pussinboots/heroku-badge -->
-[![Build Status](https://travis-ci.org/Cantido/horizons.svg?branch=master)](https://travis-ci.org/Cantido/horizons)
+[![Build Status](https://img.shields.io/travis/Cantido/horizons.svg)](https://travis-ci.org/Cantido/horizons)
 [![Heroku](https://img.shields.io/badge/heroku-deployed-blue.svg)](https://secure-gorge-17286.herokuapp.com/index.html)
 
 A RESTful-style API for NASA's HORIZONS system,
