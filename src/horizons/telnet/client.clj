@@ -80,15 +80,36 @@
 (def ^:private penultimate
   (comp second reverse))
 
+(def ephemeris-options
+ {:table-type {:vectors "v"}
+  :coordinate-center {:earth ""}
+  :reference-plane {:ecliptic "eclip"}
+  :start-datetime {:now ""}
+  :end-datetime {:plus2weeks ""}
+  :output-interval {:60m ""}
+  :accept-defaut-output {true ""}})
+
 (defn get-ephemeris-data
   "Get a block of String data from the HORIZONS system
    with geophysical data about the given body-id"
   [body-id]
   (let [[in out] (connect)
         tx (partial transmit in out)
-        result (penultimate (map tx [body-id "E" "v" "" "eclip" "" "" "" "" "N"]))]
-    (release [in out])
-    (log/spy result)))
+        result (penultimate
+                (map tx
+                     [body-id
+                      "E"
+                      (get-in ephemeris-options [:table-type :vectors])
+                      (get-in ephemeris-options [:coordinate-center :earth])
+                      (get-in ephemeris-options [:reference-plane :ecliptic])
+                      (get-in ephemeris-options [:start-datetime :now])
+                      (get-in ephemeris-options [:end-datetime :plus2weeks])
+                      (get-in ephemeris-options [:output-interval :60m])
+                      (get-in ephemeris-options [:accept-defaut-output true])
+                      "N"]))]
+   (release [in out])
+   (log/spy result)))
+
 
 (defn get-body
   "Get a block of String data from the HORIZONS system about the given body-id"
