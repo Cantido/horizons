@@ -33,7 +33,7 @@
   [:y-factor "0.18+-0.04"]
   [:standard-gravitational-parameter [:integer [:comma-separated-integer "126,686,511"]]]
   [:gm-1-sigma "+-100"]
-  [:g-equatorial [:float "24.79"]]
+  [:equatorial-gravity [:value [:float "24.79"]]]
   [:g-polar [:float "28.34"]]
   [:geometric-albedo [:float "0.52"]]
   [:visual-magnitude [:float "-9.40"]]

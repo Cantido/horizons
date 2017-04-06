@@ -33,7 +33,7 @@
      ::h/y-factor "0.18+-0.04"
      ::h/standard-gravitational-parameter 126686511
      ::h/gm-1-sigma "+-100"
-     ::h/g-equatorial 24.79M
+     ::h/equatorial-gravity {::h/value 24.79M}
      ::h/g-polar 28.34M
      ::h/geometric-albedo 0.52M
      ::h/visual-magnitude -9.40M

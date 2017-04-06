@@ -237,7 +237,6 @@ physical-properties ::= <physical-properties-header>  (<ws> geophysical-field)+;
     fig-offset |
     flattening |
     fluid-core-radius |
-    g-equatorial |
     g-o |
     g-polar |
     geometric-albedo |
@@ -301,14 +300,13 @@ core-radius ::= <"Core radius (" unit-KMT ")"> <equals> value;
 crust-mass ::= <"crust"> <equals> value <" " unit-KGM>;
 density ::= <"Density", ( ","? " " "("? unit-23 ")"? )> <equals> value;
 dipole-tilt-offset ::= <"Dipole tilt/offset"> <equals> value;
-equatorial-gravity ::= <"Equ. gravity  " unit-MSK> <equals> value;
+equatorial-gravity ::= <("Equ. " "grav" "ity"? ", "?)? "ge"? ","? space+ "("? unit-MSK ")"? " (equatorial)"?> <equals> value;
 equatorial-radius ::= <"Equatorial" | "Equ." | "Equat."> <" "> <"R" | "r"> <"adius"> (<", Re"> | (<", "> unit-KMT) | <" (1 " unit-BAR ")">) <equals> value <" "?> unit-KMT?;
 escape-velocity ::= <"Escape" ws ("vel." | "velocity") ws? unit-M62?> <equals> value <ws> <unit-M62?>;
 fig-offset ::= <"Fig. offset (Rcf-Rcm)"> <equals> value <" " unit-KMT >?;
 flattening ::= <"Flattening" ", f"?> <equals> value?;
-fluid-core-radius ::= <"Fluid core rad"> <equals> integer <" " unit-KMT>;
+fluid-core-radius ::= <"Fluid core rad"> <equals> value <" " unit-KMT>;
 (* equatorial & polar gravity? units seem right. What is g-o? *)
-g-equatorial ::= <"Equ. grav, "? "ge" ","? " " "("? unit-MSK ")"? " (equatorial)"?> <equals> float;
 g-o ::= <"go, " unit-MSK> <equals> float;
 g-polar ::= <"Pol. grav, "? "gp" ","? " " "("? unit-MSK ")"?  " "? "(polar)"?> <equals> (float | float-with-error);
 geometric-albedo ::= <"Geometric albedo"> <equals> float;
