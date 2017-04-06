@@ -11,8 +11,8 @@
      ::h/body-id 199}
     ::h/geophysical-data
     {::h/mean-radius {::h/unit-code "KMT" ::h/value "2440(+-1)"}
-     ::h/density 5.427M
-     ::h/mass 3.302E23M
+     ::h/density {::h/value 5.427M}
+     ::h/mass {::h/value 3.302E23M}
      ::h/flattening nil
      ::h/volume 6.085E10M
      ::h/semi-major-axis nil
@@ -21,8 +21,8 @@
      ::h/mean-solar-day 175.9421M
      ::h/polar-gravity nil
      ::h/moment-of-inertia 0.33M
-     ::h/equatorial-gravity 3.701M
-     ::h/core-radius "~1600"
+     ::h/equatorial-gravity {::h/value 3.701M}
+     ::h/core-radius {::h/value "~1600"}
      ::h/potential-love-k2 nil
      ::h/standard-gravitational-parameter 22032.09M
      ::h/equatorial-radius {::h/value 2440 ::h/unit-code "KMT"}
@@ -37,6 +37,6 @@
      ::h/mean-sidereal-orbital-period-years 0.2408467M
      ::h/orbit-velocity 47.362M
      ::h/mean-sidereal-orbital-period-days 87.969257M
-     ::h/escape-velocity 4.435M
+     ::h/escape-velocity {::h/value 4.435M}
      ::h/hill-sphere-radius 94.4M
      ::h/solar-constant 9936.9M}}})

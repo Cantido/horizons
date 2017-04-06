@@ -8,12 +8,12 @@
   [:body-name "Jupiter"]
   [:body-id [:integer "599"]]]
  [:geophysical-data
-  [:mass [:exponent [:integer "24"]] "1898.13+-.19"]
-  [:density [:float "1.326"]]
-  [:equatorial-radius "71492+-4" [:unit-KMT "km"]]
+  [:mass [:exponent [:integer "24"]] [:value "1898.13+-.19"]]
+  [:density [:value [:float "1.326"]]]
+  [:equatorial-radius [:value "71492+-4"] [:unit-KMT "km"]]
   [:polar-radius "66854+-10"]
   [:mean-radius "69911+-6" [:unit-KMT "km"]]
-  [:flattening [:float "0.06487"]]
+  [:flattening [:value [:float "0.06487"]]]
   [:sidereal-rotation-period
    [:duration
     [:hours [:integer "9"]]
@@ -46,8 +46,8 @@
   [:mean-temperature "165+-5"]
   [:heat-flow-mass [:exponent [:integer "7"]] [:integer "15"]]
   [:solar-constant [:float "50.5"]]
-  [:dipole-tilt-offset "9.6deg/0.1Rp"]
-  [:escape-velocity [:float "59.5"]]
+  [:dipole-tilt-offset [:value "9.6deg/0.1Rp"]]
+  [:escape-velocity [:value [:float "59.5"]]]
   [:magnetic-moment [:float "4.2"]]
-  [:a-roche-ice [:float "2.76"]]
+  [:a-roche-ice [:value [:float "2.76"]]]
   [:hill-sphere-radius [:integer "740"]]]]

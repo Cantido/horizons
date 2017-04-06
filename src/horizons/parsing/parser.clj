@@ -47,6 +47,17 @@
      [label (sci-not->bigdec value (last exponent-coll))]
      [label [:value value] exponent-coll])))
 
+(defn value-with-exponent-map->bigdec
+  ([label & more]
+   (let [fields (into {} more)]
+     (if (number? (:value fields))
+       [label
+        (-> fields
+         (assoc :value (sci-not->bigdec (:value fields) (:exponent fields)))
+         (dissoc :exponent)
+         (merge (dissoc fields :exponent :value)))]
+       [label fields]))))
+
 (defn value-with-unit->structured-value
   ([label x]
    [label x])
@@ -60,11 +71,10 @@
    :date (fn [& more] [:date (t/datemap->date (into {} more))])
    :ephemeredes (fn [& more] [:ephemeredes (into #{} more)])
    :ephemeris (fn [& more] (into {} more))
-   :equatorial-radius (partial value-with-unit->structured-value :equatorial-radius)
    :float bigdec
    :heat-flow-mass (partial value-with-exponent->bigdec :heat-flow-mass)
    :integer string->int
-   :mass (partial value-with-exponent->bigdec :mass)
+   :mass (partial value-with-exponent-map->bigdec :mass)
    :mean-radius (partial value-with-unit->structured-value :mean-radius)
    :month (fn [s] [:month (t/month->int s)])
    :rotation-rate (partial value-with-exponent->bigdec :rotation-rate)

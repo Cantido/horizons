@@ -11,11 +11,11 @@
      ::h/body-id 599}
     ::h/geophysical-data
     {::h/mass {::h/exponent 24 ::h/value "1898.13+-.19"}
-     ::h/density 1.326M
+     ::h/density {::h/value 1.326M}
      ::h/equatorial-radius {::h/value "71492+-4" ::h/unit-code "KMT"}
      ::h/polar-radius "66854+-10"
      ::h/mean-radius {::h/unit-code "KMT" ::h/value "69911+-6"}
-     ::h/flattening 0.06487M
+     ::h/flattening {::h/value 0.06487M}
      ::h/sidereal-rotation-period
       {::h/duration
        {::h/hours 9
@@ -46,8 +46,8 @@
      ::h/mean-temperature "165+-5"
      ::h/heat-flow-mass 15E7M
      ::h/solar-constant 50.5M
-     ::h/dipole-tilt-offset "9.6deg/0.1Rp"
-     ::h/escape-velocity 59.5M
+     ::h/dipole-tilt-offset {::h/value "9.6deg/0.1Rp"}
+     ::h/escape-velocity {::h/value 59.5M}
      ::h/magnetic-moment 4.2M
-     ::h/a-roche-ice 2.76M
+     ::h/a-roche-ice {::h/value 2.76M}
      ::h/hill-sphere-radius 740}}})

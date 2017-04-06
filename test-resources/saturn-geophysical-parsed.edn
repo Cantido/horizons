@@ -8,12 +8,12 @@
   [:body-name "Saturn"]
   [:body-id [:integer "699"]]]
  [:geophysical-data
-  [:mass [:exponent [:integer "26"]] [:float "5.68319"]]
-  [:density "0.687+-.001"]
-  [:equatorial-radius "60268+-4" [:unit-KMT "km"]]
+  [:mass [:exponent [:integer "26"]] [:value [:float "5.68319"]]]
+  [:density [:value "0.687+-.001"]]
+  [:equatorial-radius [:value "60268+-4"] [:unit-KMT "km"]]
   [:polar-radius "54364+-10"]
   [:mean-radius "58232+-6" [:unit-KMT "km"]]
-  [:flattening [:float "0.09796"]]
+  [:flattening [:value [:float "0.09796"]]]
   [:sidereal-rotation-period
    [:duration
     [:hours [:integer "10"]]
@@ -44,8 +44,8 @@
   [:mean-temperature "134+-4"]
   [:heat-flow-mass [:exponent [:integer "7"]] [:integer "15"]]
   [:solar-constant [:float "15.04"]]
-  [:dipole-tilt-offset "0.0deg/0.0Rp"]
-  [:escape-velocity [:float "35.5"]]
+  [:dipole-tilt-offset [:value "0.0deg/0.0Rp"]]
+  [:escape-velocity [:value [:float "35.5"]]]
   [:magnetic-moment [:float "0.21"]]
-  [:a-roche-ice [:float "2.71"]]
+  [:a-roche-ice [:value [:float "2.71"]]]
   [:hill-sphere-radius [:integer "1100"]]]]
