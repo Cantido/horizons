@@ -5,16 +5,6 @@
             [horizons.telnet.pool :as pool]
             [clojure.tools.logging :as log]))
 
-(defn ^:private next-token
-  "Returns a channel that will provide the next
-   whitespace-delimited word from the given channel"
-  [chan]
-  (async/go-loop [word-so-far ""]
-    (let [next-char (async/<!! chan)
-          next-word (str word-so-far next-char)]
-      (if (string/blank? next-char)
-          next-word
-          (recur next-word)))))
 
 (def ^:private block-endings
   #{#"Horizons> "
@@ -28,6 +18,45 @@
     #"Ending   TDB \[<=\s+\d+(BC)?-[a-zA-Z]+-\d+ \d\d:\d\d\] : "
     #"Output interval \[ex: 10m, 1h, 1d, \? \] : "
     #"Accept default output \[ cr=\(y\), n, \?\] : "})
+
+(def ^:private penultimate
+  (comp second reverse))
+
+(def body-prompt-commands
+  {:ephemeris "E"
+   :clear ""})
+
+(def ephemeris-prompt-commands
+  {:new-case "N"})
+
+(def ephemeris-options
+  {:table-type {:vectors "v"}
+   :coordinate-center {:earth ""}
+   :reference-plane {:ecliptic "eclip"}
+   :start-datetime {:now ""}
+   :end-datetime {:plus2weeks ""}
+   :output-interval {:60m ""}
+   :accept-defaut-output {true ""}})
+
+(def default-opts
+  {:table-type :vectors
+   :coordinate-center :earth
+   :reference-plane :ecliptic
+   :start-datetime :now
+   :end-datetime :plus2weeks
+   :output-interval :60m
+   :accept-defaut-output true})
+
+(defn ^:private next-token
+  "Returns a channel that will provide the next
+   whitespace-delimited word from the given channel"
+  [chan]
+  (async/go-loop [word-so-far ""]
+    (let [next-char (async/<!! chan)
+          next-word (str word-so-far next-char)]
+      (if (string/blank? next-char)
+        next-word
+        (recur next-word)))))
 
 (defn ^:private next-block
   "Returns a channel that will provide everything from
@@ -52,7 +81,7 @@
 (defn ^:private reset-client
   "Brings the given client back to a command prompt"
   [conn]
-  (async/>!! conn ""))
+  (async/>!! conn (:clear body-prompt-commands)))
 
 (defn ^:private swallow-echo
   "Swallows the echo of arg s from channel chan"
@@ -77,17 +106,13 @@
   (swallow-echo s out)
   (async/<!! (next-block out)))
 
-(def ^:private penultimate
-  (comp second reverse))
-
-(def ephemeris-options
- {:table-type {:vectors "v"}
-  :coordinate-center {:earth ""}
-  :reference-plane {:ecliptic "eclip"}
-  :start-datetime {:now ""}
-  :end-datetime {:plus2weeks ""}
-  :output-interval {:60m ""}
-  :accept-defaut-output {true ""}})
+(defn options-map
+  [opts]
+  (zipmap
+    (keys ephemeris-options)
+    (map
+      #(get-in ephemeris-options [% (% (merge default-opts opts))])
+      (keys ephemeris-options))))
 
 (defn get-ephemeris-data
   "Get a block of String data from the HORIZONS system
@@ -95,21 +120,21 @@
   [body-id]
   (let [[in out] (connect)
         tx (partial transmit in out)
+        opts (options-map {})
         result (penultimate
                 (map tx
                      [body-id
-                      "E"
-                      (get-in ephemeris-options [:table-type :vectors])
-                      (get-in ephemeris-options [:coordinate-center :earth])
-                      (get-in ephemeris-options [:reference-plane :ecliptic])
-                      (get-in ephemeris-options [:start-datetime :now])
-                      (get-in ephemeris-options [:end-datetime :plus2weeks])
-                      (get-in ephemeris-options [:output-interval :60m])
-                      (get-in ephemeris-options [:accept-defaut-output true])
-                      "N"]))]
+                      (:ephemeris body-prompt-commands)
+                      (:table-type opts)
+                      (:coordinate-center opts)
+                      (:reference-plane opts)
+                      (:start-datetime opts)
+                      (:end-datetime opts)
+                      (:output-interval opts)
+                      (:accept-defaut-output opts)
+                      (:new-case ephemeris-prompt-commands)]))]
    (release [in out])
    (log/spy result)))
-
 
 (defn get-body
   "Get a block of String data from the HORIZONS system about the given body-id"
