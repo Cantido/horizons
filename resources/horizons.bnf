@@ -133,6 +133,13 @@ backspace ::= "\u0008";
 escape ::= "\u001B"
 delete ::= "\u007F";
 
+value ::= integer | approximate-integer | integer-with-error |
+          float | float-with-error | sci-not |
+          timestamp | duration |
+          dipole-tilt-offset-value |
+          fig-offset-value |
+          flattening-value;
+
 <digit> ::= #"\d";
 integer ::= #"[-\+]?\d+" | comma-separated-integer;
 comma-separated-integer ::= #"\d?\d?\d?,(\d\d\d,)+\d\d\d";
@@ -140,6 +147,9 @@ comma-separated-integer ::= #"\d?\d?\d?,(\d\d\d,)+\d\d\d";
 float ::= #"\-?\d*\.\d*";
 <float-with-error> ::= (#"\d*\.\d*\(\d\+\-\d\)") | (#"\d*\.\d*\s?\+\-\s?\d*\.\d*");
 <approximate-integer> ::= #"~\d+";
+<dipole-tilt-offset-value> ::= #"\d+\.?\d*de?g/\d+\.\d+Rp";
+<fig-offset-value> ::= "0.19+-01";
+<flattening-value> ::= #"\d/\d\d\d\.\d\d\d";
 
 sci-not ::= significand <ws "("? sci-not-separator> exponent <")"?>
 <sci-not-separator> := (("x" | "*") ws "10^") | "E";
@@ -227,7 +237,6 @@ physical-properties ::= <physical-properties-header>  (<ws> geophysical-field)+;
     fig-offset |
     flattening |
     fluid-core-radius |
-    g-equatorial |
     g-o |
     g-polar |
     geometric-albedo |
@@ -284,21 +293,20 @@ geophysical-data-header ::= "GEO"? "PHYSICAL DATA" ws "(update" "d"? ws date "):
 dynamical-characteristics-header ::= "DYNAMICAL CHARACTERISTICS:";
 physical-properties-header ::= "PHYSICAL PROPERTIES (revised " date "):";
 
-a-roche-ice ::= <"A_roche(ice)/Rp" | "Aroche(ice)/Rp"> <equals> float;
-atmospheric-mass ::= <"Atmos"> <equals> sci-not <" " unit-KGM>;
-atmospheric-pressure ::= <("Atm." | "Atmos.") " pressure" (" (" unit-BAR ")")?> <equals> (float | integer)? <" " unit-BAR>?;
-core-radius ::= <"Core radius (" unit-KMT ")"> <equals> approximate-integer;
-crust-mass ::= <"crust"> <equals> sci-not <" " unit-KGM>;
-density ::= <"Density", ( ","? " " "("? unit-23 ")"? )> <equals> (float | float-with-error);
-dipole-tilt-offset ::= <"Dipole tilt/offset"> <equals> #"\d+\.?\d*de?g/\d+\.\d+Rp"
-equatorial-gravity ::= <"Equ. gravity  " unit-MSK> <equals> float;
-equatorial-radius ::= <"Equatorial" | "Equ." | "Equat."> <" "> <"R" | "r"> <"adius"> (<", Re"> | (<", "> unit-KMT) | <" (1 " unit-BAR ")">) <equals> (integer | integer-with-error | float | float-with-error) <" "?> unit-KMT?;
-escape-velocity ::= <"Escape" ws ("vel." | "velocity") ws? unit-M62?> <equals> float <ws> <unit-M62?>;
-fig-offset ::= <"Fig. offset (Rcf-Rcm)"> <equals> (float-with-error | "0.19+-01") <" " unit-KMT >?;
-flattening ::= <"Flattening" ", f"?> <equals> (#"\d/\d\d\d\.\d\d\d" | float)?;
-fluid-core-radius ::= <"Fluid core rad"> <equals> integer <" " unit-KMT>;
+a-roche-ice ::= <"A_roche(ice)/Rp" | "Aroche(ice)/Rp"> <equals> value;
+atmospheric-mass ::= <"Atmos"> <equals> value <" " unit-KGM>;
+atmospheric-pressure ::= <("Atm." | "Atmos.") " pressure" (" (" unit-BAR ")")?> <equals> value? <" " unit-BAR>?;
+core-radius ::= <"Core radius (" unit-KMT ")"> <equals> value;
+crust-mass ::= <"crust"> <equals> value <" " unit-KGM>;
+density ::= <"Density", ( ","? " " "("? unit-23 ")"? )> <equals> value;
+dipole-tilt-offset ::= <"Dipole tilt/offset"> <equals> value;
+equatorial-gravity ::= <("Equ. " "grav" "ity"? ", "?)? "ge"? ","? space+ "("? unit-MSK ")"? " (equatorial)"?> <equals> value;
+equatorial-radius ::= <"Equatorial" | "Equ." | "Equat."> <" "> <"R" | "r"> <"adius"> (<", Re"> | (<", "> unit-KMT) | <" (1 " unit-BAR ")">) <equals> value <" "?> unit-KMT?;
+escape-velocity ::= <"Escape" ws ("vel." | "velocity") ws? unit-M62?> <equals> value <ws> <unit-M62?>;
+fig-offset ::= <"Fig. offset (Rcf-Rcm)"> <equals> value <" " unit-KMT >?;
+flattening ::= <"Flattening" ", f"?> <equals> value?;
+fluid-core-radius ::= <"Fluid core rad"> <equals> value <" " unit-KMT>;
 (* equatorial & polar gravity? units seem right. What is g-o? *)
-g-equatorial ::= <"Equ. grav, "? "ge" ","? " " "("? unit-MSK ")"? " (equatorial)"?> <equals> float;
 g-o ::= <"go, " unit-MSK> <equals> float;
 g-polar ::= <"Pol. grav, "? "gp" ","? " " "("? unit-MSK ")"?  " "? "(polar)"?> <equals> (float | float-with-error);
 geometric-albedo ::= <"Geometric albedo"> <equals> float;
@@ -315,7 +323,7 @@ ks ::= <"ks = 3*J2/m"> <equals> float;
 m ::= <"m = w^2a^3/GM"> <equals> float;
 magnetic-moment ::= <"Mag. mom (gauss Rp^3)" | "Magnetic moment" | "Mag.dip.mom(gauss-Rp^3)"> <equals> (#"< 1x10\^\-\d" | (float <ws "gauss Rp^3">?));
 mantle-mass ::= <"mantle         = "> sci-not <" " unit-KGM>;
-mass ::= <"Mass" ","? " " "("? "10^"> exponent <" "? unit-KGM " "? ")"?> <equals> (float | float-with-error);
+mass ::= <"Mass" ","? " " "("? "10^"> exponent <" "? unit-KGM " "? ")"?> <equals> value;
 mass-ratio-from-sun ::= <"Mass ratio " ("(Sun/" body-name ")" | "(sun/plnt)")> <equals> (integer | integer-with-error | float);
 maximum-angular-diameter ::= <"Max. angular diam."> <equals> #'\d+\.\d+\"';
 mean-daily-motion ::= <"Mean daily motion" ", n"?> <equals> float <ws> <"deg/d" | "dg/d">;
