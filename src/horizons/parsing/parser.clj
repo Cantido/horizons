@@ -72,7 +72,7 @@
    :ephemeredes (fn [& more] [:ephemeredes (into #{} more)])
    :ephemeris (fn [& more] (into {} more))
    :float bigdec
-   :heat-flow-mass (partial value-with-exponent->bigdec :heat-flow-mass)
+   :heat-flow-mass (partial value-with-exponent-map->bigdec :heat-flow-mass)
    :integer string->int
    :mass (partial value-with-exponent-map->bigdec :mass)
    :mean-radius (partial value-with-unit->structured-value :mean-radius)

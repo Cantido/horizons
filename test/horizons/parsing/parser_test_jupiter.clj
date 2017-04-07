@@ -32,10 +32,10 @@
      ::h/rocky-core-mass 0.0261M
      ::h/y-factor "0.18+-0.04"
      ::h/standard-gravitational-parameter 126686511
-     ::h/gm-1-sigma "+-100"
+     ::h/gm-1-sigma {::h/value "+-100"}
      ::h/equatorial-gravity {::h/value 24.79M}
-     ::h/g-polar 28.34M
-     ::h/geometric-albedo 0.52M
+     ::h/g-polar {::h/value 28.34M}
+     ::h/geometric-albedo {::h/value 0.52M}
      ::h/visual-magnitude -9.40M
      ::h/visual-magnitude-opposition -2.70M
      ::h/obliquity-to-orbit 3.12M
@@ -44,7 +44,7 @@
      ::h/mean-daily-motion 0.0831294M
      ::h/orbit-velocity 13.0697M
      ::h/mean-temperature "165+-5"
-     ::h/heat-flow-mass 15E7M
+     ::h/heat-flow-mass {::h/value 15E7M}
      ::h/solar-constant 50.5M
      ::h/dipole-tilt-offset {::h/value "9.6deg/0.1Rp"}
      ::h/escape-velocity {::h/value 59.5M}

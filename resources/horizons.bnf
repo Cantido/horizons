@@ -138,7 +138,8 @@ value ::= integer | approximate-integer | integer-with-error |
           timestamp | duration |
           dipole-tilt-offset-value |
           fig-offset-value |
-          flattening-value;
+          flattening-value |
+          gm-1-sigma-value;
 
 <digit> ::= #"\d";
 integer ::= #"[-\+]?\d+" | comma-separated-integer;
@@ -150,6 +151,7 @@ float ::= #"\-?\d*\.\d*";
 <dipole-tilt-offset-value> ::= #"\d+\.?\d*de?g/\d+\.\d+Rp";
 <fig-offset-value> ::= "0.19+-01";
 <flattening-value> ::= #"\d/\d\d\d\.\d\d\d";
+<gm-1-sigma-value> ::= #"\+\- ?\d\.?\d+";
 
 sci-not ::= significand <ws "("? sci-not-separator> exponent <")"?>
 <sci-not-separator> := (("x" | "*") ws "10^") | "E";
@@ -307,12 +309,12 @@ fig-offset ::= <"Fig. offset (Rcf-Rcm)"> <equals> value <" " unit-KMT >?;
 flattening ::= <"Flattening" ", f"?> <equals> value?;
 fluid-core-radius ::= <"Fluid core rad"> <equals> value <" " unit-KMT>;
 (* equatorial & polar gravity? units seem right. What is g-o? *)
-g-o ::= <"go, " unit-MSK> <equals> float;
-g-polar ::= <"Pol. grav, "? "gp" ","? " " "("? unit-MSK ")"?  " "? "(polar)"?> <equals> (float | float-with-error);
-geometric-albedo ::= <"Geometric albedo"> <equals> float;
-gm-1-sigma ::= <"GM 1-sigma" ws? "(" ws? ( "km^3 s^-2" | "km^3/s^2" ) ws? ")"> <equals> #"\+\- ?\d\.?\d+";
-grav-spectral-fact ::= <"Grav spectral fact u"> <equals> (sci-not | float);
-heat-flow-mass ::= <"Heat flow/mass (x10^"> exponent <")"> <equals>  integer? <ws unit-A62>?;
+g-o ::= <"go, " unit-MSK> <equals> value;
+g-polar ::= <"Pol. grav, "? "gp" ","? " " "("? unit-MSK ")"?  " "? "(polar)"?> <equals> value;
+geometric-albedo ::= <"Geometric albedo"> <equals> value;
+gm-1-sigma ::= <"GM 1-sigma" ws? "(" ws? ( "km^3 s^-2" | "km^3/s^2" ) ws? ")"> <equals> value;
+grav-spectral-fact ::= <"Grav spectral fact u"> <equals> value;
+heat-flow-mass ::= <"Heat flow/mass (x10^"> exponent <")"> <equals>  value? <ws unit-A62>?;
 hill-sphere-radius ::= <"Hill's sphere" ws ("rad." | "radius") ","? ws "Rp"?> <equals> (float | integer);
 hydrostatic-flattening ::= <"Hydrostatic flat., fh"> <equals> float;
 inferred-rotation-period ::= <"Inferred rot. period"> <equals> duration;

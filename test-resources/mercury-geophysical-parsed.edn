@@ -25,14 +25,14 @@
 
   [:standard-gravitational-parameter [:float "22032.09"]]
   [:equatorial-radius [:value [:integer "2440"]] [:unit-KMT "km"]]
-  [:gm-1-sigma "+-0.91"]
+  [:gm-1-sigma [:value "+-0.91"]]
   [:mass-ratio-from-sun [:integer "6023600"]]
 
   [:atmospheric-pressure]
   [:maximum-angular-diameter "11.0\""]
   [:mean-temperature]
   [:visual-magnitude [:float "-0.42"]]
-  [:geometric-albedo [:float "0.106"]]
+  [:geometric-albedo [:value [:float "0.106"]]]
   [:obliquity-to-orbit "2.11' +/- 0.1'"]
   [:mean-sidereal-orbital-period-years [:float "0.2408467"]]
   [:orbit-velocity [:float "47.362"]]

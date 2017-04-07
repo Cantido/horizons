@@ -151,4 +151,10 @@
     (is (= (transform [:mean-radius [:unit-KMT "km"] "2440(+-1)"])
            [:mean-radius [:unit-code "KMT"] [:value "2440(+-1)"]]))
     (is (= (transform [:mean-radius "2440(+-1)" [:unit-KMT "km"]])
-           [:mean-radius [:unit-code "KMT"] [:value "2440(+-1)"]]))))
+           [:mean-radius [:unit-code "KMT"] [:value "2440(+-1)"]])))
+  (testing "value with exponents"
+    (is (= (transform
+             [:heat-flow-mass
+              [:exponent [:integer "7"]]
+              [:value [:integer "15"]]])
+           [:heat-flow-mass {:value 15E7M}]))))
