@@ -1,4 +1,15 @@
----
-layout: milligram
----
-{{content}}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  {% include head.html %}
+</head>
+<body>
+<main class="wrapper">
+  <section class="container">
+    {{content}}
+  </section>
+
+  {% include footer.html %}
+  </main>
+</body>
+</html>
