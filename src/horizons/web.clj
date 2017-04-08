@@ -50,7 +50,7 @@
   :handle-exception handle-exception)
 
 (defroutes handler
-  (GET "/" [] (response/redirect "/index.html"))
+  (GET "/" [] (response/redirect "https://cantido.github.io/horizons/"))
   (context ["/bodies/:id", :id #"[0-9]+"] [id]
     (ANY "/" [] (planetary-body-resource id))
     (ANY "/ephemeris" [] (ephemeris-resource id)))
