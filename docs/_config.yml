@@ -6,6 +6,8 @@ description: A RESTful-style API for NASA's HORIZONS system, written in Clojure.
 
 google_site_verification: 6GGjpRMhHXMgAIyAwrOKu8obsRZE9bHif6IoZWcbzJI
 
+author: Lord_Cantido
+
 social:
   name: Robert Richter
   links:
