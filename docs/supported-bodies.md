@@ -2,7 +2,7 @@
 title: Supported Bodies
 layout: default
 ---
-# Supported planetary bodies:
+# Supported planetary bodies
 
 | Body      | Geophysical data    | Ephemeris data                |
 |-----------|---------------------|-------------------------------|
