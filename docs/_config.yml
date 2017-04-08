@@ -4,9 +4,6 @@ gems:
 
 description: A RESTful-style API for NASA's HORIZONS system, written in Clojure.
 
-author:
-  twitter: Lord_Cantido
-
 google_site_verification: 6GGjpRMhHXMgAIyAwrOKu8obsRZE9bHif6IoZWcbzJI
 
 social:
