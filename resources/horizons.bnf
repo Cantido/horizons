@@ -69,17 +69,17 @@ ephemeris ::=
 
 julian-day-number ::= float;
 
-x-position ::= sci-not;
-y-position ::= sci-not;
-z-position ::= sci-not;
+x-position ::= <"X" equals>? sci-not;
+y-position ::= <"Y" equals>? sci-not;
+z-position ::= <"Z" equals>? sci-not;
 
-x-velocity ::= sci-not;
-y-velocity ::= sci-not;
-z-velocity ::= sci-not;
+x-velocity ::= <"VX" equals>? sci-not;
+y-velocity ::= <"VY" equals>? sci-not;
+z-velocity ::= <"VZ" equals>? sci-not;
 
-lt ::= sci-not;
-range ::= sci-not;
-range-rate ::= sci-not;
+lt ::= <"LT" equals>? sci-not;
+range ::= <"RG" equals>? sci-not;
+range-rate ::= <"RR" equals>? sci-not;
 
 coordinate-system-description ::=
 "Coordinate system description:" ws
