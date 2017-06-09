@@ -4,6 +4,8 @@ A RESTful-style API for NASA's [HORIZONS] system,
 written in Clojure.
 See more at https://git.io/horizons-docs.
 
+[HORIZONS]: https://ssd.jpl.nasa.gov/?horizons
+
 ## Project Roadmap
 
 See [this project's Kanban board][kanban] for the current state of the to-do list.
