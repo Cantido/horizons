@@ -8,7 +8,7 @@
   [:body-name "Mars"]
   [:body-id [:integer "499"]]]
  [:geophysical-data
-  [:mean-radius [:unit-KMT "km"] "3389.9(2+-4)"],
+  [:mean-radius [:unit-KMT "km"] [:value "3389.9(2+-4)"],]
   [:density [:value "3.933(5+-4)"],]
   [:mass [:exponent [:integer "23"]] [:value [:float "6.4185"],]]
   [:flattening [:value "1/154.409"]]

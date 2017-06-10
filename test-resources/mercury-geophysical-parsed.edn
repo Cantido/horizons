@@ -8,7 +8,7 @@
   [:body-name "Mercury"]
   [:body-id [:integer "199"]]]
  [:geophysical-data
-  [:mean-radius [:unit-KMT "km"] "2440(+-1)"]
+  [:mean-radius [:unit-KMT "km"] [:value "2440(+-1)"]]
   [:density [:value [:float "5.427"]]]
   [:mass [:exponent [:integer "23"]] [:value [:float "3.302"]]]
   [:flattening]

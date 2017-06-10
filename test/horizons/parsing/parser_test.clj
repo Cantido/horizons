@@ -89,11 +89,11 @@
   (testing "geophysical data tree to map"
     (is (= (tree->map
              [::h/geophysical-data
-              [::h/mean-radius "3389.9(2+-4)"]
+              [::h/mean-radius [:value "3389.9(2+-4)"]]
               [::h/density "3.933(5+-4)"]
               [::h/mass "6.4185"]])
            {::h/geophysical-data
-            {::h/mean-radius "3389.9(2+-4)"
+            {::h/mean-radius {:value "3389.9(2+-4)"}
              ::h/density "3.933(5+-4)"
              ::h/mass "6.4185"}}))))
 
@@ -148,7 +148,7 @@
               {:x-position 2}
               {:x-position 3}}])))
   (testing "value with units"
-    (is (= (transform [:mean-radius [:unit-KMT "km"] "2440(+-1)"])
+    (is (= (transform [:mean-radius [:unit-KMT "km"] [:value "2440(+-1)"]])
            [:mean-radius [:unit-code "KMT"] [:value "2440(+-1)"]]))
     (is (= (transform
              [:atmospheric-mass

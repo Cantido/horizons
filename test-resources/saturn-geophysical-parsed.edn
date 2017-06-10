@@ -12,7 +12,7 @@
   [:density [:value "0.687+-.001"]]
   [:equatorial-radius [:value "60268+-4"] [:unit-KMT "km"]]
   [:polar-radius "54364+-10"]
-  [:mean-radius "58232+-6" [:unit-KMT "km"]]
+  [:mean-radius [:value "58232+-6"] [:unit-KMT "km"]]
   [:flattening [:value [:float "0.09796"]]]
   [:sidereal-rotation-period
    [:duration

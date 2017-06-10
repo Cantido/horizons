@@ -8,7 +8,7 @@
   [:body-name "Earth"]
   [:body-id [:integer "399"]]]
  [:physical-properties
-  [:mean-radius [:unit-KMT "km"] "6371.01+-0.01"]
+  [:mean-radius [:unit-KMT "km"] [:value "6371.01+-0.01"]]
   [:mass [:exponent [:integer "24"]] [:value "5.97219+-0.0006"]]
   [:equatorial-radius [:unit-KMT "km"] [:value "6378.14+-0.01"]]
   [:polar-axis [:float "6356.752"]]

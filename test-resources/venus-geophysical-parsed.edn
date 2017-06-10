@@ -8,7 +8,7 @@
   [:body-name "Venus"]
   [:body-id [:integer "299"]]]
  [:geophysical-data
-  [:mean-radius [:unit-KMT "km"] "6051.8(4+-1)"]
+  [:mean-radius [:unit-KMT "km"] [:value "6051.8(4+-1)"]]
   [:density [:value [:float "5.204"]]]
   [:mass [:exponent [:integer "23"]] [:value [:float "48.685"]]]
   [:flattening]

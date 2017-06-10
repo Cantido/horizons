@@ -58,14 +58,6 @@
          (merge (dissoc fields :exponent :value)))]
        [label fields]))))
 
-(defn value-with-unit->structured-value
-  ([label x]
-   [label x])
-  ([label x y]
-   (if (coll? x)
-     [label x [:value y]]
-     [label y [:value x]])))
-
 (def ^:private transform-rules
   {:comma-separated-integer #(clojure.string/replace % "," "")
    :date (fn [& more] [:date (t/datemap->date (into {} more))])
@@ -75,7 +67,6 @@
    :heat-flow-mass (partial value-with-exponent-map->bigdec :heat-flow-mass)
    :integer string->int
    :mass (partial value-with-exponent-map->bigdec :mass)
-   :mean-radius (partial value-with-unit->structured-value :mean-radius)
    :month (fn [s] [:month (t/month->int s)])
    :rotation-rate (partial value-with-exponent->bigdec :rotation-rate)
    :sci-not sci-not-coll->bigdec
