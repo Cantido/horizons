@@ -75,6 +75,7 @@
    :unit-23 (constantly [:unit-code "23"])
    :unit-A62 (constantly [:unit-code "A62"])
    :unit-BAR (constantly [:unit-code "BAR"])
+   :unit-KEL (constantly [:unit-code "KEL"])
    :unit-KMT (constantly [:unit-code "KMT"])
    :unit-KGM (constantly [:unit-code "KGM"])
    :unit-MSK (constantly [:unit-code "MSK"])

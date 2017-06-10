@@ -20,7 +20,7 @@
      ::h/rotation-rate 12400.1M
      ::h/mean-solar-day {::h/value {::h/duration {::h/days 175.9421M}}}
      ::h/polar-gravity nil
-     ::h/moment-of-inertia 0.33M
+     ::h/moment-of-inertia {::h/value 0.33M}
      ::h/equatorial-gravity {::h/unit-code "MSK" ::h/value 3.701M}
      ::h/core-radius {::h/unit-code "KMT" ::h/value "~1600"}
      ::h/potential-love-k2 nil
@@ -30,7 +30,7 @@
      ::h/mass-ratio-from-sun {::h/value 6023600}
      ::h/atmospheric-pressure {::h/unit-code "BAR"}
      ::h/maximum-angular-diameter {::h/value "11.0\""}
-     ::h/mean-temperature nil
+     ::h/mean-temperature {::h/unit-code "KEL"}
      ::h/visual-magnitude -0.42M
      ::h/geometric-albedo {::h/value 0.106M}
      ::h/obliquity-to-orbit "2.11' +/- 0.1'"

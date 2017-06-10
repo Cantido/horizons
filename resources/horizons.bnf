@@ -209,7 +209,7 @@ unit-MSK ::= <"m" ((" "? "s^-2") | "/s^2")>;
 
 (* TODO: find out what the unit code for this is *)
 unit-gauss-rp3 ::= "gauss Rp^3" | "gauss-Rp^3";
-
+unit-degrees-per-day ::= "deg/d" | "dg/d";
 
 (* Domain-specific data types *)
 
@@ -336,15 +336,15 @@ mantle-mass ::= <"mantle         = "> value <" "> unit-KGM;
 mass ::= <"Mass" ","? " " "("? "10^"> exponent <" "?> unit-KGM <" "? ")"?> <equals> value;
 mass-ratio-from-sun ::= <"Mass ratio " ("(Sun/" body-name ")" | "(sun/plnt)")> <equals> value;
 maximum-angular-diameter ::= <"Max. angular diam."> <equals> value;
-mean-daily-motion ::= <"Mean daily motion" ", n"?> <equals> float <ws> <"deg/d" | "dg/d">;
+mean-daily-motion ::= <"Mean daily motion" ", n"?> <equals> value <ws> <unit-degrees-per-day>;
 mean-radius ::= <"Volumetric "? ("M" | "m") "ean radius" " "? ", "? "("?> unit-KMT? <")"? > <equals> value <ws?> unit-KMT?;
 <mean-sidereal-orbit-label> ::= <"Mean"? ws ("sidereal" | "Sidereal") ws (("orb" "."?)  | "orbit")? ws? (("per" "."?) | "period")>;
 mean-sidereal-orbital-period-years ::= <mean-sidereal-orbit-label> <equals> float <ws> <("yrs" | "y" | "yr")?>;
 mean-sidereal-orbital-period-days ::= <mean-sidereal-orbit-label> <equals> float <ws> <("d" | "days")>;
 mean-solar-day ::= <"Mean solar day" ", days"?> <equals> value <" d"?>;
-mean-temperature ::= <("Atmos. temp. (1 " unit-BAR ")") | ("Mean Temperature" (" (" | ", ") unit-KEL ")"?)> <equals> (integer | integer-with-error)? <ws> <unit-KEL?>;
-moment-of-inertia ::= <("Mom. of Inertia" | "Moment of inertia" | "Mom. of inert. I/MRo^2")> <equals> float?;
-monent-of-inertia-upper-bound ::= <"I/MRo^2 (upper bound)"> <equals> float;
+mean-temperature ::= (<("Atmos. temp. (1 " unit-BAR ")")> | (<"Mean Temperature"> <" (" | ", "> unit-KEL <")"?>)) <equals> value? <ws> unit-KEL?;
+moment-of-inertia ::= <("Mom. of Inertia" | "Moment of inertia" | "Mom. of inert. I/MRo^2")> <equals> value?;
+monent-of-inertia-upper-bound ::= <"I/MRo^2 (upper bound)"> <equals> value;
 ocean-mass ::= <"oceans"> <equals> sci-not <" " unit-KGM>;
 obliquity-to-orbit ::= <"Obliquity to orbit"> <"[1]"?> <", deg"?> <equals> (float | #"\d.\d\d' \+/\- \d\.\d'") <" deg"?>;
 offset ::= <"Offset (lat./long.)"> <equals> #"\d+d? ?\/ ?\d+d?" <ws "dg/dg">?;

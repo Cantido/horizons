@@ -27,8 +27,8 @@
      ::h/hydrostatic-flattening {::h/value 0.06509M}
      ::h/inferred-rotation-period {::h/value {::h/duration {::h/hours "9.894+-0.02"}}}
      ::h/ks {::h/value 0.494M}
-     ::h/moment-of-inertia 0.254M
-     ::h/monent-of-inertia-upper-bound 0.267M
+     ::h/moment-of-inertia {::h/value 0.254M}
+     ::h/monent-of-inertia-upper-bound {::h/value 0.267M}
      ::h/rocky-core-mass 0.0261M
      ::h/y-factor "0.18+-0.04"
      ::h/standard-gravitational-parameter 126686511
@@ -41,9 +41,9 @@
      ::h/obliquity-to-orbit 3.12M
      ::h/mean-sidereal-orbital-period-years 11.862615M
      ::h/mean-sidereal-orbital-period-days 4332.820M
-     ::h/mean-daily-motion 0.0831294M
+     ::h/mean-daily-motion {::h/value 0.0831294M}
      ::h/orbit-velocity 13.0697M
-     ::h/mean-temperature "165+-5"
+     ::h/mean-temperature {::h/value "165+-5" ::h/unit-code "KEL"}
      ::h/heat-flow-mass {::h/value 15E7M ::h/unit-code "A62"}
      ::h/solar-constant 50.5M
      ::h/dipole-tilt-offset {::h/value "9.6deg/0.1Rp"}

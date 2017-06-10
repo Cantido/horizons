@@ -18,7 +18,7 @@
   [:rotation-rate [:exponent [:integer "5"]] [:float "0.124001"]]
   [:mean-solar-day [:value [:duration [:days [:float "175.9421"]]]]]
   [:polar-gravity]
-  [:moment-of-inertia [:float "0.33"]]
+  [:moment-of-inertia [:value [:float "0.33"]]]
   [:equatorial-gravity [:unit-MSK] [:value [:float "3.701"]]]
   [:core-radius [:unit-KMT] [:value "~1600"]]
   [:potential-love-k2]
@@ -30,7 +30,7 @@
 
   [:atmospheric-pressure [:unit-BAR "bar"]]
   [:maximum-angular-diameter [:value "11.0\""]]
-  [:mean-temperature]
+  [:mean-temperature [:unit-KEL "K"]]
   [:visual-magnitude [:float "-0.42"]]
   [:geometric-albedo [:value [:float "0.106"]]]
   [:obliquity-to-orbit "2.11' +/- 0.1'"]
