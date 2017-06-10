@@ -12,7 +12,7 @@
   [:mass [:exponent [:integer "24"]] [:value "5.97219+-0.0006"]]
   [:equatorial-radius [:unit-KMT "km"] [:value "6378.14+-0.01"]]
   [:polar-axis [:float "6356.752"]]
-  [:atmospheric-mass [:value [:sci-not [:significand [:float "5.1"]] [:exponent [:integer "18"]]]]]
+  [:atmospheric-mass [:value [:sci-not [:significand [:float "5.1"]] [:exponent [:integer "18"]]]] [:unit-KGM "kg"]]
   [:flattening [:value "1/298.257"]]
   [:ocean-mass [:sci-not [:significand [:float "1.4"]] [:exponent [:integer "21"]]]]
   [:density [:value [:float "5.515"]]]

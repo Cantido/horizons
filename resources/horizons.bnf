@@ -296,7 +296,7 @@ dynamical-characteristics-header ::= "DYNAMICAL CHARACTERISTICS:";
 physical-properties-header ::= "PHYSICAL PROPERTIES (revised " date "):";
 
 a-roche-ice ::= <"A_roche(ice)/Rp" | "Aroche(ice)/Rp"> <equals> value;
-atmospheric-mass ::= <"Atmos"> <equals> value <" " unit-KGM>;
+atmospheric-mass ::= <"Atmos"> <equals> value <" "> unit-KGM;
 atmospheric-pressure ::= <("Atm." | "Atmos.") " pressure" (" (" unit-BAR ")")?> <equals> value? <" " unit-BAR>?;
 core-radius ::= <"Core radius (" unit-KMT ")"> <equals> value;
 crust-mass ::= <"crust"> <equals> value <" " unit-KGM>;

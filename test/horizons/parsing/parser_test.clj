@@ -150,11 +150,19 @@
   (testing "value with units"
     (is (= (transform [:mean-radius [:unit-KMT "km"] "2440(+-1)"])
            [:mean-radius [:unit-code "KMT"] [:value "2440(+-1)"]]))
-    (is (= (transform [:mean-radius "2440(+-1)" [:unit-KMT "km"]])
-           [:mean-radius [:unit-code "KMT"] [:value "2440(+-1)"]])))
+    (is (= (transform
+             [:atmospheric-mass
+              [:value [:sci-not [:significand [:float "5.1"]] [:exponent [:integer "18"]]]]
+              [:unit-KGM "kg"]])
+           [:atmospheric-mass
+            [:value 5.1E+18M]
+            [:unit-code "KGM"]])))
   (testing "value with exponents"
     (is (= (transform
              [:heat-flow-mass
               [:exponent [:integer "7"]]
               [:value [:integer "15"]]])
-           [:heat-flow-mass {:value 15E7M}]))))
+           [:heat-flow-mass {:value 15E7M}])))
+  (testing "unit codes"
+    (is (= (transform [:unit-KGM "kg"])
+           [:unit-code "KGM"]))))
