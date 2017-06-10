@@ -28,7 +28,7 @@
      ::h/equatorial-radius {::h/value 2440 ::h/unit-code "KMT"}
      ::h/gm-1-sigma {::h/value "+-0.91"}
      ::h/mass-ratio-from-sun 6023600
-     ::h/atmospheric-pressure nil
+     ::h/atmospheric-pressure {::h/unit-code "BAR"}
      ::h/maximum-angular-diameter "11.0\""
      ::h/mean-temperature nil
      ::h/visual-magnitude -0.42M

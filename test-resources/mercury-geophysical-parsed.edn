@@ -28,7 +28,7 @@
   [:gm-1-sigma [:value "+-0.91"]]
   [:mass-ratio-from-sun [:integer "6023600"]]
 
-  [:atmospheric-pressure]
+  [:atmospheric-pressure [:unit-BAR "bar"]]
   [:maximum-angular-diameter "11.0\""]
   [:mean-temperature]
   [:visual-magnitude [:float "-0.42"]]

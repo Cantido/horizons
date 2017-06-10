@@ -30,7 +30,7 @@
   [:equatorial-radius [:value [:float "6051.893"]] [:unit-KMT "km"]]
   [:gm-1-sigma [:value "+-0.04"]]
   [:mass-ratio-from-sun [:float "408523.72"]]
-  [:atmospheric-pressure [:value [:integer "90"]]]
+  [:atmospheric-pressure [:unit-BAR "bar"] [:value [:integer "90"]]]
   [:maximum-angular-diameter "60.2\""]
   [:mean-temperature [:integer "735"]]
   [:visual-magnitude [:float "-4.40"]]

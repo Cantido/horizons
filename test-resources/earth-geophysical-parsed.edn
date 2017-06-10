@@ -35,7 +35,7 @@
   [:moment-of-inertia [:float "0.3308"]]
   [:potential-love-k2 [:float "0.299"]]
   [:mean-temperature [:integer "270"]]
-  [:atmospheric-pressure [:value [:float "1.0"]]]
+  [:atmospheric-pressure [:value [:float "1.0"]] [:unit-BAR "bar"]]
   [:solar-constant [:float "1367.6"]]
   [:visual-magnitude [:float "-3.86"]]
   [:volume [:exponent [:integer "10"]] [:float "108.321"]]

@@ -93,7 +93,7 @@
               [::h/density "3.933(5+-4)"]
               [::h/mass "6.4185"]])
            {::h/geophysical-data
-            {::h/mean-radius {:value "3389.9(2+-4)"}
+            {::h/mean-radius {::h/value "3389.9(2+-4)"}
              ::h/density "3.933(5+-4)"
              ::h/mass "6.4185"}}))))
 
@@ -164,5 +164,5 @@
               [:value [:integer "15"]]])
            [:heat-flow-mass {:value 15E7M}])))
   (testing "unit codes"
-    (is (= (transform [:unit-KGM "kg"])
-           [:unit-code "KGM"]))))
+    (is (= (transform [:unit-KGM "kg"]) [:unit-code "KGM"]))
+    (is (= (transform [:unit-BAR "bar"]) [:unit-code "BAR"]))))

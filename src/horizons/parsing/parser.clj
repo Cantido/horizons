@@ -72,6 +72,7 @@
    :sci-not sci-not-coll->bigdec
    :time (fn [& more]  {:time (into {} more)})
    :timestamp t/timestamp-transformer
+   :unit-BAR (fn [x] [:unit-code "BAR"])
    :unit-KMT (fn [x] [:unit-code "KMT"])
    :unit-KGM (fn [x] [:unit-code "KGM"])
    :volume (partial value-with-exponent->bigdec :volume)})
