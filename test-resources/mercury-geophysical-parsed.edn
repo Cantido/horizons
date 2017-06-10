@@ -20,7 +20,7 @@
   [:polar-gravity]
   [:moment-of-inertia [:float "0.33"]]
   [:equatorial-gravity [:value [:float "3.701"]]]
-  [:core-radius [:value "~1600"]]
+  [:core-radius [:unit-KMT "km"] [:value "~1600"]]
   [:potential-love-k2]
 
   [:standard-gravitational-parameter [:float "22032.09"]]

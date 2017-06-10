@@ -165,4 +165,5 @@
            [:heat-flow-mass {:value 15E7M}])))
   (testing "unit codes"
     (is (= (transform [:unit-KGM "kg"]) [:unit-code "KGM"]))
-    (is (= (transform [:unit-BAR "bar"]) [:unit-code "BAR"]))))
+    (is (= (transform [:unit-BAR "bar"]) [:unit-code "BAR"]))
+    (is (= (transform [:unit-KMT "km"]) [:unit-code "KMT"]))))

@@ -22,7 +22,7 @@
      ::h/polar-gravity nil
      ::h/moment-of-inertia 0.33M
      ::h/equatorial-gravity {::h/value 3.701M}
-     ::h/core-radius {::h/value "~1600"}
+     ::h/core-radius {::h/unit-code "KMT" ::h/value "~1600"}
      ::h/potential-love-k2 nil
      ::h/standard-gravitational-parameter 22032.09M
      ::h/equatorial-radius {::h/value 2440 ::h/unit-code "KMT"}
