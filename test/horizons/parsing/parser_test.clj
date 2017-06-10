@@ -148,7 +148,7 @@
               {:x-position 2}
               {:x-position 3}}])))
   (testing "value with units"
-    (is (= (transform [:mean-radius [:unit-KMT "km"] [:value "2440(+-1)"]])
+    (is (= (transform [:mean-radius [:unit-KMT] [:value "2440(+-1)"]])
            [:mean-radius [:unit-code "KMT"] [:value "2440(+-1)"]]))
     (is (= (transform
              [:atmospheric-mass
@@ -166,4 +166,7 @@
   (testing "unit codes"
     (is (= (transform [:unit-KGM "kg"]) [:unit-code "KGM"]))
     (is (= (transform [:unit-BAR "bar"]) [:unit-code "BAR"]))
-    (is (= (transform [:unit-KMT "km"]) [:unit-code "KMT"]))))
+    (is (= (transform [:unit-KMT]) [:unit-code "KMT"]))
+    (is (= (transform [:unit-23 "gm cm^-3"]) [:unit-code "23"]))
+    (is (= (transform [:unit-MSK]) [:unit-code "MSK"]))
+    (is (= (transform [:unit-A62]) [:unit-code "A62"]))))

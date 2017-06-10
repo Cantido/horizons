@@ -139,7 +139,9 @@ value ::= integer | approximate-integer | integer-with-error |
           dipole-tilt-offset-value |
           fig-offset-value |
           flattening-value |
-          gm-1-sigma-value;
+          gm-1-sigma-value |
+          magnetic-moment-value |
+          angular-value;
 
 <digit> ::= #"\d";
 integer ::= #"[-\+]?\d+" | comma-separated-integer;
@@ -152,6 +154,8 @@ float ::= #"\-?\d*\.\d*";
 <fig-offset-value> ::= "0.19+-01";
 <flattening-value> ::= #"\d/\d\d\d\.\d\d\d";
 <gm-1-sigma-value> ::= #"\+\- ?\d\.?\d+";
+<magnetic-moment-value> ::=  #"< 1x10\^\-\d";
+<angular-value> ::= #'\d+\.\d+\"';
 
 sci-not ::= significand <ws "("? sci-not-separator> exponent <")"?>
 <sci-not-separator> := (("x" | "*") ws "10^") | "E";
@@ -177,7 +181,8 @@ second-of-minute ::= integer;
 millisecond-of-second ::= integer;
 
 (* TODO: property parse a seconds measurement like 22.4, currently this things there are 4 milliseconds *)
-duration ::= days? (hours <ws? ("h" | "hr") ws>)? (minutes <ws? ("m" | "minutes") ws?>)? (seconds <"."> milliseconds <"s">)?;
+duration ::= years? days? (hours <ws? ("h" | "hr") ws>)? (minutes <ws? ("m" | "minutes") ws?>)? (seconds <"."> milliseconds <"s">)?;
+years ::= float ("y" | "yr" | "yrs");
 days ::= (float | integer) <ws? "d" ws?>;
 hours ::= float | float-with-error | integer;
 minutes ::= integer;
@@ -196,11 +201,14 @@ unit-A62 ::= "erg/gm*s";
 unit-BAR ::= "bar";
 unit-D54 ::= "W/m^2" | "Wm^2"; (* [sic] *)
 unit-H20 ::= "km^3";
-unit-M62 ::= "("? ("km/s" | "km s^-1") ")"?;
+unit-M62 ::= <"("? ("km/s" | "km s^-1") ")"?>;
 unit-KEL ::= "K";
 unit-KGM ::= "kg";
-unit-KMT ::= "km";
-unit-MSK ::= "m" ((" "? "s^-2") | "/s^2");
+unit-KMT ::= <"km">;
+unit-MSK ::= <"m" ((" "? "s^-2") | "/s^2")>;
+
+(* TODO: find out what the unit code for this is *)
+unit-gauss-rp3 ::= "gauss Rp^3" | "gauss-Rp^3";
 
 
 (* Domain-specific data types *)
@@ -299,41 +307,41 @@ a-roche-ice ::= <"A_roche(ice)/Rp" | "Aroche(ice)/Rp"> <equals> value;
 atmospheric-mass ::= <"Atmos"> <equals> value <" "> unit-KGM;
 atmospheric-pressure ::= <("Atm." | "Atmos.") " pressure"> (<" ("> unit-BAR <")">)? <equals> value? (<" "> unit-BAR)?;
 core-radius ::= <"Core radius ("> unit-KMT <")"> <equals> value;
-crust-mass ::= <"crust"> <equals> value <" " unit-KGM>;
-density ::= <"Density", ( ","? " " "("? unit-23 ")"? )> <equals> value;
+crust-mass ::= <"crust"> <equals> value <" "> unit-KGM;
+density ::= <"Density">, <",">? <" "> <"("?> unit-23 <")"?> <equals> value;
 dipole-tilt-offset ::= <"Dipole tilt/offset"> <equals> value;
-equatorial-gravity ::= <("Equ. " "grav" "ity"? ", "?)? "ge"? ","? space+ "("? unit-MSK ")"? " (equatorial)"?> <equals> value;
+equatorial-gravity ::= <("Equ. " "grav" "ity"? ", "?)? "ge"? ","? space+ "("?> unit-MSK <")"?> <" (equatorial)">? <equals> value;
 equatorial-radius ::= <"Equatorial" | "Equ." | "Equat."> <" "> <"R" | "r"> <"adius"> (<", Re"> | (<", "> unit-KMT) | <" (1 " unit-BAR ")">) <equals> value <" "?> unit-KMT?;
-escape-velocity ::= <"Escape" ws ("vel." | "velocity") ws? unit-M62?> <equals> value <ws> <unit-M62?>;
-fig-offset ::= <"Fig. offset (Rcf-Rcm)"> <equals> value <" " unit-KMT >?;
+escape-velocity ::= <"Escape" ws ("vel." | "velocity") ws?> unit-M62? <equals> value <ws> unit-M62?;
+fig-offset ::= <"Fig. offset (Rcf-Rcm)"> <equals> value (<" "> unit-KMT)?;
 flattening ::= <"Flattening" ", f"?> <equals> value?;
-fluid-core-radius ::= <"Fluid core rad"> <equals> value <" " unit-KMT>;
+fluid-core-radius ::= <"Fluid core rad"> <equals> value <" "> unit-KMT;
 (* equatorial & polar gravity? units seem right. What is g-o? *)
-g-o ::= <"go, " unit-MSK> <equals> value;
-g-polar ::= <"Pol. grav, "? "gp" ","? " " "("? unit-MSK ")"?  " "? "(polar)"?> <equals> value;
+g-o ::= <"go, "> unit-MSK <equals> value;
+g-polar ::= <"Pol. grav, "? "gp" ","? " " "("?> unit-MSK <")"?  " "? "(polar)"?> <equals> value;
 geometric-albedo ::= <"Geometric albedo"> <equals> value;
 gm-1-sigma ::= <"GM 1-sigma" ws? "(" ws? ( "km^3 s^-2" | "km^3/s^2" ) ws? ")"> <equals> value;
 grav-spectral-fact ::= <"Grav spectral fact u"> <equals> value;
-heat-flow-mass ::= <"Heat flow/mass (x10^"> exponent <")"> <equals>  value? <ws unit-A62>?;
-hill-sphere-radius ::= <"Hill's sphere" ws ("rad." | "radius") ","? ws "Rp"?> <equals> (float | integer);
-hydrostatic-flattening ::= <"Hydrostatic flat., fh"> <equals> float;
-inferred-rotation-period ::= <"Inferred rot. period"> <equals> duration;
-inner-core-mass ::= <"inner core     = "> sci-not <" " unit-KGM>;
-inner-core-radius ::= <"Inner core rad   = "> integer <" " unit-KMT>;
-j2 ::= <"J2  (GEM T2, 1990)       = "> float;
-ks ::= <"ks = 3*J2/m"> <equals> float;
-m ::= <"m = w^2a^3/GM"> <equals> float;
-magnetic-moment ::= <"Mag. mom (gauss Rp^3)" | "Magnetic moment" | "Mag.dip.mom(gauss-Rp^3)"> <equals> (#"< 1x10\^\-\d" | (float <ws "gauss Rp^3">?));
-mantle-mass ::= <"mantle         = "> sci-not <" " unit-KGM>;
-mass ::= <"Mass" ","? " " "("? "10^"> exponent <" "? unit-KGM " "? ")"?> <equals> value;
-mass-ratio-from-sun ::= <"Mass ratio " ("(Sun/" body-name ")" | "(sun/plnt)")> <equals> (integer | integer-with-error | float);
-maximum-angular-diameter ::= <"Max. angular diam."> <equals> #'\d+\.\d+\"';
+heat-flow-mass ::= <"Heat flow/mass (x10^"> exponent <")"> <equals>  value? (<ws> unit-A62)?;
+hill-sphere-radius ::= <"Hill's sphere" ws ("rad." | "radius") ","? ws "Rp"?> <equals> value;
+hydrostatic-flattening ::= <"Hydrostatic flat., fh"> <equals> value;
+inferred-rotation-period ::= <"Inferred rot. period"> <equals> value;
+inner-core-mass ::= <"inner core     = "> value <" "> unit-KGM;
+inner-core-radius ::= <"Inner core rad   = "> value <" "> unit-KMT;
+j2 ::= <"J2  (GEM T2, 1990)       = "> value;
+ks ::= <"ks = 3*J2/m"> <equals> value;
+m ::= <"m = w^2a^3/GM"> <equals> value;
+magnetic-moment ::= <"Mag. mom (gauss Rp^3)" | "Magnetic moment" | "Mag.dip.mom(gauss-Rp^3)"> <equals> value <ws unit-gauss-rp3>?;
+mantle-mass ::= <"mantle         = "> value <" "> unit-KGM;
+mass ::= <"Mass" ","? " " "("? "10^"> exponent <" "?> unit-KGM <" "? ")"?> <equals> value;
+mass-ratio-from-sun ::= <"Mass ratio " ("(Sun/" body-name ")" | "(sun/plnt)")> <equals> value;
+maximum-angular-diameter ::= <"Max. angular diam."> <equals> value;
 mean-daily-motion ::= <"Mean daily motion" ", n"?> <equals> float <ws> <"deg/d" | "dg/d">;
 mean-radius ::= <"Volumetric "? ("M" | "m") "ean radius" " "? ", "? "("?> unit-KMT? <")"? > <equals> value <ws?> unit-KMT?;
 <mean-sidereal-orbit-label> ::= <"Mean"? ws ("sidereal" | "Sidereal") ws (("orb" "."?)  | "orbit")? ws? (("per" "."?) | "period")>;
 mean-sidereal-orbital-period-years ::= <mean-sidereal-orbit-label> <equals> float <ws> <("yrs" | "y" | "yr")?>;
 mean-sidereal-orbital-period-days ::= <mean-sidereal-orbit-label> <equals> float <ws> <("d" | "days")>;
-mean-solar-day ::= <"Mean solar day" ", days"?> <equals> float <" d"?>;
+mean-solar-day ::= <"Mean solar day" ", days"?> <equals> value <" d"?>;
 mean-temperature ::= <("Atmos. temp. (1 " unit-BAR ")") | ("Mean Temperature" (" (" | ", ") unit-KEL ")"?)> <equals> (integer | integer-with-error)? <ws> <unit-KEL?>;
 moment-of-inertia ::= <("Mom. of Inertia" | "Moment of inertia" | "Mom. of inert. I/MRo^2")> <equals> float?;
 monent-of-inertia-upper-bound ::= <"I/MRo^2 (upper bound)"> <equals> float;
