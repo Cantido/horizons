@@ -57,15 +57,13 @@
   (route/not-found (response/not-found "Resource not found.")))
 
 (def handler-options
-  {:static {:resources "public"}})
+  (merge
+    defaults/api-defaults
+    {:static {:resources "public"}}))
 
 (def app
   (-> handler
-      (defaults/wrap-defaults (merge defaults/api-defaults handler-options))
-      wrap-json-body
-      wrap-json-params
-      wrap-json-response
-      wrap-params))
+      (defaults/wrap-defaults handler-options)))
 
 (defn -main [& [port]]
   (let [port (or port (environ/env :port) 3000)]
