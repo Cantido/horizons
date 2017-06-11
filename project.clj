@@ -8,7 +8,6 @@
              :production {:env {:production true}}
              :uberjar {:aot :all}}
   :min-lein-version "2.0.0"
-  :hooks [environ.leiningen.hooks]
   :plugins [[lein-ring "0.8.11"]
             [lein-environ "1.1.0"]]
   :ring {:handler horizons.web/app}
