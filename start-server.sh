@@ -1,1 +1,1 @@
-java $JVM_OPTS -cp target/horizons-standalone.jar clojure.main -m horizons.web
+lein with-profile production trampoline run -m horizons.web
