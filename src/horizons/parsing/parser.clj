@@ -68,19 +68,26 @@
    :integer string->int
    :mass (partial value-with-exponent-map->bigdec :mass)
    :month (fn [s] [:month (t/month->int s)])
-   :rotation-rate (partial value-with-exponent->bigdec :rotation-rate)
+   :rotation-rate (partial value-with-exponent-map->bigdec :rotation-rate)
    :sci-not sci-not-coll->bigdec
    :time (fn [& more]  {:time (into {} more)})
    :timestamp t/timestamp-transformer
    :unit-23 (constantly [:unit-code "23"])
+   :unit-2A (constantly [:unit-code "2A"])
    :unit-A62 (constantly [:unit-code "A62"])
    :unit-BAR (constantly [:unit-code "BAR"])
+   :unit-D54 (constantly [:unit-code "D54"])
+   :unit-D61 (constantly [:unit-code "D61"])
+   :unit-D62 (constantly [:unit-code "D62"])
+   :unit-DD (constantly [:unit-code "DD"])
+   :unit-H20 (constantly [:unit-code "H20"])
    :unit-KEL (constantly [:unit-code "KEL"])
    :unit-KMT (constantly [:unit-code "KMT"])
    :unit-KGM (constantly [:unit-code "KGM"])
    :unit-MSK (constantly [:unit-code "MSK"])
    :unit-M62 (constantly [:unit-code "M62"])
-   :volume (partial value-with-exponent->bigdec :volume)})
+   :unit-SEC (constantly [:unit-code "SEC"])
+   :volume (partial value-with-exponent-map->bigdec :volume)})
 
 (defn transform
   "Applies transformation functions to all nodes in the parse tree."
