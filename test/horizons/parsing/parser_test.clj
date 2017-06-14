@@ -153,7 +153,7 @@
     (is (= (transform
              [:atmospheric-mass
               [:value [:sci-not [:significand [:float "5.1"]] [:exponent [:integer "18"]]]]
-              [:unit-KGM "kg"]])
+              [:unit-KGM]])
            [:atmospheric-mass
             [:value 5.1E+18M]
             [:unit-code "KGM"]])))
@@ -166,16 +166,16 @@
   (is (= (transform [:rotation-rate [:exponent [:integer "-4"]] [:unit-2A] [:value [:float "1.75865"]]])
          [:rotation-rate {:value 0.000175865M :unit-code "2A"}]))
   (testing "unit codes"
-    (is (= (transform [:unit-23 "gm cm^-3"]) [:unit-code "23"]))
+    (is (= (transform [:unit-23]) [:unit-code "23"]))
     (is (= (transform [:unit-2A]) [:unit-code "2A"]))
     (is (= (transform [:unit-A62]) [:unit-code "A62"]))
-    (is (= (transform [:unit-BAR "bar"]) [:unit-code "BAR"]))
+    (is (= (transform [:unit-BAR]) [:unit-code "BAR"]))
     (is (= (transform [:unit-D54 "wm2"]) [:unit-code "D54"]))
     (is (= (transform [:unit-D61]) [:unit-code "D61"]))
     (is (= (transform [:unit-D62]) [:unit-code "D62"]))
     (is (= (transform [:unit-DD "deg"]) [:unit-code "DD"]))
-    (is (= (transform [:unit-H20 "km^3"]) [:unit-code "H20"]))
-    (is (= (transform [:unit-KEL "kel"]) [:unit-code "KEL"]))
+    (is (= (transform [:unit-H20]) [:unit-code "H20"]))
+    (is (= (transform [:unit-KEL]) [:unit-code "KEL"]))
     (is (= (transform [:unit-KGM]) [:unit-code "KGM"]))
     (is (= (transform [:unit-KMT]) [:unit-code "KMT"]))
     (is (= (transform [:unit-M62]) [:unit-code "M62"]))
