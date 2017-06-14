@@ -39,14 +39,6 @@
 (defn sci-not->bigdec [significand mantissa]
   (.scaleByPowerOfTen (bigdec significand) mantissa))
 
-(defn value-with-exponent->bigdec
-  ([label value]
-   [label value])
-  ([label exponent-coll value]
-   (if (number? value)
-     [label (sci-not->bigdec value (last exponent-coll))]
-     [label [:value value] exponent-coll])))
-
 (defn value-with-exponent-map->bigdec
   ([label & more]
    (let [fields (into {} more)]
