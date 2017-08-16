@@ -29,24 +29,6 @@
 (def ephemeris-prompt-commands
   {:new-case "N"})
 
-(def ephemeris-options
-  {:table-type {:vectors "v"}
-   :coordinate-center {:earth ""}
-   :reference-plane {:ecliptic "eclip"}
-   :start-datetime {:now ""}
-   :end-datetime {:plus2weeks ""}
-   :output-interval {:60m ""}
-   :accept-defaut-output {true ""}})
-
-(def default-opts
-  {:table-type :vectors
-   :coordinate-center :earth
-   :reference-plane :ecliptic
-   :start-datetime :now
-   :end-datetime :plus2weeks
-   :output-interval :60m
-   :accept-defaut-output true})
-
 (defn ^:private next-token
   "Returns a channel that will provide the next
    whitespace-delimited word from the given channel"
@@ -106,32 +88,36 @@
   (swallow-echo s out)
   (async/<!! (next-block out)))
 
-(defn options-map
-  [opts]
-  (zipmap
-    (keys ephemeris-options)
-    (map
-      #(get-in ephemeris-options [% (% (merge default-opts opts))])
-      (keys ephemeris-options))))
-
 (defn get-ephemeris-data
   "Get a block of String data from the HORIZONS system
    with geophysical data about the given body-id"
-  [body-id]
+  [body-id & {:keys [table-type
+                     coordinate-center
+                     reference-plane
+                     start-datetime
+                     end-datetime
+                     output-interval
+                     accept-default-output]
+              :or {table-type "v"
+                   coordinate-center ""
+                   reference-plane "eclip"
+                   start-datetime ""
+                   end-datetime ""
+                   output-interval ""
+                   accept-default-output ""}}]
   (let [[in out] (connect)
         tx (partial transmit in out)
-        opts (options-map {})
         result (penultimate
                 (map tx
                      [body-id
                       (:ephemeris body-prompt-commands)
-                      (:table-type opts)
-                      (:coordinate-center opts)
-                      (:reference-plane opts)
-                      (:start-datetime opts)
-                      (:end-datetime opts)
-                      (:output-interval opts)
-                      (:accept-defaut-output opts)
+                      table-type
+                      coordinate-center
+                      reference-plane
+                      start-datetime
+                      end-datetime
+                      output-interval
+                      accept-default-output
                       (:new-case ephemeris-prompt-commands)]))]
    (release [in out])
    (log/spy result)))
