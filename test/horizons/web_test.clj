@@ -8,3 +8,8 @@
     (is (= (:status response) 200))
     (is (not (empty? (:body response))))))
 
+(deftest mars-ephemeredes-test
+  (let [response (app (mock/request :get "/bodies/499/ephemeris"))]
+    (is (= (:status response) 200))
+    (is (not (empty? (:body response))))))
+
