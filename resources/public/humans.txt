@@ -1,0 +1,11 @@
+/*TEAM*/
+
+Author: Bobby Richter
+Site: https://about.me/robert.richter
+Twitter: @lady_cantido
+Location: Saint Louis, Missouri, USA
+
+/*SITE*/
+
+Components: Ring, Instaparse, Apache Commons Net, Milligram CSS
+Software: IntelliJ IDEA
