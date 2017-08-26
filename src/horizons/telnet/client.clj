@@ -97,15 +97,17 @@
                      start-datetime
                      end-datetime
                      output-interval
-                     accept-default-output]
+                     accept-default-output
+                     connection]
               :or {table-type "v"
                    coordinate-center ""
                    reference-plane "eclip"
                    start-datetime ""
                    end-datetime ""
                    output-interval ""
-                   accept-default-output ""}}]
-  (let [[in out] (connect)
+                   accept-default-output ""
+                   connection (connect)}}]
+  (let [[in out] connection
         tx (partial transmit in out)
         result (penultimate
                 (map tx
