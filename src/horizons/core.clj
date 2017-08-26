@@ -6,6 +6,26 @@
             [clj-time.core :as t]
             [clj-time.format :as f]))
 
+(defn ^:private end-datetime-parser [x]
+  (cond
+    (= x :plus2weeks) ""
+    (satisfies? t/DateTimeProtocol x) (f/unparse (f/formatters :basic-date-time) x)))
+
+(def ^:private ephemeris-options
+  {:table-type {:vectors "v"}
+   :coordinate-center {:earth ""}
+   :reference-plane {:ecliptic "eclip"}
+   :start-datetime {:now ""}
+   :end-datetime end-datetime-parser
+   :output-interval {:60m ""}
+   :accept-default-output {true ""}})
+
+(defn ^:private tokenreduce [m k v]
+  (assoc m k (get-in ephemeris-options [k v])))
+
+(defn ^:private tokens->options [tokens]
+  (reduce-kv tokenreduce {} tokens))
+
 (def supported-bodies
   #{199 299 399 499 599 699 799 899})
 
@@ -26,26 +46,6 @@
     (log/spyf "Got response from HORIZONS:\n%s")
     parser/horizons-response->data-structure
     ::S))
-
-(defn end-datetime-parser [x]
-  (cond
-    (= x :plus2weeks) ""
-    (satisfies? t/DateTimeProtocol x) (f/unparse (f/formatters :basic-date-time) x)))
-
-(def ephemeris-options
-  {:table-type {:vectors "v"}
-   :coordinate-center {:earth ""}
-   :reference-plane {:ecliptic "eclip"}
-   :start-datetime {:now ""}
-   :end-datetime end-datetime-parser
-   :output-interval {:60m ""}
-   :accept-default-output {true ""}})
-
-(defn tokenreduce [m k v]
-  (assoc m k (get-in ephemeris-options [k v])))
-
-(defn tokens->options [tokens]
-  (reduce-kv tokenreduce {} tokens))
 
 (defn get-ephemeris [id & {:keys [table-type
                                   coordinate-center
