@@ -41,12 +41,17 @@
   :handle-ok (fn [ctx] (-> id h/get-planetary-body iso-format-dates))
   :handle-exception handle-exception)
 
+(defn handle-ephemeris-ok [id ctx]
+  (-> id
+      h/get-ephemeris
+      iso-format-dates))
+
 (defresource ephemeris-resource [id]
   :allowed-methods [:get]
   :available-media-types ["application/json"]
   :available-languages ["en-US"]
   :exists? (fn [_] (h/supported? id))
-  :handle-ok (fn [ctx] (-> id h/get-ephemeris iso-format-dates))
+  :handle-ok (partial handle-ephemeris-ok id)
   :handle-exception handle-exception)
 
 (defroutes handler
