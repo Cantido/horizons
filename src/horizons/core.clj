@@ -41,11 +41,11 @@
   "Get geophysical data about a solar system body with the given ID."
   [id]
   (->> id
-    (log/spyf "Getting body %s")
-    telnet/get-body
-    (log/spyf "Got response from HORIZONS:\n%s")
-    parser/horizons-response->data-structure
-    ::S))
+       (log/spyf "Getting body %s")
+       telnet/get-body
+       (log/spyf "Got response from HORIZONS:\n%s")
+       parser/parse-horizons-response
+       ::S))
 
 (defn get-ephemeris [id & {:keys [table-type
                                   coordinate-center
@@ -66,5 +66,5 @@
     (log/spyf "Getting ephemeris for %s" e)
     (apply (partial telnet/get-ephemeris-data e) (tokens->options opts))
     (log/spyf "Got response from HORIZONS:\n%s" e)
-    (parser/horizons-response->data-structure e)
+    (parser/parse-horizons-response e)
     (::S e)))

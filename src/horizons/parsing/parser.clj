@@ -148,7 +148,7 @@
   (log/debug "Resulting parse tree:\n" s)
   s)
 
-(defn horizons-response->data-structure
+(defn parse-horizons-response
   "Parses and transforms a response from HORIZONS
    into a useful data structure."
   [s]
