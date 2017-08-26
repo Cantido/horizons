@@ -27,21 +27,10 @@
     parser/horizons-response->data-structure
     ::S))
 
-(def default-opts
-  {:table-type :vectors
-   :coordinate-center :earth
-   :reference-plane :ecliptic
-   :start-datetime :now
-   :end-datetime :plus2weeks
-   :output-interval :60m
-   :accept-defaut-output true})
-
-
 (defn end-datetime-parser [x]
   (cond
     (= x :plus2weeks) ""
     (satisfies? t/DateTimeProtocol x) (f/unparse (f/formatters :basic-date-time) x)))
-
 
 (def ephemeris-options
   {:table-type {:vectors "v"}
@@ -58,7 +47,21 @@
 (defn tokens->options [tokens]
   (reduce-kv tokenreduce {} tokens))
 
-(defn get-ephemeris [id & {:keys [] :as opts}]
+(defn get-ephemeris [id & {:keys [table-type
+                                  coordinate-center
+                                  reference-plane
+                                  start-datetime
+                                  end-datetime
+                                  output-interval
+                                  accept-default-output]
+                           :or {table-type :vectors
+                                coordinate-center :earth
+                                reference-plane :ecliptic
+                                start-datetime :now
+                                end-datetime :plus2weeks
+                                output-interval :60m
+                                accept-default-output true}
+                           :as opts}]
   (as-> [id] e
     (log/spyf "Getting ephemeris for %s" e)
     (apply (partial telnet/get-ephemeris-data e) (tokens->options opts))
