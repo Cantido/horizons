@@ -126,8 +126,8 @@
 
 (defn get-body
   "Get a block of String data from the HORIZONS system about the given body-id"
-  [body-id]
-  (let [[in out] (connect)
+  [body-id & {:keys [connection] :or {connection (connect)}}]
+  (let [[in out] connection
         result (transmit in out body-id)]
     (release [in out])
     result))
