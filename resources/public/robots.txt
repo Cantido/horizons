@@ -1,0 +1,6 @@
+# www.robotstxt.org/
+
+# Disallow crawling of the API, allow the rest.
+
+User-agent: *
+Disallow: /bodies/
