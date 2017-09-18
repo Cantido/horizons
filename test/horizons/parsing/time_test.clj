@@ -2,7 +2,11 @@
   (:require [clojure.test :refer :all]
             [clj-time.core :as t]
             [horizons.core :as h]
-            [horizons.parsing.time :refer :all]))
+            [horizons.parsing.time :refer :all])
+  (:import (org.joda.time DateTime)))
+
+(deftest json-test
+  (clojure.data.json/read-str (clojure.data.json/write-str (DateTime.))))
 
 (deftest timestamp-transformer-test
   (is (= (timestamp-transformer

@@ -32,10 +32,8 @@
                                     :horizons.core/millisecond-of-second])])))
 
 (defn- write-datetime [^DateTime datetime ^PrintWriter out]
-  (->>
-    datetime
-    (f/unparse (f/formatters :date-time))
-    (.print out)))
+  (let [datestring (f/unparse (f/formatters :date-time) datetime)]
+    (.print out (str \" datestring \"))))
 
 (extend DateTime json/JSONWriter {:-write write-datetime})
 
