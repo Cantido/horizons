@@ -1,7 +1,10 @@
 (ns horizons.parsing.time
   "Parses and transforms times and dates"
   (:require [clj-time.core :as t]
-            [clj-time.format :as f]))
+            [clj-time.format :as f]
+            [clojure.data.json :as json])
+  (:import (java.io PrintWriter)
+           (org.joda.time DateTime)))
 
 (def ^:private month-formatter (f/formatter "MMM"))
 
@@ -28,19 +31,13 @@
                                     :horizons.core/second-of-minute
                                     :horizons.core/millisecond-of-second])])))
 
-(def iso-8601-date-time-formatter
-  (f/formatters :date-time))
+(defn- write-datetime [^DateTime datetime ^PrintWriter out]
+  (->>
+    datetime
+    (f/unparse (f/formatters :date-time))
+    (.print out)))
 
-(def iso-8601-date-formatter
-  (f/formatters :date))
-
-(defn format-date
-  [date]
-  (f/unparse iso-8601-date-formatter date))
-
-(defn format-date-time
-  [date]
-  (f/unparse iso-8601-date-time-formatter date))
+(extend DateTime json/JSONWriter {:-write write-datetime})
 
 (defn iso-format-duration
   [duration]

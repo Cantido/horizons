@@ -4,7 +4,6 @@
             [clojure.tools.logging :as log]
             [environ.core :as environ]
             [horizons.core :as h]
-            [horizons.parsing.time :as t]
             [immutant.web :as web]
             [liberator.core :refer [defresource]]
             [ring.middleware.defaults :as defaults]
@@ -14,17 +13,6 @@
             [ring.middleware.params :refer [wrap-params]]
             [ring.util.response :as response]))
 
-(defn iso-format-dates
-  [tree]
-  (clojure.walk/postwalk
-    (fn [form]
-      (cond
-        (not (map? form)) form
-        (contains? form ::h/date) (update-in form [::h/date] t/format-date)
-        (contains? form ::h/timestamp) (update-in form [::h/timestamp] t/format-date-time)
-        (contains? form ::h/duration) (update-in form [::h/duration] t/iso-format-duration)
-        :else form))
-    tree))
 
 (defn handle-exception [e]
   (log/error e)
@@ -38,20 +26,15 @@
   :available-media-types ["application/json"]
   :available-languages ["en-US"]
   :exists? (fn [_] (h/supported? id))
-  :handle-ok (fn [ctx] (-> id h/get-planetary-body iso-format-dates))
+  :handle-ok (fn [_] (h/get-planetary-body id))
   :handle-exception handle-exception)
-
-(defn handle-ephemeris-ok [id ctx]
-  (-> id
-      h/get-ephemeris
-      iso-format-dates))
 
 (defresource ephemeris-resource [id]
   :allowed-methods [:get]
   :available-media-types ["application/json"]
   :available-languages ["en-US"]
   :exists? (fn [_] (h/supported? id))
-  :handle-ok (partial handle-ephemeris-ok id)
+  :handle-ok (fn [_] (h/get-ephemeris id))
   :handle-exception handle-exception)
 
 (defroutes handler
