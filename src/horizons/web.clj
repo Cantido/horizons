@@ -1,18 +1,19 @@
 (ns horizons.web
-  (:require [compojure.core :refer :all]
+  (:require [compojure.core :as routes]
             [compojure.route :as route]
             [clojure.tools.logging :as log]
             [environ.core :as environ]
-            [horizons.core :as h]
+            [horizons.core :as horizons]
             [immutant.web :as web]
-            [liberator.core :refer [defresource]]
+            [liberator.core :as liberator]
             [ring.middleware.defaults :as defaults]
-            [ring.middleware.json :refer [wrap-json-body
-                                          wrap-json-params
-                                          wrap-json-response]]
-            [ring.middleware.params :refer [wrap-params]]
             [ring.util.response :as response]))
 
+; Since liberator/defresource is a macro, some editors
+; (like IntelliJ) will think that the symbols you give
+; them are undefined. This declare statement just lets
+; my IDE shut up; the symbols ARE declared.
+(declare planetary-body-resource ephemeris-resource id)
 
 (defn handle-exception [e]
   (log/error e)
@@ -21,37 +22,33 @@
       (response/status 500)
       (liberator.representation/ring-response)))
 
-(defresource planetary-body-resource [id]
+(liberator/defresource planetary-body-resource [id]
   :allowed-methods [:get]
   :available-media-types ["application/json"]
   :available-languages ["en-US"]
-  :exists? (fn [_] (h/supported? id))
-  :handle-ok (fn [_] (h/get-planetary-body id))
+  :exists? (fn [_] (horizons/supported? id))
+  :handle-ok (fn [_] (horizons/get-planetary-body id))
   :handle-exception handle-exception)
 
-(defresource ephemeris-resource [id]
+(liberator/defresource ephemeris-resource [id]
   :allowed-methods [:get]
   :available-media-types ["application/json"]
   :available-languages ["en-US"]
-  :exists? (fn [_] (h/supported? id))
-  :handle-ok (fn [_] (h/get-ephemeris id))
+  :exists? (fn [_] (horizons/supported? id))
+  :handle-ok (fn [_] (horizons/get-ephemeris id))
   :handle-exception handle-exception)
 
-(defroutes handler
-  (GET "/" [] (response/redirect "https://cantido.github.io/horizons/"))
-  (context ["/bodies/:id", :id #"[0-9]+"] [id]
-    (ANY "/" [] (planetary-body-resource id))
-    (ANY "/ephemeris" [] (ephemeris-resource id)))
+(routes/defroutes handler
+  (routes/GET "/" [] (response/redirect "https://cantido.github.io/horizons/"))
+  (routes/context ["/bodies/:id", :id #"[0-9]+"] [id]
+    (routes/ANY "/" [] (planetary-body-resource id))
+    (routes/ANY "/ephemeris" [] (ephemeris-resource id)))
   (route/not-found (response/not-found "Resource not found.")))
-
-(def handler-options
-  (merge
-    defaults/api-defaults
-    {:static {:resources "public"}}))
 
 (def app
   (-> handler
-      (defaults/wrap-defaults handler-options)))
+      (defaults/wrap-defaults
+        (assoc defaults/api-defaults :static {:resources "public"}))))
 
 (defn -main [& [port]]
   (let [port (or port (environ/env :port) 3000)]
