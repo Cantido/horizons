@@ -20,7 +20,7 @@
 (defn ^:private char-seq
   "Returns a lazy sequence of single-character strings as read from the given reader."
   [rdr]
-  (repeatedly (partial next-char rdr)))
+  (repeatedly #(next-char rdr)))
 
 (defn ^:private write
   [writer s]
