@@ -1,0 +1,102 @@
+Script started on Mon 18 Sep 2017 08:08:27 PM CDT
+[1m[3m%[23m[1m[0m                                                                                                                  
+ 
+k~/git/horizons\
+[0m[23m[24m[J[39m[0m[49m[44m[30m ~/git/horizons [43m[34m[30m  master ● [49m[33m[39m [K[?1h=[?2004httnt telnet "ssd.jpl.nasa.gov" 6775[?1l>[?2004l
+
+ktelnet\Trying 128.149.23.134...
+Connected to ssd.jpl.nasa.gov.
+Escape character is '^]'.
+ 
+
+  ======================================================================
+
+  |                     Jet Propulsion Laboratory                      |
+
+  |                                                                    |
+
+  |                  * * *    W A R N I N G   * * *                    |
+
+  |                                                                    |
+
+  |                          Property of the                           |
+
+  |                      UNITED STATES GOVERNMENT                      |
+
+  |                                                                    |
+
+  |    This computer is funded by the United States Government and     |
+
+  | operated by the California Institute of Technology in support of   |
+
+  | ongoing U.S. Government programs and activities.  If you are not   |
+
+  | authorized to access this system, disconnect now.  Users of this   |
+
+  | system have no expectation of privacy. By continuing, you consent  |
+
+  |     to your keystrokes and data content being monitored.           |
+
+  ======================================================================
+
+ 
+
+[H[J                                                                               
+
+     ___    _____     ___                                                      
+
+    /_ /|  /____/ \  /_ /|       Horizons On-line Ephemeris System v4.08       
+
+    | | | |  __ \ /| | | |       Solar System Dynamics Group                   
+
+ ___| | | | |__) |/  | | |__     Jet Propulsion Laboratory                     
+
+/___| | | |  ___/    | |/__ /|   Pasadena, CA, USA                             
+
+|_____|/  |_|/       |_____|/                                                  
+
+ 
+
+ Establishing connection, stand-by ...  
+
+[H[J 
+
+JPL Horizons, version 4.08 
+
+Type `?' for brief intro, `?!' for more details 
+
+System news updated September 14, 2017
+
+ 
+
+Horizons> 199
+[?1h=
+*******************************************************************************
+ Revised: Jul 31, 2013              Mercury                             199 / 1
+
+ GEOPHYSICAL DATA (updated 2008-Feb-07):
+  Mean radius (km)      =  2440(+-1)     Density (g cm^-3)     =  5.427
+  Mass (10^23 kg )      =     3.302      Flattening, f         =  
+  Volume (x10^10 km^3)  =     6.085      Semi-major axis       = 
+  Sidereal rot. period  =    58.6462 d   Rot. Rate (x10^5 s)   =  0.124001
+  Mean solar day        =   175.9421 d   Polar gravity ms^-2   =
+  Mom. of Inertia       =     0.33       Equ. gravity  ms^-2   =  3.701     
+  Core radius (km)      = ~1600          Potential Love # k2   =
+
+  GM (km^3 s^-2)        = 22032.09       Equatorial Radius, Re =    2440 km
+  GM 1-sigma (km^3 s^-2)=   +-0.91       Mass ratio (sun/plnt) = 6023600
+ 
+  Atmos. pressure (bar) =                Max. angular diam.    = 11.0"   
+  Mean Temperature (K)  =                Visual mag. V(1,0)    = -0.42 
+  Geometric albedo      =   0.106        Obliquity to orbit[1] = 2.11' +/- 0.1'  
+  Sidereal orb. per.    =   0.2408467 y  Mean Orbit vel.  km/s = 47.362 
+  Sidereal orb. per.    =  87.969257  d  Escape vel. km/s      =  4.435
+  Hill's sphere rad. Rp =  94.4          Planetary Solar Const = 9936.9 (Wm^2)
+
+[1] Margot et al., Science 316, 2007
+*******************************************************************************
+
+[K[?1l> Select ... [E]phemeris, [F]tp, [M]ail, [R]edisplay, ?, <cr>: 
+ 
+
+Horizons> 
