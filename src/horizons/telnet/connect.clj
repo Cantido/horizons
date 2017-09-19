@@ -41,16 +41,10 @@
     (.connect client "ssd.jpl.nasa.gov" 6775)
     (let [writer (-> client .getOutputStream (io/writer :encoding "US-ASCII"))
           reader (-> client .getInputStream (io/reader :encoding "US-ASCII"))]
-      (->>
-        reader
-        char-seq
-        (async/onto-chan from-telnet)
-        async/thread)
-      (->>
-        to-telnet
-        async/<!!
-        (write writer)
-        forever
-        async/thread))
+      (async/thread
+        (async/onto-chan from-telnet (char-seq reader)))
+      (async/thread
+        (forever
+          (write writer (async/<!! to-telnet)))))
     (log/info "Connection to ssd.jpl.nasa.gov:6775 established.")
     [to-telnet from-telnet]))
