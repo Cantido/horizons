@@ -11,7 +11,7 @@
 (defn ^:private next-char
   "Gets the next character from the given reader"
   [rdr]
-  (let [read-int (.read rdr)
+  (let [read-int (io! (.read rdr))
         read-char (char read-int)
         read-str (str read-char)]
     (log/trace "Got integer" read-int "resulting in character" read-char "and string" read-str)
@@ -24,8 +24,9 @@
 
 (defn ^:private write
   [writer s]
-  (.write writer ^String (str s \newline))
-  (.flush writer))
+  (io!
+    (.write writer ^String (str s \newline))
+    (.flush writer)))
 
 (defmacro forever [& body]
   `(while true ~@body))
