@@ -37,9 +37,8 @@
     bigdec))
 
 (defn sci-not->bigdec [significand mantissa]
-  (if (not-any? nil? [significand mantissa])
-    (.scaleByPowerOfTen (bigdec significand) mantissa)
-    nil))
+  (when (not-any? nil? [significand mantissa])
+    (.scaleByPowerOfTen (bigdec significand) mantissa)))
 
 (defn value-with-exponent-map->bigdec
   ([label & more]
