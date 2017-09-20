@@ -1,6 +1,7 @@
 (ns horizons.telnet.client
   "Communicates to the HORIZONS Telnet server."
   (:require [clojure.core.async :as async]
+            [clojure.core.async.impl.protocols :as pro]
             [clojure.string :as string]
             [horizons.telnet.pool :as pool]
             [clojure.tools.logging :as log]))
@@ -29,69 +30,116 @@
 (def ephemeris-prompt-commands
   {:new-case "N"})
 
-(defn ^:private next-token
+(defn next-token
   "Returns a channel that will provide the next
-   whitespace-delimited word from the given channel"
+   whitespace-delimited word from the given channel.
+   The channel will be closed once the next word is
+   returned, or of the given channel is closed."
   [chan]
-  (async/go-loop [word-so-far ""]
-    (let [next-char (async/<!! chan)
-          next-word (str word-so-far next-char)]
-      (if (string/blank? next-char)
-        next-word
-        (recur next-word)))))
+  {:pre  [(satisfies? pro/ReadPort chan)]
+   :post [(satisfies? pro/ReadPort %)]}
+  (async/go-loop [word-so-far nil]
+    (when-let[next-char (async/<!! chan)]
+      (let [next-word (str word-so-far next-char)]
+        (if (string/blank? (str next-char))
+          next-word
+          (recur next-word))))))
 
-(defn ^:private next-block
+(defn next-block
   "Returns a channel that will provide everything from
-   the HORIZONS client until the next input prompt"
+   the HORIZONS client until the next input prompt.
+   The channel will be closed once the next block
+   is returned, or if the given channel is closed."
   [chan]
-  (async/go-loop [block-so-far ""]
-    (let [next-word (async/<! (next-token chan))
-          new-next-block (str block-so-far next-word)]
-      (log/trace "Block so far:\n" new-next-block)
-      (cond
-       (some #(re-find % new-next-block) block-endings) new-next-block
-       :else (recur new-next-block)))))
+  {:pre [(satisfies? pro/ReadPort chan)]
+   :post [(satisfies? pro/ReadPort %)]}
+  (async/go-loop [block-so-far nil]
+    (when-let [next-word (async/<! (next-token chan))]
+      (let [new-next-block (str block-so-far next-word)]
+        (log/trace "Block so far:\n" new-next-block)
+        (cond
+         (some #(re-find % new-next-block) block-endings) new-next-block
+         :else (recur new-next-block))))))
 
-(defn ^:private wait-for-prompt
+(defn wait-for-prompt
   "Returns a channel that will close once the next
-   input prompt is received from HORIZONS."
+   input prompt is received from HORIZONS, or if
+   the given channel is closed."
   [chan]
+  {:pre [(satisfies? pro/ReadPort chan)]
+   :post [(satisfies? pro/ReadPort %)]}
   (async/go-loop []
-    (let [token (async/<! (next-token chan))]
+    (when-let [token (async/<! (next-token chan))]
       (when-not (clojure.string/starts-with? token "Horizons>") (recur)))))
 
-(defn ^:private reset-client
+(defn reset-client
   "Brings the given client back to a command prompt"
-  [conn]
-  (async/>!! conn (:clear body-prompt-commands)))
+  [chan]
+  {:pre [(satisfies? pro/WritePort chan)]}
+  (async/>!! chan (:clear body-prompt-commands)))
 
-(defn ^:private swallow-echo
-  "Swallows the echo of arg s from channel chan"
+(defn swallow-echo
+  "Swallows the echo of arg s from channel chan.
+  Returns true if it could swallow the entire length of s."
   [s chan]
+  {:pre [(satisfies? pro/ReadPort chan)]
+   :post [(or (true? %) (false? %))]}
   ; The echoed text is length (count s) and it is followed by a carriage return and a line feed.
-  (dotimes [n (+ 2 (count (str s)))]
-    (async/<!! chan)))
+  (some?
+    (loop [n (+ 2 (count (str s)))]
+      (or (>= 0 n) (when (async/<!! chan) (recur (dec n)))))))
 
-(defn ^:private connect []
-  (let [[in out] (pool/connect)]
-    (async/<!! (wait-for-prompt out))
-    [in out]))
+;(defn connect
+;  "Connects to telnet and waits for a prompt before returning it."
+;  ([]
+;   {:post [(satisfies? pro/WritePort (first %))
+;           (satisfies? pro/ReadPort (second %))]}
+;   (connect (pool/connect)))
+;  ([[in out]]
+;   {:pre [(satisfies? pro/WritePort in)
+;          (satisfies? pro/ReadPort out)]
+;    :post [(satisfies? pro/WritePort (first %))
+;           (satisfies? pro/ReadPort (second %))]}
+;   (when (async/<!! (wait-for-prompt out)) [in out])))
 
-(defn ^:private release [[in out]]
+(defn connect
+  ([]
+   {:post [(pool/valid-connection? %)]}
+   (connect (pool/connect)))
+  ([[in out]]
+   {:pre [(pool/valid-connection? [in out])]
+    :post [(pool/valid-connection? %)]}
+   (async/<!! (wait-for-prompt out))
+   [in out]))
+
+
+(defn release [[in out]]
+  {:pre [(pool/valid-connection? [in out])]
+   :post [(pool/valid-connection? [in out])]}
   (reset-client in)
   (pool/release [in out]))
 
-(defn ^:private transmit
+(defn transmit
   "Send a string to the given channels, and returns the next block."
   [in out s]
-  (async/>!! in s)
-  (swallow-echo s out)
-  (async/<!! (next-block out)))
+  {:pre [(pool/valid-connection? [in out])]
+   :post [(pool/valid-connection? [in out])]}
+  (and
+    (async/put! in s)
+    (swallow-echo s out)
+    (async/<!! (next-block out))))
+
+(defn with-new-connection
+  [fn id]
+  (let [conn (connect)
+        result (fn id conn)]
+    (release conn)
+    result))
 
 (defn get-ephemeris-data
   "Get a block of String data from the HORIZONS system
    with geophysical data about the given body-id"
-  ([body-id] (let [conn (connect)] (try (get-ephemeris-data body-id conn) (finally (release conn)))))
+  ([body-id] (with-new-connection get-ephemeris-data body-id))
   ([body-id [in out] & {:keys [table-type
                                  coordinate-center
                                  reference-plane
@@ -106,6 +154,8 @@
                                end-datetime ""
                                output-interval ""
                                accept-default-output ""}}]
+   {:pre [(pool/valid-connection? [in out])]
+    :post [(pool/valid-connection? [in out])]}
    (let [tx (partial transmit in out)]
      (penultimate
        (map tx
@@ -122,5 +172,8 @@
 
 (defn get-body
   "Get a block of String data from the HORIZONS system about the given body-id"
-  ([body-id] (let [conn (connect)] (try (get-body body-id conn) (finally (release conn)))))
-  ([body-id [in out]] (transmit in out body-id)))
+  ([body-id] (with-new-connection get-body body-id))
+  ([body-id [in out]]
+   {:pre [(pool/valid-connection? [in out])]
+    :post [(pool/valid-connection? [in out])]}
+   (transmit in out body-id)))
