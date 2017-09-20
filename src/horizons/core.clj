@@ -39,13 +39,10 @@
 
 (defn get-planetary-body
   "Get geophysical data about a solar system body with the given ID."
-  [id]
-  (->> id
-       (log/spyf "Getting body %s")
-       telnet/get-body
-       (log/spyf "Got response from HORIZONS:\n%s")
-       parser/parse-horizons-response
-       ::S))
+  ([id]
+   (log/info "Getting body" id)
+   (when-let [result (telnet/get-body id)]
+     (::S (parser/parse-horizons-response result)))))
 
 (defn get-ephemeris [id & {:keys [table-type
                                   coordinate-center
