@@ -37,31 +37,24 @@
     int
     supported-bodies))
 
+(defn parsed-result
+  [fn & more]
+  (when-let [result (apply fn more)]
+    (::S (parser/parse-horizons-response result))))
+
 (defn get-planetary-body
   "Get geophysical data about a solar system body with the given ID."
   ([id]
    (log/info "Getting body" id)
-   (when-let [result (telnet/get-body id)]
-     (::S (parser/parse-horizons-response result)))))
+   (parsed-result telnet/get-body id))
+  ([id connection]
+   (parsed-result telnet/get-body id connection)))
 
-(defn get-ephemeris [id & {:keys [table-type
-                                  coordinate-center
-                                  reference-plane
-                                  start-datetime
-                                  end-datetime
-                                  output-interval
-                                  accept-default-output]
-                           :or {table-type :vectors
-                                coordinate-center :earth
-                                reference-plane :ecliptic
-                                start-datetime :now
-                                end-datetime :plus2weeks
-                                output-interval :60m
-                                accept-default-output true}
-                           :as opts}]
-  (as-> [id] e
-    (log/spyf "Getting ephemeris for %s" e)
-    (apply (partial telnet/get-ephemeris-data e) (tokens->options opts))
-    (log/spyf "Got response from HORIZONS:\n%s" e)
-    (parser/parse-horizons-response e)
-    (::S e)))
+(defn get-ephemeris
+  ([id]
+   (log/spyf "Getting ephemeris for body" id)
+   (parsed-result telnet/get-ephemeris-data id))
+  ([id connection]
+   (log/spyf "Getting ephemeris for body" id)
+   (parsed-result telnet/get-ephemeris-data id connection)))
+
