@@ -3,51 +3,44 @@
             [horizons.telnet.client :as client]
             [clojure.core.async :as async]
             [clojure.java.io :as io]
-            [clojure.string :as string]))
-
-(def closed-chan
-  (let [chan (async/chan)]
-    (async/close! chan)
-    chan))
-
-(defn closed? [chan]
-  (nil? (async/<!! chan)))
+            [clojure.string :as string]
+            [horizons.async-utils :as asu]))
 
 (deftest next-token
-  (is (closed? (client/next-token closed-chan)))
-  (is (closed? (client/next-token (async/to-chan ""))))
+  (is (asu/closed? (client/next-token asu/closed-chan)))
+  (is (asu/closed? (client/next-token (async/to-chan ""))))
   (is (= "word " (async/<!! (client/next-token (async/to-chan "word "))))))
 
 (deftest next-block
-  (is (closed? (client/next-block closed-chan))))
+  (is (asu/closed? (client/next-block asu/closed-chan))))
 
 (deftest wait-for-prompt
-  (is (closed? (client/wait-for-prompt closed-chan))))
+  (is (asu/closed? (client/wait-for-prompt asu/closed-chan))))
 
 (deftest swallow-echo
   (testing "returns false if the channel was closed before it could swallow the entire string"
-    (is (false? (client/swallow-echo "s" closed-chan)))
+    (is (false? (client/swallow-echo "s" asu/closed-chan)))
     (is (false? (client/swallow-echo "12345" (async/to-chan "1\r\n")))))
   (testing "returns true if the entire echo could be consumed"
     (is (true? (client/swallow-echo "s" (async/to-chan "s\r\n"))))))
 
 (deftest reset-client
-  (is (false? (client/reset-client closed-chan))))
+  (is (false? (client/reset-client asu/closed-chan))))
 
 (deftest connect
-  (is (vector? (client/connect [closed-chan closed-chan]))))
+  (is (vector? (client/connect [asu/closed-chan asu/closed-chan]))))
 
 (deftest wait-for-prompt
-  (is (closed? (client/wait-for-prompt closed-chan)))
-  (is (closed? (client/wait-for-prompt (async/to-chan "Horizons>")))))
+  (is (asu/closed? (client/wait-for-prompt asu/closed-chan)))
+  (is (asu/closed? (client/wait-for-prompt (async/to-chan "Horizons>")))))
 
 (deftest transmit
   (testing "returns the next block"
     (is (= "Horizons> " (client/transmit (async/chan) (async/to-chan "s\r\nHorizons> ") "s"))))
   (testing "returns false if either channels were closed"
-      (is (false? (client/transmit closed-chan closed-chan "s")))
-      (is (false? (client/transmit closed-chan (async/to-chan "s\r\nHorizons> ") "s")))
-      (is (false? (client/transmit (async/chan) closed-chan "s")))))
+      (is (false? (client/transmit asu/closed-chan asu/closed-chan "s")))
+      (is (false? (client/transmit asu/closed-chan (async/to-chan "s\r\nHorizons> ") "s")))
+      (is (false? (client/transmit (async/chan) asu/closed-chan "s")))))
 
 (def full-geo-text
   (slurp (io/file (io/resource "full-geophysical-interaction.txt"))))
