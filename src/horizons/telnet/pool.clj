@@ -1,14 +1,19 @@
 (ns horizons.telnet.pool
   "Pools connections to the HORIZONS Telnet server."
   (:require [clojure.core.async :as async]
+            [clojure.core.async.impl.protocols :as pro]
             [horizons.telnet.connect :as conn]
             [clojure.tools.logging :as log]))
 
-(defn ^:private valid-connection?
+(defn valid-connection?
   [conn]
-  (and
-    (vector? conn)
-    (= 2 (count conn))))
+  {:post [(or (true? %) (false? %))]}
+  (boolean
+    (and
+      (vector? conn)
+      (= 2 (count conn))
+      (satisfies? pro/WritePort (first conn))
+      (satisfies? pro/ReadPort (second conn)))))
 
 (defn ^:private valid-pool?
   [pool]
@@ -32,7 +37,7 @@
 (defn connect
   "Returns [in out] channels connected to a Telnet client."
   []
-  {:post [(partial contains? connections-in-use)]}
+  {:post [(valid-connection? %)]}
   (log/debug "About to fetch a connection from the pool. There are currently" (count @connections-in-use) "connections in use, and" (count @connection-pool) "connections available.")
   (dosync
     (ensure-available-pool)
@@ -46,7 +51,7 @@
 (defn release
   "Put an [in out] Telnet connection back in the pool."
   [conn]
-  {:pre [(partial contains? connections-in-use)]}
+  {:pre [(valid-connection? conn)]}
   (dosync
     ((juxt
       (partial alter connections-in-use disj)
