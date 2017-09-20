@@ -91,43 +91,36 @@
 (defn get-ephemeris-data
   "Get a block of String data from the HORIZONS system
    with geophysical data about the given body-id"
-  [body-id & {:keys [table-type
-                     coordinate-center
-                     reference-plane
-                     start-datetime
-                     end-datetime
-                     output-interval
-                     accept-default-output
-                     connection]
-              :or {table-type "v"
-                   coordinate-center ""
-                   reference-plane "eclip"
-                   start-datetime ""
-                   end-datetime ""
-                   output-interval ""
-                   accept-default-output ""
-                   connection (connect)}}]
-  (let [[in out] connection
-        tx (partial transmit in out)
-        result (penultimate
-                (map tx
-                     [body-id
-                      (:ephemeris body-prompt-commands)
-                      table-type
-                      coordinate-center
-                      reference-plane
-                      start-datetime
-                      end-datetime
-                      output-interval
-                      accept-default-output
-                      (:new-case ephemeris-prompt-commands)]))]
-   (release [in out])
-   (log/spy result)))
+  ([body-id] (let [conn (connect)] (try (get-ephemeris-data body-id conn) (finally (release conn)))))
+  ([body-id [in out] & {:keys [table-type
+                                 coordinate-center
+                                 reference-plane
+                                 start-datetime
+                                 end-datetime
+                                 output-interval
+                                 accept-default-output]
+                          :or {table-type "v"
+                               coordinate-center ""
+                               reference-plane "eclip"
+                               start-datetime ""
+                               end-datetime ""
+                               output-interval ""
+                               accept-default-output ""}}]
+   (let [tx (partial transmit in out)]
+     (penultimate
+       (map tx
+            [body-id
+             (:ephemeris body-prompt-commands)
+             table-type
+             coordinate-center
+             reference-plane
+             start-datetime
+             end-datetime
+             output-interval
+             accept-default-output
+             (:new-case ephemeris-prompt-commands)])))))
 
 (defn get-body
   "Get a block of String data from the HORIZONS system about the given body-id"
-  [body-id & {:keys [connection] :or {connection (connect)}}]
-  (let [[in out] connection
-        result (transmit in out body-id)]
-    (release [in out])
-    result))
+  ([body-id] (let [conn (connect)] (try (get-body body-id conn) (finally (release conn)))))
+  ([body-id [in out]] (transmit in out body-id)))
