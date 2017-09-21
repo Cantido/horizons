@@ -10,7 +10,6 @@
     [horizons.parsing.parser-test-jupiter :refer :all]
     [instaparse.transform :as transform]))
 
-
 (defn get-file [name]
   (slurp
     (io/file
@@ -49,59 +48,131 @@
   (testing "jupiter-ephemeredes.txt"
     (is (success? (parse-file "jupiter-ephemeredes.txt")))))
 
+(deftest put-keyword-in-ns-test
+  (is (= (put-keyword-in-ns :label)
+         ::h/label)))
+
+(defn tree->map [tree]
+  (clojure.walk/postwalk #(do-if coll-of-colls? tree-vec->map %) tree))
 
 (deftest tree->map-test
-  (with-test
-    (defn tree->map [tree]
-      (->> tree
-        (clojure.walk/postwalk #(do-if coll-of-colls? tree-vec->map %))
-        (clojure.walk/postwalk #(do-if keyword? put-keyword-in-ns %))))
-    (testing "date trees to maps"
+  (testing "converting a basic vector"
+    (is (= (tree-vec->map [:label [:one 1] [:two 2]])
+           {:label {:one 1 :two 2}})))
+  (testing "walking date trees"
+    (testing "with one level of nesting"
       (is (= (tree->map
-               [::h/revision-date
-                [::h/month "Jul"]
-                [::h/day 31]
-                [::h/year 2013]])
-             {::h/revision-date
-              {::h/month "Jul"
-               ::h/day 31
-               ::h/year 2013}}))
+               [:revision-date
+                [:month "Jul"]
+                [:day 31]
+                [:year 2013]])
+             {:revision-date
+              {:month "Jul"
+               :day 31
+               :year 2013}})))
+    (testing "with two levels of nesting"
       (is (= (tree->map
-               [::h/file-header
-                [::h/revision-date
-                 [::h/month "Jul"]
-                 [::h/day 31]
-                 [::h/year 2013]]])
-             {::h/file-header
-              {::h/revision-date
-               {::h/month "Jul"
-                ::h/day 31
-                ::h/year 2013}}}))
+               [:file-header
+                [:revision-date
+                 [:month "Jul"]
+                 [:day 31]
+                 [:year 2013]]])
+             {:file-header
+              {:revision-date
+               {:month "Jul"
+                :day 31
+                :year 2013}}})))
+    (testing "with a level of nesting in the middle of a vector"
       (is (= (tree->map
-               [::h/file-header
-                [::h/revision-date
-                 [::h/month "Jul"]
-                 [::h/day 31]
-                 [::h/year 2013]]
-                [::h/body-name "Mars"]
-                [::h/body-id 499]])
-             {::h/file-header
-              {::h/revision-date
-               {::h/month "Jul"
-                ::h/day 31
-                ::h/year 2013}
-               ::h/body-name "Mars"
-               ::h/body-id 499}})))
-    (testing "geophysical data tree to map"
-      (is (= (tree->map
-               [::h/geophysical-data
-                [::h/mean-radius [:value "3389.9(2+-4)"]]
-                [::h/density "3.933(5+-4)"]
-                [::h/mass "6.4185"]])
-             {::h/geophysical-data
-              {::h/mean-radius {::h/value "3389.9(2+-4)"}
-               ::h/density "3.933(5+-4)"
-               ::h/mass "6.4185"}})))))
+               [:file-header
+                [:revision-date
+                 [:month "Jul"]
+                 [:day 31]
+                 [:year 2013]]
+                [:body-name "Mars"]
+                [:body-id 499]])
+             {:file-header
+              {:revision-date
+               {:month "Jul"
+                :day 31
+                :year 2013}
+               :body-name "Mars"
+               :body-id 499}}))))
+  (testing "walking geophysical data"
+    (is (= (tree->map
+             [:geophysical-data
+              [:mean-radius [:value "3389.9(2+-4)"]]
+              [:density "3.933(5+-4)"]
+              [:mass "6.4185"]])
+           {:geophysical-data
+            {:mean-radius {:value "3389.9(2+-4)"}
+             :density "3.933(5+-4)"
+             :mass "6.4185"}}))))
+
+(defn transform [xs] (transform/transform transform-rules xs))
+
+(deftest transform-test
+  (testing "numbers"
+    (testing "in scientific notation"
+      (is (= (transform
+               [:sci-not
+                [:significand [:float "5.05"]]
+                [:mantissa [:integer "22"]]])
+             5.05E22M))
+      (is (= (transform
+               [:sci-not
+                [:significand [:integer "5"]]
+                [:mantissa [:integer "22"]]])
+             5E22M)))
+    (testing "as comma-separated integers"
+      (is (= (transform [:integer [:comma-separated-integer "123,456,789"]])
+             123456789))))
+  (testing "measurement values"
+    (testing "with units"
+      (is (= (transform [:mean-radius [:unit-KMT] [:value "2440(+-1)"]])
+             [:mean-radius [:unit-code "KMT"] [:value "2440(+-1)"]]))
+      (is (= (transform
+               [:atmospheric-mass
+                [:value [:sci-not [:significand [:float "5.1"]] [:exponent [:integer "18"]]]]
+                [:unit-KGM]])
+             [:atmospheric-mass
+              [:value 5.1E+18M]
+              [:unit-code "KGM"]])))
+    (testing "with exponents"
+      (is (= (transform
+               [:heat-flow-mass
+                [:exponent [:integer "7"]]
+                [:value [:integer "15"]]])
+             [:heat-flow-mass {:value 15E7M}]))
+      (is (= (transform [:rotation-rate [:exponent [:integer "-4"]] [:unit-2A] [:value [:float "1.75865"]]])
+             [:rotation-rate {:value 0.000175865M :unit-code "2A"}])))
+    (testing "as a set (like ephemeredes)"
+      (is (= (transform
+               [:ephemeredes
+                [:ephemeris [:x-position 1]]
+                [:ephemeris [:x-position 2]]
+                [:ephemeris [:x-position 3]]])
+             [:ephemeredes
+              #{
+                {:x-position 1}
+                {:x-position 2}
+                {:x-position 3}}]))))
+  (testing "unit codes"
+    (is (= (transform [:unit-23]) [:unit-code "23"]))
+    (is (= (transform [:unit-2A]) [:unit-code "2A"]))
+    (is (= (transform [:unit-A62]) [:unit-code "A62"]))
+    (is (= (transform [:unit-BAR]) [:unit-code "BAR"]))
+    (is (= (transform [:unit-D54 "wm2"]) [:unit-code "D54"]))
+    (is (= (transform [:unit-D61]) [:unit-code "D61"]))
+    (is (= (transform [:unit-D62]) [:unit-code "D62"]))
+    (is (= (transform [:unit-DD "deg"]) [:unit-code "DD"]))
+    (is (= (transform [:unit-H20]) [:unit-code "H20"]))
+    (is (= (transform [:unit-KEL]) [:unit-code "KEL"]))
+    (is (= (transform [:unit-KGM]) [:unit-code "KGM"]))
+    (is (= (transform [:unit-KMT]) [:unit-code "KMT"]))
+    (is (= (transform [:unit-M62]) [:unit-code "M62"]))
+    (is (= (transform [:unit-MSK]) [:unit-code "MSK"]))
+    (is (= (transform [:unit-SEC]) [:unit-code "SEC"]))))
 
 (def timestamp-tree
   [:timestamp
@@ -120,78 +191,13 @@
 (def timestamp-map
   {::h/timestamp (t/date-time 2017 2 24 0 0 0 0)})
 
-(deftest restructure-test
-  (with-test
-    (defn restructure [xs]
-      (->> xs
-        (transform/transform transform-rules)
-        (clojure.walk/postwalk #(do-if coll-of-colls? tree-vec->map %))
-        (clojure.walk/postwalk #(do-if keyword? put-keyword-in-ns %)))))
-  (testing "restructuring mercury-geophysical-parsed.edn"
-    (is (= (restructure (get-edn "mercury-geophysical-parsed.edn")) mercury-map)))
-  (testing "restructuring jupiter-geophysical-parsed.edn"
-    (is (= (restructure (get-edn "jupiter-geophysical-parsed.edn")) jupiter-map)))
-  (testing "scientific notation"
-    (is (= (restructure
-             [:sci-not
-              [:significand [:float "5.05"]]
-              [:mantissa [:integer "22"]]])
-           5.05E22M))
-    (is (= (restructure
-             [:sci-not
-              [:significand [:integer "5"]]
-              [:mantissa [:integer "22"]]])
-           5E22M)))
-  (testing "timestamps"
-    (is (= (restructure timestamp-tree) timestamp-map))))
-;
-(deftest transform-test
-  (with-test
-    (defn transform [xs] (transform/transform transform-rules xs))
-    (testing "comma-separated integers"
-      (is (= (transform [:integer [:comma-separated-integer "123,456,789"]])
-             123456789)))
-    (testing "ephemeredes tree to set"
-      (is (= (transform  [:ephemeredes
-                          [:ephemeris [:x-position 1]]
-                          [:ephemeris [:x-position 2]]
-                          [:ephemeris [:x-position 3]]])
-             [:ephemeredes
-              #{
-                {:x-position 1}
-                {:x-position 2}
-                {:x-position 3}}])))
-    (testing "value with units"
-      (is (= (transform/transform transform-rules [:mean-radius [:unit-KMT] [:value "2440(+-1)"]])
-             [:mean-radius [:unit-code "KMT"] [:value "2440(+-1)"]]))
-      (is (= (transform
-               [:atmospheric-mass
-                [:value [:sci-not [:significand [:float "5.1"]] [:exponent [:integer "18"]]]]
-                [:unit-KGM]])
-             [:atmospheric-mass
-              [:value 5.1E+18M]
-              [:unit-code "KGM"]])))
-    (testing "value with exponents"
-      (is (= (transform
-               [:heat-flow-mass
-                [:exponent [:integer "7"]]
-                [:value [:integer "15"]]])
-             [:heat-flow-mass {:value 15E7M}])))
-    (is (= (transform [:rotation-rate [:exponent [:integer "-4"]] [:unit-2A] [:value [:float "1.75865"]]])
-           [:rotation-rate {:value 0.000175865M :unit-code "2A"}]))
-    (testing "unit codes"
-      (is (= (transform [:unit-23]) [:unit-code "23"]))
-      (is (= (transform [:unit-2A]) [:unit-code "2A"]))
-      (is (= (transform [:unit-A62]) [:unit-code "A62"]))
-      (is (= (transform [:unit-BAR]) [:unit-code "BAR"]))
-      (is (= (transform [:unit-D54 "wm2"]) [:unit-code "D54"]))
-      (is (= (transform [:unit-D61]) [:unit-code "D61"]))
-      (is (= (transform [:unit-D62]) [:unit-code "D62"]))
-      (is (= (transform [:unit-DD "deg"]) [:unit-code "DD"]))
-      (is (= (transform [:unit-H20]) [:unit-code "H20"]))
-      (is (= (transform [:unit-KEL]) [:unit-code "KEL"]))
-      (is (= (transform [:unit-KGM]) [:unit-code "KGM"]))
-      (is (= (transform [:unit-KMT]) [:unit-code "KMT"]))
-      (is (= (transform [:unit-M62]) [:unit-code "M62"]))
-      (is (= (transform [:unit-MSK]) [:unit-code "MSK"]))
-      (is (= (transform [:unit-SEC]) [:unit-code "SEC"])))))
+(defn restructure [xs]
+  (->> xs
+       (transform/transform transform-rules)
+       (clojure.walk/postwalk #(do-if coll-of-colls? tree-vec->map %))
+       (clojure.walk/postwalk #(do-if keyword? put-keyword-in-ns %))))
+
+(deftest full-transformation-test
+  (is (= (restructure (get-edn "mercury-geophysical-parsed.edn")) mercury-map))
+  (is (= (restructure (get-edn "jupiter-geophysical-parsed.edn")) jupiter-map))
+  (is (= (restructure timestamp-tree) timestamp-map)))
