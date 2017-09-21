@@ -1,16 +1,11 @@
 (ns horizons.telnet.connect
   "Connects to the HORIZONS Telnet server."
   (:require [clojure.core.async :as async]
-            [clojure.core.async.impl.protocols :as pro]
             [clojure.java.io :as io]
-            [clojure.string :as string]
             [clojure.tools.logging :as log]
-            [clojure.core.async.impl.protocols :as impl])
+            [clojure.core.async.impl.protocols :as protocols])
   (:import (org.apache.commons.net.telnet TelnetClient)
-           (java.io BufferedReader BufferedWriter InputStreamReader OutputStreamWriter PrintStream OutputStream Writer)
-           (java.nio.charset StandardCharsets Charset)
-           (clojure.core.async.impl.protocols Handler)
-           (java.util.concurrent.locks Lock)))
+           (java.io Reader Writer)))
 
 (defn ^:private next-char
   "Gets the next character from the given reader"
@@ -39,8 +34,8 @@
     (and
       (vector? conn)
       (= 2 (count conn))
-      (satisfies? pro/WritePort (first conn))
-      (satisfies? pro/ReadPort (second conn)))))
+      (satisfies? protocols/WritePort (first conn))
+      (satisfies? protocols/ReadPort (second conn)))))
 
 (defn connect
   "Connects to the HORIZONS telnet service, attaching its input and output to channels."
