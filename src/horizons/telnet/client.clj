@@ -91,19 +91,6 @@
     (loop [n (+ crlf-size (count (str s)))]
       (or (>= 0 n) (when (async/<!! chan) (recur (dec n)))))))
 
-;(defn connect
-;  "Connects to telnet and waits for a prompt before returning it."
-;  ([]
-;   {:post [(satisfies? pro/WritePort (first %))
-;           (satisfies? pro/ReadPort (second %))]}
-;   (connect (pool/connect)))
-;  ([[in out]]
-;   {:pre [(satisfies? pro/WritePort in)
-;          (satisfies? pro/ReadPort out)]
-;    :post [(satisfies? pro/WritePort (first %))
-;           (satisfies? pro/ReadPort (second %))]}
-;   (when (async/<!! (wait-for-prompt out)) [in out])))
-
 (defn connect
   ([]
    {:post [(pool/valid-connection? %)]}
