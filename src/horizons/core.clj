@@ -20,12 +20,6 @@
    :output-interval {:60m ""}
    :accept-default-output {true ""}})
 
-(defn ^:private tokenreduce [m k v]
-  (assoc m k (get-in ephemeris-options [k v])))
-
-(defn ^:private tokens->options [tokens]
-  (reduce-kv tokenreduce {} tokens))
-
 (def supported-bodies
   #{199 299 399 499 599 699 799 899})
 
