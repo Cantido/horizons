@@ -1,12 +1,16 @@
 (ns horizons.telnet.connect
   "Connects to the HORIZONS Telnet server."
   (:require [clojure.core.async :as async]
+            [clojure.core.async.impl.protocols :as pro]
             [clojure.java.io :as io]
             [clojure.string :as string]
-            [clojure.tools.logging :as log])
+            [clojure.tools.logging :as log]
+            [clojure.core.async.impl.protocols :as impl])
   (:import (org.apache.commons.net.telnet TelnetClient)
-           (java.io BufferedReader BufferedWriter InputStreamReader OutputStreamWriter PrintStream)
-           (java.nio.charset StandardCharsets Charset)))
+           (java.io BufferedReader BufferedWriter InputStreamReader OutputStreamWriter PrintStream OutputStream Writer)
+           (java.nio.charset StandardCharsets Charset)
+           (clojure.core.async.impl.protocols Handler)
+           (java.util.concurrent.locks Lock)))
 
 (defn ^:private next-char
   "Gets the next character from the given reader"
@@ -28,9 +32,20 @@
     (.write writer ^String (str s \newline))
     (.flush writer)))
 
+(defn valid-connection?
+  [conn]
+  {:post [(or (true? %) (false? %))]}
+  (boolean
+    (and
+      (vector? conn)
+      (= 2 (count conn))
+      (satisfies? pro/WritePort (first conn))
+      (satisfies? pro/ReadPort (second conn)))))
+
 (defn connect
   "Connects to the HORIZONS telnet service, attaching its input and output to channels."
   []
+  {:post [(valid-connection? %)]}
   (log/info "Initiating a Telnet connection to ssd.jpl.nasa.gov:6775.")
   (let [client (TelnetClient.)
         to-telnet (async/chan)
