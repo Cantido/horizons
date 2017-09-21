@@ -100,7 +100,7 @@
 (defn parse-horizons-response
   "Parses and transforms a response from HORIZONS into a useful data structure."
   [s]
-  {:post [(complement empty?)]}
+  {:post [(not (empty? %))]}
   (->> s
     parse
     (do-if instaparse.core/failure? throw-parse-exception)
