@@ -78,6 +78,8 @@
   {:pre [(satisfies? pro/WritePort chan)]}
   (async/>!! chan (:clear body-prompt-commands)))
 
+(def crlf-size 2)
+
 (defn swallow-echo
   "Swallows the echo of arg s from channel chan.
   Returns true if it could swallow the entire length of s."
@@ -86,7 +88,7 @@
    :post [(or (true? %) (false? %))]}
   ; The echoed text is length (count s) and it is followed by a carriage return and a line feed.
   (some?
-    (loop [n (+ 2 (count (str s)))]
+    (loop [n (+ crlf-size (count (str s)))]
       (or (>= 0 n) (when (async/<!! chan) (recur (dec n)))))))
 
 ;(defn connect
