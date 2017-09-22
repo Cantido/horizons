@@ -7,6 +7,8 @@
   (:import (org.apache.commons.net.telnet TelnetClient)
            (java.io Reader Writer)))
 
+(def *telnet-connect-timeout-milliseconds* 5000)
+
 (defn ^:private next-char
   "Gets the next character from the given reader"
   [rdr]
@@ -42,9 +44,10 @@
   []
   {:post [(valid-connection? %)]}
   (log/info "Initiating a Telnet connection to ssd.jpl.nasa.gov:6775.")
-  (let [client (TelnetClient.)
+  (let [^TelnetClient client (TelnetClient.)
         to-telnet (async/chan)
         from-telnet (async/chan)]
+    (.setConnectTimeout client *telnet-connect-timeout-milliseconds*)
     (.connect client "ssd.jpl.nasa.gov" 6775)
     (let [writer (-> client .getOutputStream (io/writer :encoding "US-ASCII"))
           reader (-> client .getInputStream (io/reader :encoding "US-ASCII"))]
