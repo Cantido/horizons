@@ -24,11 +24,6 @@
       (response/status 500)
       (liberator.representation/ring-response)))
 
-(defn process-params [params]
-  (cond-> {}
-    (:start params) (assoc :start-datetime (t/normalize-date-string (:start params)))
-    (:end params) (assoc :end-datetime (t/normalize-date-string (:end params)))))
-
 (liberator/defresource planetary-body-resource [id]
   :allowed-methods [:get]
   :available-media-types ["application/json"]
@@ -36,6 +31,12 @@
   :exists? (fn [_] (horizons/supported? id))
   :handle-ok (fn [_] (horizons/get-planetary-body id))
   :handle-exception handle-exception)
+
+(defn process-params [m]
+  (-> m
+    (select-keys #{:start :stop})
+    (update :start t/normalize-date-string)
+    (update :end t/normalize-date-string)))
 
 (liberator/defresource ephemeris-resource [id]
   :allowed-methods [:get]
