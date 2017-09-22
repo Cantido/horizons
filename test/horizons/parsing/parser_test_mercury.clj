@@ -13,9 +13,9 @@
     {::h/mean-radius {::h/unit-code "KMT" ::h/value "2440(+-1)"}
      ::h/density {::h/unit-code "23" ::h/value 5.427M}
      ::h/mass {::h/unit-code "KGM" ::h/value 3.302E23M}
-     ::h/flattening nil
+     ::h/flattening {}
      ::h/volume {::h/value 6.085E10M ::h/unit-code "H20"}
-     ::h/semi-major-axis nil
+     ::h/semi-major-axis {}
      ::h/sidereal-rotation-period {::h/value {::h/duration {::h/days 58.6462M}}}
      ::h/rotation-rate {::h/unit-code "SEC" ::h/value 12400.1M}
      ::h/mean-solar-day {::h/value {::h/duration {::h/days 175.9421M}}}
@@ -23,7 +23,7 @@
      ::h/moment-of-inertia {::h/value 0.33M}
      ::h/equatorial-gravity {::h/unit-code "MSK" ::h/value 3.701M}
      ::h/core-radius {::h/unit-code "KMT" ::h/value "~1600"}
-     ::h/potential-love-k2 nil
+     ::h/potential-love-k2 {}
      ::h/standard-gravitational-parameter {::h/value 22032.09M}
      ::h/equatorial-radius {::h/value 2440 ::h/unit-code "KMT"}
      ::h/gm-1-sigma {::h/value "+-0.91"}

@@ -4,7 +4,8 @@
             [clojure.core.async.impl.protocols :as pro]
             [clojure.string :as string]
             [horizons.telnet.pool :as pool]
-            [clojure.tools.logging :as log]))
+            [clojure.tools.logging :as log]
+            [horizons.telnet.connect :as connect]))
 
 
 (def ^:private block-endings
@@ -93,26 +94,26 @@
 
 (defn connect
   ([]
-   {:post [(pool/valid-connection? %)]}
+   {:post [(connect/valid-connection? %)]}
    (connect (pool/connect)))
   ([[in out]]
-   {:pre [(pool/valid-connection? [in out])]
-    :post [(pool/valid-connection? %)]}
+   {:pre [(connect/valid-connection? [in out])]
+    :post [(connect/valid-connection? %)]}
    (async/<!! (wait-for-prompt out))
    [in out]))
 
 
 (defn release [[in out]]
-  {:pre [(pool/valid-connection? [in out])]
-   :post [(pool/valid-connection? [in out])]}
+  {:pre [(connect/valid-connection? [in out])]
+   :post [(connect/valid-connection? [in out])]}
   (reset-client in)
   (pool/release [in out]))
 
 (defn transmit
   "Send a string to the given channels, and returns the next block."
   [in out s]
-  {:pre [(pool/valid-connection? [in out])]
-   :post [(pool/valid-connection? [in out])]}
+  {:pre [(connect/valid-connection? [in out])]
+   :post [(connect/valid-connection? [in out])]}
   (and
     (async/put! in s)
     (swallow-echo s out)
@@ -144,8 +145,8 @@
   ([body-id [in out] opts]
    {:pre [(number? body-id)
           (map? opts)
-          (pool/valid-connection? [in out])]
-    :post [(pool/valid-connection? [in out])]}
+          (connect/valid-connection? [in out])]
+    :post [(connect/valid-connection? [in out])]}
    (let [tx (partial transmit in out)
          complete-ops (merge-defaults opts)]
      (penultimate
@@ -165,6 +166,6 @@
   "Get a block of String data from the HORIZONS system about the given body-id"
   ([body-id] (with-new-connection get-body body-id))
   ([body-id [in out]]
-   {:pre [(pool/valid-connection? [in out])]
-    :post [(pool/valid-connection? [in out])]}
+   {:pre [(connect/valid-connection? [in out])]
+    :post [(connect/valid-connection? [in out])]}
    (transmit in out body-id)))
