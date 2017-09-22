@@ -49,9 +49,9 @@
   (slurp (io/file (io/resource "full-ephem-interaction.txt"))))
 
 (deftest get-body
-  (let [result (client/get-body 199 [(async/chan) (async/to-chan full-geo-text)])]
+  (let [result (client/get-body [(async/chan) (async/to-chan full-geo-text)] 199)]
     (is (string/includes? result "Mean radius (km)      =  2440(+-1)"))))
 
 (deftest get-ephemeris
-  (let [result (client/get-ephemeris-data 199 [(async/chan) (async/to-chan full-ephem-text)])]
+  (let [result (client/get-ephemeris-data [(async/chan) (async/to-chan full-ephem-text)] 199)]
     (is (string/includes? result "X =-1.314107467485864E+00"))))

@@ -120,9 +120,9 @@
     (async/<!! (next-block out))))
 
 (defn with-new-connection
-  [fn id]
+  [fn & more]
   (let [conn (connect)
-        result (fn id conn)]
+        result (apply fn (cons conn more))]
     (release conn)
     result))
 
@@ -141,10 +141,9 @@
   "Get a block of String data from the HORIZONS system
    with geophysical data about the given body-id"
   ([body-id] (with-new-connection get-ephemeris-data body-id))
-  ([body-id conn] (get-ephemeris-data body-id conn default-opts))
-  ([body-id [in out] opts]
-   {:pre [(number? body-id)
-          (connect/valid-connection? [in out])]
+  ([conn body-id] (get-ephemeris-data conn body-id default-opts))
+  ([[in out] body-id opts]
+   {:pre [(connect/valid-connection? [in out])]
     :post [(connect/valid-connection? [in out])]}
    (let [tx (partial transmit in out)
          opts (merge-defaults opts)]
@@ -164,7 +163,7 @@
 (defn get-body
   "Get a block of String data from the HORIZONS system about the given body-id"
   ([body-id] (with-new-connection get-body body-id))
-  ([body-id [in out]]
+  ([[in out] body-id]
    {:pre [(connect/valid-connection? [in out])]
     :post [(connect/valid-connection? [in out])]}
    (transmit in out body-id)))

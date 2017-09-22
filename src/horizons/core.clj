@@ -4,7 +4,8 @@
             [horizons.telnet.client :as telnet]
             [clojure.tools.logging :as log]
             [clj-time.core :as t]
-            [clj-time.format :as f]))
+            [clj-time.format :as f]
+            [horizons.telnet.connect :as connect]))
 
 (defn ^:private end-datetime-parser [x]
   (cond
@@ -44,17 +45,16 @@
 
 (defn get-planetary-body
   "Get geophysical data about a solar system body with the given ID."
-  ([id]
+  ([id] (telnet/with-new-connection get-planetary-body id))
+  ([connection id]
+   {:pre  [(connect/valid-connection? connection)]}
    (log/info "Getting body" id)
-   (parsed-result telnet/get-body id))
-  ([id connection]
-   (parsed-result telnet/get-body id connection)))
+   (parsed-result telnet/get-body connection id)))
 
 (defn get-ephemeris
-  ([id]
+  ([id] (telnet/with-new-connection get-ephemeris id))
+  ([connection id]
+   {:pre  [(connect/valid-connection? connection)]}
    (log/spyf "Getting ephemeris for body" id)
-   (parsed-result telnet/get-ephemeris-data id))
-  ([id connection]
-   (log/spyf "Getting ephemeris for body" id)
-   (parsed-result telnet/get-ephemeris-data id connection)))
+   (parsed-result telnet/get-ephemeris-data connection id)))
 
