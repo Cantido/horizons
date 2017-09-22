@@ -126,39 +126,39 @@
     (release conn)
     result))
 
+(def default-opts {:table-type "v"
+                   :coordinate-center ""
+                   :reference-plane "eclip"
+                   :start-datetime ""
+                   :end-datetime ""
+                   :output-interval ""
+                   :accept-default-output ""})
+
+(defn merge-defaults [map]
+  (merge default-opts map))
+
 (defn get-ephemeris-data
   "Get a block of String data from the HORIZONS system
    with geophysical data about the given body-id"
   ([body-id] (with-new-connection get-ephemeris-data body-id))
-  ([body-id [in out] & {:keys [table-type
-                               coordinate-center
-                               reference-plane
-                               start-datetime
-                               end-datetime
-                               output-interval
-                               accept-default-output]
-                        :or {table-type "v"
-                             coordinate-center ""
-                             reference-plane "eclip"
-                             start-datetime ""
-                             end-datetime ""
-                             output-interval ""
-                             accept-default-output ""}}]
+  ([body-id conn] (get-ephemeris-data body-id conn default-opts))
+  ([body-id [in out] opts]
    {:pre [(number? body-id)
           (connect/valid-connection? [in out])]
     :post [(connect/valid-connection? [in out])]}
-   (let [tx (partial transmit in out)]
+   (let [tx (partial transmit in out)
+         opts (merge-defaults opts)]
      (penultimate
        (map tx
             [body-id
              (:ephemeris body-prompt-commands)
-             table-type
-             coordinate-center
-             reference-plane
-             start-datetime
-             end-datetime
-             output-interval
-             accept-default-output
+             (:table-type opts)
+             (:coordinate-center opts)
+             (:reference-plane opts)
+             (:start-datetime opts)
+             (:end-datetime opts)
+             (:output-interval opts)
+             (:accept-default-output opts)
              (:new-case ephemeris-prompt-commands)])))))
 
 (defn get-body
