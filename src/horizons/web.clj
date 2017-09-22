@@ -29,13 +29,6 @@
     (:start params) (assoc :start-datetime (t/normalize-date-string (:start params)))
     (:end params) (assoc :end-datetime (t/normalize-date-string (:end params)))))
 
-(defn handle-geophysical-ok [id]
-  (fn [ctx]
-    (let [params (get-in ctx [:request :params])
-          processed-params (process-params params)]
-      (log/debug "params: " params ", processed params: " processed-params)
-      (horizons/get-planetary-body id processed-params))))
-
 (liberator/defresource planetary-body-resource [id]
   :allowed-methods [:get]
   :available-media-types ["application/json"]
