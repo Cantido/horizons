@@ -24,6 +24,20 @@
     (when (empty? @connection-pool)
       (alter connection-pool conj (conn/connect)))))
 
+(defn close! [[in out]]
+  (async/close! in)
+  (async/close! out))
+
+(defn ^:private everybody-out-of-the-pool! []
+  (log/info "Getting everybody out of the pool (closing all connections and disposing of them)")
+  (dosync
+    (log/info "Closing" (count @connection-pool) "unused connections.")
+    (map close! @connection-pool)
+    (ref-set connection-pool #{})
+    (log/warn "Closing" (count @connections-in-use) "connections that are currently in use!")
+    (map close! @connections-in-use)
+    (ref-set connections-in-use #{})))
+
 (defn connect
   "Returns [in out] channels connected to a Telnet client."
   []
