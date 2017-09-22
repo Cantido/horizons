@@ -21,12 +21,6 @@
    :output-interval {:60m ""}
    :accept-default-output {true ""}})
 
-(defn ^:private tokenreduce [m k v]
-  (assoc m k (get-in ephemeris-options [k v])))
-
-(defn ^:private tokens->options [tokens]
-  (reduce-kv tokenreduce {} tokens))
-
 (def supported-bodies
   #{199 299 399 499 599 699 799 899})
 
@@ -53,8 +47,9 @@
 
 (defn get-ephemeris
   ([id] (telnet/with-new-connection get-ephemeris id))
-  ([connection id]
+  ([connection id] (get-ephemeris connection id {}))
+  ([connection id opts]
    {:pre  [(connect/valid-connection? connection)]}
-   (log/spyf "Getting ephemeris for body" id)
+   (log/debug "Getting ephemeris for body" id "with options" opts)
    (parsed-result telnet/get-ephemeris-data connection id)))
 

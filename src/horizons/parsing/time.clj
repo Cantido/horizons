@@ -31,6 +31,9 @@
                                     :horizons.core/second-of-minute
                                     :horizons.core/millisecond-of-second])])))
 
+(defn normalize-date-string [s]
+  (f/unparse (f/formatters :date-time) (DateTime/parse s)))
+
 (defn- write-datetime [^DateTime datetime ^PrintWriter out]
   (let [datestring (f/unparse (f/formatters :date-time) datetime)]
     (.print out (str \" datestring \"))))

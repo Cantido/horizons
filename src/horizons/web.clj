@@ -7,7 +7,9 @@
             [immutant.web :as web]
             [liberator.core :as liberator]
             [ring.middleware.defaults :as defaults]
-            [ring.util.response :as response]))
+            [ring.util.response :as response]
+            [horizons.parsing.time :as t])
+  (:import (org.joda.time DateTime)))
 
 ; Since liberator/defresource is a macro, some editors
 ; (like IntelliJ) will think that the symbols you give
@@ -22,6 +24,18 @@
       (response/status 500)
       (liberator.representation/ring-response)))
 
+(defn process-params [params]
+  (cond-> {}
+    (:start params) (assoc :start-datetime (t/normalize-date-string (:start params)))
+    (:end params) (assoc :end-datetime (t/normalize-date-string (:end params)))))
+
+(defn handle-geophysical-ok [id]
+  (fn [ctx]
+    (let [params (get-in ctx [:request :params])
+          processed-params (process-params params)]
+      (log/debug "params: " params ", processed params: " processed-params)
+      (horizons/get-planetary-body id processed-params))))
+
 (liberator/defresource planetary-body-resource [id]
   :allowed-methods [:get]
   :available-media-types ["application/json"]
@@ -35,7 +49,7 @@
   :available-media-types ["application/json"]
   :available-languages ["en-US"]
   :exists? (fn [_] (horizons/supported? id))
-  :handle-ok (fn [_] (horizons/get-ephemeris id))
+  :handle-ok (fn [ctx] (horizons/get-ephemeris id (process-params (get-in ctx [:request :params]))))
   :handle-exception handle-exception)
 
 (routes/defroutes handler
