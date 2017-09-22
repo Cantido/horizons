@@ -31,19 +31,19 @@
   (log/debug "About to fetch a connection from the pool. There are currently" (count @connections-in-use) "connections in use, and" (count @connection-pool) "connections available.")
   (dosync
     (ensure-available-pool)
-    (last
-      ((juxt
-         (partial alter connection-pool disj)
-         (partial alter connections-in-use conj)
-         identity)
-       (first @connection-pool)))))
+    (let [conn (first @connection-pool)]
+      (alter connection-pool disj conn)
+      (alter connections-in-use conj conn)
+      (assert (contains? @connections-in-use conn)))))
 
 (defn release
   "Put an [in out] Telnet connection back in the pool."
   [conn]
   {:pre [(conn/valid-connection? conn)]}
+  ;; We should do assertions inside the transaction,
+  ;; otherwise we'd have a race condition.
   (dosync
-    ((juxt
-      (partial alter connections-in-use disj)
-      (partial alter connection-pool conj))
-     conn)))
+    (assert (contains? @connections-in-use conn))
+    (alter connections-in-use disj conn)
+    (alter connection-pool conj conn)
+    (assert (contains? @connection-pool conn))))
