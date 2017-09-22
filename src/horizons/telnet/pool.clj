@@ -48,7 +48,8 @@
     (let [conn (first @connection-pool)]
       (alter connection-pool disj conn)
       (alter connections-in-use conj conn)
-      (assert (contains? @connections-in-use conn)))))
+      (assert (contains? @connections-in-use conn))
+      conn)))
 
 (defn release
   "Put an [in out] Telnet connection back in the pool."
