@@ -13,20 +13,6 @@
 (defn horizons-client []
   (component/using (map->HorizonsClient {}) [:telnet-client]))
 
-(defn ^:private end-datetime-parser [x]
-  (cond
-    (= x :plus2weeks) ""
-    (satisfies? t/DateTimeProtocol x) (f/unparse (f/formatters :basic-date-time) x)))
-
-(def ^:private ephemeris-options
-  {:table-type {:vectors "v"}
-   :coordinate-center {:earth ""}
-   :reference-plane {:ecliptic "eclip"}
-   :start-datetime {:now ""}
-   :end-datetime end-datetime-parser
-   :output-interval {:60m ""}
-   :accept-default-output {true ""}})
-
 (def supported-bodies
   #{199 299 399 499 599 699 799 899})
 
