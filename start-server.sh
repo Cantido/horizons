@@ -1,1 +1,1 @@
-lein with-profile production trampoline run -m horizons.web
+lein with-profile production trampoline run -m horizons.main

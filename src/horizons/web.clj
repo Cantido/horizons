@@ -77,11 +77,3 @@
 
 (defn new-webserver [port]
   (map->WebServer {:port port}))
-
-(defn horizons-system [config-options]
-  (let [{:keys [port]} config-options]
-    (component/system-map
-      :webserver (new-webserver port))))
-
-(defn -main [& [port]]
-  (component/start-system (horizons-system {:port port})))
