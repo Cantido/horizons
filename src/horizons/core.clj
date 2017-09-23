@@ -31,9 +31,9 @@
 
 (defn- with-new-connection
   [fn client & more]
-  (let [conn (telnet/connect)
+  (let [conn (telnet/connect (:telnet-client client))
         result (apply fn (cons client (cons conn more)))]
-    (telnet/release conn)
+    (telnet/release (:telnet-client client) conn)
     result))
 
 (defn get-planetary-body
@@ -42,7 +42,8 @@
   ([client connection id]
    {:pre  [(connect/valid-connection? connection)]}
    (log/info "Getting body" id)
-   (parsed-result telnet/get-body connection id)))
+   (parsed-result
+     telnet/get-body (:telnet-client client) connection id)))
 
 (defn get-ephemeris
   ([client id] (with-new-connection get-ephemeris client id))
@@ -50,5 +51,6 @@
   ([client connection id opts]
    {:pre  [(connect/valid-connection? connection)]}
    (log/debug "Getting ephemeris for body" id "with options" opts)
-   (parsed-result telnet/get-ephemeris-data connection id)))
+   (parsed-result
+     telnet/get-ephemeris-data (:telnet-client client) connection id)))
 

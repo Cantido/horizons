@@ -30,7 +30,9 @@
   (is (false? (client/reset-client asu/closed-chan))))
 
 (deftest connect
-  (is (vector? (client/connect [asu/closed-chan asu/closed-chan]))))
+  (is (vector? (client/connect
+                 (client/new-telnet-client)
+                 [asu/closed-chan asu/closed-chan]))))
 
 (deftest wait-for-prompt
   (is (asu/closed? (client/wait-for-prompt asu/closed-chan)))
@@ -51,9 +53,13 @@
   (slurp (io/file (io/resource "full-ephem-interaction.txt"))))
 
 (deftest get-body
-  (let [result (client/get-body [(async/chan) (async/to-chan full-geo-text)] 199)]
+  (let [result (client/get-body
+                 (client/new-telnet-client)
+                 [(async/chan) (async/to-chan full-geo-text)] 199)]
     (is (string/includes? result "Mean radius (km)      =  2440(+-1)"))))
 
 (deftest get-ephemeris
-  (let [result (client/get-ephemeris-data [(async/chan) (async/to-chan full-ephem-text)] 199)]
+  (let [result (client/get-ephemeris-data
+                 (client/new-telnet-client)
+                 [(async/chan) (async/to-chan full-ephem-text)] 199)]
     (is (string/includes? result "X =-1.314107467485864E+00"))))

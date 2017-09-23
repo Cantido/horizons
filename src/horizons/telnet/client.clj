@@ -100,17 +100,17 @@
       (or (>= 0 n) (when (async/<!! chan) (recur (dec n)))))))
 
 (defn connect
-  ([]
+  ([client]
    {:post [(connect/valid-connection? %)]}
-   (connect (pool/connect)))
-  ([[in out]]
+   (connect client (pool/connect)))
+  ([client [in out]]
    {:pre [(connect/valid-connection? [in out])]
     :post [(connect/valid-connection? %)]}
    (async/<!! (wait-for-prompt out))
    [in out]))
 
 
-(defn release [[in out]]
+(defn release [client [in out]]
   {:pre [(connect/valid-connection? [in out])]
    :post [(connect/valid-connection? [in out])]}
   (reset-client in)
@@ -127,10 +127,10 @@
     (async/<!! (next-block out))))
 
 (defn with-new-connection
-  [fn & more]
-  (let [conn (connect)
-        result (apply fn (cons conn more))]
-    (release conn)
+  [fn client & more]
+  (let [conn (connect client)
+        result (apply fn (cons client (cons conn more)))]
+    (release client conn)
     result))
 
 (def default-opts {:table-type "v"
@@ -141,14 +141,14 @@
                    :output-interval ""
                    :accept-default-output ""})
 
-(defn merge-defaults [map]
+(defn- merge-defaults [map]
   (merge default-opts map))
 
 
 (defn get-body
   "Get a block of String data from the HORIZONS system about the given body-id"
-  ([body-id] (with-new-connection get-body body-id))
-  ([[in out] body-id]
+  ([client body-id] (with-new-connection get-body {} body-id))
+  ([client [in out] body-id]
    {:pre [(connect/valid-connection? [in out])]
     :post [(connect/valid-connection? [in out])]}
    (transmit in out body-id)))
@@ -156,9 +156,9 @@
 (defn get-ephemeris-data
   "Get a block of String data from the HORIZONS system
    with geophysical data about the given body-id"
-  ([body-id] (with-new-connection get-ephemeris-data body-id))
-  ([conn body-id] (get-ephemeris-data conn body-id default-opts))
-  ([[in out] body-id opts]
+  ([client body-id] (with-new-connection get-ephemeris-data {} body-id))
+  ([client conn body-id] (get-ephemeris-data {} conn body-id default-opts))
+  ([client [in out] body-id opts]
    {:pre [(connect/valid-connection? [in out])]
     :post [(connect/valid-connection? [in out])]}
    (let [tx (partial transmit in out)
