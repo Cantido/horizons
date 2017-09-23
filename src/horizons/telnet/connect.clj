@@ -37,6 +37,11 @@
       (satisfies? protocols/WritePort (first conn))
       (satisfies? protocols/ReadPort (second conn)))))
 
+(defn- close-connection! [[x y]]
+  (async/close! x)
+  (async/close! y)
+  (log/info "Channel connection to Telnet has been closed."))
+
 (defn connect
   "Connects to the HORIZONS telnet service, attaching its input and output to channels."
   []
@@ -50,13 +55,17 @@
     (let [writer (-> client .getOutputStream (io/writer :encoding "US-ASCII"))
           reader (-> client .getInputStream (io/reader :encoding "US-ASCII"))]
       (async/thread
-        (async/<!! (async/onto-chan from-telnet (char-seq reader)))
-        (log/info "Channel from telnet has been closed."))
+        (try
+          (async/<!! (async/onto-chan from-telnet (char-seq reader)))
+          (finally
+            (close-connection! [to-telnet from-telnet]))))
       (async/thread
-        (loop []
-          (when-let [next-to-send (async/<!! to-telnet)]
-            (write writer next-to-send)
-            (recur)))
-        (log/info "Channel to telnet has been closed.")))
+        (try
+          (loop []
+            (when-let [next-to-send (async/<!! to-telnet)]
+              (write writer next-to-send)
+              (recur)))
+          (finally
+            (close-connection! [to-telnet from-telnet])))))
     (log/info "Connection to ssd.jpl.nasa.gov:6775 established.")
     [to-telnet from-telnet]))
