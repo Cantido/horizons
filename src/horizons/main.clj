@@ -25,7 +25,7 @@
       :parser (parser/new-parser grammar-specification))))
 
 (defn -main [& [port]]
-  (component/start-system (horizons-system {:http-listen-port (or port (environ/env :port) 3000)
-                                            :telnet-host      "ssd.jpl.nasa.gov"
-                                            :telnet-port      6775
+  (component/start-system (horizons-system {:http-listen-port      (or port (environ/env :port) 3000)
+                                            :telnet-host           "ssd.jpl.nasa.gov"
+                                            :telnet-port           6775
                                             :grammar-specification (io/resource "horizons.bnf")})))
