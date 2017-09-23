@@ -5,7 +5,13 @@
             [clojure.tools.logging :as log]
             [clj-time.core :as t]
             [clj-time.format :as f]
-            [horizons.telnet.connect :as connect]))
+            [horizons.telnet.connect :as connect]
+            [com.stuartsierra.component :as component]))
+
+(defrecord HorizonsClient [telnet-client])
+
+(defn horizons-client []
+  (component/using (map->HorizonsClient {}) [:telnet-client]))
 
 (defn ^:private end-datetime-parser [x]
   (cond

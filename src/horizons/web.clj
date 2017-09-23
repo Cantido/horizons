@@ -76,4 +76,4 @@
     this))
 
 (defn web-server [port]
-  (map->WebServer {:port port}))
+  (component/using (map->WebServer {:port port}) [:horizons-client]))

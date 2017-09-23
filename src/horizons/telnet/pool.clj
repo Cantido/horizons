@@ -3,7 +3,15 @@
   (:require [clojure.core.async :as async]
             [clojure.core.async.impl.protocols :as pro]
             [horizons.telnet.connect :as conn]
-            [clojure.tools.logging :as log]))
+            [clojure.tools.logging :as log]
+            [com.stuartsierra.component :as component]))
+
+
+(defrecord ConnectionPool [])
+
+(defn new-connection-pool []
+  (map->ConnectionPool {}))
+
 
 (defn ^:private valid-pool?
   [pool]

@@ -5,7 +5,14 @@
             [clojure.string :as string]
             [horizons.telnet.pool :as pool]
             [clojure.tools.logging :as log]
-            [horizons.telnet.connect :as connect]))
+            [horizons.telnet.connect :as connect]
+            [com.stuartsierra.component :as component]))
+
+
+(defrecord TelnetClient [connection-pool])
+
+(defn new-telnet-client []
+  (component/using (map->TelnetClient {}) [:connection-pool]))
 
 
 (def ^:private block-endings
