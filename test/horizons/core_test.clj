@@ -14,11 +14,23 @@
 
 
 (deftest get-planetary-body
-  (is (nil? (core/get-planetary-body [asu/closed-chan asu/closed-chan] 199)))
-  (is (some? (core/get-planetary-body [(async/chan) (async/to-chan full-geo-text)] 199))))
+  (is (nil? (core/get-planetary-body
+              (core/horizons-client)
+              [asu/closed-chan asu/closed-chan]
+              199)))
+  (is (some? (core/get-planetary-body
+               (core/horizons-client)
+               [(async/chan) (async/to-chan full-geo-text)]
+               199))))
 
 (deftest get-ephem
   (testing "with two closed channels"
-    (is (nil? (core/get-ephemeris [asu/closed-chan asu/closed-chan] 199))))
+    (is (nil? (core/get-ephemeris
+                (core/horizons-client)
+                [asu/closed-chan asu/closed-chan]
+                199))))
   (testing "with an example of a full ephemeris text"
-    (is (some? (core/get-ephemeris [(async/chan) (async/to-chan full-ephem-text)] 199)))))
+    (is (some? (core/get-ephemeris
+                 (core/horizons-client)
+                 [(async/chan) (async/to-chan full-ephem-text)]
+                 199)))))

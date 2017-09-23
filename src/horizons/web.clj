@@ -23,8 +23,8 @@
     :allowed-methods [:get]
     :available-media-types ["application/json"]
     :available-languages ["en-US"]
-    :exists? (fn [_] (horizons/supported? id))
-    :handle-ok (fn [_] (horizons/get-planetary-body id))
+    :exists? (fn [_] (horizons/supported? horizons-client id))
+    :handle-ok (fn [_] (horizons/get-planetary-body horizons-client id))
     :handle-exception handle-exception))
 
 (defn- ephemeris-resource [horizons-client id]
@@ -32,8 +32,8 @@
     :allowed-methods [:get]
     :available-media-types ["application/json"]
     :available-languages ["en-US"]
-    :exists? (fn [_] (horizons/supported? id))
-    :handle-ok (fn [ctx] (horizons/get-ephemeris id))
+    :exists? (fn [_] (horizons/supported? horizons-client id))
+    :handle-ok (fn [ctx] (horizons/get-ephemeris horizons-client id))
     :handle-exception handle-exception))
 
 (defn- app-routes [horizons-client]
