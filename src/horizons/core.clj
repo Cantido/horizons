@@ -8,13 +8,13 @@
             [horizons.telnet.connect :as connect]
             [com.stuartsierra.component :as component]))
 
-(defrecord HorizonsClient [supported-bodies telnet-client])
+(defrecord HorizonsClient [supported-bodies telnet-client connection-factory])
 
 (defn horizons-client []
   (component/using
     (map->HorizonsClient
       {:supported-bodies #{199 299 399 499 599 699 799 899}})
-    [:telnet-client]))
+    [:telnet-client :connection-factory]))
 
 (defn supported?
   "Check if the given body ID is definitely supported by this system."
@@ -40,7 +40,7 @@
   "Get geophysical data about a solar system body with the given ID."
   ([client id] (with-new-connection get-planetary-body client id))
   ([client connection id]
-   {:pre  [(connect/valid-connection? connection)]}
+   {:pre  [(connect/valid-connection? (:connection-factory client) connection)]}
    (log/info "Getting body" id)
    (parsed-result
      telnet/get-body (:telnet-client client) connection id)))
@@ -49,7 +49,7 @@
   ([client id] (with-new-connection get-ephemeris client id))
   ([client connection id] (get-ephemeris client connection id {}))
   ([client connection id opts]
-   {:pre  [(connect/valid-connection? connection)]}
+   {:pre  [(connect/valid-connection? (:connection-factory client) connection)]}
    (log/debug "Getting ephemeris for body" id "with options" opts)
    (parsed-result
      telnet/get-ephemeris-data (:telnet-client client) connection id)))

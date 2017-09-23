@@ -6,67 +6,77 @@
             [clojure.tools.logging :as log]
             [com.stuartsierra.component :as component]))
 
-
-(defrecord ConnectionPool [])
-
-(defn new-connection-pool []
-  (map->ConnectionPool {}))
-
-
 (defn ^:private valid-pool?
-  [pool]
+  [pool-component pool]
   (and
     (set? pool)
-    (every? conn/valid-connection? pool)))
+    (every? (partial conn/valid-connection? (:connection-factory pool-component)) pool)))
 
-
-(def ^:private connection-pool
-  (ref #{} :validator valid-pool?))
-
-(def ^:private connections-in-use
-  (ref #{} :validator valid-pool?))
-
-
-(defn ^:private ensure-available-pool []
+(defn ^:private ensure-available-pool [pool-component]
   (dosync
-    (when (empty? @connection-pool)
-      (alter connection-pool conj (conn/connect)))))
+    (let [{:keys [available-connections connection-factory]} pool-component]
+      (when (empty? @available-connections)
+        (alter available-connections conj (conn/connect connection-factory))))))
 
-(defn close! [[in out]]
+(defn close! [pool-component [in out]]
   (async/close! in)
   (async/close! out))
 
-(defn ^:private everybody-out-of-the-pool! []
+(defn ^:private everybody-out-of-the-pool! [pool-component]
   (log/info "Getting everybody out of the pool (closing all connections and disposing of them)")
   (dosync
-    (log/info "Closing" (count @connection-pool) "unused connections.")
-    (map close! @connection-pool)
-    (ref-set connection-pool #{})
-    (log/warn "Closing" (count @connections-in-use) "connections that are currently in use!")
-    (map close! @connections-in-use)
-    (ref-set connections-in-use #{})))
+    (let [{:keys [available-connections connections-in-use]} pool-component]
+      (when-not (empty? @available-connections)
+        (log/info "Closing" (count @available-connections) "unused connections.")
+        (map (partial close! pool-component) @available-connections)
+        (ref-set available-connections #{}))
+      (when-not (empty? @connections-in-use)
+        (log/warn "Closing" (count @connections-in-use) "connections that are currently in use!")
+        (map (partial close! pool-component) @connections-in-use)
+        (ref-set connections-in-use #{})))))
 
 (defn connect
   "Returns [in out] channels connected to a Telnet client."
-  [pool]
-  {:post [(conn/valid-connection? %)]}
-  (log/debug "About to fetch a connection from the pool. There are currently" (count @connections-in-use) "connections in use, and" (count @connection-pool) "connections available.")
+  [pool-component]
+  {:post [(conn/valid-connection? (:connection-factory pool-component) %)]}
   (dosync
-    (ensure-available-pool)
-    (let [conn (first @connection-pool)]
-      (alter connection-pool disj conn)
-      (alter connections-in-use conj conn)
-      (assert (contains? @connections-in-use conn))
-      conn)))
+    (let [{:keys [available-connections connections-in-use]} pool-component]
+      (log/debug "About to fetch a connection from the pool. There are currently" (count @connections-in-use) "connections in use, and" (count @available-connections) "connections available.")
+      (ensure-available-pool pool-component)
+      (let [conn (first @available-connections)]
+        (alter available-connections disj conn)
+        (alter connections-in-use conj conn)
+        (assert (contains? @connections-in-use conn))
+        conn))))
 
 (defn release
   "Put an [in out] Telnet connection back in the pool."
-  [pool conn]
-  {:pre [(conn/valid-connection? conn)]}
+  [pool-component conn]
+  {:pre [(conn/valid-connection? (:connection-factory pool-component) conn)]}
   ;; We should do assertions inside the transaction,
   ;; otherwise we'd have a race condition.
   (dosync
-    (assert (contains? @connections-in-use conn))
-    (alter connections-in-use disj conn)
-    (alter connection-pool conj conn)
-    (assert (contains? @connection-pool conn))))
+    (let [{:keys [available-connections connections-in-use]} pool-component]
+      (assert (contains? @connections-in-use conn))
+      (alter connections-in-use disj conn)
+      (alter available-connections conj conn)
+      (assert (contains? @available-connections conn)))))
+
+
+(defrecord ConnectionPool [connection-factory available-connections connections-in-use]
+  component/Lifecycle
+
+  (start [this]
+    (set-validator! available-connections (partial valid-pool? this))
+    (set-validator! connections-in-use (partial valid-pool? this))
+    this)
+
+  (stop [this]
+    (everybody-out-of-the-pool! this)
+    this))
+
+(defn new-connection-pool []
+  (component/using
+    (map->ConnectionPool {:available-connections (ref #{})
+                          :connections-in-use (ref #{})})
+    [:connection-factory]))

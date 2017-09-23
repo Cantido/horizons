@@ -9,10 +9,10 @@
             [com.stuartsierra.component :as component]))
 
 
-(defrecord TelnetClient [connection-pool])
+(defrecord TelnetClient [connection-pool connection-factory])
 
 (defn new-telnet-client []
-  (component/using (map->TelnetClient {}) [:connection-pool]))
+  (component/using (map->TelnetClient {}) [:connection-pool :connection-factory]))
 
 
 (def ^:private block-endings
@@ -101,26 +101,26 @@
 
 (defn connect
   ([client]
-   {:post [(connect/valid-connection? %)]}
+   {:post [(connect/valid-connection? (:connection-factory client) %)]}
    (connect client (pool/connect (:connection-pool client))))
   ([client [in out]]
-   {:pre [(connect/valid-connection? [in out])]
-    :post [(connect/valid-connection? %)]}
+   {:pre [(connect/valid-connection? (:connection-factory client) [in out])]
+    :post [(connect/valid-connection? (:connection-factory client) %)]}
    (async/<!! (wait-for-prompt out))
    [in out]))
 
 
 (defn release [client [in out]]
-  {:pre [(connect/valid-connection? [in out])]
-   :post [(connect/valid-connection? [in out])]}
+  {:pre [(connect/valid-connection? (:connection-factory client) [in out])]
+   :post [(connect/valid-connection? (:connection-factory client) [in out])]}
   (reset-client in)
   (pool/release (:connection-pool client) [in out]))
 
 (defn transmit
   "Send a string to the given channels, and returns the next block."
-  [in out s]
-  {:pre [(connect/valid-connection? [in out])]
-   :post [(connect/valid-connection? [in out])]}
+  [client in out s]
+  {:pre [(connect/valid-connection? (:connection-factory client) [in out])]
+   :post [(connect/valid-connection? (:connection-factory client) [in out])]}
   (and
     (async/put! in s)
     (swallow-echo s out)
@@ -149,9 +149,9 @@
   "Get a block of String data from the HORIZONS system about the given body-id"
   ([client body-id] (with-new-connection get-body {} body-id))
   ([client [in out] body-id]
-   {:pre [(connect/valid-connection? [in out])]
-    :post [(connect/valid-connection? [in out])]}
-   (transmit in out body-id)))
+   {:pre [(connect/valid-connection? (:connection-factory client) [in out])]
+    :post [(connect/valid-connection? (:connection-factory client) [in out])]}
+   (transmit client in out body-id)))
 
 (defn get-ephemeris-data
   "Get a block of String data from the HORIZONS system
@@ -159,9 +159,9 @@
   ([client body-id] (with-new-connection get-ephemeris-data {} body-id))
   ([client conn body-id] (get-ephemeris-data {} conn body-id default-opts))
   ([client [in out] body-id opts]
-   {:pre [(connect/valid-connection? [in out])]
-    :post [(connect/valid-connection? [in out])]}
-   (let [tx (partial transmit in out)
+   {:pre [(connect/valid-connection? (:connection-factory client) [in out])]
+    :post [(connect/valid-connection? (:connection-factory client) [in out])]}
+   (let [tx (partial transmit client in out)
          opts (merge-defaults opts)]
      (penultimate
        (map tx

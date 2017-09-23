@@ -3,7 +3,6 @@
             [compojure.route :as route]
             [clojure.tools.logging :as log]
             [com.stuartsierra.component :as component]
-            [environ.core :as environ]
             [horizons.core :as horizons]
             [immutant.web :as web]
             [liberator.core :as liberator]
@@ -56,7 +55,7 @@
   component/Lifecycle
   (start [this]
     (assoc this :http-server
-      (let [port (or (:port this) (environ/env :port) 3000)]
+      (let [port (:port this)]
         (log/info "Starting HORIZONS on port" port)
         (log/debug "DEBUG logging enabled")
         (log/trace "TRACE logging enabled")

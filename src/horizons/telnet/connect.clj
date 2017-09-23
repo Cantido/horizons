@@ -7,6 +7,11 @@
   (:import (org.apache.commons.net.telnet TelnetClient)
            (java.io Reader Writer)))
 
+(defrecord ConnectionFactory [host port])
+
+(defn new-connection-factory [host port]
+  (map->ConnectionFactory {:host host :port port}))
+
 (defn ^:private next-char
   "Gets the next character from the given reader"
   [^Reader rdr]
@@ -28,7 +33,7 @@
     (.flush writer)))
 
 (defn valid-connection?
-  [conn]
+  [connection-factory conn]
   {:post [(or (true? %) (false? %))]}
   (boolean
     (and
@@ -44,14 +49,14 @@
 
 (defn connect
   "Connects to the HORIZONS telnet service, attaching its input and output to channels."
-  []
-  {:post [(valid-connection? %)]}
+  [connection-factory]
+  {:post [(valid-connection? connection-factory %)]}
   (log/info "Initiating a Telnet connection to ssd.jpl.nasa.gov:6775.")
   (let [^TelnetClient client (TelnetClient.)
         to-telnet (async/chan)
         from-telnet (async/chan)]
     (.setConnectTimeout client 5000)
-    (.connect client "ssd.jpl.nasa.gov" 6775)
+    (.connect client ^String (:host connection-factory) ^int (:port connection-factory))
     (let [writer (-> client .getOutputStream (io/writer :encoding "US-ASCII"))
           reader (-> client .getInputStream (io/reader :encoding "US-ASCII"))]
       (async/thread
