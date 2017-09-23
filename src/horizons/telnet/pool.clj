@@ -48,7 +48,7 @@
 
 (defn connect
   "Returns [in out] channels connected to a Telnet client."
-  []
+  [pool]
   {:post [(conn/valid-connection? %)]}
   (log/debug "About to fetch a connection from the pool. There are currently" (count @connections-in-use) "connections in use, and" (count @connection-pool) "connections available.")
   (dosync
@@ -61,7 +61,7 @@
 
 (defn release
   "Put an [in out] Telnet connection back in the pool."
-  [conn]
+  [pool conn]
   {:pre [(conn/valid-connection? conn)]}
   ;; We should do assertions inside the transaction,
   ;; otherwise we'd have a race condition.

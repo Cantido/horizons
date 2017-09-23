@@ -102,7 +102,7 @@
 (defn connect
   ([client]
    {:post [(connect/valid-connection? %)]}
-   (connect client (pool/connect)))
+   (connect client (pool/connect (:connection-pool client))))
   ([client [in out]]
    {:pre [(connect/valid-connection? [in out])]
     :post [(connect/valid-connection? %)]}
@@ -114,7 +114,7 @@
   {:pre [(connect/valid-connection? [in out])]
    :post [(connect/valid-connection? [in out])]}
   (reset-client in)
-  (pool/release [in out]))
+  (pool/release (:connection-pool client) [in out]))
 
 (defn transmit
   "Send a string to the given channels, and returns the next block."
