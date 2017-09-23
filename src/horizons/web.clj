@@ -2,6 +2,7 @@
   (:require [compojure.core :as routes]
             [compojure.route :as route]
             [clojure.tools.logging :as log]
+            [com.stuartsierra.component :as component]
             [environ.core :as environ]
             [horizons.core :as horizons]
             [immutant.web :as web]
@@ -58,12 +59,29 @@
       (defaults/wrap-defaults
         (assoc defaults/api-defaults :static {:resources "public"}))))
 
+(defrecord WebServer [http-server]
+  component/Lifecycle
+  (start [this]
+    (assoc this :http-server
+      (let [port (or (:port this) (environ/env :port) 3000)]
+        (log/info "Starting HORIZONS on port" port)
+        (log/debug "DEBUG logging enabled")
+        (log/trace "TRACE logging enabled")
+        (web/run app
+                 :host "0.0.0.0"
+                 :port port
+                 :path "/"))))
+  (stop [this]
+    (web/stop http-server)
+    this))
+
+(defn new-webserver [port]
+  (map->WebServer {:port port}))
+
+(defn horizons-system [config-options]
+  (let [{:keys [port]} config-options]
+    (component/system-map
+      :webserver (new-webserver port))))
+
 (defn -main [& [port]]
-  (let [port (or port (environ/env :port) 3000)]
-    (log/info "Starting HORIZONS on port" port)
-    (log/debug "DEBUG logging enabled")
-    (log/trace "TRACE logging enabled")
-    (web/run app
-             :host "0.0.0.0"
-             :port port
-             :path "/")))
+  (component/start-system (horizons-system {:port port})))

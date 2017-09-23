@@ -17,6 +17,7 @@
                  [org.clojure/tools.logging "0.4.0"]
                  [ch.qos.logback/logback-classic "1.2.3"]
                  [clj-time "0.13.0"]
+                 [com.stuartsierra/component "0.3.2"]
                  [commons-net/commons-net "3.6"]
                  [compojure "1.6.0"]
                  [environ "1.1.0"]
