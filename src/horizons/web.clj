@@ -25,7 +25,7 @@
     :available-languages ["en-US"]
     :exists? (fn [_] (horizons/supported? horizons-client id))
     :handle-ok (fn [_] (horizons/get-planetary-body horizons-client id))
-    :handle-exception handle-exception))
+    :handle-exception (partial handle-exception horizons-client)))
 
 (defn- ephemeris-resource [horizons-client id]
   (liberator/resource
@@ -34,7 +34,7 @@
     :available-languages ["en-US"]
     :exists? (fn [_] (horizons/supported? horizons-client id))
     :handle-ok (fn [ctx] (horizons/get-ephemeris horizons-client id))
-    :handle-exception handle-exception))
+    :handle-exception (partial handle-exception horizons-client)))
 
 (defn- app-routes [horizons-client]
   (routes/routes
