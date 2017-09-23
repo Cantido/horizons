@@ -40,11 +40,26 @@
 
 (deftest transmit
   (testing "returns the next block"
-    (is (= "Horizons> " (client/transmit (async/chan) (async/to-chan "s\r\nHorizons> ") "s"))))
+    (is (= "Horizons> " (client/transmit
+                          (client/new-telnet-client)
+                          (async/chan)
+                          (async/to-chan "s\r\nHorizons> ") "s"))))
   (testing "returns false if either channels were closed"
-      (is (false? (client/transmit asu/closed-chan asu/closed-chan "s")))
-      (is (false? (client/transmit asu/closed-chan (async/to-chan "s\r\nHorizons> ") "s")))
-      (is (false? (client/transmit (async/chan) asu/closed-chan "s")))))
+      (is (false? (client/transmit
+                    (client/new-telnet-client)
+                    asu/closed-chan
+                    asu/closed-chan
+                    "s")))
+      (is (false? (client/transmit
+                    (client/new-telnet-client)
+                    asu/closed-chan
+                    (async/to-chan "s\r\nHorizons> ")
+                    "s")))
+      (is (false? (client/transmit
+                    (client/new-telnet-client)
+                    (async/chan)
+                    asu/closed-chan
+                    "s")))))
 
 (def full-geo-text
   (slurp (io/file (io/resource "full-geophysical-interaction.txt"))))
