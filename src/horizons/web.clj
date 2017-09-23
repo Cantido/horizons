@@ -44,7 +44,7 @@
   :available-media-types ["application/json"]
   :available-languages ["en-US"]
   :exists? (fn [_] (horizons/supported? id))
-  :handle-ok (fn [ctx] (horizons/get-ephemeris id (process-params (get-in ctx [:request :params]))))
+  :handle-ok (fn [ctx] (horizons/get-ephemeris id))
   :handle-exception handle-exception)
 
 (routes/defroutes handler
