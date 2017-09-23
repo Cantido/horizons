@@ -5,10 +5,11 @@
     [clojure.test :refer :all]
     [instaparse.core :as insta]
     [horizons.core :as h]
-    [horizons.parsing.parser :refer :all]
+    [horizons.parsing.parser :as parser]
     [horizons.parsing.parser-test-mercury :refer :all]
     [horizons.parsing.parser-test-jupiter :refer :all]
-    [instaparse.transform :as transform]))
+    [instaparse.transform :as transform]
+    [com.stuartsierra.component :as component]))
 
 (defn get-file [name]
   (slurp
@@ -18,8 +19,12 @@
 (defn get-edn [name]
   (read-string (get-file name)))
 
+(defn parser-component []
+  {:post [(some? %)]}
+  (component/start (parser/new-parser (io/resource "horizons.bnf"))))
+
 (defn parse-file [name]
-  (parse (get-file name)))
+  (parser/parse (parser-component) (get-file name)))
 
 (defn assert-parse-result [txt-name edn-name]
   (testing txt-name
@@ -49,15 +54,15 @@
     (is (success? (parse-file "jupiter-ephemeredes.txt")))))
 
 (deftest put-keyword-in-ns-test
-  (is (= (put-keyword-in-ns :label)
+  (is (= (parser/put-keyword-in-ns :label)
          ::h/label)))
 
 (defn tree->map [tree]
-  (clojure.walk/postwalk #(do-if coll-of-colls? tree-vec->map %) tree))
+  (clojure.walk/postwalk #(parser/do-if parser/coll-of-colls? parser/tree-vec->map %) tree))
 
 (deftest tree->map-test
   (testing "converting a basic vector"
-    (is (= (tree-vec->map [:label [:one 1] [:two 2]])
+    (is (= (parser/tree-vec->map [:label [:one 1] [:two 2]])
            {:label {:one 1 :two 2}})))
   (testing "walking date trees"
     (testing "with one level of nesting"
@@ -109,7 +114,7 @@
              :density "3.933(5+-4)"
              :mass "6.4185"}}))))
 
-(defn transform [xs] (transform/transform transform-rules xs))
+(defn transform [xs] (transform/transform parser/transform-rules xs))
 
 (deftest transform-test
   (testing "numbers"
@@ -193,9 +198,9 @@
 
 (defn restructure [xs]
   (->> xs
-       (transform/transform transform-rules)
-       (clojure.walk/postwalk #(do-if coll-of-colls? tree-vec->map %))
-       (clojure.walk/postwalk #(do-if keyword? put-keyword-in-ns %))))
+       (transform/transform parser/transform-rules)
+       (clojure.walk/postwalk #(parser/do-if parser/coll-of-colls? parser/tree-vec->map %))
+       (clojure.walk/postwalk #(parser/do-if keyword? parser/put-keyword-in-ns %))))
 
 (deftest full-transformation-test
   (is (= (restructure (get-edn "mercury-geophysical-parsed.edn")) mercury-map))

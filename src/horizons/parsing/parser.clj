@@ -3,7 +3,9 @@
   (:require [horizons.parsing.time :as t]
             [instaparse.core :as core]
             [instaparse.transform :as transform]
-            [clojure.tools.logging :as log]))
+            [clojure.tools.logging :as log]
+            [com.stuartsierra.component :as component]
+            [clojure.string :as string]))
 
 (defn string->int [s]
   (Integer/parseInt s))
@@ -75,9 +77,14 @@
   (throw (Exception. (str "Unable to parse HORIZONS response."
                           "\n\nGot the following failure: \n" (with-out-str (print failure))))))
 
-(def parse
+(defn parse
   "Parse a string into a parse tree."
-  (core/parser (clojure.java.io/resource "horizons.bnf")))
+  [parser-component s]
+  {:pre [(not (string/blank? s))
+         (some? parser-component)
+         (some? (:parser-fn parser-component))]}
+  (let [parser-fn (:parser-fn parser-component)]
+    (parser-fn s)))
 
 (defn coll-of-colls?
   "Returns true if every element of coll except the first is a collection."
@@ -99,11 +106,31 @@
 
 (defn parse-horizons-response
   "Parses and transforms a response from HORIZONS into a useful data structure."
-  [s]
-  {:post [(not (empty? %))]}
+  [parser-component s]
+  {:pre [(some? parser-component)]
+   :post [(not (empty? %))]}
   (->> s
-    parse
+    (parse parser-component)
     (do-if instaparse.core/failure? throw-parse-exception)
     (transform/transform transform-rules)
     (clojure.walk/postwalk #(do-if coll-of-colls? tree-vec->map %))
     (clojure.walk/postwalk #(do-if keyword? put-keyword-in-ns %))))
+
+
+(defrecord Parser [grammar-specification parser-fn]
+  component/Lifecycle
+
+  (start [this]
+    {:pre [(some? grammar-specification)]
+     :post [(some? parser-fn)]}
+    ;; instaparse/parser tries to slurp the given URL,
+    ;; so it's probably best to wait until startup call it.
+    (log/trace "Using grammar spec" grammar-specification)
+    (let [new-parser-fn (core/parser grammar-specification)]
+      (assoc this :parser-fn new-parser-fn)))
+
+  (stop [this]
+    this))
+
+(defn new-parser [grammar-specification]
+  (map->Parser {:grammar-specification grammar-specification}))

@@ -8,13 +8,16 @@
             [horizons.telnet.connect :as connect]
             [com.stuartsierra.component :as component]))
 
-(defrecord HorizonsClient [supported-bodies telnet-client connection-factory])
+(defrecord HorizonsClient [supported-bodies
+                           parser
+                           telnet-client
+                           connection-factory])
 
 (defn horizons-client []
   (component/using
     (map->HorizonsClient
       {:supported-bodies #{199 299 399 499 599 699 799 899}})
-    [:telnet-client :connection-factory]))
+    [:telnet-client :connection-factory :parser]))
 
 (defn supported?
   "Check if the given body ID is definitely supported by this system."
@@ -25,9 +28,9 @@
     (:supported-bodies client)))
 
 (defn- parsed-result
-  [fn & more]
-  (when-let [result (apply fn more)]
-    (::S (parser/parse-horizons-response result))))
+  [horizons-client-component telnet-fn & more]
+  (when-let [result (apply telnet-fn (:telnet-client horizons-client-component) more)]
+    (::S (parser/parse-horizons-response (:parser horizons-client-component) result))))
 
 (defn- with-new-connection
   [fn client & more]
@@ -42,15 +45,13 @@
   ([client connection id]
    {:pre  [(connect/valid-connection? (:connection-factory client) connection)]}
    (log/info "Getting body" id)
-   (parsed-result
-     telnet/get-body (:telnet-client client) connection id)))
+   (parsed-result client telnet/get-body connection id)))
 
 (defn get-ephemeris
   ([client id] (with-new-connection get-ephemeris client id))
   ([client connection id] (get-ephemeris client connection id {}))
   ([client connection id opts]
-   {:pre  [(connect/valid-connection? (:connection-factory client) connection)]}
+   {:pre  [(some? client)
+           (connect/valid-connection? (:connection-factory client) connection)]}
    (log/debug "Getting ephemeris for body" id "with options" opts)
-   (parsed-result
-     telnet/get-ephemeris-data (:telnet-client client) connection id)))
-
+   (parsed-result client telnet/get-ephemeris-data connection id)))

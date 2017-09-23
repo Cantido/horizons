@@ -5,11 +5,13 @@
             [horizons.web :refer :all]
             [ring.mock.request :as mock]
             [com.stuartsierra.component :as component]
+            [horizons.main :as main]
             [horizons.web :as web]
             [horizons.telnet.client :as telnet]
             [horizons.telnet.connect :as connect]
             [horizons.core :as core]
-            [horizons.telnet.pool :as pool]))
+            [horizons.telnet.pool :as pool]
+            [clojure.java.io :as io]))
 ;
 ;(deftest get-planetary-body-integration-test
 ;  (testing "Getting Mercury (ID 199)"
@@ -37,13 +39,10 @@
 ;    (is (not (empty? (:body response))))))
 
 (deftest valid-system
-  (let [system
-        (component/system-map
-          :web-server (web/web-server 3000)
-          :horizons-client (core/horizons-client)
-          :telnet-client (telnet/new-telnet-client)
-          :connection-factory (connect/new-connection-factory "host" 1)
-          :connection-pool (pool/new-connection-pool))]
+  (let [system (main/horizons-system {:http-listen-port      3000
+                                      :telnet-host           "host"
+                                      :telnet-port           1
+                                      :grammar-specification (io/resource "horizons.bnf")})]
     (is (some? system))
     (is (some? (component/start-system system)))
     (is (some? (component/stop-system system)))))
