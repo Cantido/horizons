@@ -37,10 +37,13 @@
 ;    (is (not (empty? (:body response))))))
 
 (deftest valid-system
-  (is (some?
+  (let [system
         (component/system-map
           :web-server (web/web-server 3000)
           :horizons-client (core/horizons-client)
           :telnet-client (telnet/new-telnet-client)
-          :connection-factory (connect/new-connection-factory)
-          :connection-pool (pool/new-connection-pool)))))
+          :connection-factory (connect/new-connection-factory "host" 1)
+          :connection-pool (pool/new-connection-pool))]
+    (is (some? system))
+    (is (some? (component/start-system system)))
+    (is (some? (component/stop-system system)))))
