@@ -144,6 +144,15 @@
 (defn merge-defaults [map]
   (merge default-opts map))
 
+
+(defn get-body
+  "Get a block of String data from the HORIZONS system about the given body-id"
+  ([body-id] (with-new-connection get-body body-id))
+  ([[in out] body-id]
+   {:pre [(connect/valid-connection? [in out])]
+    :post [(connect/valid-connection? [in out])]}
+   (transmit in out body-id)))
+
 (defn get-ephemeris-data
   "Get a block of String data from the HORIZONS system
    with geophysical data about the given body-id"
@@ -167,10 +176,3 @@
              (:accept-default-output opts)
              (:new-case ephemeris-prompt-commands)])))))
 
-(defn get-body
-  "Get a block of String data from the HORIZONS system about the given body-id"
-  ([body-id] (with-new-connection get-body body-id))
-  ([[in out] body-id]
-   {:pre [(connect/valid-connection? [in out])]
-    :post [(connect/valid-connection? [in out])]}
-   (transmit in out body-id)))
