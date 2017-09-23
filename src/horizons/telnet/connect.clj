@@ -9,7 +9,7 @@
 
 (defn ^:private next-char
   "Gets the next character from the given reader"
-  [rdr]
+  [^Reader rdr]
   (let [read-int (io! (.read rdr))
         read-char (char read-int)
         read-str (str read-char)]
@@ -18,11 +18,11 @@
 
 (defn ^:private char-seq
   "Returns a lazy sequence of single-character strings as read from the given reader."
-  [rdr]
+  [^Reader rdr]
   (repeatedly #(next-char rdr)))
 
 (defn ^:private write
-  [writer s]
+  [^Writer writer s]
   (io!
     (.write writer ^String (str s \newline))
     (.flush writer)))
