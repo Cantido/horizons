@@ -6,7 +6,7 @@
 (defn horizons-system [config-options]
   (let [{:keys [port]} config-options]
     (component/system-map
-      :webserver (web/new-webserver port))))
+      :web-server (web/web-server port))))
 
 (defn -main [& [port]]
   (component/start-system (horizons-system {:port port})))

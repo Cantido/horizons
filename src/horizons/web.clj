@@ -75,5 +75,5 @@
     (web/stop http-server)
     this))
 
-(defn new-webserver [port]
+(defn web-server [port]
   (map->WebServer {:port port}))
