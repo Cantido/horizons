@@ -6,10 +6,12 @@
             [clojure.string :as string]
             [horizons.async-utils :as asu]))
 
-(deftest next-token
+(deftest next-token-test
   (is (asu/closed? (client/next-token asu/closed-chan)))
   (is (asu/closed? (client/next-token (async/to-chan ""))))
-  (is (= "word " (async/<!! (client/next-token (async/to-chan "word "))))))
+  (is (= "word " (async/<!! (client/next-token (async/to-chan "word ")))))
+  (let [token-chan (async/to-chan "first second third ")]
+    (is (= ["first " "second " "third "] (repeatedly 3 #(async/<!! (client/next-token token-chan)))))))
 
 (deftest next-block
   (is (asu/closed? (client/next-block asu/closed-chan))))
