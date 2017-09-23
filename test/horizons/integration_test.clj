@@ -3,7 +3,13 @@
             [horizons.core :refer :all]
             [instaparse.core :as insta]
             [horizons.web :refer :all]
-            [ring.mock.request :as mock]))
+            [ring.mock.request :as mock]
+            [com.stuartsierra.component :as component]
+            [horizons.web :as web]
+            [horizons.telnet.client :as telnet]
+            [horizons.telnet.connect :as connect]
+            [horizons.core :as core]
+            [horizons.telnet.pool :as pool]))
 ;
 ;(deftest get-planetary-body-integration-test
 ;  (testing "Getting Mercury (ID 199)"
@@ -29,3 +35,12 @@
 ;  (let [response (app (mock/request :get "/bodies/499/ephemeris"))]
 ;    (is (= (:status response) 200))
 ;    (is (not (empty? (:body response))))))
+
+(deftest valid-system
+  (is (some?
+        (component/system-map
+          :web-server (web/web-server 3000)
+          :horizons-client (core/horizons-client)
+          :telnet-client (telnet/new-telnet-client)
+          :connection-factory (connect/new-connection-factory)
+          :connection-pool (pool/new-connection-pool)))))
