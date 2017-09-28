@@ -1,6 +1,6 @@
 {
   "status" : 500,
-  "message": "The server failed while processing your request. Please file a bug report at the GitHub page"
+  "message": "The server failed while processing your request. Please file a bug report at the GitHub page",
   "_links" : [
     {
       "rel" : "report",
