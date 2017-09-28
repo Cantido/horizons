@@ -24,7 +24,9 @@
       :connection-pool (pool/new-connection-pool)
       :parser (parser/new-parser grammar-specification))))
 
-(defn- assoc-if [coll key value]
+(defn- assoc-if
+  "Assocs key & value to the given map if the value is true."
+  [coll key value]
   (conj coll (when value [key value])))
 
 (defn- apply-cli-args [m & [port]]
