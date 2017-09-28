@@ -117,7 +117,7 @@
     (clojure.walk/postwalk #(do-if keyword? put-keyword-in-ns %))))
 
 
-(defrecord Parser [grammar-specification parser-fn]
+(defrecord Parser [grammar-specification parser-fn parser-opts]
   component/Lifecycle
 
   (start [this]
@@ -126,7 +126,8 @@
     ;; instaparse/parser tries to slurp the given URL,
     ;; so it's probably best to wait until startup call it.
     (log/trace "Using grammar spec" grammar-specification)
-    (let [new-parser-fn (core/parser grammar-specification)]
+    (when parser-opts (log/trace "Using parser options:" parser-opts))
+    (let [new-parser-fn (apply core/parser grammar-specification parser-opts)]
       (assoc this :parser-fn new-parser-fn)))
 
   (stop [this]

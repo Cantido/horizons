@@ -185,13 +185,12 @@ second-of-minute ::= integer;
 millisecond-of-second ::= integer;
 
 (* TODO: property parse a seconds measurement like 22.4, currently this things there are 4 milliseconds *)
-duration ::= years? days? (hours <ws? ("h" | "hr") ws>)? (minutes <ws? ("m" | "minutes") ws?>)? (seconds (<"."> milliseconds)? <"s">)?;
-years ::= float ("y" | "yr" | "yrs");
+duration ::= years? days? (hours <ws? ("h" | "hr") ws>)? (minutes <ws? ("m" | "minutes") ws?>)? (seconds <"s">)?;
+years ::= float <("y" | "yr" | "yrs")>;
 days ::= (float | integer) <ws? "d" ws?>;
 hours ::= float | float-with-error | integer;
 minutes ::= integer;
-seconds ::= integer;
-milliseconds ::= integer;
+seconds ::= float | integer
 
 time-zone ::= "UT" | "TDB";
 

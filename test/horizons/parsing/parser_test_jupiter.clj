@@ -21,8 +21,7 @@
       {::h/duration
        {::h/hours 9
         ::h/minutes 55
-        ::h/seconds 29
-        ::h/milliseconds 685}}}
+        ::h/seconds 29.685M}}}
      ::h/rotation-rate {::h/unit-code "2A" ::h/value 1.75865E-4M}
      ::h/m {::h/value 0.089195M}
      ::h/hydrostatic-flattening {::h/value 0.06509M}

@@ -19,9 +19,18 @@
 (defn get-edn [name]
   (read-string (get-file name)))
 
-(defn parser-component []
-  {:post [(some? %)]}
-  (component/start (parser/new-parser (io/resource "horizons.bnf"))))
+(defn parser-component
+  ([]
+   {:post [(some? %)]}
+   (component/start (parser/new-parser (io/resource "horizons.bnf")))))
+
+
+(defn parse-with-rule [kw s]
+  (-> "resources/horizons.bnf"
+    parser/new-parser
+    (assoc :parser-opts [:start kw])
+    component/start
+    (parser/parse s)))
 
 (defn parse-file [name]
   (parser/parse (parser-component) (get-file name)))
@@ -178,6 +187,17 @@
     (is (= (transform [:unit-M62]) [:unit-code "M62"]))
     (is (= (transform [:unit-MSK]) [:unit-code "MSK"]))
     (is (= (transform [:unit-SEC]) [:unit-code "SEC"]))))
+
+(defn pd [s]
+  (parse-with-rule :duration s))
+
+(deftest duration-parsing
+  (is (= (pd "1.0y") [:duration [:years [:float "1.0"]]]))
+  (is (= (pd "1d") [:duration [:days [:integer "1"]]]))
+  (is (= (pd "1h") [:duration [:hours [:integer "1"]]]))
+  (is (= (pd "1m") [:duration [:minutes [:integer "1"]]]))
+  (is (= (pd "3.4s") [:duration [:seconds [:float "3.4"]]]))
+  (is (= (pd "1.234s") [:duration [:seconds [:float "1.234"]]])))
 
 (def timestamp-tree
   [:timestamp

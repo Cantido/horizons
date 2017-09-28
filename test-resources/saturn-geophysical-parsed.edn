@@ -19,8 +19,7 @@
     [:duration
      [:hours [:integer "10"]]
      [:minutes [:integer "39"]]
-     [:seconds [:integer "22"]]
-     [:milliseconds [:integer "4"]]]]]
+     [:seconds [:float "22.4"]]]]]
   [:rotation-rate [:exponent [:integer "-4"]] [:unit-2A] [:value [:float "1.63785"]]]
   [:m [:value [:float "0.15481"]]]
   [:hydrostatic-flattening [:value [:float "0.09829"]]]
