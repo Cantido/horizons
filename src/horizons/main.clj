@@ -29,7 +29,7 @@
 (defn- attach-shutdown-hook
   "Attach a shutdown hook to the given runtime to stop the given system. Returns the system."
   [system ^Runtime runtime]
-  (.addShutdownHook runtime (Thread. #(component/stop-system system) "horizons-shutdown-hook"))
+  (.addShutdownHook runtime (Thread. #(component/stop system) "horizons-shutdown-hook"))
   system)
 
 (defn- assoc-if
@@ -48,5 +48,5 @@
       aero/read-config
       (apply-cli-args more)
       horizons-system
-      component/start-system
+      component/start
       (attach-shutdown-hook (Runtime/getRuntime))))
