@@ -6,7 +6,7 @@
             [horizons.telnet.client :as telnet]
             [horizons.telnet.pool :as pool]
             [horizons.telnet.connect :as connect]
-            [environ.core :as environ]
+            [aero.core :refer (read-config)]
             [horizons.parsing.parser :as parser]
             [clojure.java.io :as io]))
 
@@ -24,12 +24,16 @@
       :connection-pool (pool/new-connection-pool)
       :parser (parser/new-parser grammar-specification))))
 
-(defn -main [& [port]]
-  (let [system
+(defn- assoc-if [coll key value]
+  (conj coll (when value [key value])))
+
+(defn- apply-cli-args [m & [port]]
+  (-> m
+    (assoc-if :http-listen-port port)))
+
+(defn -main [& more]
+  (let [config (-> "resources/config.edn" read-config (apply-cli-args more))
+        system
         (component/start-system
-          (horizons-system
-            {:http-listen-port      (or port (environ/env :port) 3000)
-             :telnet-host           "ssd.jpl.nasa.gov"
-             :telnet-port           6775
-             :grammar-specification (io/resource "horizons.bnf")}))]
+          (horizons-system config))]
     (.addShutdownHook (Runtime/getRuntime) (Thread. #(component/stop-system system) "horizons-shutdown-hook"))))

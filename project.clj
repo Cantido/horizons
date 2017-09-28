@@ -20,7 +20,7 @@
                  [com.stuartsierra/component "0.3.2"]
                  [commons-net/commons-net "3.6"]
                  [compojure "1.6.0"]
-                 [environ "1.1.0"]
+                 [aero "1.1.2"]
                  [instaparse "1.4.7"]
                  [liberator "0.14.1"]
                  [org.immutant/web "2.1.8"]

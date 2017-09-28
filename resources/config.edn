@@ -1,0 +1,4 @@
+{:http-listen-port #or [#env PORT 3000]
+ :telnet-host           "ssd.jpl.nasa.gov"
+ :telnet-port           6775
+ :grammar-specification "resources/horizons.bnf"}
