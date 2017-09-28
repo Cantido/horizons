@@ -4,7 +4,7 @@
             [clj-time.format :as f]
             [clojure.data.json :as json])
   (:import (java.io PrintWriter)
-           (org.joda.time DateTime)))
+           (org.joda.time DateTime Duration Period)))
 
 (def ^:private month-formatter (f/formatter "MMM"))
 
@@ -21,6 +21,28 @@
    :horizons.core/minute-of-hour 0
    :horizons.core/second-of-minute 0
    :horizons.core/millisecond-of-second 0})
+
+(defn duration-map->period [m]
+  (let [years-float (get m :years 0)
+        years (int years-float)
+        days-float (+ (get m :days 0) (* 356 (- years-float years)))
+        days (int days-float)
+        hours-float (+ (get m :hours 0) (* 24 (- days-float days)))
+        hours (int hours-float)
+        minutes-float (+ (get m :minutes 0) (* 60 (- hours-float hours)))
+        minutes (int minutes-float)
+        seconds-float (+ (get m :seconds 0) (* 60 (- minutes-float minutes)))
+        seconds (int seconds-float)
+        milliseconds (int (* 1000 (- seconds-float seconds)))]
+    (Period.
+      years
+      (get m :months 0)
+      0 ;; weeks
+      days
+      hours
+      minutes
+      seconds
+      milliseconds)))
 
 (defn- date-and-time->datetime [date time]
   (apply t/date-time
