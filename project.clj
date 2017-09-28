@@ -8,8 +8,7 @@
              :production {:env {:production true}}
              :uberjar {:aot :all}}
   :min-lein-version "2.0.0"
-  :plugins [[lein-ring "0.8.11"]
-            [lein-environ "1.1.0"]]
+  :plugins [[lein-ring "0.8.11"]]
   :ring {:handler horizons.web/app}
   :dependencies [[org.clojure/clojure "1.8.0"]
                  [org.clojure/core.async "0.3.443"]
