@@ -6,11 +6,13 @@
             [horizons.telnet.client :as telnet]
             [horizons.telnet.pool :as pool]
             [horizons.telnet.connect :as connect]
-            [aero.core :refer (read-config)]
+            [aero.core :as aero]
             [horizons.parsing.parser :as parser]
             [clojure.java.io :as io]))
 
-(defn horizons-system [config-options]
+(defn horizons-system
+  "Build a new Horizons system."
+  [config-options]
   (let [{:keys [http-listen-port
                 telnet-host
                 telnet-port
@@ -24,18 +26,27 @@
       :connection-pool (pool/new-connection-pool)
       :parser (parser/new-parser grammar-specification))))
 
-(defn- assoc-if
-  "Assocs key & value to the given map if the value is true."
-  [coll key value]
-  (conj coll (when value [key value])))
+(defn- attach-shutdown-hook
+  "Attach a shutdown hook to the given runtime to stop the given system. Returns the system."
+  [system ^Runtime runtime]
+  (.addShutdownHook runtime (Thread. #(component/stop-system system) "horizons-shutdown-hook"))
+  system)
 
-(defn- apply-cli-args [m & [port]]
+(defn- assoc-if
+  "Assocs [key value] to the given map if the value is true."
+  [m k v]
+  (conj m (when v [k v])))
+
+(defn- apply-cli-args
+  "Assocs the give vector of program arguments to the given map"
+  [m & [port]]
   (-> m
     (assoc-if :http-listen-port port)))
 
 (defn -main [& more]
-  (let [config (-> "resources/config.edn" read-config (apply-cli-args more))
-        system
-        (component/start-system
-          (horizons-system config))]
-    (.addShutdownHook (Runtime/getRuntime) (Thread. #(component/stop-system system) "horizons-shutdown-hook"))))
+  (-> "resources/config.edn"
+      aero/read-config
+      (apply-cli-args more)
+      horizons-system
+      component/start-system
+      (attach-shutdown-hook (Runtime/getRuntime))))
