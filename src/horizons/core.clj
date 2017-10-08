@@ -48,11 +48,12 @@
 
 (defn get-planetary-body
   "Get geophysical data about a solar system body with the given ID."
-  ([client id] (with-new-connection get-planetary-body client id))
-  ([client connection id]
-   {:pre  [(connect/valid-connection? (:connection-factory client) connection)]}
+  ([component id]
+   (with-new-connection get-planetary-body component id))
+  ([component connection id]
+   {:pre  [(connect/valid-connection? (:connection-factory component) connection)]}
    (log/info "Getting body" id)
-   (parsed-result client telnet/get-body connection id)))
+   (parsed-result component telnet/get-body connection id)))
 
 (defn get-ephemeris
   ([component id] (get-ephemeris component id {}))
