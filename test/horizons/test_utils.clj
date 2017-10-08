@@ -16,8 +16,15 @@
   (slurp (io/file (io/resource s))))
 
 (defn build-test-system
-  "Builds a Horizons system that will read data from
-  the given resource instead of from Telnet."
+  "Builds a (started) Horizons system that will read data from stubbed-out channels instead of from Telnet.
+
+  - When given no arguments, the given system will read from and write to closed channels.
+
+  - When given a single string argument, takes that string as a resource name, and
+  the given system will be given the file through the from-telnet channel. The
+  to-telnet channel will drop all input but always return true.
+
+  - When given two channels, the system will use them as to-telnet and from-telnet connections."
   ([] (build-test-system asu/closed-chan asu/closed-chan))
   ([s] (build-test-system (asu/dropping-channel) (async/to-chan (slurp-resource s))))
   ([to-telnet from-telnet]
