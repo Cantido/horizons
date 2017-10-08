@@ -77,8 +77,16 @@
     (everybody-out-of-the-pool! this)
     this))
 
-(defn new-connection-pool []
-  (component/using
-    (map->ConnectionPool {:available-connections (ref #{})
-                          :connections-in-use (ref #{})})
-    [:connection-factory]))
+(defn new-connection-pool
+  ([]
+   (component/using
+     (map->ConnectionPool {:available-connections (ref #{})
+                           :connections-in-use (ref #{})})
+     [:connection-factory]))
+  ([to-telnet from-telnet]
+   {:pre [(some? to-telnet)
+          (some? from-telnet)]}
+   (component/using
+     (map->ConnectionPool {:available-connections (ref #{[to-telnet from-telnet]})
+                           :connections-in-use (ref #{})})
+     [:connection-factory])))
