@@ -1,0 +1,3 @@
+# The text files in test-resources are pulled from the telnet connection,
+# which returns CRLF.
+test-resources/*.txt test eol=crlf
