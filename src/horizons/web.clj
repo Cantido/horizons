@@ -43,7 +43,7 @@
       (routes/ANY "/ephemeris" [] (ephemeris-resource horizons-client id)))
     (route/not-found (response/not-found "Resource not found."))))
 
-(defn- app-handler [horizons-client]
+(defn app-handler [horizons-client]
   (-> (app-routes horizons-client)
       (defaults/wrap-defaults
         (assoc defaults/api-defaults :static {:resources "public"}))))
