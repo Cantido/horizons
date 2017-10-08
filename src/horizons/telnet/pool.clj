@@ -38,7 +38,8 @@
 (defn connect
   "Returns [to-telnet from-telnet] channels connected to a Telnet client."
   [pool-component]
-  {:post [(conn/valid-connection? (:connection-factory pool-component) %)]}
+  {:pre [(some? pool-component)]
+   :post [(conn/valid-connection? (:connection-factory pool-component) %)]}
   (dosync
     (let [{:keys [available-connections connections-in-use]} pool-component]
       (assert (some? connections-in-use))
