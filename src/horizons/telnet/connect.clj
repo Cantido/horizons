@@ -48,7 +48,8 @@
   (log/info "Channel connection to Telnet has been closed."))
 
 (defn connect
-  "Connects to the HORIZONS telnet service, attaching its input and output to channels."
+  "Connects to the HORIZONS telnet service, attaching its input and output to channels.
+   Returns [to-telnet from-telnet] as a vector."
   [connection-factory]
   {:post [(valid-connection? connection-factory %)]}
   (log/info "Initiating a Telnet connection to ssd.jpl.nasa.gov:6775.")

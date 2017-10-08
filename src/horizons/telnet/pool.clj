@@ -36,7 +36,7 @@
         (ref-set connections-in-use #{})))))
 
 (defn connect
-  "Returns [in out] channels connected to a Telnet client."
+  "Returns [to-telnet from-telnet] channels connected to a Telnet client."
   [pool-component]
   {:post [(conn/valid-connection? (:connection-factory pool-component) %)]}
   (dosync
@@ -50,7 +50,7 @@
         conn))))
 
 (defn release
-  "Put an [in out] Telnet connection back in the pool."
+  "Puts an [to-telnet from-telnet] Telnet connection back in the pool."
   [pool-component conn]
   {:pre [(conn/valid-connection? (:connection-factory pool-component) conn)]}
   ;; We should do assertions inside the transaction,
