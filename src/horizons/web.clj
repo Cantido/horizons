@@ -53,9 +53,6 @@
       (defaults/wrap-defaults
         (assoc defaults/api-defaults :static {:resources "public"}))))
 
-(def app (app-handler {}))
-
-
 (defrecord WebServer [http-server horizons-client]
   component/Lifecycle
   (start [this]
