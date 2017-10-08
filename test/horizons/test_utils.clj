@@ -34,7 +34,7 @@
   ([to-telnet from-telnet]
    (->
      (component/system-map
-       :web-server {}
+       :web-server (web/web-server 3000)
        :horizons-client (core/horizons-client)
        :telnet-client (telnet/new-telnet-client)
        :connection-factory (connect/new-connection-factory "bad-host" 0)
