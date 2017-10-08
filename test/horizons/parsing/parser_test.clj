@@ -9,7 +9,12 @@
     [horizons.parsing.parser-test-mercury :refer :all]
     [horizons.parsing.parser-test-jupiter :refer :all]
     [instaparse.transform :as transform]
-    [com.stuartsierra.component :as component]))
+    [com.stuartsierra.component :as component]
+    [horizons.test-utils :as test]))
+
+(defn component
+  ([] (:parser (test/build-test-system)))
+  ([s] (:parser (test/build-test-system s))))
 
 (defn get-file [name]
   (slurp
@@ -33,7 +38,7 @@
     (parser/parse s)))
 
 (defn parse-file [name]
-  (parser/parse (parser-component) (get-file name)))
+  (parser/parse (component) (get-file name)))
 
 (defn assert-parse-result [txt-name edn-name]
   (testing txt-name
