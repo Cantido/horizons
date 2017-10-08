@@ -28,12 +28,19 @@
     (:supported-bodies client)))
 
 (defn- parsed-result
-  [horizons-client-component telnet-fn & more]
-  (when-let [result (apply telnet-fn (:telnet-client horizons-client-component) more)]
-    (::S (parser/parse-horizons-response (:parser horizons-client-component) result))))
+  [horizons-client-component telnet-fn conn & more]
+  {:pre [(some? horizons-client-component)
+         (some? (:parser horizons-client-component))
+         (some? (:telnet-client horizons-client-component))]}
+  (when-let [result (apply telnet-fn (:telnet-client horizons-client-component) conn more)]
+    (log/debug "Parsing result...")
+    (->>
+      result
+      (parser/parse-horizons-response (:parser horizons-client-component))
+      (log/spyf "Done parsing, got result:%n----- BEGIN PARSE TREE -----%n%s%n------ END PARSE TREE  ------")
+      (::S))))
 
 (defn- with-new-connection
-  [fn client & more]
   (let [conn (telnet/connect (:telnet-client client))
         result (apply fn (cons client (cons conn more)))]
     (telnet/release (:telnet-client client) conn)
