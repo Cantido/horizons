@@ -55,10 +55,10 @@
    (parsed-result client telnet/get-body connection id)))
 
 (defn get-ephemeris
-  ([client id] (with-new-connection get-ephemeris client id))
-  ([client connection id] (get-ephemeris client connection id {}))
-  ([client connection id opts]
-   {:pre  [(some? client)
-           (connect/valid-connection? (:connection-factory client) connection)]}
+  ([component id] (get-ephemeris component id {}))
+  ([component id opts] (with-new-connection get-ephemeris component id opts))
+  ([component connection id opts]
+   {:pre  [(some? component)
+           (connect/valid-connection? (:connection-factory component) connection)]}
    (log/debug "Getting ephemeris for body" id "with options" opts)
-   (parsed-result client telnet/get-ephemeris-data connection id)))
+   (parsed-result component telnet/get-ephemeris-data connection id opts)))
