@@ -136,9 +136,9 @@
 (def default-opts {:table-type "v"
                    :coordinate-center ""
                    :reference-plane "eclip"
-                   :start-datetime ""
-                   :end-datetime ""
-                   :output-interval ""
+                   :start ""
+                   :end ""
+                   :step-size ""
                    :accept-default-output ""})
 
 (defn- merge-defaults [map]
@@ -156,12 +156,16 @@
 (defn get-ephemeris-data
   "Get a block of String data from the HORIZONS system
    with geophysical data about the given body-id"
-  ([client body-id] (with-new-connection get-ephemeris-data {} body-id))
-  ([client conn body-id] (get-ephemeris-data {} conn body-id default-opts))
-  ([client [in out] body-id opts]
-   {:pre [(connect/valid-connection? (:connection-factory client) [in out])]
-    :post [(connect/valid-connection? (:connection-factory client) [in out])]}
-   (let [tx (partial transmit client in out)
+  ([client body-id] (with-new-connection get-ephemeris-data client body-id {}))
+  ([client body-id opts] (with-new-connection get-ephemeris-data client body-id opts))
+  ([client [to-telnet from-telnet] body-id opts]
+   {:pre [(connect/valid-connection? (:connection-factory client) [to-telnet from-telnet])]
+    :post [(connect/valid-connection? (:connection-factory client) [to-telnet from-telnet])
+           (some? %)]}
+   (let [unknown-keys (clojure.set/difference (set (keys opts)) (set (keys default-opts)))]
+     (when-not (empty? unknown-keys)
+       (log/warn "Options map contained unknown keys:" unknown-keys)))
+   (let [tx (partial transmit client to-telnet from-telnet)
          opts (merge-defaults opts)]
      (penultimate
        (map tx
@@ -170,9 +174,9 @@
              (:table-type opts)
              (:coordinate-center opts)
              (:reference-plane opts)
-             (:start-datetime opts)
-             (:end-datetime opts)
-             (:output-interval opts)
+             (:start opts)
+             (:end opts)
+             (:step-size opts)
              (:accept-default-output opts)
              (:new-case ephemeris-prompt-commands)])))))
 

@@ -4,7 +4,14 @@
             [clojure.core.async :as async]
             [clojure.java.io :as io]
             [clojure.string :as string]
-            [horizons.async-utils :as asu]))
+            [horizons.async-utils :as asu]
+            [horizons.test-utils :as test]))
+
+
+(defn component
+  ([] (:telnet-client (test/build-test-system)))
+  ([s] (:telnet-client (test/build-test-system s)))
+  ([to-telnet from-telnet] (:telnet-client (test/build-test-system to-telnet from-telnet))))
 
 (deftest next-token-test
   (is (asu/closed? (client/next-token asu/closed-chan)))
@@ -73,8 +80,32 @@
                  [(async/chan) (async/to-chan full-geo-text)] 199)]
     (is (string/includes? result "Mean radius (km)      =  2440(+-1)"))))
 
-(deftest get-ephemeris
-  (let [result (client/get-ephemeris-data
-                 (client/new-telnet-client)
-                 [(async/chan) (async/to-chan full-ephem-text)] 199)]
+(deftest get-ephemeris-test
+  (let [result (client/get-ephemeris-data (component "full-ephem-interaction.txt") 199)]
     (is (string/includes? result "X =-1.314107467485864E+00"))))
+
+(deftest get-ephemeris-with-dates
+  (let [to-telnet (async/chan 1000)
+        from-telnet (-> "full-ephem-with-dates.txt" io/resource io/file slurp async/to-chan)
+        result (client/get-ephemeris-data
+                 (component to-telnet from-telnet)
+                 199
+                 {:start "1990-10-27T22:17"
+                  :end "1990-10-28T22:17"
+                  :step-size "1h"})]
+    (is (string/includes? result "Start time      : A.D. 1990-Oct-27 22:17:00.0000 TDB"))
+    (is (string/includes? result "Stop  time      : A.D. 1990-Oct-28 22:17:00.0000 TDB"))
+    (is (string/includes? result "Step-size       : 60 minute"))
+    (is (string/includes? result "X =-1.105406745766281E+00"))
+    (let [test-channel (async/take 10 to-telnet)
+          actually-sent (repeatedly 10 #(async/<!! test-channel))]
+      (is (= 199 (nth actually-sent 0)))
+      (is (= "E" (nth actually-sent 1)))
+      (is (= "v" (nth actually-sent 2)))
+      (is (= "" (nth actually-sent 3)))
+      (is (= "eclip" (nth actually-sent 4)))
+      (is (= "1990-10-27T22:17" (nth actually-sent 5)))
+      (is (= "1990-10-28T22:17" (nth actually-sent 6)))
+      (is (= "1h" (nth actually-sent 7)))
+      (is (= "" (nth actually-sent 8)))
+      (is (= "N" (nth actually-sent 9))))))
