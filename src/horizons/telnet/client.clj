@@ -6,7 +6,8 @@
             [horizons.telnet.pool :as pool]
             [clojure.tools.logging :as log]
             [horizons.telnet.connect :as connect]
-            [com.stuartsierra.component :as component]))
+            [com.stuartsierra.component :as component])
+  (:import (java.io IOException)))
 
 
 (defrecord TelnetClient [connection-pool connection-factory])
@@ -110,27 +111,28 @@
    [in out]))
 
 
-(defn release [client [in out]]
-  {:pre [(connect/valid-connection? (:connection-factory client) [in out])]
-   :post [(connect/valid-connection? (:connection-factory client) [in out])]}
+(defn release [component [in out]]
+  {:pre [(connect/valid-connection? (:connection-factory component) [in out])]
+   :post [(connect/valid-connection? (:connection-factory component) [in out])]}
   (reset-client in)
-  (pool/release (:connection-pool client) [in out]))
+  (pool/release (:connection-pool component) [in out]))
 
 (defn transmit
   "Send a string to the given channels, and returns the next block."
-  [client in out s]
-  {:pre [(connect/valid-connection? (:connection-factory client) [in out])]
-   :post [(connect/valid-connection? (:connection-factory client) [in out])]}
+  [component to-telnet from-telnet s]
+  {:pre [(connect/valid-connection? (:connection-factory component) [to-telnet from-telnet])]
+   :post [(connect/valid-connection? (:connection-factory component) [to-telnet from-telnet])]}
+  (log/trace "Transmitting:" s)
   (and
-    (async/put! in s)
-    (swallow-echo s out)
-    (async/<!! (next-block out))))
+    (log/spyf :trace "Channel accepted transmit: %s" (async/>!! to-telnet s))
+    (log/spyf :trace "Completely swallowed echo: %s" (swallow-echo s from-telnet))
+    (log/spyf :trace "Next block contents:%n----%n%s%n----" (async/<!! (next-block from-telnet)))))
 
 (defn with-new-connection
-  [fn client & more]
-  (let [conn (connect client)
-        result (apply fn (cons client (cons conn more)))]
-    (release client conn)
+  [fn component & more]
+  (let [conn (connect component)
+        result (apply fn component conn more)]
+    (release component conn)
     result))
 
 (def default-opts {:table-type "v"
@@ -144,14 +146,23 @@
 (defn- merge-defaults [map]
   (merge default-opts map))
 
+(def response-format
+  (str "Got results from telnet:%n"
+       "----- BEGIN TELNET RESPONSE TEXT -----%n"
+       "%s%n"
+       "------ END TELNET RESPONSE TEXT ------"))
 
 (defn get-body
   "Get a block of String data from the HORIZONS system about the given body-id"
-  ([client body-id] (with-new-connection get-body {} body-id))
-  ([client [in out] body-id]
-   {:pre [(connect/valid-connection? (:connection-factory client) [in out])]
-    :post [(connect/valid-connection? (:connection-factory client) [in out])]}
-   (transmit client in out body-id)))
+  ([component body-id] (with-new-connection get-body component body-id))
+  ([component [to-telnet from-telnet] body-id]
+   {:pre [(connect/valid-connection? (:connection-factory component) [to-telnet from-telnet])]
+    :post [(connect/valid-connection? (:connection-factory component) [to-telnet from-telnet])
+           some?]}
+   (log/debug "Transmitting request to Telnet...")
+   (if-let [result (transmit component to-telnet from-telnet body-id)]
+     (log/spyf response-format result)
+     (throw (IOException. "Unable to get a result from Telnet.")))))
 
 (defn get-ephemeris-data
   "Get a block of String data from the HORIZONS system
