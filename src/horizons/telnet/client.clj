@@ -89,6 +89,12 @@
 
 (def crlf-size 2)
 
+(defn block-take!
+  "Takes at most n elements from chan, returning the sequence of results.
+  The count of returned items will be less than n if the channel is closed before n items are taken."
+  [n chan]
+  (filter some? (repeatedly n #(async/<!! chan))))
+
 (defn swallow-echo
   "Swallows the echo of arg s from channel chan.
   Returns true if it could swallow the entire length of s."
@@ -96,9 +102,10 @@
   {:pre [(satisfies? pro/ReadPort chan)]
    :post [(or (true? %) (false? %))]}
   ; The echoed text is length (count s) and it is followed by a carriage return and a line feed.
-  (some?
-    (loop [n (+ crlf-size (count (str s)))]
-      (or (>= 0 n) (when (async/<!! chan) (recur (dec n)))))))
+  (let [n (+ crlf-size (count (str s)))
+        taken (block-take! n chan)]
+    (log/trace "Swallowed:" (string/escape (apply str taken) {\newline "\\n" \return "\\r"}))
+    (= n (count taken))))
 
 (defn connect
   ([client]
