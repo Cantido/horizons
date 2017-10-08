@@ -3,47 +3,28 @@
             [horizons.core :as core]
             [instaparse.core :as insta]
             [horizons.async-utils :as asu]
+            [horizons.test-utils :as test]
             [clojure.core.async :as async]
             [clojure.java.io :as io]
             [com.stuartsierra.component :as component]
             [horizons.main :as main]
-            [horizons.parsing.parser :as parser]))
+            [horizons.parsing.parser :as parser])
+  (:import (java.io IOException)))
 
-(def full-geo-text
-  (slurp (io/file (io/resource "full-geophysical-interaction.txt"))))
-
-(def full-ephem-text
-  (slurp (io/file (io/resource "full-ephem-interaction.txt"))))
-
-
-(defn system []
-  (component/start-system
-    (component/system-map
-      :web-server {}
-      :horizons-client (core/horizons-client)
-      :telnet-client {}
-      :connection-factory {}
-      :connection-pool {}
-      :parser (parser/new-parser (io/resource "horizons.bnf")))))
+(defn component
+  ([] (:horizons-client (test/build-test-system)))
+  ([s] (:horizons-client (test/build-test-system s))))
 
 (deftest get-planetary-body
-  (is (nil? (core/get-planetary-body
-              (:horizons-client (system))
-              [asu/closed-chan asu/closed-chan]
-              199)))
-  (is (some? (core/get-planetary-body
-               (:horizons-client (system))
-               [(async/chan) (async/to-chan full-geo-text)]
-               199))))
+  (testing "get geophysical data"
+    (testing "with input and output channels both closed"
+      (is (thrown? IOException (core/get-planetary-body (component) 199))))
+    (testing "with a full example geophysical Telnet interaction"
+      (is (some? (core/get-planetary-body (component "full-geophysical-interaction.txt") 199))))))
 
 (deftest get-ephem
-  (testing "with two closed channels"
-    (is (nil? (core/get-ephemeris
-                (:horizons-client (system))
-                [asu/closed-chan asu/closed-chan]
-                199))))
+  (testing "with input and output channels both closed"
+    (is (nil? (core/get-ephemeris (component) 199))))
   (testing "with an example of a full ephemeris text"
-    (is (some? (core/get-ephemeris
-                 (:horizons-client (system))
-                 [(async/chan) (async/to-chan full-ephem-text)]
-                 199)))))
+    (testing "under default options"
+      (is (some? (core/get-ephemeris (component "full-ephem-interaction.txt") 199))))))
