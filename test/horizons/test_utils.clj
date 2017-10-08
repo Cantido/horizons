@@ -10,9 +10,13 @@
             [horizons.telnet.client :as telnet]
             [horizons.telnet.connect :as connect]
             [horizons.telnet.pool :as pool]
-            [horizons.parsing.parser :as parser]))
+            [horizons.parsing.parser :as parser]
+            [clojure.string :as string]))
 
-(defn slurp-resource [s]
+(defn slurp-resource
+  [s]
+  {:pre [(complement string/blank?)]
+   :post [(comp not string/blank?)]}
   (slurp (io/file (io/resource s))))
 
 (defn build-test-system
