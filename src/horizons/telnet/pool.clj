@@ -41,6 +41,7 @@
   {:post [(conn/valid-connection? (:connection-factory pool-component) %)]}
   (dosync
     (let [{:keys [available-connections connections-in-use]} pool-component]
+      (assert (some? connections-in-use))
       (log/debug "About to fetch a connection from the pool. There are currently" (count @connections-in-use) "connections in use, and" (count @available-connections) "connections available.")
       (ensure-available-pool pool-component)
       (let [conn (first @available-connections)]
@@ -52,7 +53,8 @@
 (defn release
   "Puts an [to-telnet from-telnet] Telnet connection back in the pool."
   [pool-component conn]
-  {:pre [(conn/valid-connection? (:connection-factory pool-component) conn)]}
+  {:pre [(some? pool-component)
+         (conn/valid-connection? (:connection-factory pool-component) conn)]}
   ;; We should do assertions inside the transaction,
   ;; otherwise we'd have a race condition.
   (dosync
