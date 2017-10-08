@@ -41,9 +41,10 @@
       (::S))))
 
 (defn- with-new-connection
-  (let [conn (telnet/connect (:telnet-client client))
-        result (apply fn (cons client (cons conn more)))]
-    (telnet/release (:telnet-client client) conn)
+  [fn component & more]
+  (let [conn (telnet/connect (:telnet-client component))
+        result (apply fn component conn more)]
+    (telnet/release (:telnet-client component) conn)
     result))
 
 (defn get-planetary-body
