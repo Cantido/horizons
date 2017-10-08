@@ -27,4 +27,16 @@
     (is (nil? (core/get-ephemeris (component) 199))))
   (testing "with an example of a full ephemeris text"
     (testing "under default options"
-      (is (some? (core/get-ephemeris (component "full-ephem-interaction.txt") 199))))))
+      (is (some? (core/get-ephemeris (component "full-ephem-interaction.txt") 199))))
+    (testing "under a user-specified time-frame"
+      (let [result (core/get-ephemeris
+                     (component "full-ephem-with-dates.txt")
+                     199
+                     {:start "1990-10-27T22:17"
+                      :end "1990-10-28T22:17"
+                      :step-size "1h"})]
+        (is (map? result))
+        (is (= #{::core/time-frame ::core/ephemeredes} (set (keys result))))
+        (let [ephemeredes (::core/ephemeredes result)]
+          (is (set? ephemeredes))
+          (is (= 25 (count ephemeredes))))))))
