@@ -9,20 +9,20 @@
             [ring.mock.request :as mock]))
 
 (defn component [s]
-  (:web-server (test/build-test-system s)))
+  (:web-app (test/build-test-system s)))
 
 (deftest web-test
   (testing "get ephemeris"
     (testing "with default options"
-      (let [web-server-component (component "full-ephem-interaction.txt")
-            app (web/app-handler web-server-component)
+      (let [web-app-component (component "full-ephem-interaction.txt")
+            app (web/app-handler web-app-component)
             response (app (mock/request :get "/bodies/499/ephemeris"))]
         (is (= (:status response) 200))
         (is (not (empty? (:body response)))))))
   (testing "get geophysical data"
     (testing "with default options"
-      (let [web-server-component (component "full-geophysical-interaction.txt")
-            app (web/app-handler web-server-component)
+      (let [web-app-component (component "full-geophysical-interaction.txt")
+            app (web/app-handler web-app-component)
             response (app (mock/request :get "/bodies/499"))]
         (is (= (:status response) 200))
         (is (not (empty? (:body response))))))))

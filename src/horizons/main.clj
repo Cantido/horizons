@@ -19,7 +19,7 @@
                 grammar-specification]}
         config-options]
     (component/system-map
-      :web-server (web/web-server http-listen-port)
+      :web-app (web/web-app http-listen-port)
       :horizons-client (core/horizons-client)
       :telnet-client (telnet/new-telnet-client)
       :connection-factory (connect/new-connection-factory telnet-host telnet-port)

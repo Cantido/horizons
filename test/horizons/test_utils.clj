@@ -19,6 +19,8 @@
    :post [(comp not string/blank?)]}
   (slurp (io/file (io/resource s))))
 
+(defn stub-run-fn [& args] {})
+
 (defn build-test-system
   "Builds a (started) Horizons system that will read data from stubbed-out channels instead of from Telnet.
 
@@ -34,7 +36,7 @@
   ([to-telnet from-telnet]
    (->
      (component/system-map
-       :web-server (web/web-server 3000)
+       :web-app (assoc (web/web-app) :run-fn stub-run-fn)
        :horizons-client (core/horizons-client)
        :telnet-client (telnet/new-telnet-client)
        :connection-factory (connect/new-connection-factory "bad-host" 0)
