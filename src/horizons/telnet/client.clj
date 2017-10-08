@@ -48,7 +48,7 @@
   {:pre  [(satisfies? pro/ReadPort chan)]
    :post [(satisfies? pro/ReadPort %)]}
   (async/go-loop [word-so-far nil]
-    (when-let[next-char (async/<!! chan)]
+    (when-let [next-char (async/<!! chan)]
       (let [next-word (str word-so-far next-char)]
         (if (string/blank? (str next-char))
           next-word
