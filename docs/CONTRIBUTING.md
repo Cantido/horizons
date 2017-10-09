@@ -20,6 +20,7 @@ This is a hobby project, and I don't use the API myself, so user feedback would 
 
 ### Code of Conduct
 
-This project does have a [Code of Conduct]. Please read it.
+Please note that this project is released with a [Contributor Code of Conduct].
+By participating in this project you agree to abide by its terms.
 
-[Code of Conduct]: https://github.com/Cantido/horizons/blob/master/docs/CODE_OF_CONDUCT.md
+[Contributor Code of Conduct]: https://github.com/Cantido/horizons/blob/master/docs/CODE_OF_CONDUCT.md
