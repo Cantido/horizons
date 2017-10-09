@@ -4,7 +4,6 @@
             [clojure.tools.logging :as log]
             [com.stuartsierra.component :as component]
             [horizons.core :as horizons]
-            [immutant.web :as web]
             [liberator.core :as liberator]
             [ring.middleware.defaults :as defaults]
             [ring.util.response :as response]
@@ -53,22 +52,7 @@
       (defaults/wrap-defaults
         (assoc defaults/api-defaults :static {:resources "public"}))))
 
-(defrecord WebApp [http-server horizons-client run-fn]
-  component/Lifecycle
-  (start [this]
-    (assoc this :http-server
-      (let [port (:port this)]
-        (log/info "Starting HORIZONS on port" port)
-        (log/debug "DEBUG logging enabled")
-        (log/trace "TRACE logging enabled")
-        (run-fn (app-handler this)
-                :host "0.0.0.0"
-                :port port
-                :path "/"))))
-  (stop [this]
-    (web/stop http-server)
-    this))
+(defrecord WebApp [horizons-client])
 
-(defn web-app
-  ([] (web-app nil))
-  ([port] (component/using (map->WebApp {:port port :run-fn web/run}) [:horizons-client])))
+(defn web-app []
+  (component/using (map->WebApp {}) [:horizons-client]))

@@ -1,6 +1,7 @@
 (ns horizons.main
   "Defines, starts, and stops the Horizons system."
   (:require [com.stuartsierra.component :as component]
+            [horizons.server :as server]
             [horizons.web :as web]
             [horizons.core :as core]
             [horizons.telnet.client :as telnet]
@@ -13,16 +14,13 @@
 (defn horizons-system
   "Build a new Horizons system."
   [config-options]
-  (let [{:keys [http-listen-port
-                telnet-host
-                telnet-port
-                grammar-specification]}
-        config-options]
+  (let [{:keys [http telnet grammar-specification]} config-options]
     (component/system-map
-      :web-app (web/web-app http-listen-port)
+      :web-server (server/web-server (:host http) (:port http) (:path http))
+      :web-app (web/web-app)
       :horizons-client (core/horizons-client)
       :telnet-client (telnet/new-telnet-client)
-      :connection-factory (connect/new-connection-factory telnet-host telnet-port)
+      :connection-factory (connect/new-connection-factory (:host telnet) (:port telnet))
       :connection-pool (pool/new-connection-pool)
       :parser (parser/new-parser grammar-specification))))
 
