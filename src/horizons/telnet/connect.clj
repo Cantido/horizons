@@ -64,8 +64,8 @@
         from-telnet (async/chan)]
     (.setConnectTimeout client 5000)
     (.connect client ^String (:host connection-factory) ^int (:port connection-factory))
-    (let [writer (io/writer client)
-          reader (io/reader client)]
+    (let [writer (io/writer client :encoding "US-ASCII")
+          reader (io/reader client :encoding "US-ASCII")]
       (async/thread
         (try
           (async/<!! (async/onto-chan from-telnet (char-seq reader)))
