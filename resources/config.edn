@@ -3,6 +3,7 @@
   :host "0.0.0.0"
   :path "/"}
  :telnet
- {:host           "ssd.jpl.nasa.gov"
-  :port           6775}
+ {:host    "ssd.jpl.nasa.gov"
+  :port    6775
+  :timeout 5000}
  :grammar-specification "resources/horizons.bnf"}

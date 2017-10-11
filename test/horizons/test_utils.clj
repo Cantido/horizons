@@ -38,7 +38,7 @@
        :web-app (web/web-app)
        :horizons-client (core/horizons-client)
        :telnet-client (telnet/new-telnet-client)
-       :connection-factory (connect/new-connection-factory "bad-host" 0)
+       :connection-factory (connect/new-connection-factory "bad-host" 0 0)
        :connection-pool (pool/new-connection-pool to-telnet from-telnet)
        :parser (parser/new-parser (io/resource "horizons.bnf")))
      (component/start-system))))

@@ -7,10 +7,10 @@
   (:import (org.apache.commons.net.telnet TelnetClient)
            (java.io Reader Writer)))
 
-(defrecord ConnectionFactory [host port])
+(defrecord ConnectionFactory [host port timeout])
 
-(defn new-connection-factory [host port]
-  (map->ConnectionFactory {:host host :port port}))
+(defn new-connection-factory [host port timeout]
+  (map->ConnectionFactory {:host host :port port :timeout timeout}))
 
 (extend TelnetClient
   io/IOFactory

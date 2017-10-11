@@ -20,7 +20,7 @@
       :web-app (web/web-app)
       :horizons-client (core/horizons-client)
       :telnet-client (telnet/new-telnet-client)
-      :connection-factory (connect/new-connection-factory (:host telnet) (:port telnet))
+      :connection-factory (connect/new-connection-factory (:host telnet) (:port telnet) (:timeout telnet))
       :connection-pool (pool/new-connection-pool)
       :parser (parser/new-parser grammar-specification))))
 
