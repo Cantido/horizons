@@ -53,17 +53,22 @@
   (async/close! y)
   (log/info "Channel connection to Telnet has been closed."))
 
+(defn telnet
+  "Returns an IOFactory attached to a telnet client at the given address."
+  [{:keys [^String host ^int port ^int timeout]}]
+  (log/info "Initiating a Telnet connection to" host ":" port)
+  (doto (TelnetClient.)
+    (.setConnectTimeout timeout)
+    (.connect host port)))
+
 (defn connect
   "Connects to the HORIZONS telnet service, attaching its input and output to channels.
    Returns [to-telnet from-telnet] as a vector."
   [connection-factory]
   {:post [(valid-connection? connection-factory %)]}
-  (log/info "Initiating a Telnet connection to ssd.jpl.nasa.gov:6775.")
-  (let [^TelnetClient client (TelnetClient.)
+  (let [client (telnet connection-factory)
         to-telnet (async/chan)
         from-telnet (async/chan)]
-    (.setConnectTimeout client 5000)
-    (.connect client ^String (:host connection-factory) ^int (:port connection-factory))
     (async/thread
       (with-open [reader (io/reader client :encoding "US-ASCII")]
         (try
