@@ -12,6 +12,12 @@
 (defn new-connection-factory [host port]
   (map->ConnectionFactory {:host host :port port}))
 
+(extend TelnetClient
+  io/IOFactory
+  (assoc io/default-streams-impl
+    :make-input-stream (fn [^TelnetClient x opts] (io/make-input-stream (.getInputStream x) opts))
+    :make-output-stream (fn [^TelnetClient x opts] (io/make-output-stream (.getOutputStream x) opts))))
+
 (defn ^:private next-char
   "Gets the next character from the given reader"
   [^Reader rdr]
@@ -58,8 +64,8 @@
         from-telnet (async/chan)]
     (.setConnectTimeout client 5000)
     (.connect client ^String (:host connection-factory) ^int (:port connection-factory))
-    (let [writer (-> client .getOutputStream (io/writer :encoding "US-ASCII"))
-          reader (-> client .getInputStream (io/reader :encoding "US-ASCII"))]
+    (let [writer (io/writer client)
+          reader (io/reader client)]
       (async/thread
         (try
           (async/<!! (async/onto-chan from-telnet (char-seq reader)))
