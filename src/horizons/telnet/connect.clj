@@ -5,7 +5,7 @@
             [clojure.tools.logging :as log]
             [clojure.core.async.impl.protocols :as protocols])
   (:import (org.apache.commons.net.telnet TelnetClient)
-           (java.io Reader Writer)))
+           (java.io Reader Writer Closeable)))
 
 (defrecord ConnectionFactory [host port timeout])
 
@@ -17,6 +17,9 @@
   (assoc io/default-streams-impl
     :make-input-stream (fn [^TelnetClient x opts] (io/make-input-stream (.getInputStream x) opts))
     :make-output-stream (fn [^TelnetClient x opts] (io/make-output-stream (.getOutputStream x) opts))))
+
+(defn closeable [chan]
+  (reify Closeable (close [this] (async/close! chan))))
 
 (defn ^:private next-char
   "Gets the next character from the given reader"
@@ -67,22 +70,18 @@
   [connection-factory]
   {:post [(valid-connection? connection-factory %)]}
   (let [client (telnet connection-factory)
-        to-telnet (async/chan)
-        from-telnet (async/chan)]
+        to-telnet (closeable (async/chan))
+        from-telnet (closeable (async/chan))]
     (async/thread
-      (with-open [reader (io/reader client :encoding "US-ASCII")]
-        (try
-          (async/<!! (async/onto-chan from-telnet (char-seq reader)))
-          (finally
-            (close-connection! [to-telnet from-telnet])))))
+      (with-open [reader (io/reader client :encoding "US-ASCII")
+                  from-telnet from-telnet]
+        (async/<!! (async/onto-chan from-telnet (char-seq reader)))))
     (async/thread
-      (with-open [writer (io/writer client :encoding "US-ASCII")]
-        (try
+      (with-open [writer (io/writer client :encoding "US-ASCII")
+                  to-telnet to-telnet]
           (loop []
             (when-let [next-to-send (async/<!! to-telnet)]
               (write writer next-to-send)
-              (recur)))
-          (finally
-            (close-connection! [to-telnet from-telnet])))))
+              (recur)))))
     (log/info "Connection to ssd.jpl.nasa.gov:6775 established.")
     [to-telnet from-telnet]))
