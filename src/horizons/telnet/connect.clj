@@ -24,11 +24,14 @@
     (= TelnetClient (class x)) :disconnect
     (satisfies? protocols/Channel x) :channel))
 
-(defmulti .close close-type :default :close)
+(defmulti closeable
+          "Reifies java.io.Closeable for the given object."
+          close-type
+          :default :close)
 
-(defmethod .close :disconnect [x] (reify Closeable (close [_] (.disconnect x))))
-(defmethod .close :channel    [x] (reify Closeable (close [_] (async/close! x))))
-(defmethod .close :close      [x] (reify Closeable (close [_] (.close x))))
+(defmethod closeable :disconnect [x] (reify Closeable (close [_] (.disconnect x))))
+(defmethod closeable :channel    [x] (reify Closeable (close [_] (async/close! x))))
+(defmethod closeable :close      [x] (reify Closeable (close [_] (.close x))))
 
 (defn ^:private next-char
   "Gets the next character from the given reader"
@@ -73,9 +76,9 @@
    Returns [to-telnet from-telnet] as a vector."
   [connection-factory]
   {:post [(valid-connection? connection-factory %)]}
-  (with-open [client (telnet connection-factory)
-              to-telnet (async/chan)
-              from-telnet (async/chan)]
+  (with-open [client (closeable (telnet connection-factory))
+              to-telnet (closeable (async/chan))
+              from-telnet (closeable (async/chan))]
     (async/thread
       (with-open [reader (io/reader client :encoding "US-ASCII")
                   from-telnet from-telnet]
