@@ -5,7 +5,8 @@
             [clojure.tools.logging :as log]
             [clojure.core.async.impl.protocols :as protocols])
   (:import (org.apache.commons.net.telnet TelnetClient)
-           (java.io Reader Writer Closeable)))
+           (java.io Reader Writer Closeable InputStream)
+           (clojure.core.async.impl.channels ManyToManyChannel)))
 
 (defrecord ConnectionFactory [host port timeout])
 
@@ -18,8 +19,16 @@
     :make-input-stream (fn [^TelnetClient x opts] (io/make-input-stream (.getInputStream x) opts))
     :make-output-stream (fn [^TelnetClient x opts] (io/make-output-stream (.getOutputStream x) opts))))
 
-(defn closeable [chan]
-  (reify Closeable (close [this] (async/close! chan))))
+(defn close-type [x]
+  (cond
+    (= TelnetClient (class x)) :disconnect
+    (satisfies? protocols/Channel x) :channel))
+
+(defmulti .close close-type :default :close)
+
+(defmethod .close :disconnect [x] (reify Closeable (close [_] (.disconnect x))))
+(defmethod .close :channel    [x] (reify Closeable (close [_] (async/close! x))))
+(defmethod .close :close      [x] (reify Closeable (close [_] (.close x))))
 
 (defn ^:private next-char
   "Gets the next character from the given reader"
@@ -51,11 +60,6 @@
       (satisfies? protocols/WritePort (first conn))
       (satisfies? protocols/ReadPort (second conn)))))
 
-(defn- close-connection! [[x y]]
-  (async/close! x)
-  (async/close! y)
-  (log/info "Channel connection to Telnet has been closed."))
-
 (defn telnet
   "Returns an IOFactory attached to a telnet client at the given address."
   [{:keys [^String host ^int port ^int timeout]}]
@@ -69,19 +73,21 @@
    Returns [to-telnet from-telnet] as a vector."
   [connection-factory]
   {:post [(valid-connection? connection-factory %)]}
-  (let [client (telnet connection-factory)
-        to-telnet (closeable (async/chan))
-        from-telnet (closeable (async/chan))]
+  (with-open [client (telnet connection-factory)
+              to-telnet (async/chan)
+              from-telnet (async/chan)]
     (async/thread
       (with-open [reader (io/reader client :encoding "US-ASCII")
                   from-telnet from-telnet]
-        (async/<!! (async/onto-chan from-telnet (char-seq reader)))))
+        (async/<!! (async/onto-chan from-telnet (char-seq reader))))
+      (log/info "Channel connection from Telnet has been closed."))
     (async/thread
       (with-open [writer (io/writer client :encoding "US-ASCII")
                   to-telnet to-telnet]
           (loop []
             (when-let [next-to-send (async/<!! to-telnet)]
               (write writer next-to-send)
-              (recur)))))
+              (recur))))
+      (log/info "Channel connection to Telnet has been closed."))
     (log/info "Connection to ssd.jpl.nasa.gov:6775 established.")
     [to-telnet from-telnet]))
