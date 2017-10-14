@@ -16,21 +16,17 @@
       (when (empty? @available-connections)
         (alter available-connections conj (connect/connect connection-factory))))))
 
-(defn close! [pool-component [in out]]
-  (connect/close! in)
-  (connect/close! out))
-
 (defn ^:private everybody-out-of-the-pool! [pool-component]
   (log/info "Getting everybody out of the pool (closing all connections and disposing of them)")
   (dosync
     (let [{:keys [available-connections connections-in-use]} pool-component]
       (when-not (empty? @available-connections)
         (log/info "Closing" (count @available-connections) "unused connections.")
-        (map (partial close! pool-component) @available-connections)
+        (map (partial connect/close! pool-component) @available-connections)
         (ref-set available-connections #{}))
       (when-not (empty? @connections-in-use)
         (log/warn "Closing" (count @connections-in-use) "connections that are currently in use!")
-        (map (partial close! pool-component) @connections-in-use)
+        (map (partial connect/close! pool-component) @connections-in-use)
         (ref-set connections-in-use #{})))))
 
 (defn connect

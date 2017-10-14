@@ -5,8 +5,9 @@
             [clojure.tools.logging :as log]
             [clojure.core.async.impl.protocols :as protocols])
   (:import (org.apache.commons.net.telnet TelnetClient)
+           (org.apache.commons.net SocketClient)
            (java.io Reader Writer Closeable InputStream)
-           (clojure.core.async.impl.channels ManyToManyChannel)))
+           (java.util Collection)))
 
 (defrecord ConnectionFactory [host port timeout])
 
@@ -19,19 +20,16 @@
     :make-input-stream (fn [^TelnetClient x opts] (io/make-input-stream (.getInputStream x) opts))
     :make-output-stream (fn [^TelnetClient x opts] (io/make-output-stream (.getOutputStream x) opts))))
 
-(defn close-type [x]
-  (cond
-    (= TelnetClient (class x))       :disconnect
-    (satisfies? protocols/Channel x) :channel))
-
 (defmulti close!
           "Closes the given channel/connection/stream."
-          close-type
-          :default :close)
+          class
+          :default nil)
 
-(defmethod close! :disconnect [x] (.disconnect x))
-(defmethod close! :channel    [x] (async/close! x))
-(defmethod close! :close      [x] (.close x))
+(defmethod close! nil               [component x] nil)
+(defmethod close! SocketClient      [component x] (.disconnect x))
+(defmethod close! protocols/Channel [component x] (async/close! x))
+(defmethod close! Closeable         [component x] (.close x))
+(defmethod close! Collection        [component x] (map (partial close! component) x))
 
 (defn ^:private next-char
   "Gets the next character from the given reader"
