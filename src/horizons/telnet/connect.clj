@@ -21,17 +21,17 @@
 
 (defn close-type [x]
   (cond
-    (= TelnetClient (class x)) :disconnect
+    (= TelnetClient (class x))       :disconnect
     (satisfies? protocols/Channel x) :channel))
 
-(defmulti closeable
-          "Reifies java.io.Closeable for the given object."
+(defmulti close!
+          "Closes the given channel/connection/stream."
           close-type
           :default :close)
 
-(defmethod closeable :disconnect [x] (reify Closeable (close [_] (.disconnect x))))
-(defmethod closeable :channel    [x] (reify Closeable (close [_] (async/close! x))))
-(defmethod closeable :close      [x] (reify Closeable (close [_] (.close x))))
+(defmethod close! :disconnect [x] (.disconnect x))
+(defmethod close! :channel    [x] (async/close! x))
+(defmethod close! :close      [x] (.close x))
 
 (defn ^:private next-char
   "Gets the next character from the given reader"
@@ -76,21 +76,22 @@
    Returns [to-telnet from-telnet] as a vector."
   [connection-factory]
   {:post [(valid-connection? connection-factory %)]}
-  (with-open [client (closeable (telnet connection-factory))
-              to-telnet (closeable (async/chan))
-              from-telnet (closeable (async/chan))]
+  (let [client (telnet connection-factory)
+        to-telnet (async/chan)
+        from-telnet (async/chan)
+        close-all! #(map close! [client to-telnet from-telnet])]
     (async/thread
-      (with-open [reader (io/reader client :encoding "US-ASCII")
-                  from-telnet from-telnet]
+      (let [reader (io/reader client :encoding "US-ASCII")]
         (async/<!! (async/onto-chan from-telnet (char-seq reader))))
+      (close-all!)
       (log/info "Channel connection from Telnet has been closed."))
     (async/thread
-      (with-open [writer (io/writer client :encoding "US-ASCII")
-                  to-telnet to-telnet]
-          (loop []
-            (when-let [next-to-send (async/<!! to-telnet)]
-              (write writer next-to-send)
-              (recur))))
+      (let [writer (io/writer client :encoding "US-ASCII")]
+        (loop []
+          (when-let [next-to-send (async/<!! to-telnet)]
+            (write writer next-to-send)
+            (recur))))
+      (close-all!)
       (log/info "Channel connection to Telnet has been closed."))
     (log/info "Connection to ssd.jpl.nasa.gov:6775 established.")
     [to-telnet from-telnet]))

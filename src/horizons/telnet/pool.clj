@@ -1,8 +1,6 @@
 (ns horizons.telnet.pool
   "Pools connections to the HORIZONS Telnet server."
-  (:require [clojure.core.async :as async]
-            [clojure.core.async.impl.protocols :as pro]
-            [horizons.telnet.connect :as conn]
+  (:require [horizons.telnet.connect :as connect]
             [clojure.tools.logging :as log]
             [com.stuartsierra.component :as component]))
 
@@ -10,17 +8,17 @@
   [pool-component pool]
   (and
     (set? pool)
-    (every? (partial conn/valid-connection? (:connection-factory pool-component)) pool)))
+    (every? (partial connect/valid-connection? (:connection-factory pool-component)) pool)))
 
 (defn ^:private ensure-available-pool [pool-component]
   (dosync
     (let [{:keys [available-connections connection-factory]} pool-component]
       (when (empty? @available-connections)
-        (alter available-connections conj (conn/connect connection-factory))))))
+        (alter available-connections conj (connect/connect connection-factory))))))
 
 (defn close! [pool-component [in out]]
-  (async/close! in)
-  (async/close! out))
+  (connect/close! in)
+  (connect/close! out))
 
 (defn ^:private everybody-out-of-the-pool! [pool-component]
   (log/info "Getting everybody out of the pool (closing all connections and disposing of them)")
@@ -39,7 +37,7 @@
   "Returns [to-telnet from-telnet] channels connected to a Telnet client."
   [pool-component]
   {:pre [(some? pool-component)]
-   :post [(conn/valid-connection? (:connection-factory pool-component) %)]}
+   :post [(connect/valid-connection? (:connection-factory pool-component) %)]}
   (dosync
     (let [{:keys [available-connections connections-in-use]} pool-component]
       (assert (some? connections-in-use))
@@ -55,7 +53,7 @@
   "Puts an [to-telnet from-telnet] Telnet connection back in the pool."
   [pool-component conn]
   {:pre [(some? pool-component)
-         (conn/valid-connection? (:connection-factory pool-component) conn)]}
+         (connect/valid-connection? (:connection-factory pool-component) conn)]}
   ;; We should do assertions inside the transaction,
   ;; otherwise we'd have a race condition.
   (dosync
