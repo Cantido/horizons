@@ -14,7 +14,7 @@
   (dosync
     (let [{:keys [available-connections connection-factory]} pool-component]
       (when (empty? @available-connections)
-        (alter available-connections conj (connect/connect connection-factory))))))
+        (alter available-connections conj (connect/connect! connection-factory))))))
 
 (defn ^:private everybody-out-of-the-pool! [pool-component]
   (log/info "Getting everybody out of the pool (closing all connections and disposing of them)")
