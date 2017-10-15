@@ -66,7 +66,7 @@
 
 (defn telnet
   "Returns an IOFactory attached to a telnet client at the given address."
-  [{:keys [^String host ^int port ^int timeout]}]
+  [^String host ^int port ^int timeout]
   (log/info "Initiating a Telnet connection to" host ":" port)
   (doto (TelnetClient.)
     (.setConnectTimeout timeout)
@@ -105,7 +105,8 @@
    Returns [to-telnet from-telnet] as a vector."
   [connection-factory]
   {:post [(valid-connection? connection-factory %)]}
-  (let [client (connect connection-factory)]
+  (let [{:keys [host port timeout]} connection-factory
+        client (telnet! host port timeout)]
     (log/info "Connection to ssd.jpl.nasa.gov:6775 established.")
     [(writer-channel client (async/chan) :encoding "US-ASCII")
      (reader-channel client (async/chan) :encoding "US-ASCII")]))
