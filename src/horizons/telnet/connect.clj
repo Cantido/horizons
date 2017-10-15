@@ -11,7 +11,10 @@
 
 (defrecord ConnectionFactory [host port timeout])
 
-(defn new-connection-factory [host port timeout]
+(defn new-connection-factory
+  "Creates a connection factory that will create Telnet connections to the
+  given host & port."
+  [host port timeout]
   (map->ConnectionFactory {:host host :port port :timeout timeout}))
 
 (extend TelnetClient
