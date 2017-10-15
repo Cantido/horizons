@@ -34,6 +34,16 @@
 (defmethod close! Closeable         [component x] (.close x))
 (defmethod close! Collection        [component x] (map (partial close! component) x))
 
+(defn valid-connection?
+  [connection-factory conn]
+  {:post [(or (true? %) (false? %))]}
+  (boolean
+    (and
+      (vector? conn)
+      (= 2 (count conn))
+      (satisfies? protocols/WritePort (first conn))
+      (satisfies? protocols/ReadPort (second conn)))))
+
 (defn- next-char
   "Gets the next character from the given reader"
   [^Reader rdr]
@@ -53,16 +63,6 @@
   (io!
     (.write writer ^String (str s \newline))
     (.flush writer)))
-
-(defn valid-connection?
-  [connection-factory conn]
-  {:post [(or (true? %) (false? %))]}
-  (boolean
-    (and
-      (vector? conn)
-      (= 2 (count conn))
-      (satisfies? protocols/WritePort (first conn))
-      (satisfies? protocols/ReadPort (second conn)))))
 
 (defn telnet
   "Returns an IOFactory attached to a telnet client at the given address."
