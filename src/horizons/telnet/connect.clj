@@ -72,27 +72,40 @@
     (.setConnectTimeout timeout)
     (.connect host port)))
 
+(defn- reader-channel
+  "In another thread, constant reads x and puts the result onto chan. Closes
+  both when either is closed. Opts are used when creating the reader from x.
+  Returns chan."
+  [x chan & opts]
+  (async/thread
+    (let [reader (apply io/reader x opts)]
+      (async/<!! (async/onto-chan chan (char-seq reader))))
+    (map close! [x chan])
+    (log/info "Channel connection from Telnet has been closed."))
+  chan)
+
+(defn- writer-channel
+  "In another thread, constantly reads from chan and puts the results onto x.
+  Closes both when either is closed. Opts are used when creating the writer
+  from x. Returns chan."
+  [x chan & opts]
+  (async/thread
+    (let [writer (apply io/writer x opts)]
+      (loop []
+        (when-let [next-to-send (async/<!! chan)]
+          (write writer next-to-send)
+          (recur))))
+    (map close! [x chan])
+    (log/info "Channel connection to Telnet has been closed."))
+  chan)
+
+
 (defn connect
   "Connects to the HORIZONS telnet service, attaching its input and output to channels.
    Returns [to-telnet from-telnet] as a vector."
   [connection-factory]
   {:post [(valid-connection? connection-factory %)]}
-  (let [client (telnet connection-factory)
-        to-telnet (async/chan)
-        from-telnet (async/chan)
-        close-all! #(map close! [client to-telnet from-telnet])]
-    (async/thread
-      (let [reader (io/reader client :encoding "US-ASCII")]
-        (async/<!! (async/onto-chan from-telnet (char-seq reader))))
-      (close-all!)
-      (log/info "Channel connection from Telnet has been closed."))
-    (async/thread
-      (let [writer (io/writer client :encoding "US-ASCII")]
-        (loop []
-          (when-let [next-to-send (async/<!! to-telnet)]
-            (write writer next-to-send)
-            (recur))))
-      (close-all!)
-      (log/info "Channel connection to Telnet has been closed."))
+  (let [client (connect connection-factory)]
     (log/info "Connection to ssd.jpl.nasa.gov:6775 established.")
-    [to-telnet from-telnet]))
+    [(writer-channel client (async/chan) :encoding "US-ASCII")
+     (reader-channel client (async/chan) :encoding "US-ASCII")]))
