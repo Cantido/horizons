@@ -68,9 +68,10 @@
   "Returns an IOFactory attached to a telnet client at the given address."
   [^String host ^long port ^long timeout]
   (log/info "Initiating a Telnet connection to" host ":" port)
-  (doto (TelnetClient.)
-    (.setConnectTimeout timeout)
-    (.connect host port)))
+  (io!
+    (doto (TelnetClient.)
+      (.setConnectTimeout timeout)
+      (.connect host port))))
 
 (defn- reader-channel!
   "In another thread, constant reads x and puts the result onto chan. Closes
