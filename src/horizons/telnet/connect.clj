@@ -28,11 +28,11 @@
           class
           :default nil)
 
-(defmethod close! nil               [component x] nil)
-(defmethod close! SocketClient      [component x] (.disconnect x))
-(defmethod close! protocols/Channel [component x] (async/close! x))
-(defmethod close! Closeable         [component x] (.close x))
-(defmethod close! Collection        [component x] (map (partial close! component) x))
+(defmethod close! nil               [x] nil)
+(defmethod close! SocketClient      [x] (.disconnect x))
+(defmethod close! protocols/Channel [x] (async/close! x))
+(defmethod close! Closeable         [x] (.close x))
+(defmethod close! Collection        [x] (map (partial close!) x))
 
 (defn valid-connection?
   [connection-factory conn]

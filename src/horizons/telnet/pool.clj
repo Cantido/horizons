@@ -22,11 +22,11 @@
     (let [{:keys [available-connections connections-in-use]} pool-component]
       (when-not (empty? @available-connections)
         (log/info "Closing" (count @available-connections) "unused connections.")
-        (map (partial connect/close! pool-component) @available-connections)
+        (map connect/close! @available-connections)
         (ref-set available-connections #{}))
       (when-not (empty? @connections-in-use)
         (log/warn "Closing" (count @connections-in-use) "connections that are currently in use!")
-        (map (partial connect/close! pool-component) @connections-in-use)
+        (map connect/close! @connections-in-use)
         (ref-set connections-in-use #{})))))
 
 (defn connect
