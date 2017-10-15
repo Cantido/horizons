@@ -34,7 +34,7 @@
 (defmethod close! Closeable         [component x] (.close x))
 (defmethod close! Collection        [component x] (map (partial close! component) x))
 
-(defn ^:private next-char
+(defn- next-char
   "Gets the next character from the given reader"
   [^Reader rdr]
   (let [read-int (io! (.read rdr))
@@ -43,12 +43,12 @@
     (log/trace "Got integer" read-int "resulting in character" read-char "and string" read-str)
     read-str))
 
-(defn ^:private char-seq
+(defn- char-seq
   "Returns a lazy sequence of single-character strings as read from the given reader."
   [^Reader rdr]
   (repeatedly #(next-char rdr)))
 
-(defn ^:private write
+(defn- write
   [^Writer writer s]
   (io!
     (.write writer ^String (str s \newline))
