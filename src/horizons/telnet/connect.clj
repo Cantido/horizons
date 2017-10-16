@@ -6,7 +6,7 @@
             [clojure.core.async.impl.protocols :as protocols])
   (:import (org.apache.commons.net.telnet TelnetClient)
            (org.apache.commons.net SocketClient)
-           (java.io Reader Writer Closeable InputStream)
+           (java.io Reader Writer Closeable InputStream IOException)
            (java.util Collection)))
 
 (defrecord ConnectionFactory [host port timeout])
@@ -44,25 +44,46 @@
       (satisfies? protocols/WritePort (first conn))
       (satisfies? protocols/ReadPort (second conn)))))
 
+(defn- read!
+  "Takes one int off of the given reader, swallowing any exceptions. Returns
+  nil if there is an error or if the end of the stream is reached."
+  [^Reader rdr]
+  (try
+    (let [result (io! (.read rdr))]
+      (if-not (neg? result)
+        result
+        nil))
+    (catch IOException e
+      (log/error e "Reader closed unexpectedly.")
+      nil)))
+
+;; Consider using this like a reducing function. Use a writer as an init value.
+(defn- write!
+  "Writes s to writer, then flushes it. Returns the writer."
+  [^Writer writer s]
+  (io!
+    (.write writer ^String (str s \newline))
+    (.flush writer))
+  writer)
+
+(defn- reader-seq
+  "Takes a reader and returns a lazy seq of all integers read from it. The
+  seq is terminated when an error occurs or the end of the stream is reached."
+  [^Reader rdr]
+  (take-while some? (repeatedly #(read! rdr))))
+
 (defn- next-char!
   "Gets the next character from the given reader"
   [^Reader rdr]
-  (let [read-int (io! (.read rdr))
-        read-char (char read-int)
-        read-str (str read-char)]
-    (log/trace "Got integer" read-int "resulting in character" read-char "and string" read-str)
+  (let [read-int (first (reader-seq rdr))
+        read-char (when (some? read-int) (char read-int))
+        read-str (when (some? read-char) (str read-char))]
     read-str))
 
 (defn- char-seq!
   "Returns a lazy sequence of single-character strings as read from the given reader."
   [^Reader rdr]
-  (repeatedly #(next-char! rdr)))
-
-(defn- write!
-  [^Writer writer s]
-  (io!
-    (.write writer ^String (str s \newline))
-    (.flush writer)))
+  (take-while some? (repeatedly #(next-char! rdr))))
 
 (defn telnet!
   "Returns an IOFactory attached to a telnet client at the given address."
