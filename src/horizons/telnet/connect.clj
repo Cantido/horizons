@@ -6,7 +6,7 @@
             [clojure.core.async.impl.protocols :as protocols])
   (:import (org.apache.commons.net.telnet TelnetClient)
            (org.apache.commons.net SocketClient)
-           (java.io Reader Writer Closeable InputStream IOException)
+           (java.io Reader Writer Closeable IOException)
            (java.util Collection)))
 
 (defrecord ConnectionFactory [host port timeout])
@@ -16,6 +16,15 @@
   given host & port."
   [host port timeout]
   (map->ConnectionFactory {:host host :port port :timeout timeout}))
+
+(defn telnet!
+  "Returns an IOFactory attached to a telnet client at the given address."
+  [^String host ^long port ^long timeout]
+  (log/info "Initiating a Telnet connection to" host ":" port)
+  (io!
+    (doto (TelnetClient.)
+      (.setConnectTimeout timeout)
+      (.connect host port))))
 
 (extend TelnetClient
   io/IOFactory
@@ -44,78 +53,79 @@
       (satisfies? protocols/WritePort (first conn))
       (satisfies? protocols/ReadPort (second conn)))))
 
-(defn- read!
-  "Takes one int off of the given reader, swallowing any exceptions. Returns
-  nil if there is an error or if the end of the stream is reached."
-  [^Reader rdr]
+
+(defn- swallow-ioe
+  "Calls fn, logging & swallowing an IOException. Returns the result of fn, or nil."
+  [fn]
   (try
-    (let [result (io! (.read rdr))]
-      (if-not (neg? result)
-        result
-        nil))
+    (fn)
     (catch IOException e
       (log/error e "Reader closed unexpectedly.")
       nil)))
 
-;; Consider using this like a reducing function. Use a writer as an init value.
-(defn- write!
-  "Writes s to writer, then flushes it. Returns the writer."
-  [^Writer writer s]
-  (io!
-    (.write writer ^String (str s \newline))
-    (.flush writer))
-  writer)
-
-(defn- reader-seq
-  "Takes a reader and returns a lazy seq of all integers read from it. The
-  seq is terminated when an error occurs or the end of the stream is reached."
+(defn- read!
+  "Takes one int off of the given reader. Returns nil if the end of the stream has been reached."
   [^Reader rdr]
-  (take-while some? (repeatedly #(read! rdr))))
+  (let [result (io! (.read rdr))]
+    (when-not (neg? result) result)))
 
-(defn- next-char!
-  "Gets the next character from the given reader"
+(defn- safe-read!
+  "Takes one int off of the given reader, swallowing any exceptions. Returns
+   nil if there is an error or if the end of the stream is reached."
   [^Reader rdr]
-  (let [read-int (first (reader-seq rdr))
-        read-char (when (some? read-int) (char read-int))
-        read-str (when (some? read-char) (str read-char))]
-    read-str))
+  (swallow-ioe #(read! rdr)))
 
 (defn- char-seq!
   "Returns a lazy sequence of single-character strings as read from the given reader."
   [^Reader rdr]
-  (take-while some? (repeatedly #(next-char! rdr))))
+  (->> (repeatedly #(safe-read! rdr))
+    (take-while some?)
+    (map char)
+    (map str)))
 
-(defn telnet!
-  "Returns an IOFactory attached to a telnet client at the given address."
-  [^String host ^long port ^long timeout]
-  (log/info "Initiating a Telnet connection to" host ":" port)
-  (io!
-    (doto (TelnetClient.)
-      (.setConnectTimeout timeout)
-      (.connect host port))))
+(defn- put!
+  "Puts x onto chan, and returns chan. The 1-arity version returns its argument,
+   which makes this fn suitable as a reduction function."
+  ([chan] chan)
+  ([chan x]
+   (async/>!! chan x)
+   chan))
 
 (defn- reader-channel!
   "In another thread, constant reads x and puts the result onto chan. Closes
-  both when either is closed. Opts are used when creating the reader from x.
-  Returns chan."
+   both when either is closed. Opts are used when creating the reader from x.
+   Returns chan."
   [x chan & opts]
   (async/thread
-    (async/<!! (async/onto-chan chan (char-seq! (apply io/reader x opts))))
+    (reduce put! chan (char-seq! (apply io/reader x opts)))
     (map close! [x chan])
     (log/info "Channel connection from Telnet has been closed."))
   chan)
 
+
+(defn- write!
+  "Writes s to writer, then flushes it. Returns the writer. The 1-arity version
+   just returns its argument, which makes this fn suitable as a reduction function."
+  ([x] x)
+  ([^Writer writer s]
+   (io!
+     (.write writer ^String (str s \newline))
+     (.flush writer))
+   writer))
+
+(defn- from-chan
+  "Creates a lazy sequence of elements pulled from chan. Realizing an element
+   will block. The seq terminates when the channel closes."
+  [chan]
+  (take-while some? (repeatedly #(async/<!! chan))))
+
 (defn- writer-channel!
   "In another thread, constantly reads from chan and puts the results onto x.
-  Closes both when either is closed. Opts are used when creating the writer
-  from x. Returns chan."
+   Closes both when either is closed. Opts are used when creating the writer
+   from x. Returns chan."
   [x chan & opts]
   (async/thread
-    (let [writer (apply io/writer x opts)]
-      (loop []
-        (when-let [next-to-send (async/<!! chan)]
-          (write! writer next-to-send)
-          (recur))))
+    (reduce write! (apply io/writer x opts) (from-chan chan))
     (map close! [x chan])
     (log/info "Channel connection to Telnet has been closed."))
   chan)

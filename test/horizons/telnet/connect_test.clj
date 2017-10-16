@@ -4,7 +4,6 @@
             [horizons.telnet.connect :as connect]
             [clojure.core.async :as async])
   (:import (java.io StringWriter)))
-;; @#'
 
 (defn byte-reader [coll]
   (io/reader (byte-array coll)))
@@ -14,10 +13,6 @@
 
 (defn empty-reader []
   (io/reader (byte-array 0)))
-
-(deftest next-char-test
-  (is (= "a" (@#'connect/next-char! (abc-reader))))
-  (is (= nil (@#'connect/next-char! (empty-reader)))))
 
 (deftest char-seq-test
   (is (= ["a" "b" "c"] (take 3 (@#'connect/char-seq! (abc-reader)))))
@@ -43,7 +38,7 @@
         chan (async/chan 1024)
         writer-chan (@#'connect/writer-channel! writer chan)]
     (async/onto-chan writer-chan coll)
-    (Thread/sleep 100) ; need time for the thread to put it into the writer
+    (Thread/sleep 50) ; need time for the thread to put it into the writer
     (.toString writer)))
 
 (deftest writer-channel-test
