@@ -83,9 +83,13 @@
     (map char)
     (map str)))
 
-(defn- put!
+(defn- put-reduce!
   "Puts x onto chan, and returns chan. The 1-arity version returns its argument,
-   which makes this fn suitable as a reduction function."
+   which makes this fn suitable as a reduction function.
+
+   This function is just a wrapper for async/>!!, since that function returns
+   a boolean instead of the channel, which does not allow the function to be
+   used for reduction."
   ([chan] chan)
   ([chan x]
    (async/>!! chan x)
@@ -97,13 +101,13 @@
    Returns chan."
   [x chan & opts]
   (async/thread
-    (reduce put! chan (char-seq! (apply io/reader x opts)))
+    (reduce put-reduce! chan (char-seq! (apply io/reader x opts)))
     (map close! [x chan])
     (log/info "Channel connection from Telnet has been closed."))
   chan)
 
 
-(defn- write!
+(defn- write-reduce!
   "Writes s to writer, then flushes it. Returns the writer. The 1-arity version
    just returns its argument, which makes this fn suitable as a reduction function."
   ([x] x)
@@ -125,7 +129,7 @@
    from x. Returns chan."
   [x chan & opts]
   (async/thread
-    (reduce write! (apply io/writer x opts) (from-chan chan))
+    (reduce write-reduce! (apply io/writer x opts) (from-chan chan))
     (map close! [x chan])
     (log/info "Channel connection to Telnet has been closed."))
   chan)
