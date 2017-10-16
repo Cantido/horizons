@@ -10,11 +10,15 @@
     (set? pool)
     (every? (partial connect/valid-connection? (:connection-factory pool-component)) pool)))
 
-(defn ^:private ensure-available-pool [pool-component]
-  (dosync
+(defn- grow-available-pool! [component conn]
+  (let [{:keys [available-connections]} component]
+    (dosync
+      (alter available-connections conj conn))))
+
+(defn ^:private ensure-available-pool! [pool-component]
     (let [{:keys [available-connections connection-factory]} pool-component]
       (when (empty? @available-connections)
-        (alter available-connections conj (connect/connect! connection-factory))))))
+        (alter available-connections conj (connect/connect! connection-factory)))))
 
 (defn ^:private everybody-out-of-the-pool! [pool-component]
   (log/info "Getting everybody out of the pool (closing all connections and disposing of them)")
@@ -29,21 +33,40 @@
         (map connect/close! @connections-in-use)
         (ref-set connections-in-use #{})))))
 
+(defn connection-available? [component]
+  (pos? (count (deref (:available-connections component)))))
+
+(defn- use-connection! [component conn]
+  {:pre [(connect/valid-connection? (:connection-factory component) conn)]
+   :post [(connect/valid-connection? (:connection-factory component) %)]}
+  (let [{:keys [available-connections connections-in-use]} component]
+    (log/debug "About to fetch a connection from the pool. There are currently" (count @connections-in-use) "connections in use, and" (count @available-connections) "connections available.")
+    (dosync
+      (assert (contains? @available-connections conn))
+      (alter available-connections disj conn)
+      (alter connections-in-use conj conn)
+      conn)))
+
 (defn connect
   "Returns [to-telnet from-telnet] channels connected to a Telnet client."
   [pool-component]
   {:pre [(some? pool-component)]
    :post [(connect/valid-connection? (:connection-factory pool-component) %)]}
-  (dosync
-    (let [{:keys [available-connections connections-in-use]} pool-component]
-      (assert (some? connections-in-use))
-      (log/debug "About to fetch a connection from the pool. There are currently" (count @connections-in-use) "connections in use, and" (count @available-connections) "connections available.")
-      (ensure-available-pool pool-component)
-      (let [conn (first @available-connections)]
-        (alter available-connections disj conn)
-        (alter connections-in-use conj conn)
-        (assert (contains? @connections-in-use conn))
-        conn))))
+  (let [{:keys [available-connections
+                connections-in-use
+                connection-factory]}
+        pool-component]
+    ;; We cannot create a new connection inside of a transaction, because creating
+    ;; a new connection triggers IO. Thus the double-checked locking.
+    (loop []
+      (if (connection-available? pool-component)
+        (dosync
+          (if (connection-available? pool-component)
+            (use-connection! pool-component (first @available-connections))
+            (recur))) ; This exits the current transaction
+        (do
+          (grow-available-pool! pool-component (connect/connect! connection-factory))
+          (recur))))))
 
 (defn release
   "Puts an [to-telnet from-telnet] Telnet connection back in the pool."
@@ -56,9 +79,7 @@
     (let [{:keys [available-connections connections-in-use]} pool-component]
       (assert (contains? @connections-in-use conn))
       (alter connections-in-use disj conn)
-      (alter available-connections conj conn)
-      (assert (contains? @available-connections conn)))))
-
+      (alter available-connections conj conn))))
 
 (defrecord ConnectionPool [connection-factory available-connections connections-in-use]
   component/Lifecycle
