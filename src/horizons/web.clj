@@ -36,7 +36,7 @@
     :available-media-types ["application/json"]
     :available-languages ["en-US"]
     :exists? (fn [_] (horizons/supported? (:horizons-client web-app-component) id))
-    :handle-ok (fn [ctx] (horizons/get-ephemeris (:horizons-client web-app-component) id (ephemeris-options ephemeris-resource ctx)))
+    :handle-ok (fn [ctx] (horizons/get-ephemeris (:horizons-client web-app-component) id (ephemeris-options web-app-component ctx)))
     :handle-exception (partial handle-exception web-app-component)))
 
 (defn- app-routes [web-app-component]
