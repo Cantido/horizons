@@ -79,8 +79,7 @@
   Returns chan."
   [x chan & opts]
   (async/thread
-    (let [reader (apply io/reader x opts)]
-      (async/<!! (async/onto-chan chan (char-seq! reader))))
+    (async/<!! (async/onto-chan chan (char-seq! (apply io/reader x opts))))
     (map close! [x chan])
     (log/info "Channel connection from Telnet has been closed."))
   chan)
