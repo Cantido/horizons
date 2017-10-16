@@ -4,7 +4,7 @@
             [clj-time.format :as f]
             [clojure.data.json :as json])
   (:import (java.io PrintWriter)
-           (org.joda.time DateTime Duration Period)))
+           (org.joda.time DateTime Duration Period PeriodType Seconds ReadablePeriod)))
 
 (def ^:private month-formatter (f/formatter "MMM"))
 
@@ -16,33 +16,123 @@
   [m]
   (apply t/date-time ((juxt :year :month :day) m)))
 
+(extend-protocol t/DateTimeProtocol
+  ReadablePeriod
+  (plus- [this ^ReadablePeriod period] (.plus (.toPeriod this) period)))
+
+(extend-protocol t/InTimeUnitProtocol
+  org.joda.time.ReadableDuration
+  (in-millis [this] (-> this .getMillis))
+  (in-seconds [this] (-> this .toPeriod .getSeconds))
+  (in-minutes [this] (-> this .toPeriod .getMinutes))
+  (in-hours [this] (-> this .toPeriod .getHours))
+  (in-days [this] (-> this .toPeriod .getDays))
+  (in-weeks [this] (-> this .toPeriod .getWeeks))
+  (in-months [this] (-> this .toPeriod .getMonths))
+  (in-years [this] (-> this .toPeriod .getYears)))
+
+
 (def ^:private midnight
   {:horizons.core/hour-of-day 0
    :horizons.core/minute-of-hour 0
    :horizons.core/second-of-minute 0
    :horizons.core/millisecond-of-second 0})
 
-(defn duration-map->period [m]
-  (let [years-float (get m :years 0)
-        years (int years-float)
-        days-float (+ (get m :days 0) (* 356 (- years-float years)))
-        days (int days-float)
-        hours-float (+ (get m :hours 0) (* 24 (- days-float days)))
-        hours (int hours-float)
-        minutes-float (+ (get m :minutes 0) (* 60 (- hours-float hours)))
-        minutes (int minutes-float)
-        seconds-float (+ (get m :seconds 0) (* 60 (- minutes-float minutes)))
-        seconds (int seconds-float)
-        milliseconds (int (* 1000 (- seconds-float seconds)))]
-    (Period.
-      years
-      (get m :months 0)
-      0 ;; weeks
-      days
-      hours
-      minutes
-      seconds
-      milliseconds)))
+(def days-per {:years 365})
+
+(def successors {:years :days
+                 :days :hours
+                 :hours :minutes
+                 :minutes :seconds
+                 :seconds :milliseconds
+                 :milliseconds nil})
+
+(def units
+  {:years {:years 1
+           :days 365
+           :hours 8766
+           :minutes 525960
+           :seconds 31557600
+           :milliseconds 31557600000}
+   :days {:years 1/365
+          :days 1
+          :hours 24
+          :minutes 1440
+          :seconds 86400
+          :milliseconds 86400000}
+   :hours {:years 1/8766
+           :days 1/24
+           :hours 1
+           :minutes 60
+           :seconds 3600
+           :milliseconds 3600000}
+   :minutes {:years 1/525960
+             :days 1/1440
+             :hours 1/60
+             :minutes 1
+             :seconds 60
+             :milliseconds 60000}
+   :seconds {:years 1/31557600
+             :days 1/86400
+             :hours 1/3600
+             :minutes 1/60
+             :seconds 1
+             :milliseconds 1000}
+   :milliseconds {:years 1/31557600000
+                  :days 1/86400000
+                  :hours 1/3600000
+                  :minutes 1/60000
+                  :seconds 1/1000
+                  :milliseconds 1}})
+
+(def joda-fns {:years t/years
+               :days t/days
+               :hours t/hours
+               :minutes t/minutes
+               :seconds t/seconds
+               :milliseconds t/millis})
+
+(defn convert [from to n]
+  (* n (get-in units [from to])))
+
+(def ms-per {:years (convert :years :milliseconds 1)
+             :days (convert :days :milliseconds 1)
+             :hours (convert :hours :milliseconds 1)
+             :minutes (convert :minutes :milliseconds 1)
+             :seconds (convert :seconds :milliseconds 1)
+             :milliseconds 1})
+
+(defn ms ^long [unit x]
+  (* (get ms-per unit) x))
+
+(defn frac "Returns the fractional part of x"
+  [x] (rem x 1))
+
+
+(defn period-of
+  "clj-time's period can't take floats. This can."
+  ^Period [type x]
+  (let [to (type successors)
+        joda-fn (type joda-fns)]
+    (if (= :milliseconds type)
+      (.toDuration (joda-fn (Math/round (double x))))
+      (t/plus (.toPeriod(joda-fn (int x)))
+              (period-of to (convert type to (frac x)))))))
+
+(defn milliseconds ^Period [x] (period-of :milliseconds x))
+(defn seconds ^Period [x] (period-of :seconds x))
+(defn minutes ^Period [x] (period-of :minutes x))
+(defn hours ^Period [x] (period-of :hours x))
+(defn years ^Period [x] (period-of :years x))
+
+(defn date-ms-reduce ^long [x k v]
+  (+ x (ms k v)))
+
+(defn duration-map->millis ^long [m]
+  (reduce-kv date-ms-reduce 0 m))
+
+(defn duration-map->period ^Period [m]
+  (Period. (duration-map->millis m)))
 
 (defn- date-and-time->datetime [date time]
   (apply t/date-time

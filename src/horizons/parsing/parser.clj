@@ -64,7 +64,8 @@
    :unit-MSK (unit-code "MSK")
    :unit-M62 (unit-code "M62")
    :unit-SEC (unit-code "SEC")
-   :volume (partial value-with-exponent-map->bigdec :volume)})
+   :volume (partial value-with-exponent-map->bigdec :volume)
+   :years t/years})
 
 (defn do-if
   "Calls (fn x) if pred is true, returning the result. Otherwise, returns x untouched."

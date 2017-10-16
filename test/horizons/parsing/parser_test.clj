@@ -10,7 +10,8 @@
     [horizons.parsing.parser-test-jupiter :refer :all]
     [instaparse.transform :as transform]
     [com.stuartsierra.component :as component]
-    [horizons.test-utils :as test]))
+    [horizons.test-utils :as test])
+  (:import (org.joda.time Years)))
 
 (defn component
   ([] (:parser (test/build-test-system)))
@@ -176,6 +177,9 @@
                 {:x-position 1}
                 {:x-position 2}
                 {:x-position 3}}]))))
+  (testing "periods"
+    (is (= (transform [:duration [:years [:float "1"]]]) [:duration (.toPeriod (t/years 1))]))
+    (is (= (transform [:duration [:years [:float "1.1"]]]) [:duration (.toPeriod (t/years 1))])))
   (testing "unit codes"
     (is (= (transform [:unit-23]) [:unit-code "23"]))
     (is (= (transform [:unit-2A]) [:unit-code "2A"]))
