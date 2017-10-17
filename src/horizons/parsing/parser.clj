@@ -5,7 +5,9 @@
             [instaparse.transform :as transform]
             [clojure.tools.logging :as log]
             [com.stuartsierra.component :as component]
-            [clojure.string :as string]))
+            [clojure.string :as string])
+  (:import (org.joda.time DateTime Duration Period PeriodType Seconds ReadablePeriod)))
+
 
 (defn string->int [s]
   (Integer/parseInt s))
@@ -38,15 +40,21 @@
 (def transform-rules
   {:comma-separated-integer #(clojure.string/replace % "," "")
    :date (fn [& more] [:date (t/datemap->date (into {} more))])
+   :days t/days
+   :duration (fn [& more] (apply t/standard-duration more))
    :ephemeredes (fn [& more] [:ephemeredes (into #{} more)])
    :ephemeris (fn [& more] (into {} more))
    :float bigdec
    :heat-flow-mass (partial value-with-exponent-map->bigdec :heat-flow-mass)
+   :hours t/hours
    :integer string->int
    :mass (partial value-with-exponent-map->bigdec :mass)
+   :milliseconds t/milliseconds
+   :minutes t/minutes
    :month (fn [s] [:month (t/month->int s)])
    :rotation-rate (partial value-with-exponent-map->bigdec :rotation-rate)
    :sci-not sci-not-coll->bigdec
+   :seconds t/seconds
    :time (fn [& more]  {:time (into {} more)})
    :timestamp t/timestamp-transformer
    :unit-23 (unit-code "23")

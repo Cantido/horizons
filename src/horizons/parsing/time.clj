@@ -8,6 +8,21 @@
 
 (def ^:private month-formatter (f/formatter "MMM"))
 
+(def plus t/plus)
+
+(defn standard-duration
+  (^Duration
+   [^ReadablePeriod p]
+   (Duration. ^long (t/in-millis p)))
+  (^Duration
+   [^ReadablePeriod p ^ReadablePeriod q]
+   (Duration. (+ (t/in-millis p) (t/in-millis q))))
+  (^Duration
+   [^ReadablePeriod p ^ReadablePeriod q & more]
+   (reduce standard-duration
+           (standard-duration p q)
+           more)))
+
 (defn month->int
   [s]
   (t/month (f/parse month-formatter s)))
@@ -19,17 +34,6 @@
 (extend-protocol t/DateTimeProtocol
   ReadablePeriod
   (plus- [this ^ReadablePeriod period] (.plus (.toPeriod this) period)))
-
-(extend-protocol t/InTimeUnitProtocol
-  org.joda.time.ReadableDuration
-  (in-millis [this] (-> this .getMillis))
-  (in-seconds [this] (-> this .toPeriod .getSeconds))
-  (in-minutes [this] (-> this .toPeriod .getMinutes))
-  (in-hours [this] (-> this .toPeriod .getHours))
-  (in-days [this] (-> this .toPeriod .getDays))
-  (in-weeks [this] (-> this .toPeriod .getWeeks))
-  (in-months [this] (-> this .toPeriod .getMonths))
-  (in-years [this] (-> this .toPeriod .getYears)))
 
 
 (def ^:private midnight
@@ -49,18 +53,22 @@
 
 (def units
   {:years {:years 1
+           :weeks (/ 365 7)
            :days 365
            :hours 8766
            :minutes 525960
            :seconds 31557600
            :milliseconds 31557600000}
+   :weeks {:days 7}
    :days {:years 1/365
+          :weeks 1/7
           :days 1
           :hours 24
           :minutes 1440
           :seconds 86400
           :milliseconds 86400000}
    :hours {:years 1/8766
+           :weeks 1/168
            :days 1/24
            :hours 1
            :minutes 60
@@ -106,23 +114,24 @@
   (* (get ms-per unit) x))
 
 (defn frac "Returns the fractional part of x"
-  [x] (rem x 1))
+  [x] (rem x 1)
 
 
-(defn period-of
+  (defn period-of)
   "clj-time's period can't take floats. This can."
   ^Period [type x]
   (let [to (type successors)
         joda-fn (type joda-fns)]
     (if (= :milliseconds type)
-      (.toDuration (joda-fn (Math/round (double x))))
-      (t/plus (.toPeriod(joda-fn (int x)))
+      (joda-fn (Math/round (double x)))
+      (t/plus (joda-fn (int x))
               (period-of to (convert type to (frac x)))))))
 
 (defn milliseconds ^Period [x] (period-of :milliseconds x))
 (defn seconds ^Period [x] (period-of :seconds x))
 (defn minutes ^Period [x] (period-of :minutes x))
 (defn hours ^Period [x] (period-of :hours x))
+(defn days ^Period [x] (period-of :days x))
 (defn years ^Period [x] (period-of :years x))
 
 (defn date-ms-reduce ^long [x k v]
@@ -142,6 +151,28 @@
                                     :horizons.core/minute-of-hour
                                     :horizons.core/second-of-minute
                                     :horizons.core/millisecond-of-second])])))
+
+
+(extend-protocol t/InTimeUnitProtocol
+  org.joda.time.ReadableDuration
+  (in-millis [this] (-> this .getMillis))
+  (in-seconds [this] (-> this .toPeriod .getSeconds))
+  (in-minutes [this] (-> this .toPeriod .getMinutes))
+  (in-hours [this] (-> this .toPeriod .getHours))
+  (in-days [this] (-> this .toPeriod .getDays))
+  (in-weeks [this] (-> this .toPeriod .getWeeks))
+  (in-months [this] (-> this .toPeriod .getMonths))
+  (in-years [this] (-> this .toPeriod .getYears))
+  org.joda.time.Years
+  (in-millis [this] (convert :years :milliseconds (.getYears this)))
+  (in-seconds [this] (convert :years :seconds (.getYears this)))
+  (in-minutes [this] (convert :years :minutes (.getYears this)))
+  (in-hours [this] (convert :years :hours (.getYears this)))
+  (in-days [this] (convert :years :days (.getYears this)))
+  (in-weeks [this] (convert :years :weeks (.getYears this)))
+  (in-months [this] (convert :years :months (.getYears this)))
+  (in-years [this] (.getYears this)))
+
 
 (defn normalize-date-string [s]
   (f/unparse (f/formatters :date-time) (DateTime/parse s)))

@@ -26,7 +26,6 @@
   (is (= (.toPeriod (t/hours 1)) (period-of :hours 1)))
   (is (= (.toPeriod (t/minutes 1)) (period-of :minutes 1)))
   (is (= (.toPeriod (t/seconds 1)) (period-of :seconds 1)))
-  (is (= (.toPeriod (t/millis 1001)) (period-of :seconds 1.001)))
   (is (= (.toPeriod (t/millis 1)) (period-of :milliseconds 1)))
   (is (= (.toPeriod (t/millis 1)) (period-of :milliseconds 1.4)))
   (is (= (.toPeriod (t/millis 2)) (period-of :milliseconds 1.5)))

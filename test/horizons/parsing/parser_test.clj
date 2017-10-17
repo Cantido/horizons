@@ -11,7 +11,7 @@
     [instaparse.transform :as transform]
     [com.stuartsierra.component :as component]
     [horizons.test-utils :as test])
-  (:import (org.joda.time Years)))
+  (:import (org.joda.time Years Duration)))
 
 (defn component
   ([] (:parser (test/build-test-system)))
@@ -178,8 +178,34 @@
                 {:x-position 2}
                 {:x-position 3}}]))))
   (testing "periods"
-    (is (= (transform [:duration [:years [:float "1"]]]) [:duration (.toPeriod (t/years 1))]))
-    (is (= (transform [:duration [:years [:float "1.1"]]]) [:duration (.toPeriod (t/years 1))])))
+    (is (= (transform [:years [:integer "1"]])
+           (.toPeriod (t/years 1))))
+    (is (= (transform [:years [:float "1"]])
+           (.toPeriod (t/years 1))))
+    (is (= (transform [:years [:float "1.1"]])
+           (t/plus (t/years 1) (t/days 36) (t/hours 12))))
+    (is (= (transform [:days [:integer "1"]])
+           (.toPeriod (t/days 1))))
+    (is (= (transform [:days [:float "1.5"]])
+           (t/plus (t/days 1) (t/hours 12))))
+    (is (= (transform [:hours [:integer "1"]])
+           (.toPeriod (t/hours 1))))
+    (is (= (transform [:hours [:float "1.5"]])
+           (t/plus (t/hours 1) (t/minutes 30))))
+    (is (= (transform [:minutes [:integer "1"]])
+           (.toPeriod (t/minutes 1))))
+    (is (= (transform [:minutes [:float "1.5"]])
+           (t/plus (t/minutes 1) (t/seconds 30))))
+    (is (= (transform [:seconds [:integer "1"]])
+           (.toPeriod (t/seconds 1))))
+    (is (= (transform [:seconds [:float "1.5"]])
+           (t/plus (t/seconds 1) (t/millis 500))))
+    (is (= (transform [:milliseconds [:integer "1"]])
+           (.toPeriod (t/millis 1)))))
+  (testing "durations"
+    (is (= (transform [:duration [:years [:integer "1"]]
+                                 [:days [:integer "1"]]])
+           (.toPeriod (t/plus (t/years 1) (t/days 1))))))
   (testing "unit codes"
     (is (= (transform [:unit-23]) [:unit-code "23"]))
     (is (= (transform [:unit-2A]) [:unit-code "2A"]))
