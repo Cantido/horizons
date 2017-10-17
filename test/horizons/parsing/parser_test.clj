@@ -205,7 +205,7 @@
   (testing "durations"
     (is (= (transform [:duration [:years [:integer "1"]]
                                  [:days [:integer "1"]]])
-           (.toPeriod (t/plus (t/years 1) (t/days 1))))))
+           (t/plus (t/years 1) (t/days 1)))))
   (testing "unit codes"
     (is (= (transform [:unit-23]) [:unit-code "23"]))
     (is (= (transform [:unit-2A]) [:unit-code "2A"]))

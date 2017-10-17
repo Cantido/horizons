@@ -10,19 +10,6 @@
 
 (def plus t/plus)
 
-(defn standard-duration
-  (^Duration
-   [^ReadablePeriod p]
-   (Duration. ^long (t/in-millis p)))
-  (^Duration
-   [^ReadablePeriod p ^ReadablePeriod q]
-   (Duration. (+ (t/in-millis p) (t/in-millis q))))
-  (^Duration
-   [^ReadablePeriod p ^ReadablePeriod q & more]
-   (reduce standard-duration
-           (standard-duration p q)
-           more)))
-
 (defn month->int
   [s]
   (t/month (f/parse month-formatter s)))
@@ -41,8 +28,6 @@
    :horizons.core/minute-of-hour 0
    :horizons.core/second-of-minute 0
    :horizons.core/millisecond-of-second 0})
-
-(def days-per {:years 365})
 
 (def successors {:years :days
                  :days :hours
@@ -93,55 +78,28 @@
                   :seconds 1/1000
                   :milliseconds 1}})
 
-(def joda-fns {:years t/years
-               :days t/days
-               :hours t/hours
-               :minutes t/minutes
-               :seconds t/seconds
-               :milliseconds t/millis})
+(def period-fns {:years      t/years
+                 :days         t/days
+                 :hours        t/hours
+                 :minutes      t/minutes
+                 :seconds      t/seconds
+                 :milliseconds t/millis})
 
 (defn convert [from to n]
   (* n (get-in units [from to])))
 
-(def ms-per {:years (convert :years :milliseconds 1)
-             :days (convert :days :milliseconds 1)
-             :hours (convert :hours :milliseconds 1)
-             :minutes (convert :minutes :milliseconds 1)
-             :seconds (convert :seconds :milliseconds 1)
-             :milliseconds 1})
-
-(defn ms ^long [unit x]
-  (* (get ms-per unit) x))
-
 (defn frac "Returns the fractional part of x"
-  [x] (rem x 1)
+  [x] (rem x 1))
 
-
-  (defn period-of)
+(defn period-of
   "clj-time's period can't take floats. This can."
   ^Period [type x]
   (let [to (type successors)
-        joda-fn (type joda-fns)]
+        joda-fn (type period-fns)]
     (if (= :milliseconds type)
       (joda-fn (Math/round (double x)))
       (t/plus (joda-fn (int x))
               (period-of to (convert type to (frac x)))))))
-
-(defn milliseconds ^Period [x] (period-of :milliseconds x))
-(defn seconds ^Period [x] (period-of :seconds x))
-(defn minutes ^Period [x] (period-of :minutes x))
-(defn hours ^Period [x] (period-of :hours x))
-(defn days ^Period [x] (period-of :days x))
-(defn years ^Period [x] (period-of :years x))
-
-(defn date-ms-reduce ^long [x k v]
-  (+ x (ms k v)))
-
-(defn duration-map->millis ^long [m]
-  (reduce-kv date-ms-reduce 0 m))
-
-(defn duration-map->period ^Period [m]
-  (Period. (duration-map->millis m)))
 
 (defn- date-and-time->datetime [date time]
   (apply t/date-time
@@ -153,53 +111,11 @@
                                     :horizons.core/millisecond-of-second])])))
 
 
-(extend-protocol t/InTimeUnitProtocol
-  org.joda.time.ReadableDuration
-  (in-millis [this] (-> this .getMillis))
-  (in-seconds [this] (-> this .toPeriod .getSeconds))
-  (in-minutes [this] (-> this .toPeriod .getMinutes))
-  (in-hours [this] (-> this .toPeriod .getHours))
-  (in-days [this] (-> this .toPeriod .getDays))
-  (in-weeks [this] (-> this .toPeriod .getWeeks))
-  (in-months [this] (-> this .toPeriod .getMonths))
-  (in-years [this] (-> this .toPeriod .getYears))
-  org.joda.time.Years
-  (in-millis [this] (convert :years :milliseconds (.getYears this)))
-  (in-seconds [this] (convert :years :seconds (.getYears this)))
-  (in-minutes [this] (convert :years :minutes (.getYears this)))
-  (in-hours [this] (convert :years :hours (.getYears this)))
-  (in-days [this] (convert :years :days (.getYears this)))
-  (in-weeks [this] (convert :years :weeks (.getYears this)))
-  (in-months [this] (convert :years :months (.getYears this)))
-  (in-years [this] (.getYears this)))
-
-
-(defn normalize-date-string [s]
-  (f/unparse (f/formatters :date-time) (DateTime/parse s)))
-
 (defn- write-datetime [^DateTime datetime ^PrintWriter out]
   (let [datestring (f/unparse (f/formatters :date-time) datetime)]
     (.print out (str \" datestring \"))))
 
 (extend DateTime json/JSONWriter {:-write write-datetime})
-
-(defn iso-format-duration
-  [duration]
-  (let [years (get duration :horizons.core/years 0)
-        months (get duration :horizons.core/months 0)
-        days (get duration :horizons.core/days 0)
-        hours (get duration :horizons.core/hours 0)
-        minutes (get duration :horizons.core/minutes 0)
-        seconds (get duration :horizons.core/seconds 0)
-        milliseconds (get duration :horizons.core/milliseconds 0)]
-    (str "P"
-         years "Y"
-         months "M"
-         days "D"
-         "T"
-         hours "H"
-         minutes "M"
-         (format "%d.%03dS" seconds milliseconds))))
 
 (defn timestamp-transformer
   ([date time]

@@ -31,23 +31,3 @@
   (is (= (.toPeriod (t/millis 2)) (period-of :milliseconds 1.5)))
   (is (= (.toPeriod (t/millis 0)) (period-of :milliseconds 0.1)))
   (is (= (.toPeriod (t/millis 0)) (period-of :milliseconds 0))))
-
-(deftest iso-format-duration-test
-  (is (= (iso-format-duration
-           {::h/years 1
-            ::h/months 2
-            ::h/days 3
-            ::h/hours 4
-            ::h/minutes 5
-            ::h/seconds 6
-            ::h/milliseconds 7})
-         "P1Y2M3DT4H5M6.007S"))
-  (testing "absent fields are set to zero"
-    (is (= (iso-format-duration
-             {::h/years 1
-              ::h/months 2
-              ::h/days 3
-              ::h/hours 4})
-           "P1Y2M3DT4H0M0.000S"))
-    (is (= (iso-format-duration {})
-           "P0Y0M0DT0H0M0.000S"))))

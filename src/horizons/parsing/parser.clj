@@ -40,21 +40,21 @@
 (def transform-rules
   {:comma-separated-integer #(clojure.string/replace % "," "")
    :date (fn [& more] [:date (t/datemap->date (into {} more))])
-   :days t/days
-   :duration (fn [& more] (apply t/standard-duration more))
+   :days (partial t/period-of :days)
+   :duration t/plus
    :ephemeredes (fn [& more] [:ephemeredes (into #{} more)])
    :ephemeris (fn [& more] (into {} more))
    :float bigdec
    :heat-flow-mass (partial value-with-exponent-map->bigdec :heat-flow-mass)
-   :hours t/hours
+   :hours (partial t/period-of :hours)
    :integer string->int
    :mass (partial value-with-exponent-map->bigdec :mass)
-   :milliseconds t/milliseconds
-   :minutes t/minutes
+   :milliseconds (partial t/period-of :milliseconds)
+   :minutes (partial t/period-of :minutes)
    :month (fn [s] [:month (t/month->int s)])
    :rotation-rate (partial value-with-exponent-map->bigdec :rotation-rate)
    :sci-not sci-not-coll->bigdec
-   :seconds t/seconds
+   :seconds (partial t/period-of :seconds)
    :time (fn [& more]  {:time (into {} more)})
    :timestamp t/timestamp-transformer
    :unit-23 (unit-code "23")
@@ -73,7 +73,7 @@
    :unit-M62 (unit-code "M62")
    :unit-SEC (unit-code "SEC")
    :volume (partial value-with-exponent-map->bigdec :volume)
-   :years t/years})
+   :years (partial t/period-of :years)})
 
 (defn do-if
   "Calls (fn x) if pred is true, returning the result. Otherwise, returns x untouched."
