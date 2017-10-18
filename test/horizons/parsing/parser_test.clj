@@ -196,7 +196,12 @@
     (is (= (transform [:seconds [:float "1.5"]])
            (t/plus (t/seconds 1) (t/millis 500))))
     (is (= (transform [:milliseconds [:integer "1"]])
-           (.toPeriod (t/millis 1)))))
+           (.toPeriod (t/millis 1))))
+    (is (= (transform  [:duration
+                        [:hours [:integer "9"]]
+                        [:minutes [:integer "55"]]
+                        [:seconds [:float "29.685"]]])
+           (t/plus (t/hours 9) (t/minutes 55) (t/seconds 29) (t/millis 685)))))
   (testing "durations"
     (is (= (transform [:duration [:years [:integer "1"]]
                                  [:days [:integer "1"]]])

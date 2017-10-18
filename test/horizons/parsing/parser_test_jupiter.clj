@@ -16,16 +16,19 @@
      ::h/polar-radius {::h/unit-code "KMT" ::h/value "66854+-10"}
      ::h/mean-radius {::h/unit-code "KMT" ::h/value "69911+-6"}
      ::h/flattening {::h/value 0.06487M}
-     ::h/sidereal-rotation-period
-     {::h/value
-      {::h/duration
-       {::h/hours 9
-        ::h/minutes 55
-        ::h/seconds 29.685M}}}
+     ::h/sidereal-rotation-period {::h/value (t/plus
+                                               (t/hours 9)
+                                               (t/minutes 55)
+                                               (t/seconds 29)
+                                               (t/millis 685))}
      ::h/rotation-rate {::h/unit-code "2A" ::h/value 1.75865E-4M}
      ::h/m {::h/value 0.089195M}
      ::h/hydrostatic-flattening {::h/value 0.06509M}
-     ::h/inferred-rotation-period {::h/value {::h/duration {::h/hours "9.894+-0.02"}}}
+     ::h/inferred-rotation-period {::h/value (t/plus
+                                               (t/hours 9)
+                                               (t/minutes 53)
+                                               (t/seconds 38)
+                                               (t/millis 400))}
      ::h/ks {::h/value 0.494M}
      ::h/moment-of-inertia {::h/value 0.254M}
      ::h/monent-of-inertia-upper-bound {::h/value 0.267M}

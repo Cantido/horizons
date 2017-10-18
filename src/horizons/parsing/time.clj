@@ -8,7 +8,9 @@
 
 (def ^:private month-formatter (f/formatter "MMM"))
 
-(def plus t/plus)
+(defn add
+  ([x] x)
+  ([x & more] (apply t/plus x more)))
 
 (defn month->int
   [s]
@@ -91,9 +93,12 @@
 (defn frac "Returns the fractional part of x"
   [x] (rem x 1))
 
+
+
 (defn period-of
   "clj-time's period can't take floats. This can."
   ^Period [type x]
+  (when-not (number? x) (throw (IllegalArgumentException. (str "Can't parse this value into a Period, it is not a number: " x))))
   (let [to (type successors)
         joda-fn (type period-fns)]
     (if (= :milliseconds type)

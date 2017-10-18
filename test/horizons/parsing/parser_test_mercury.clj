@@ -16,9 +16,19 @@
      ::h/flattening {}
      ::h/volume {::h/value 6.085E10M ::h/unit-code "H20"}
      ::h/semi-major-axis {}
-     ::h/sidereal-rotation-period {::h/value {::h/duration {::h/days 58.6462M}}}
+     ::h/sidereal-rotation-period {::h/value (t/plus
+                                               (t/days 58)
+                                               (t/hours 15)
+                                               (t/minutes 30)
+                                               (t/seconds 31)
+                                               (t/millis 680))}
      ::h/rotation-rate {::h/unit-code "SEC" ::h/value 12400.1M}
-     ::h/mean-solar-day {::h/value {::h/duration {::h/days 175.9421M}}}
+     ::h/mean-solar-day {::h/value (t/plus
+                                     (t/days 175)
+                                     (t/hours 22)
+                                     (t/minutes 36)
+                                     (t/seconds 37)
+                                     (t/millis 440))}
      ::h/polar-gravity {::h/unit-code "MSK"}
      ::h/moment-of-inertia {::h/value 0.33M}
      ::h/equatorial-gravity {::h/unit-code "MSK" ::h/value 3.701M}

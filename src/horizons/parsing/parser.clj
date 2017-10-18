@@ -41,7 +41,7 @@
   {:comma-separated-integer #(clojure.string/replace % "," "")
    :date (fn [& more] [:date (t/datemap->date (into {} more))])
    :days (partial t/period-of :days)
-   :duration t/plus
+   :duration t/add
    :ephemeredes (fn [& more] [:ephemeredes (into #{} more)])
    :ephemeris (fn [& more] (into {} more))
    :float bigdec

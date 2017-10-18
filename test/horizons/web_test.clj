@@ -29,7 +29,7 @@
         (is (not (empty? (:body response))))
         (is (= true (clojure.string/includes? (:body response) "timestamp\":\"1990-10-27")))
         (is (= true (clojure.string/includes? (:body response) "timestamp\":\"1990-10-28")))
-        (is (= true (clojure.string/includes? (:body response) "duration\":{\"minutes\":60"))))))
+        (is (= true (clojure.string/includes? (:body response) "step-size\":\"PT60M"))))))
   (testing "get geophysical data"
     (testing "with default options"
       (let [web-app-component (component "full-geophysical-interaction.txt")
