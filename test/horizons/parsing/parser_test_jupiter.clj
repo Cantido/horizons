@@ -12,9 +12,9 @@
     ::h/geophysical-data
     {::h/mass {::h/unit-code "KGM" ::h/value 1.89813E+27M}
      ::h/density {::h/unit-code "23" ::h/value 1.326M}
-     ::h/equatorial-radius {::h/value "71492+-4" ::h/unit-code "KMT"}
-     ::h/polar-radius {::h/unit-code "KMT" ::h/value "66854+-10"}
-     ::h/mean-radius {::h/unit-code "KMT" ::h/value "69911+-6"}
+     ::h/equatorial-radius {::h/value 71492 ::h/unit-code "KMT"}
+     ::h/polar-radius {::h/unit-code "KMT" ::h/value 66854}
+     ::h/mean-radius {::h/unit-code "KMT" ::h/value 69911}
      ::h/flattening {::h/value 0.06487M}
      ::h/sidereal-rotation-period {::h/value (t/plus
                                                (t/hours 9)
@@ -46,7 +46,7 @@
      ::h/mean-sidereal-orbital-period-days 4332.820M
      ::h/mean-daily-motion {::h/value 0.0831294M}
      ::h/orbit-velocity {::h/value 13.0697M ::h/unit-code "M62"}
-     ::h/mean-temperature {::h/value "165+-5" ::h/unit-code "KEL"}
+     ::h/mean-temperature {::h/value 165 ::h/unit-code "KEL"}
      ::h/heat-flow-mass {::h/value 15E7M ::h/unit-code "A62"}
      ::h/solar-constant {::h/value 50.5M ::h/unit-code "D54"}
      ::h/dipole-tilt-offset {::h/value "9.6deg/0.1Rp"}

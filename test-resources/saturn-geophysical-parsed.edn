@@ -10,9 +10,9 @@
  [:geophysical-data
   [:mass [:exponent [:integer "26"]] [:unit-KGM] [:value [:float "5.68319"]]]
   [:density [:unit-23] [:value [:float "0.687"]]]
-  [:equatorial-radius [:value "60268+-4"] [:unit-KMT]]
-  [:polar-radius [:unit-KMT] [:value "54364+-10"]]
-  [:mean-radius [:value "58232+-6"] [:unit-KMT]]
+  [:equatorial-radius [:value [:integer "60268"]] [:unit-KMT]]
+  [:polar-radius [:unit-KMT] [:value [:integer "54364"]]]
+  [:mean-radius [:value [:integer "58232"]] [:unit-KMT]]
   [:flattening [:value [:float "0.09796"]]]
   [:sidereal-rotation-period
    [:value
@@ -41,7 +41,7 @@
   [:mean-sidereal-orbital-period-days [:float "10755.698"]]
   [:mean-daily-motion [:value [:float "0.0334979"]]]
   [:orbit-velocity [:value [:float "9.6624"]] [:unit-M62]]
-  [:mean-temperature [:value "134+-4"] [:unit-KEL]]
+  [:mean-temperature [:value [:integer "134"]] [:unit-KEL]]
   [:heat-flow-mass [:exponent [:integer "7"]] [:value [:integer "15"]] [:unit-A62]]
   [:solar-constant [:value [:float "15.04"]] [:unit-D54]]
   [:dipole-tilt-offset [:value "0.0deg/0.0Rp"]]

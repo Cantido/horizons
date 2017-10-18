@@ -13,7 +13,7 @@
   [:mass [:exponent [:integer "23"]] [:unit-KGM] [:value [:float "6.4185"]]]
   [:flattening [:value "1/154.409"]]
   [:volume [:exponent [:integer "10"]] [:unit-H20] [:value [:float "16.318"]]]
-  [:semi-major-axis [:value "3397+-4"]]
+  [:semi-major-axis [:value [:integer "3397"]]]
   [:sidereal-rotation-period [:value [:duration [:hours [:float "24.622962"]]]]]
   [:rotation-rate [:exponent [:integer "5"]] [:unit-SEC] [:value [:float "7.088218"]]]
   [:mean-solar-day [:value [:duration [:days [:float "1.0274907"]]]]]
@@ -30,7 +30,7 @@
   [:standard-gravitational-parameter [:value [:float "42828.3"]]]
   [:equatorial-radius [:value [:float "3394.0"]] [:unit-KMT]]
   [:gm-1-sigma [:value "+- 0.1"]]
-  [:mass-ratio-from-sun [:value "3098708+-9"]]
+  [:mass-ratio-from-sun [:value [:integer "3098708"]]]
 
   [:atmospheric-pressure [:unit-BAR] [:value [:float "0.0056"]]]
   [:maximum-angular-diameter [:value "17.9\""]]
