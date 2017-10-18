@@ -16,14 +16,17 @@
       (response/status 500)
       (liberator.representation/ring-response)))
 
+(defn resource-defaults [web-app-component id]
+  {:allowed-methods [:get]
+   :available-media-types ["application/json"]
+   :available-languages ["en-US"]
+   :exists? (fn [_] (horizons/supported? (:horizons-client web-app-component) id))
+   :handle-exception (partial handle-exception web-app-component)})
+
 (defn- planetary-body-resource [web-app-component id]
   (liberator/resource
-    :allowed-methods [:get]
-    :available-media-types ["application/json"]
-    :available-languages ["en-US"]
-    :exists? (fn [_] (horizons/supported? (:horizons-client web-app-component) id))
-    :handle-ok (fn [_] (horizons/get-planetary-body (:horizons-client web-app-component) id))
-    :handle-exception (partial handle-exception web-app-component)))
+    (resource-defaults web-app-component id)
+    :handle-ok (fn [_] (horizons/get-planetary-body (:horizons-client web-app-component) id))))
 
 (defn- ephemeris-options [horizons-client m]
   (-> m
@@ -32,12 +35,8 @@
 
 (defn- ephemeris-resource [web-app-component id]
   (liberator/resource
-    :allowed-methods [:get]
-    :available-media-types ["application/json"]
-    :available-languages ["en-US"]
-    :exists? (fn [_] (horizons/supported? (:horizons-client web-app-component) id))
-    :handle-ok (fn [ctx] (horizons/get-ephemeris (:horizons-client web-app-component) id (ephemeris-options web-app-component ctx)))
-    :handle-exception (partial handle-exception web-app-component)))
+    (resource-defaults web-app-component id)
+    :handle-ok (fn [ctx] (horizons/get-ephemeris (:horizons-client web-app-component) id (ephemeris-options web-app-component ctx)))))
 
 (defn- app-routes [web-app-component]
   (routes/routes
