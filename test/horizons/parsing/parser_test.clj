@@ -8,6 +8,7 @@
     [horizons.parsing.parser :as parser]
     [horizons.parsing.parser-test-mercury :refer :all]
     [horizons.parsing.parser-test-jupiter :refer :all]
+    [horizons.parsing.parser-test-mars-ephemeris :refer :all]
     [instaparse.transform :as transform]
     [com.stuartsierra.component :as component]
     [horizons.test-utils :as test])
@@ -260,4 +261,5 @@
 (deftest full-transformation-test
   (is (= (restructure (get-edn "mercury-geophysical-parsed.edn")) mercury-map))
   (is (= (restructure (get-edn "jupiter-geophysical-parsed.edn")) jupiter-map))
+  (is (= (restructure (get-edn "mars-ephemeredes-parsed.edn")) mars-map))
   (is (= (restructure timestamp-tree) timestamp-map)))
