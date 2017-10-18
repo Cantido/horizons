@@ -41,28 +41,23 @@
 (defn parse-file [name]
   (parser/parse (component) (get-file name)))
 
-(defn assert-parse-result [txt-name edn-name]
-  (testing txt-name
-    (is (= (parse-file txt-name)
-           (get-edn edn-name)))))
-
 (defn success? [x]
   (not (insta/failure? x)))
 
 (deftest geophysical-grammar-test
-  (assert-parse-result "mercury-geophysical.txt" "mercury-geophysical-parsed.edn")
-  (assert-parse-result "venus-geophysical.txt" "venus-geophysical-parsed.edn")
-  (assert-parse-result "earth-geophysical.txt" "earth-geophysical-parsed.edn")
-  (assert-parse-result "mars-geophysical.txt" "mars-geophysical.edn")
-  (assert-parse-result "jupiter-geophysical.txt" "jupiter-geophysical-parsed.edn")
-  (assert-parse-result "saturn-geophysical.txt" "saturn-geophysical-parsed.edn")
+  (is (= (parse-file "mercury-geophysical.txt") (get-edn "mercury-geophysical-parsed.edn")))
+  (is (= (parse-file "venus-geophysical.txt") (get-edn "venus-geophysical-parsed.edn")))
+  (is (= (parse-file "earth-geophysical.txt") (get-edn "earth-geophysical-parsed.edn")))
+  (is (= (parse-file "mars-geophysical.txt") (get-edn "mars-geophysical.edn")))
+  (is (= (parse-file "jupiter-geophysical.txt") (get-edn "jupiter-geophysical-parsed.edn")))
+  (is (= (parse-file "saturn-geophysical.txt") (get-edn "saturn-geophysical-parsed.edn")))
   (testing "uranus-geophysical.txt"
     (is (success? (parse-file "uranus-geophysical.txt"))))
   (testing "neptune-geophysical.txt"
     (is (success? (parse-file "neptune-geophysical.txt")))))
 
 (deftest ephemeredes-grammar-test
-  (assert-parse-result "mars-ephemeredes.txt" "mars-ephemeredes-parsed.edn")
+  (is (= (parse-file "mars-ephemeredes.txt") (get-edn "mars-ephemeredes-parsed.edn")))
   (testing "mercury-ephemeredes.txt"
     (is (success? (parse-file "mercury-ephemeredes.txt"))))
   (testing "jupiter-ephemeredes.txt"
