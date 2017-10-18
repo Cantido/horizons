@@ -8,7 +8,7 @@
   [:body-name "Jupiter"]
   [:body-id [:integer "599"]]]
  [:geophysical-data
-  [:mass [:exponent [:integer "24"]] [:unit-KGM] [:value "1898.13+-.19"]]
+  [:mass [:exponent [:integer "24"]] [:unit-KGM] [:value [:float "1898.13"]]]
   [:density [:unit-23] [:value [:float "1.326"]]]
   [:equatorial-radius [:value "71492+-4"] [:unit-KMT]]
   [:polar-radius [:unit-KMT] [:value "66854+-10"]]
@@ -26,12 +26,12 @@
   [:inferred-rotation-period
    [:value
     [:duration
-     [:hours "9.894+-0.02"]]]]
+     [:hours [:float "9.894"]]]]]
   [:ks [:value [:float "0.494"]]]
   [:moment-of-inertia [:value [:float "0.254"]]]
   [:monent-of-inertia-upper-bound [:value [:float "0.267"]]]
   [:rocky-core-mass [:value [:float "0.0261"]]]
-  [:y-factor [:value "0.18+-0.04"]]
+  [:y-factor [:value [:float "0.18"]]]
   [:standard-gravitational-parameter [:value [:integer [:comma-separated-integer "126,686,511"]]]]
   [:gm-1-sigma [:value "+-100"]]
   [:equatorial-gravity [:unit-MSK] [:value [:float "24.79"]]]

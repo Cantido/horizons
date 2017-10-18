@@ -8,9 +8,9 @@
   [:body-name "Earth"]
   [:body-id [:integer "399"]]]
  [:physical-properties
-  [:mean-radius [:unit-KMT] [:value "6371.01+-0.01"]]
-  [:mass [:exponent [:integer "24"]] [:unit-KGM] [:value "5.97219+-0.0006"]]
-  [:equatorial-radius [:unit-KMT] [:value "6378.14+-0.01"]]
+  [:mean-radius [:unit-KMT] [:value [:float "6371.01"]]]
+  [:mass [:exponent [:integer "24"]] [:unit-KGM] [:value [:float "5.97219"]]]
+  [:equatorial-radius [:unit-KMT] [:value [:float "6378.14"]]]
   [:polar-axis [:unit-KMT] [:value [:float "6356.752"]]]
   [:atmospheric-mass [:value [:sci-not [:significand [:float "5.1"]] [:exponent [:integer "18"]]]] [:unit-KGM]]
   [:flattening [:value "1/298.257"]]

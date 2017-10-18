@@ -10,7 +10,7 @@
      ::h/body-name "Jupiter"
      ::h/body-id 599}
     ::h/geophysical-data
-    {::h/mass {::h/unit-code "KGM" ::h/exponent 24 ::h/value "1898.13+-.19"}
+    {::h/mass {::h/unit-code "KGM" ::h/value 1.89813E+27M}
      ::h/density {::h/unit-code "23" ::h/value 1.326M}
      ::h/equatorial-radius {::h/value "71492+-4" ::h/unit-code "KMT"}
      ::h/polar-radius {::h/unit-code "KMT" ::h/value "66854+-10"}
@@ -30,7 +30,7 @@
      ::h/moment-of-inertia {::h/value 0.254M}
      ::h/monent-of-inertia-upper-bound {::h/value 0.267M}
      ::h/rocky-core-mass {::h/value 0.0261M}
-     ::h/y-factor {::h/value "0.18+-0.04"}
+     ::h/y-factor {::h/value 0.18M}
      ::h/standard-gravitational-parameter {::h/value 126686511}
      ::h/gm-1-sigma {::h/value "+-100"}
      ::h/equatorial-gravity {::h/unit-code "MSK" ::h/value 24.79M}
