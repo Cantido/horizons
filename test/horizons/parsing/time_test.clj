@@ -6,7 +6,8 @@
   (:import (org.joda.time DateTime Period PeriodType)))
 
 (deftest json-test
-  (clojure.data.json/read-str (clojure.data.json/write-str (DateTime.))))
+  (clojure.data.json/read-str (clojure.data.json/write-str (DateTime.)))
+  (clojure.data.json/read-str (clojure.data.json/write-str (Period.))))
 
 (deftest timestamp-transformer-test
   (is (= (timestamp-transformer

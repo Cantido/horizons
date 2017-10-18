@@ -117,7 +117,9 @@
 
 (extend-protocol json/JSONWriter
   DateTime
-  (-write [object out] (write-datetime object out)))
+  (-write [object out] (write-datetime object out))
+  ReadablePeriod
+  (-write [object out] (.print out (str \" object \"))))
 
 (defn timestamp-transformer
   ([date time]
