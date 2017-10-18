@@ -47,18 +47,18 @@
     (telnet/release (:telnet-client component) conn)
     result))
 
-(defn get-planetary-body
+(defn geophysical
   "Get geophysical data about a solar system body with the given ID."
   ([component id]
-   (with-new-connection get-planetary-body component id))
+   (with-new-connection geophysical component id))
   ([component connection id]
    {:pre  [(connect/valid-connection? (:connection-factory component) connection)]}
    (log/info "Getting body" id)
    (parsed-result component telnet/get-body connection id)))
 
-(defn get-ephemeris
-  ([component id] (get-ephemeris component id {}))
-  ([component id opts] (with-new-connection get-ephemeris component id opts))
+(defn ephemeris
+  ([component id] (ephemeris component id {}))
+  ([component id opts] (with-new-connection ephemeris component id opts))
   ([component connection id opts]
    {:pre  [(some? component)
            (connect/valid-connection? (:connection-factory component) connection)]}
