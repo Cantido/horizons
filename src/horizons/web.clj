@@ -16,26 +16,27 @@
       (response/status 500)
       (liberator.representation/ring-response)))
 
-(defn resource-defaults [web-app-component id]
+(defn- ephemeris-options [horizons-client m]
+  (-> m
+      (get-in [:request :params])
+      (select-keys #{:start :end :step-size})))
+
+(defn resource-defaults [web-app-component]
   {:allowed-methods [:get]
    :available-media-types ["application/json"]
    :available-languages ["en-US"]
-   :exists? (fn [_] (horizons/supported? (:horizons-client web-app-component) id))
    :handle-exception (partial handle-exception web-app-component)})
 
 (defn- geophysical-resource [web-app-component id]
   (liberator/resource
-    (resource-defaults web-app-component id)
+    (resource-defaults web-app-component)
+    :exists? (fn [_] (horizons/supported? (:horizons-client web-app-component) id))
     :handle-ok (fn [_] (horizons/geophysical (:horizons-client web-app-component) id))))
-
-(defn- ephemeris-options [horizons-client m]
-  (-> m
-    (get-in [:request :params])
-    (select-keys #{:start :end :step-size})))
 
 (defn- ephemeris-resource [web-app-component id]
   (liberator/resource
-    (resource-defaults web-app-component id)
+    (resource-defaults web-app-component)
+    :exists? (fn [_] (horizons/supported? (:horizons-client web-app-component) id))
     :handle-ok (fn [ctx] (horizons/ephemeris (:horizons-client web-app-component) id (ephemeris-options web-app-component ctx)))))
 
 (defn- app-routes [web-app-component]
