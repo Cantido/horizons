@@ -115,7 +115,9 @@
   (let [datestring (f/unparse (f/formatters :date-time) datetime)]
     (.print out (str \" datestring \"))))
 
-(extend DateTime json/JSONWriter {:-write write-datetime})
+(extend-protocol json/JSONWriter
+  DateTime
+  (-write [object out] (write-datetime object out)))
 
 (defn timestamp-transformer
   ([date time]
