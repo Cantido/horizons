@@ -14,7 +14,7 @@
 (defn horizons-system
   "Build a new Horizons system."
   [config-options]
-  (let [{:keys [http telnet grammar-specification]} config-options]
+  (let [{:keys [http telnet parser]} config-options]
     (component/system-map
       :web-server (server/web-server (:host http) (:port http) (:path http))
       :web-app (web/web-app)
@@ -22,7 +22,7 @@
       :telnet-client (telnet/new-telnet-client)
       :connection-factory (connect/new-connection-factory (:host telnet) (:port telnet) (:timeout telnet))
       :connection-pool (pool/new-connection-pool)
-      :parser (parser/new-parser grammar-specification))))
+      :parser (parser/new-parser (:grammar-specification parser) (:supported-bodies parser)))))
 
 (defn- attach-shutdown-hook
   "Attach a shutdown hook to the given runtime to stop the given system. Returns the system."

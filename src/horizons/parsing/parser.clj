@@ -125,8 +125,15 @@
     (clojure.walk/postwalk #(do-if coll-of-colls? tree-vec->map %))
     (clojure.walk/postwalk #(do-if keyword? put-keyword-in-ns %))))
 
+(defn supported?
+  "Check if the given body ID is definitely supported by this parser."
+  [component id]
+  (->> id
+       bigdec
+       int
+       (:supported-bodies component)))
 
-(defrecord Parser [grammar-specification parser-fn parser-opts]
+(defrecord Parser [grammar-specification supported-bodies parser-fn parser-opts]
   component/Lifecycle
 
   (start [this]
@@ -142,5 +149,6 @@
   (stop [this]
     this))
 
-(defn new-parser [grammar-specification]
-  (map->Parser {:grammar-specification grammar-specification}))
+(defn new-parser [grammar-specification supported-bodies]
+  (map->Parser {:grammar-specification grammar-specification
+                :supported-bodies supported-bodies}))

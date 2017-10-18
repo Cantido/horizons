@@ -8,24 +8,18 @@
             [horizons.telnet.connect :as connect]
             [com.stuartsierra.component :as component]))
 
-(defrecord HorizonsClient [supported-bodies
-                           parser
+(defrecord HorizonsClient [parser
                            telnet-client
                            connection-factory])
 
 (defn horizons-client []
   (component/using
-    (map->HorizonsClient
-      {:supported-bodies #{199 299 399 499 599 699 799 899}})
+    (map->HorizonsClient {})
     [:telnet-client :connection-factory :parser]))
 
 (defn supported?
-  "Check if the given body ID is definitely supported by this system."
-  [client id]
-  (->> id
-    bigdec
-    int
-    (:supported-bodies client)))
+  [component id]
+  (parser/supported? (:parser component) id))
 
 (defn- parsed-result
   [horizons-client-component telnet-fn conn & more]
