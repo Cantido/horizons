@@ -27,6 +27,11 @@
    :available-languages ["en-US"]
    :handle-exception (partial handle-exception web-app-component)})
 
+(defn- bodies-resource [web-app-component]
+  (liberator/resource
+    (resource-defaults web-app-component)
+    :handle-ok (fn [_] (horizons/bodies (:horizons-client web-app-component)))))
+
 (defn- geophysical-resource [web-app-component id]
   (liberator/resource
     (resource-defaults web-app-component)
@@ -42,9 +47,11 @@
 (defn- app-routes [web-app-component]
   (routes/routes
     (routes/GET "/" [] (response/redirect "https://cantido.github.io/horizons/"))
-    (routes/context ["/bodies/:id", :id #"[0-9]+"] [id]
-      (routes/ANY "/" [] (geophysical-resource web-app-component id))
-      (routes/ANY "/ephemeris" [] (ephemeris-resource web-app-component id)))
+    (routes/context "/bodies" []
+      (routes/ANY "/" [] (bodies-resource web-app-component))
+      (routes/context ["/:id", :id #"[0-9]+"] [id]
+        (routes/ANY "/" [] (geophysical-resource web-app-component id))
+        (routes/ANY "/ephemeris" [] (ephemeris-resource web-app-component id))))
     (route/not-found (response/not-found "Resource not found."))))
 
 (defn app-handler [web-app-component]

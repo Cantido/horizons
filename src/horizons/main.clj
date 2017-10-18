@@ -11,6 +11,9 @@
             [horizons.parsing.parser :as parser]
             [clojure.java.io :as io]))
 
+(defn- bodies []
+  (-> "bodies.edn" io/resource io/file slurp read-string))
+
 (defn horizons-system
   "Build a new Horizons system."
   [config-options]
@@ -18,7 +21,7 @@
     (component/system-map
       :web-server (server/web-server (:host http) (:port http) (:path http))
       :web-app (web/web-app)
-      :horizons-client (core/horizons-client)
+      :horizons-client (core/horizons-client (bodies))
       :telnet-client (telnet/new-telnet-client)
       :connection-factory (connect/new-connection-factory (:host telnet) (:port telnet) (:timeout telnet))
       :connection-pool (pool/new-connection-pool)

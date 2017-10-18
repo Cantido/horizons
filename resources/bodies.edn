@@ -1,0 +1,52 @@
+#{
+  {:id       0 :name "Solar System Barycenter"            :designation ""            :aliases #{"SSB"}}
+  {:id       1 :name "Mercury Barycenter"                 :designation ""            :aliases #{}}
+  {:id       2 :name "Venus Barycenter"                   :designation ""            :aliases #{}}
+  {:id       3 :name "Earth-Moon Barycenter"              :designation ""            :aliases #{"EMB"}}
+  {:id       4 :name "Mars Barycenter"                    :designation ""            :aliases #{}}
+  {:id       5 :name "Jupiter Barycenter"                 :designation ""            :aliases #{}}
+  {:id       6 :name "Saturn Barycenter"                  :designation ""            :aliases #{}}
+  {:id       7 :name "Uranus Barycenter"                  :designation ""            :aliases #{}}
+  {:id       8 :name "Neptune Barycenter"                 :designation ""            :aliases #{}}
+  {:id       9 :name "Pluto Barycenter"                   :designation ""            :aliases #{}}
+  {:id      10 :name "Sun"                                :designation ""            :aliases #{"Sol"}}
+  {:id     199 :name "Mercury"                            :designation ""            :aliases #{}}
+  {:id     299 :name "Venus"                              :designation ""            :aliases #{}}
+  {:id     301 :name "Moon"                               :designation ""            :aliases #{"Luna"}}
+  {:id     391 :name "L1"                                 :designation ""            :aliases #{"S-E-M Lagrangian"}}
+  {:id     392 :name "L2"                                 :designation ""            :aliases #{"S-E-M Lagrangian"}}
+  {:id     394 :name "L4"                                 :designation ""            :aliases #{"S-E-M Lagrangian"}}
+  {:id     395 :name "L5"                                 :designation ""            :aliases #{"S-E-M Lagrangian"}}
+  {:id     399 :name "Earth"                              :designation ""            :aliases #{"Geocenter"}}
+  {:id     401 :name "Phobos"                             :designation ""            :aliases #{"MI"}}
+  {:id     402 :name "Deimos"                             :designation ""            :aliases #{"MII"}}
+  {:id     499 :name "Mars"                               :designation ""            :aliases #{}}
+  {:id     501 :name "Io"                                 :designation ""            :aliases #{}}
+  {:id     502 :name "Europa"                             :designation ""            :aliases #{"JI"}}
+  {:id     503 :name "Ganymede"                           :designation ""            :aliases #{"JII"}}
+  {:id     504 :name "Callisto"                           :designation ""            :aliases #{"JIII"}}
+  {:id     505 :name "Amalthea"                           :designation ""            :aliases #{"JIV"}}
+  {:id     506 :name "Himalia"                            :designation ""            :aliases #{"JV"}}
+  {:id     507 :name "Elara"                              :designation ""            :aliases #{"JVI"}}
+  {:id     508 :name "Pasiphae"                           :designation ""            :aliases #{"JVII"}}
+  {:id     509 :name "Sinope"                             :designation ""            :aliases #{"JVIII"}}
+  {:id     510 :name "Lysithea"                           :designation ""            :aliases #{"JIX"}}
+  {:id     511 :name "Carme"                              :designation ""            :aliases #{"JX"}}
+  {:id     512 :name "Ananke"                             :designation ""            :aliases #{"JXI"}}
+  {:id     513 :name "Leda"                               :designation ""            :aliases #{"JXII"}}
+  {:id     514 :name "Thebe"                              :designation ""            :aliases #{"JXIII"}}
+  {:id     515 :name "Adrastea"                           :designation ""            :aliases #{"JXIV"}}
+  {:id     516 :name "Metis"                              :designation ""            :aliases #{"JXV"}}
+  {:id     517 :name "Callirrhoe"                         :designation "1999J1"      :aliases #{"JXVI"}}
+  {:id     518 :name "Themisto"                           :designation "1975J1"      :aliases #{"JXVII" "2000J1"}}
+  {:id     519 :name "Megaclite"                          :designation "2000J8"      :aliases #{"JXVIII"}}
+  {:id     520 :name "Taygete"                            :designation "2000J9"      :aliases #{"JXIX"}}
+  {:id     521 :name "Chaldene"                           :designation "2000J10"     :aliases #{"JXX"}}
+  {:id     522 :name "Harpalyke"                          :designation "2000J5"      :aliases #{"JXXI"}}
+  {:id     523 :name "Kalyke"                             :designation "2000J2"      :aliases #{"JXXII"}}
+  {:id     524 :name "Iocaste"                            :designation "2000J3"      :aliases #{"JXXIII"}}
+  {:id     599 :name "Jupiter"                            :designation ""            :aliases #{}}
+  {:id     699 :name "Saturn"                             :designation ""            :aliases #{}}
+  {:id     799 :name "Uranus"                             :designation ""            :aliases #{}}
+  {:id     899 :name "Uranus"                             :designation ""            :aliases #{}}
+  {:id     999 :name "Pluto"                              :designation "134340"      :aliases #{}}}

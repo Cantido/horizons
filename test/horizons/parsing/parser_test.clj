@@ -26,15 +26,9 @@
 (defn get-edn [name]
   (read-string (get-file name)))
 
-(defn parser-component
-  ([]
-   {:post [(some? %)]}
-   (component/start (parser/new-parser (io/resource "horizons.bnf")))))
-
-
 (defn parse-with-rule [kw s]
   (-> "resources/horizons.bnf"
-    parser/new-parser
+    (parser/new-parser #{})
     (assoc :parser-opts [:start kw])
     component/start
     (parser/parse s)))

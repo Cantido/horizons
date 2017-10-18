@@ -36,9 +36,9 @@
      (component/system-map
        :web-server {}
        :web-app (web/web-app)
-       :horizons-client (core/horizons-client)
+       :horizons-client (core/horizons-client {})
        :telnet-client (telnet/new-telnet-client)
        :connection-factory (connect/new-connection-factory "bad-host" 0 0)
        :connection-pool (pool/new-connection-pool to-telnet from-telnet)
-       :parser (parser/new-parser (io/resource "horizons.bnf")))
+       :parser (parser/new-parser (io/resource "horizons.bnf") #{199 299 399 499 599 699 799 899}))
      (component/start-system))))

@@ -8,13 +8,14 @@
             [horizons.telnet.connect :as connect]
             [com.stuartsierra.component :as component]))
 
-(defrecord HorizonsClient [parser
+(defrecord HorizonsClient [bodies
+                           parser
                            telnet-client
                            connection-factory])
 
-(defn horizons-client []
+(defn horizons-client [bodies]
   (component/using
-    (map->HorizonsClient {})
+    (map->HorizonsClient {:bodies bodies})
     [:telnet-client :connection-factory :parser]))
 
 (defn supported?
@@ -40,6 +41,10 @@
         result (apply fn component conn more)]
     (telnet/release (:telnet-client component) conn)
     result))
+
+(defn bodies
+  [component]
+  (:bodies component))
 
 (defn geophysical
   "Get geophysical data about a solar system body with the given ID."
