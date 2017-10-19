@@ -127,6 +127,7 @@ separator ::= <ws>, (short-sep | long-sep), <ws>, separator?;
 short-sep ::= #"\*{79}";
 long-sep ::= #"\*{110}";
 
+newline ::= "\n" | "\r" | "\r\n";
 space ::= #"[\s\n\r]";
 ws ::= space*;
 backspace ::= "\u0008";
@@ -221,7 +222,12 @@ unit-degrees-per-day ::= "deg/d" | "dg/d";
 
 (* Domain-specific data types *)
 
-body-name ::= #"\w+";
+(*
+  body names are allowed to have spaces, but currently limited to only one,
+  we don't want to match excess whitespace between words.
+*)
+
+body-name ::= #"\w+(\w|( \w))*\w+";
 body-id ::= integer;
 
 (* Document proper *)
@@ -383,14 +389,22 @@ select-prompt ::= ("Select ... [E]phemeris, [F]tp, [M]ail, [R]edisplay, ?, <cr>:
                    ">>> Select... [A]gain, [N]ew-case, [F]tp, [K]ermit, [M]ail, [R]edisplay, ? : ");
 
 
-<bodies-document> ::= <garbage> <ws>
-<separator> <ws>
-' Multiple major-bodies match string "*"' <ws>
-'  ID#      Name                               Designation  IAU/aliases/other' <ws>
-'  -------  ---------------------------------- -----------  -------------------' <ws>
-'        0  Solar System Barycenter                         SSB' <ws>
-'        1  Mercury Barycenter' <ws>
-'        2  Venus Barycenter' <ws>
+bodies-line-item ::=  < "  " #"[ ]{0,6}">
+                      body-id <"  ">
+                      ((body-name        <" "+>) | <#"[ ]{34}">) <" ">
+                      ((body-designation <" "+>) | <#"[ ]{11}">) <"  ">
+                      ((body-aliases     <" "+>) | <#"[ ]{19}">);
+
+body-designation ::= #"\d+\w*";
+body-aliases ::= body-alias (" " body-alias)*;
+body-alias ::= #"\w+";
+
+
+<bodies-document> ::=
+<garbage> <newline>
+<separator> <newline>
+<bodies-header> <newline>
+(bodies-line-item <newline>)+
 '        3  Earth-Moon Barycenter                           EMB' <ws>
 '        4  Mars Barycenter' <ws>
 '        5  Jupiter Barycenter' <ws>
@@ -426,7 +440,7 @@ select-prompt ::= ("Select ... [E]phemeris, [F]tp, [M]ail, [R]edisplay, ?, <cr>:
 '      514  Thebe                                           JXIV' <ws>
 '      515  Adrastea                                        JXV' <ws>
 '      516  Metis                                           JXVI' <ws>
-'      517  Callirrhoe                         1999J1       JXVII' <ws>
+bodies-line-item <ws>
 '      518  Themisto                           1975J1       JXVIII 2000J1' <ws>
 '      519  Megaclite                          2000J8       JXIX' <ws>
 '      520  Taygete                            2000J9       JXX' <ws>
@@ -469,7 +483,7 @@ select-prompt ::= ("Select ... [E]phemeris, [F]tp, [M]ail, [R]edisplay, ?, <cr>:
 '      557                                     2003J5       JLVII 55063' <ws>
 '      558                                     2003J15      JLVIII 55067' <ws>
 '      559                                     2017J1       JLIX' <ws>
-'    55060                                     2003J2' <ws>
+bodies-line-item <newline>
 '    55061                                     2003J3' <ws>
 '    55062                                     2003J4' <ws>
 '    55064                                     2003J9' <ws>
@@ -753,3 +767,7 @@ select-prompt ::= ("Select ... [E]phemeris, [F]tp, [M]ail, [R]edisplay, ?, <cr>:
 
 '   Number of matches =  362. Use ID# to make unique selection.' <ws>
 <separator> <ws>
+
+bodies-header ::= ' Multiple major-bodies match string "*"' <ws>
+                  '  ID#      Name                               Designation  IAU/aliases/other' <ws>
+                  '  -------  ---------------------------------- -----------  ------------------- '
