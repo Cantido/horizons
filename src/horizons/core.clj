@@ -14,6 +14,7 @@
                            connection-factory])
 
 (defn horizons-client [bodies]
+  {:pre [(some? bodies)]}
   (component/using
     (map->HorizonsClient {:bodies bodies})
     [:telnet-client :connection-factory :parser]))
@@ -44,6 +45,7 @@
 
 (defn bodies
   [component]
+  {:pre [(some? component)]}
   (:bodies component))
 
 (defn geophysical
