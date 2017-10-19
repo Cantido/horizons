@@ -13,10 +13,13 @@
                            telnet-client
                            connection-factory])
 
+(defn- id-< [x y]
+  (< (:id x) (:id y)))
+
 (defn horizons-client [bodies]
   {:pre [(some? bodies)]}
   (component/using
-    (map->HorizonsClient {:bodies bodies})
+    (map->HorizonsClient {:bodies (apply sorted-set-by id-< bodies)})
     [:telnet-client :connection-factory :parser]))
 
 (defn supported?
@@ -47,6 +50,11 @@
   [component]
   {:pre [(some? component)]}
   (:bodies component))
+
+(defn supported-bodies
+  [component]
+  {:pre [(some? component)]}
+  (filter #(supported? component (:id %)) (bodies component)))
 
 (defn geophysical
   "Get geophysical data about a solar system body with the given ID."

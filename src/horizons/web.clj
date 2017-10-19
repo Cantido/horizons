@@ -21,16 +21,44 @@
       (get-in [:request :params])
       (select-keys #{:start :end :step-size})))
 
-(defn resource-defaults [web-app-component]
+(defn- location-rel [m]
+  (str "/bodies/" (:id m)))
+
+(defn- ephemeris-rel [m]
+  (str "/bodies/" (:id m) "/ephemeris"))
+
+(defn- add-links [m]
+  (assoc m :location (location-rel m)
+           :ephemeris (ephemeris-rel m)))
+
+(defn- bodies [c]
+  (->> (:horizons-client c)
+       (horizons/bodies)
+       (map add-links)
+       (seq)))
+
+(defn- supported-bodies [c]
+  (->> (:horizons-client c)
+       (horizons/supported-bodies)
+       (map add-links)
+       (seq)))
+
+(defn- resource-defaults [web-app-component]
   {:allowed-methods [:get]
    :available-media-types ["application/json"]
    :available-languages ["en-US"]
    :handle-exception (partial handle-exception web-app-component)})
 
+(defn- index-resource [web-app-component]
+  (liberator/resource
+    (resource-defaults web-app-component)
+    :handle-ok (fn [_] {:supported-bodies (supported-bodies web-app-component)
+                        :homepage "https://cantido.github.io/horizons"})))
+
 (defn- bodies-resource [web-app-component]
   (liberator/resource
     (resource-defaults web-app-component)
-    :handle-ok (fn [_] (horizons/bodies (:horizons-client web-app-component)))))
+    :handle-ok (fn [_] (bodies web-app-component))))
 
 (defn- geophysical-resource [web-app-component id]
   (liberator/resource
@@ -46,7 +74,7 @@
 
 (defn- app-routes [web-app-component]
   (routes/routes
-    (routes/GET "/" [] (response/redirect "https://cantido.github.io/horizons/"))
+    (routes/GET "/" [] (index-resource web-app-component))
     (routes/context "/bodies" []
       (routes/ANY "/" [] (bodies-resource web-app-component))
       (routes/context ["/:id", :id #"[0-9]+"] [id]
