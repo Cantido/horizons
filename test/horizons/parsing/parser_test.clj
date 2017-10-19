@@ -58,6 +58,9 @@
   (testing "jupiter-ephemeredes.txt"
     (is (success? (parse-file "jupiter-ephemeredes.txt")))))
 
+(deftest bodies-grammar-test
+  (is (= (parse-file "bodies.txt") (get-edn "bodies-parsed.edn"))))
+
 (deftest put-keyword-in-ns-test
   (is (= (parser/put-keyword-in-ns :label)
          ::h/label)))
