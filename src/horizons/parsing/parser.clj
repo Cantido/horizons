@@ -128,10 +128,11 @@
 (defn supported?
   "Check if the given body ID is definitely supported by this parser."
   [component id]
-  (->> id
-       bigdec
-       int
-       (:supported-bodies component)))
+  (let [{:keys [supported-bodies]} component]
+    (->> id
+         bigdec
+         int
+         (get supported-bodies))))
 
 (defrecord Parser [grammar-specification supported-bodies parser-fn parser-opts]
   component/Lifecycle
