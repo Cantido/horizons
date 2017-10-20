@@ -1,52 +1,363 @@
 #{
-  {:id       0 :name "Solar System Barycenter"            :designation ""            :aliases #{"SSB"}}
-  {:id       1 :name "Mercury Barycenter"                 :designation ""            :aliases #{}}
-  {:id       2 :name "Venus Barycenter"                   :designation ""            :aliases #{}}
-  {:id       3 :name "Earth-Moon Barycenter"              :designation ""            :aliases #{"EMB"}}
-  {:id       4 :name "Mars Barycenter"                    :designation ""            :aliases #{}}
-  {:id       5 :name "Jupiter Barycenter"                 :designation ""            :aliases #{}}
-  {:id       6 :name "Saturn Barycenter"                  :designation ""            :aliases #{}}
-  {:id       7 :name "Uranus Barycenter"                  :designation ""            :aliases #{}}
-  {:id       8 :name "Neptune Barycenter"                 :designation ""            :aliases #{}}
-  {:id       9 :name "Pluto Barycenter"                   :designation ""            :aliases #{}}
-  {:id      10 :name "Sun"                                :designation ""            :aliases #{"Sol"}}
-  {:id     199 :name "Mercury"                            :designation ""            :aliases #{}}
-  {:id     299 :name "Venus"                              :designation ""            :aliases #{}}
-  {:id     301 :name "Moon"                               :designation ""            :aliases #{"Luna"}}
-  {:id     391 :name "L1"                                 :designation ""            :aliases #{"S-E-M Lagrangian"}}
-  {:id     392 :name "L2"                                 :designation ""            :aliases #{"S-E-M Lagrangian"}}
-  {:id     394 :name "L4"                                 :designation ""            :aliases #{"S-E-M Lagrangian"}}
-  {:id     395 :name "L5"                                 :designation ""            :aliases #{"S-E-M Lagrangian"}}
-  {:id     399 :name "Earth"                              :designation ""            :aliases #{"Geocenter"}}
-  {:id     401 :name "Phobos"                             :designation ""            :aliases #{"MI"}}
-  {:id     402 :name "Deimos"                             :designation ""            :aliases #{"MII"}}
-  {:id     499 :name "Mars"                               :designation ""            :aliases #{}}
-  {:id     501 :name "Io"                                 :designation ""            :aliases #{}}
-  {:id     502 :name "Europa"                             :designation ""            :aliases #{"JI"}}
-  {:id     503 :name "Ganymede"                           :designation ""            :aliases #{"JII"}}
-  {:id     504 :name "Callisto"                           :designation ""            :aliases #{"JIII"}}
-  {:id     505 :name "Amalthea"                           :designation ""            :aliases #{"JIV"}}
-  {:id     506 :name "Himalia"                            :designation ""            :aliases #{"JV"}}
-  {:id     507 :name "Elara"                              :designation ""            :aliases #{"JVI"}}
-  {:id     508 :name "Pasiphae"                           :designation ""            :aliases #{"JVII"}}
-  {:id     509 :name "Sinope"                             :designation ""            :aliases #{"JVIII"}}
-  {:id     510 :name "Lysithea"                           :designation ""            :aliases #{"JIX"}}
-  {:id     511 :name "Carme"                              :designation ""            :aliases #{"JX"}}
-  {:id     512 :name "Ananke"                             :designation ""            :aliases #{"JXI"}}
-  {:id     513 :name "Leda"                               :designation ""            :aliases #{"JXII"}}
-  {:id     514 :name "Thebe"                              :designation ""            :aliases #{"JXIII"}}
-  {:id     515 :name "Adrastea"                           :designation ""            :aliases #{"JXIV"}}
-  {:id     516 :name "Metis"                              :designation ""            :aliases #{"JXV"}}
-  {:id     517 :name "Callirrhoe"                         :designation "1999J1"      :aliases #{"JXVI"}}
-  {:id     518 :name "Themisto"                           :designation "1975J1"      :aliases #{"JXVII" "2000J1"}}
-  {:id     519 :name "Megaclite"                          :designation "2000J8"      :aliases #{"JXVIII"}}
-  {:id     520 :name "Taygete"                            :designation "2000J9"      :aliases #{"JXIX"}}
-  {:id     521 :name "Chaldene"                           :designation "2000J10"     :aliases #{"JXX"}}
-  {:id     522 :name "Harpalyke"                          :designation "2000J5"      :aliases #{"JXXI"}}
-  {:id     523 :name "Kalyke"                             :designation "2000J2"      :aliases #{"JXXII"}}
-  {:id     524 :name "Iocaste"                            :designation "2000J3"      :aliases #{"JXXIII"}}
-  {:id     599 :name "Jupiter"                            :designation ""            :aliases #{}}
-  {:id     699 :name "Saturn"                             :designation ""            :aliases #{}}
-  {:id     799 :name "Uranus"                             :designation ""            :aliases #{}}
-  {:id     899 :name "Uranus"                             :designation ""            :aliases #{}}
-  {:id     999 :name "Pluto"                              :designation "134340"      :aliases #{}}}
+  {:id 0 :name "Solar System Barycenter" :aliases #{"SSB"}}
+  {:id 1 :name "Mercury Barycenter"}
+  {:id 2 :name "Venus Barycenter"}
+  {:id 3 :name "Earth-Moon Barycenter" :aliases #{"EMB"}}
+  {:id 4 :name "Mars Barycenter"}
+  {:id 5 :name "Jupiter Barycenter"}
+  {:id 6 :name "Saturn Barycenter"}
+  {:id 7 :name "Uranus Barycenter"}
+  {:id 8 :name "Neptune Barycenter"}
+  {:id 9 :name "Pluto Barycenter"}
+  {:id 10 :name "Sun" :aliases #{"Sol"}}
+  {:id 199 :name "Mercury"}
+  {:id 299 :name "Venus"}
+  {:id 301 :name "Moon" :aliases #{"Luna"}}
+  {:id 391 :name "L1" :aliases #{"S-E-M Lagrangian"}}
+  {:id 392 :name "L2" :aliases #{"S-E-M Lagrangian"}}
+  {:id 394 :name "L4" :aliases #{"S-E-M Lagrangian"}}
+  {:id 395 :name "L5" :aliases #{"S-E-M Lagrangian"}}
+  {:id 399 :name "Earth" :aliases #{"Geocenter"}}
+  {:id 401 :name "Phobos" :aliases #{"MI"}}
+  {:id 402 :name "Deimos" :aliases #{"MII"}}
+  {:id 499 :name "Mars"}
+  {:id 501 :name "Io"}
+  {:id 502 :name "Europa" :aliases #{"JI"}}
+  {:id 503 :name "Ganymede" :aliases #{"JII"}}
+  {:id 504 :name "Callisto" :aliases #{"JIII"}}
+  {:id 505 :name "Amalthea" :aliases #{"JIV"}}
+  {:id 506 :name "Himalia" :aliases #{"JV"}}
+  {:id 507 :name "Elara" :aliases #{"JVI"}}
+  {:id 508 :name "Pasiphae" :aliases #{"JVII"}}
+  {:id 509 :name "Sinope" :aliases #{"JVIII"}}
+  {:id 510 :name "Lysithea" :aliases #{"JIX"}}
+  {:id 511 :name "Carme" :aliases #{"JX"}}
+  {:id 512 :name "Ananke" :aliases #{"JXI"}}
+  {:id 513 :name "Leda" :aliases #{"JXII"}}
+  {:id 514 :name "Thebe" :aliases #{"JXIII"}}
+  {:id 515 :name "Adrastea" :aliases #{"JXIV"}}
+  {:id 516 :name "Metis" :aliases #{"JXV"}}
+  {:id 517 :name "Callirrhoe" :designation "1999J1" :aliases #{"JXVI"}}
+  {:id 518 :name "Themisto" :designation "1975J1" :aliases #{"JXVII" "2000J1"}}
+  {:id 519 :name "Megaclite" :designation "2000J8" :aliases #{"JXVIII"}}
+  {:id 520 :name "Taygete" :designation "2000J9" :aliases #{"JXIX"}}
+  {:id 521 :name "Chaldene" :designation "2000J10" :aliases #{"JXX"}}
+  {:id 522 :name "Harpalyke" :designation "2000J5" :aliases #{"JXXI"}}
+  {:id 523 :name "Kalyke" :designation "2000J2" :aliases #{"JXXII"}}
+  {:id 524 :name "Iocaste" :designation "2000J3" :aliases #{"JXXIII"}}
+  {:id 525 :name "Erinome" :designation "2000J4" :aliases #{"JXXV"}}
+  {:id 526 :name "Isonoe" :designation "2000J6" :aliases #{"JXXVI"}}
+  {:id 527 :name "Praxidike" :designation "2000J7" :aliases #{"JXXVII"}}
+  {:id 528 :name "Autonoe" :designation "2001J1" :aliases #{"JXXVIII"}}
+  {:id 529 :name "Thyone" :designation "2001J2" :aliases #{"JXXIX"}}
+  {:id 530 :name "Hermippe" :designation "2001J3" :aliases #{"JXXX"}}
+  {:id 531 :name "Aitne" :designation "2001J11" :aliases #{"JXXXI"}}
+  {:id 532 :name "Eurydome" :designation "2001J4" :aliases #{"JXXXII"}}
+  {:id 533 :name "Euanthe" :designation "2001J7" :aliases #{"JXXXIII"}}
+  {:id 534 :name "Euporie" :designation "2001J10" :aliases #{"JXXXIV"}}
+  {:id 535 :name "Orthosie" :designation "2001J9" :aliases #{"JXXXV"}}
+  {:id 536 :name "Sponde" :designation "2001J5" :aliases #{"JXXXVI"}}
+  {:id 537 :name "Kale" :designation "2001J8" :aliases #{"JXXXVII"}}
+  {:id 538 :name "Pasithee" :designation "2001J6" :aliases #{"JXXXVIII"}}
+  {:id 539 :name "Hegemone" :designation "2003J8" :aliases #{"JXXXIX"}}
+  {:id 540 :name "Mneme" :designation "2003J21" :aliases #{"JXL"}}
+  {:id 541 :name "Aoede" :designation "2003J7" :aliases #{"JXLI"}}
+  {:id 542 :name "Thelxinoe" :designation "2003J22" :aliases #{"JXLII"}}
+  {:id 543 :name "Arche" :designation "2002J1" :aliases #{"JXLIII"}}
+  {:id 544 :name "Kallichore" :designation "2003J11" :aliases #{"JXLIV"}}
+  {:id 545 :name "Helike" :designation "2003J6" :aliases #{"JXLV"}}
+  {:id 546 :name "Carpo" :designation "2003J20" :aliases #{"JXLVI"}}
+  {:id 547 :name "Eukelade" :designation "2003J1" :aliases #{"JXLVII"}}
+  {:id 548 :name "Cyllene" :designation "2003J13" :aliases #{"JXLVIII"}}
+  {:id 549 :name "Kore" :designation "2003J14" :aliases #{"JXLIX"}}
+  {:id 550 :name "Herse" :designation "2003J17" :aliases #{"JXLXII"}}
+  {:id 551 :designation "2010J1" :aliases #{"JLI"}}
+  {:id 552 :designation "2010J2" :aliases #{"JLII"}}
+  {:id 553 :name "Dia" :designation "2000J11" :aliases #{"JLIII"}}
+  {:id 554 :designation "2016J1" :aliases #{"JLIV"}}
+  {:id 555 :designation "2003J18" :aliases #{"JLV 55069"}}
+  {:id 556 :designation "2011J2" :aliases #{"JLVI 55075"}}
+  {:id 557 :designation "2003J5" :aliases #{"JLVII 55063"}}
+  {:id 558 :designation "2003J15" :aliases #{"JLVIII 55067"}}
+  {:id 559 :designation "2017J1" :aliases #{"JLIX"}}
+  {:id 55060 :designation "2003J2"}
+  {:id 55061 :designation "2003J3"}
+  {:id 55062 :designation "2003J4"}
+  {:id 55064 :designation "2003J9"}
+  {:id 55065 :designation "2003J10"}
+  {:id 55066 :designation "2003J12"}
+  {:id 55068 :designation "2003J16"}
+  {:id 55070 :designation "2003J19"}
+  {:id 55071 :designation "2003J23"}
+  {:id 55074 :designation "2011J1"}
+  {:id 599 :name "Jupiter"}
+  {:id 601 :name "Mimas" :aliases #{"SI"}}
+  {:id 602 :name "Enceladus" :aliases #{"SII"}}
+  {:id 603 :name "Tethys" :aliases #{"SIII"}}
+  {:id 604 :name "Dione" :aliases #{"SIV"}}
+  {:id 605 :name "Rhea" :aliases #{"SV"}}
+  {:id 606 :name "Titan" :aliases #{"SVI"}}
+  {:id 607 :name "Hyperion" :aliases #{"SVII"}}
+  {:id 608 :name "Iapetus" :aliases #{"SVIII"}}
+  {:id 609 :name "Phoebe" :aliases #{"SIX"}}
+  {:id 610 :name "Janus" :aliases #{"SX"}}
+  {:id 611 :name "Epimetheus" :aliases #{"SXI"}}
+  {:id 612 :name "Helene" :aliases #{"SXII"}}
+  {:id 613 :name "Telesto" :aliases #{"SXIII"}}
+  {:id 614 :name "Calypso" :aliases #{"SXIV"}}
+  {:id 615 :name "Atlas" :aliases #{"SXV"}}
+  {:id 616 :name "Prometheus" :aliases #{"SXVI"}}
+  {:id 617 :name "Pandora" :aliases #{"SXVII"}}
+  {:id 618 :name "Pan" :aliases #{"SXVIII"}}
+  {:id 619 :name "Ymir" :designation "2000S1" :aliases #{"SXIX"}}
+  {:id 620 :name "Paaliaq" :designation "2000S2" :aliases #{"SXX"}}
+  {:id 621 :name "Tarvos" :designation "2000S4" :aliases #{"SXXI"}}
+  {:id 622 :name "Ijiraq" :designation "2000S6" :aliases #{"SXXII"}}
+  {:id 623 :name "Suttungr" :designation "2000S12" :aliases #{"SXXIII"}}
+  {:id 624 :name "Kiviuq" :designation "2000S5" :aliases #{"SXXIV"}}
+  {:id 625 :name "Mundilfari" :designation "2000S9" :aliases #{"SXXV"}}
+  {:id 626 :name "Albiorix" :designation "2000S11" :aliases #{"SXXVI"}}
+  {:id 627 :name "Skathi" :designation "2000S8" :aliases #{"SXXVII"}}
+  {:id 628 :name "Erriapus" :designation "2000S10" :aliases #{"SXXVIII"}}
+  {:id 629 :name "Siarnaq" :designation "2000S3" :aliases #{"SXXIX"}}
+  {:id 630 :name "Thrymr" :designation "2000S7" :aliases #{"SXXX"}}
+  {:id 631 :name "Narvi" :designation "2003S1" :aliases #{"SXXXI"}}
+  {:id 632 :name "Methone" :designation "2004S1" :aliases #{"SXXXII"}}
+  {:id 633 :name "Pallene" :designation "2004S2" :aliases #{"SXXXIII"}}
+  {:id 634 :name "Polydeuces" :designation "2004S5" :aliases #{"SXXXIV"}}
+  {:id 635 :name "Daphnis" :designation "2005S1" :aliases #{"SXXXV"}}
+  {:id 636 :name "Aegir" :designation "2004S10" :aliases #{"SXXXVI" "65038"}}
+  {:id 637 :name "Bebhionn" :designation "2004S11" :aliases #{"SXXXVII" "65039"}}
+  {:id 638 :name "Bergelmir" :designation "2004S15" :aliases #{"SXXXVIII" "65043"}}
+  {:id 639 :name "Bestla" :designation "2004S18" :aliases #{"SXXXIX" "65046"}}
+  {:id 640 :name "Farbauti" :designation "2004S9" :aliases #{"SXL" "65037"}}
+  {:id 641 :name "Fenrir" :designation "2004S16" :aliases #{"SXLI" "65044"}}
+  {:id 642 :name "Fornjot" :designation "2004S8" :aliases #{"SXLII" "65036"}}
+  {:id 643 :name "Hati" :designation "2004S14" :aliases #{"SXLIII"}}
+  {:id 644 :name "Hyrrokkin" :designation "2004S19" :aliases #{"SXLIV"}}
+  {:id 645 :name "Kari" :designation "2006S2" :aliases #{"SXLV"}}
+  {:id 646 :name "Loge" :designation "2006S5" :aliases #{"SXLVI"}}
+  {:id 647 :name "Skoll" :designation "2006S8" :aliases #{"SXLVII"}}
+  {:id 648 :name "Surtur" :designation "2006S7" :aliases #{"SXLVIII"}}
+  {:id 649 :name "Anthe" :designation "2007S4" :aliases #{"SXLIX"}}
+  {:id 650 :name "Jarnsaxa" :designation "2006S6" :aliases #{"SL"}}
+  {:id 651 :name "Greip" :designation "2006S4" :aliases #{"SLI"}}
+  {:id 652 :name "Tarqeq" :designation "2007S1" :aliases #{"SLII"}}
+  {:id 653 :name "Aegaeon" :designation "2008S1" :aliases #{"SLIII"}}
+  {:id 65035 :designation "2004S7"}
+  {:id 65040 :designation "2004S12"}
+  {:id 65041 :designation "2004S13"}
+  {:id 65045 :designation "2004S17"}
+  {:id 65048 :designation "2006S1"}
+  {:id 65050 :designation "2006S3"}
+  {:id 65055 :designation "2007S2"}
+  {:id 65056 :designation "2007S3"}
+  {:id 699 :name "Saturn"}
+  {:id 701 :name "Ariel" :aliases #{"UI"}}
+  {:id 702 :name "Umbriel" :aliases #{"UII"}}
+  {:id 703 :name "Titania" :aliases #{"UIII"}}
+  {:id 704 :name "Oberon" :aliases #{"UIV"}}
+  {:id 705 :name "Miranda" :aliases #{"UV"}}
+  {:id 706 :name "Cordelia" :aliases #{"UVI"}}
+  {:id 707 :name "Ophelia" :aliases #{"UVII"}}
+  {:id 708 :name "Bianca" :aliases #{"UVIII"}}
+  {:id 709 :name "Cressida" :aliases #{"UIX"}}
+  {:id 710 :name "Desdemona" :aliases #{"UX"}}
+  {:id 711 :name "Juliet" :aliases #{"UXI"}}
+  {:id 712 :name "Portia" :aliases #{"UXII"}}
+  {:id 713 :name "Rosalind" :aliases #{"UXIII"}}
+  {:id 714 :name "Belinda" :aliases #{"UXIV"}}
+  {:id 715 :name "Puck" :aliases #{"UXV"}}
+  {:id 716 :name "Caliban" :aliases #{"UXVI"}}
+  {:id 717 :name "Sycorax" :aliases #{"UXVII"}}
+  {:id 718 :name "Prospero" :designation "1999U3" :aliases #{"UXVIII"}}
+  {:id 719 :name "Setebos" :designation "1999U1" :aliases #{"UXIX"}}
+  {:id 720 :name "Stephano" :designation "1999U2" :aliases #{"UXX"}}
+  {:id 721 :name "Trinculo" :designation "2001U1" :aliases #{"UXXI"}}
+  {:id 722 :name "Francisco" :designation "2001U3" :aliases #{"UXXII"}}
+  {:id 723 :name "Margaret" :designation "2003U3" :aliases #{"UXXIII"}}
+  {:id 724 :name "Ferdinand" :designation "2001U2" :aliases #{"UXXIV"}}
+  {:id 725 :name "Perdita" :designation "1986U10" :aliases #{"UXXV"}}
+  {:id 726 :name "Mab" :designation "2003U1" :aliases #{"UXXVI"}}
+  {:id 727 :name "Cupid" :designation "2003U2" :aliases #{"UXXVII"}}
+  {:id 799 :name "Uranus"}
+  {:id 801 :name "Triton" :aliases #{"NI"}}
+  {:id 802 :name "Nereid" :aliases #{"NII"}}
+  {:id 803 :name "Naiad" :aliases #{"NIII"}}
+  {:id 804 :name "Thalassa" :aliases #{"NIV"}}
+  {:id 805 :name "Despina" :aliases #{"NV"}}
+  {:id 806 :name "Galatea" :aliases #{"NVI"}}
+  {:id 807 :name "Larissa" :aliases #{"NVII"}}
+  {:id 808 :name "Proteus" :aliases #{"NVIII"}}
+  {:id 809 :name "Halimede" :aliases #{"2002N1"}}
+  {:id 810 :name "Psamathe" :aliases #{"2003N1"}}
+  {:id 811 :name "Sao" :aliases #{"2002N2"}}
+  {:id 812 :name "Laomedeia" :aliases #{"2002N3"}}
+  {:id 813 :name "Neso" :aliases #{"2002N4"}}
+  {:id 814 :name "2004N1"}
+  {:id 899 :name "Neptune"}
+  {:id 901 :name "Charon" :aliases #{"PI"}}
+  {:id 902 :name "Nix" :aliases #{"PII"}}
+  {:id 903 :name "Hydra" :aliases #{"PIII"}}
+  {:id 904 :name "Kerberos" :designation "2011P1"}
+  {:id 905 :name "Styx" :designation "2012P1"}
+  {:id 999 :name "Pluto" :designation "134340"}
+  {:id -2 :name "Mariner 2 (spacecraft)"}
+  {:id -3 :name "Mars Orbiter Mission (MOM) (spacecraft)" :aliases #{"Mangalyaan ISRO"}}
+  {:id -5 :name "Planet-C (spacecraft)" :aliases #{"VCO Akatsuki"}}
+  {:id -6 :name "Pioneer 6 (spacecraft)"}
+  {:id -12 :name "LADEE (spacecraft)"}
+  {:id -18 :name "LCROSS (spacecraft)"}
+  {:id -20 :name "Pioneer 8 (spacecraft)"}
+  {:id -21 :name "SOHO (spacecraft)"}
+  {:id -23 :name "Pioneer 10 (spacecraft)"}
+  {:id -24 :name "Pioneer 11 (spacecraft)"}
+  {:id -25 :name "Lunar Prospector (LP) (spacecraft)"}
+  {:id -29 :name "Stardust (bus) (spacecraft)" :aliases #{"NExT"}}
+  {:id -29900 :name "Stardust (SRC) (spacecraft)"}
+  {:id -30 :name "Deep Space 1 (spacecraft)" :aliases #{"DS1" "DS-1"}}
+  {:id -31 :name "Voyager 1 (spacecraft)"}
+  {:id -32 :name "Voyager 2 (spacecraft)"}
+  {:id -37 :name "Hayabusa 2 (spacecraft)"}
+  {:id -39 :name "Ouna (spacecraft)"}
+  {:id -40 :name "Clementine (spacecraft)" :aliases #{"DSPSE"}}
+  {:id -41 :name "Mars Express (spacecraft)" :aliases #{"MEX"}}
+  {:id -47 :name "Genesis (bus) (spacecraft)"}
+  {:id -48 :name "Hubble Space Telescope" :aliases #{"HST (spacecraft)"}}
+  {:id -47900 :name "Genesis (SRC) (spacecraft)"}
+  {:id -53 :name "Mars Odyssey (spacecraft)"}
+  {:id -55 :name "Ulysses (spacecraft)"}
+  {:id -61 :name "Juno (spacecraft)"}
+  {:id -64 :name "OSIRIS-REx (spacecraft)" :aliases #{"ORX"}}
+  {:id -70 :name "Deep Impact IMPACTOR (spacecraft)"}
+  {:id -74 :name "Mars Reconnaissance Orbiter (spacecraft)" :aliases #{"MRO"}}
+  {:id -76 :name "Mars Science Laboratory (spacecraft)" :designation "MSL"}
+  {:id -74900 :name "MRO Centaur Stage (spacecraft)"}
+  {:id -77 :name "Galileo (spacecraft)"}
+  {:id -78 :name "DSCOVR (spacecraft)" :aliases #{"Triana"}}
+  {:id -79 :name "Spitzer Space Telescope" :aliases #{"SST" "SIRTF (spacecraft)"}}
+  {:id -82 :name "Cassini (spacecraft)"}
+  {:id -84 :name "Phoenix (spacecraft)"}
+  {:id -85 :name "LRO (spacecraft)"}
+  {:id -86 :name "CH1"}
+  {:id -93 :name "NEAR (spacecraft)"}
+  {:id -98 :name "New Horizons (spacecraft)" :aliases #{"NH" "New_Horizons"}}
+  {:id -111 :name "ICE (spacecraft)" :aliases #{"ISEE-3"}}
+  {:id -130 :name "Hayabusa (spacecraft)" :aliases #{"Muses-C"}}
+  {:id -140 :name "Deep Impact Flyby - EPOXI (spacecraft)" :aliases #{"EPOXI"}}
+  {:id -143 :name "ExoMars TGO (spacecraft)"}
+  {:id -150 :name "Cassini Huygens (spacecraft)"}
+  {:id -151 :name "Chandra Observatory (spacecraft)"}
+  {:id -163 :name "WISE (spacecraft)"}
+  {:id -165 :name "WMAP (spacecraft)"}
+  {:id -170 :name "James Webb Space Telescope (spacecraft)" :aliases #{"JWST"}}
+  {:id -176 :name "GRAIL-SS Second Stage (spacecraft)"}
+  {:id -177 :name "GRAIL-A (spacecraft)" :aliases #{"Ebb"}}
+  {:id -178 :name "Nozomi (spacecraft)" :aliases #{"Planet-B"}}
+  {:id -181 :name "GRAIL-B (spacecraft)" :aliases #{"Flow"}}
+  {:id -192 :name "THEMIS-B (spacecraft)" :aliases #{"ARTEMIS-P1"}}
+  {:id -193 :name "THEMIS-C (spacecraft)" :aliases #{"ARTEMIS-P2"}}
+  {:id -198 :name "INTEGRAL (spacecraft)"}
+  {:id -202 :name "MAVEN (spacecraft)"}
+  {:id -203 :name "Dawn (spacecraft)"}
+  {:id -204 :name "CONTOUR-A (SPACECRAFT FRAGMENT)"}
+  {:id -205 :name "CONTOUR-B (SPACECRAFT FRAGMENT)"}
+  {:id -206 :name "CONTOUR-C (SPACECRAFT FRAGMENT)"}
+  {:id -226 :name "Rosetta (spacecraft)"}
+  {:id -227 :name "Kepler (spacecraft)"}
+  {:id -234 :name "STEREO-A (spacecraft)" :aliases #{"AHEAD"}}
+  {:id -235 :name "STEREO-B (spacecraft)" :aliases #{"BEHIND"}}
+  {:id -234900 :name "STEREO Third Stage (spacecraft)"}
+  {:id -236 :name "MESSENGER (spacecraft)"}
+  {:id -248 :name "Venus Express (spacecraft)" :aliases #{"VEX"}}
+  {:id -253 :name "Opportunity (spacecraft)" :aliases #{"MER"}}
+  {:id -254 :name "Spirit (spacecraft)" :aliases #{"MER"}}
+  {:id -344 :name "Galileo Probe (spacecraft)"}
+  {:id -486 :name "Herschel Space Observatory (spacecraft)"}
+  {:id -489 :name "Planck Space Observatory (spacecraft)"}
+  {:id -557 :name "Spektr-R Observatory (spacecraft)"}
+  {:id -610 :name "Juno Centaur Stage (spacecraft)"}
+  {:id -640 :name "Infrared Space Observatory (spacecraft)" :aliases #{"ISO"}}
+  {:id -760 :name "MSL Centaur Stage spacecraft"}
+  {:id -997 :name "NEOCP 6Q0B44E" :aliases #{"B44E"}}
+  {:id -998 :name "NEOCP J002E3"}
+  {:id -23230 :name "ETS-6 (spacecraft)" :aliases #{"Kiku-6"}}
+  {:id -399050 :name "2015 PDC"}
+  {:id -399080 :name "Apollo 8 S-IVB (spacecraft)"}
+  {:id -399090 :name "Apollo 9 S-IVB (spacecraft)"}
+  {:id -399100 :name "Apollo 10 S-IVB (spacecraft)"}
+  {:id -399101 :name "Apollo 10 LM (spacecraft)" :aliases #{"Snoopy"}}
+  {:id -399110 :name "Apollo 11 S-IVB (spacecraft)"}
+  {:id -399120 :name "Apollo 12 S-IVB (spacecraft)"}
+  {:id -108366 :name "GOES-1 (spacecraft)"}
+  {:id -108820 :name "LAGEOS-1 (spacecraft)"}
+  {:id -111353 :name "FLTSATCOM 2 (spacecraft)"}
+  {:id -112065 :name "SBS-1 (spacecraft)"}
+  {:id -112472 :name "GOES-5 (spacecraft)"}
+  {:id -113631 :name "SATCOM-C5 (spacecraft)" :designation "RCA-SATCOM-"}
+  {:id -114050 :name "GOES-6 (spacecraft)"}
+  {:id -116908 :name "AJISAI (spacecraft)"}
+  {:id -119548 :name "TDRS-3 (spacecraft)"}
+  {:id -120452 :name "NAVSTAR-18 (spacecraft)"}
+  {:id -122195 :name "LAGEOS-2 (spacecraft)"}
+  {:id -122911 :name "Solidaridad-1 (spacecraft)"}
+  {:id -122927 :name "Telstar-401 (spacecraft)"}
+  {:id -123051 :name "GOES-8 (spacecraft)"}
+  {:id -123553 :name "AMSC-1 (spacecraft)"}
+  {:id -123846 :name "MSAT-1 (spacecraft)"}
+  {:id -123754 :name "Echostar-1 (spacecraft)"}
+  {:id -124313 :name "Echostar-2 (spacecraft)"}
+  {:id -125126 :name "HGS-1 (spacecraft)" :aliases #{"Asiasat-3" "PAS-22"}}
+  {:id -125544 :name "International Space Station (spacecraft)" :aliases #{"ISS"}}
+  {:id -125989 :name "XMM-Newton (spacecraft)"}
+  {:id -126402 :name "Echostar-6 (spacecraft)"}
+  {:id -126407 :name "NAVSTAR-48 (spacecraft)"}
+  {:id -126639 :name "AMC-8 (spacecraft)" :aliases #{"GE-8"}}
+  {:id -127783 :name "GALEX (spacecraft)"}
+  {:id -128485 :name "Swift Observatory (spacecraft)"}
+  {:id -128868 :name "Anik-F1R (spacecraft)"}
+  {:id -128884 :name "Galaxy-15 (spacecraft)"}
+  {:id -129494 :name "DirecTV-9S (spacecraft)"}
+  {:id -129520 :name "XM-4 (spacecraft)"}
+  {:id -133207 :name "Echostar-11 (spacecraft)"}
+  {:id -113269 :name "WESTAR-5 (spacecraft)"}
+  {:id -134381 :name "Kepler Booster (Third Stage) (spacecraft)"}
+  {:id -135491 :name "GOES-14 (spacecraft)"}
+  {:id -136134}
+  {:id -136395 :name "Solar Dynamics Observatory (spacecraft)" :aliases #{"SDO"}}
+  {:id -136499 :name "Echostar-14 (spacecraft)"}
+  {:id -137218 :name "SKYTERRA-1 (spacecraft)"}
+  {:id -137820 :name "Tiangong-1 (spacecraft)"}
+  {:id -138250 :name "BEIDOU-M3 (spacecraft)"}
+  {:id -138358 :name "NuSTAR (spacecraft)" :designation "SMEX-11"}
+  {:id -138551 :name "Echostar-17 (spacecraft)"}
+  {:id -138833 :name "NAVSTAR-67 (spacecraft)"}
+  {:id -139166 :name "NAVSTAR-68 (spacecraft)"}
+  {:id -139479 :name "Gaia (spacecraft)"}
+  {:id -140482 :name "MMS-1 (spacecraft)"}
+  {:id -140483 :name "MMS-2 (spacecraft)"}
+  {:id -140484 :name "MMS-3 (spacecraft)"}
+  {:id -140485 :name "MMS-4 (spacecraft)"}
+  {:id -140663 :name "DirecTV-15 (spacecraft)"}
+  {:id -141043 :name "LISA Pathfinder (spacecraft)" :aliases #{"LPF"}}
+  {:id -999742 :name "LISA Pathfinder Propulsion Module" :aliases #{"PRM"}}
+  {:id 999787 :name "WT1190F"}
+  {:id -937001 :name "2017 PDC" :aliases #{"PDC17"}}
+  {:id -937002 :name "2017 PDCa" :aliases #{"PDC17a"}}
+  {:id 1000012}
+  {:id 1000041 :name "Hartley 2" :designation "103P"}
+  {:id 1000093}
+  {:id 1000107}
+  {:id 1003228 :name "Siding Spring" :designation "2013 A1"}
+  {:id 9037734 :name "ISON_NG1"}
+  {:id 9037735 :name "ISON_NG2"}
+  {:id 2000001}
+  {:id 2000004}
+  {:id 2000433}
+  {:id 2006489 :name "Golevka" :designation "1991 JX" :aliases #{"6489"}}
+  {:id 2101955}
+  {:id 2002867}
+  {:id 3430291 :name "2008 TC3"}
+  {:id 3713011}
+  {:id 9901490 :name "9O0DC57 (spacecraft)"}
+  {:id 9901885 :name "9U01FF6 (spacecraft)"}}
