@@ -1,7 +1,7 @@
 (ns horizons.server
   (:require [com.stuartsierra.component :as component]
             [clojure.tools.logging :as log]
-            [immutant.web :as server]
+            [ring.adapter.jetty :as jetty]
             [horizons.web :as web]))
 
 (defrecord WebServer [web-app http-server host port path]
@@ -11,12 +11,12 @@
     (log/debug "DEBUG logging enabled")
     (log/trace "TRACE logging enabled")
     (assoc this :http-server
-                (server/run (web/app-handler web-app)
-                            :host host
+                (jetty/run-jetty (web/app-handler web-app)
+                           {:host host
                             :port port
-                            :path path)))
+                            :path path})))
   (stop [this]
-    (server/stop http-server)
+    (.stop http-server)
     this))
 
 (defn web-server [host port path]

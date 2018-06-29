@@ -22,8 +22,7 @@
                  [aero "1.1.2"]
                  [instaparse "1.4.9"]
                  [liberator "0.15.2"]
-                 [org.immutant/web "2.1.8"]
-                 [ring/ring-core "1.6.1"]
+                 [ring "1.6.1"]
                  [ring/ring-defaults "0.3.0"]
                  [ring/ring-json "0.4.0"]
                  [ring/ring-mock "0.3.0"]])
