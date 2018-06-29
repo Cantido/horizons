@@ -19,7 +19,7 @@
 (def ^:private block-endings
   #{#"Horizons> "
     #"<cr>: "
-    #"Select\.\.\. \[A\]gain, \[N\]ew-case, \[F\]tp, \[K\]ermit, \[M\]ail, \[R\]edisplay, \? : "
+    #"\[R\]edisplay, \? : "
     #"Observe, Elements, Vectors  \[o,e,v,\?\] : "
     #"Coordinate center \[ <id>,coord,geo  \] : "
     #"Use previous center  \[ cr=\(y\), n, \? \] : "
