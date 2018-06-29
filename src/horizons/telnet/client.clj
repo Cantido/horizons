@@ -131,11 +131,11 @@
   [component to-telnet from-telnet s]
   {:pre [(connect/valid-connection? (:connection-factory component) [to-telnet from-telnet])]
    :post [(connect/valid-connection? (:connection-factory component) [to-telnet from-telnet])]}
-  (log/trace "Transmitting:" s)
+  (log/debug "Transmitting:" s)
   (and
     (log/spyf :trace "Channel accepted transmit: %s" (async/>!! to-telnet s))
     (log/spyf :trace "Completely swallowed echo: %s" (swallow-echo s from-telnet))
-    (log/spyf :trace "Next block contents:%n----%n%s%n----" (async/<!! (next-block from-telnet)))))
+    (log/spyf :debug "Next block contents:%n----%n%s%n----" (async/<!! (next-block from-telnet)))))
 
 (defn with-new-connection
   [fn component & more]
