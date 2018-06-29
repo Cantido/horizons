@@ -104,6 +104,8 @@
   ; The echoed text is length (count s) and it is followed by a carriage return and a line feed.
   (let [n (+ crlf-size (count (str s)))
         taken (block-take! n chan)]
+    (log/debug "Swallowed: " (string/escape (apply str taken) {\newline "\\n" \return "\\r"}))
+    (log/debug "Expected to swallow: " s "(as seq: " (seq s) ")")
     (log/trace "Swallowed:" (string/escape (apply str taken) {\newline "\\n" \return "\\r"}))
     (= n (count taken))))
 
