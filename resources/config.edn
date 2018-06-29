@@ -8,4 +8,5 @@
   :timeout 5000}
  :parser
  {:grammar-specification "resources/horizons.bnf"
-  :supported-bodies #{199 299 399 499 599 699 799 899}}}
+  :supported-bodies #{199 299 399 499 599 699 799 899}
+  :parser-opts {:optimize :memory}}}
