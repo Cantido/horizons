@@ -20,7 +20,7 @@
                  [commons-net/commons-net "3.6"]
                  [compojure "1.6.0"]
                  [aero "1.1.2"]
-                 [instaparse "1.4.7"]
+                 [instaparse "1.4.9"]
                  [liberator "0.15.2"]
                  [org.immutant/web "2.1.8"]
                  [ring/ring-core "1.6.1"]
