@@ -134,6 +134,17 @@
     (log/info "Channel connection to Telnet has been closed."))
   chan)
 
+(defn- kib
+  "Given an n in KiB, returns the number of bytes."
+  [n] (* n 1024))
+
+; We only ever send a couple characters at a time,
+; so this is more than enough.
+(def writer-buffer-size 32)
+
+; The default ephemeris is about 110 KiB.
+; This lets us avoid ever blocking in the middle of a request.
+(def reader-buffer-size (kib 128))
 
 (defn connect!
   "Connects to the HORIZONS telnet service, attaching its input and output to channels.
@@ -143,5 +154,5 @@
   (let [{:keys [host port timeout]} connection-factory
         client (telnet! host port timeout)]
     (log/info "Connection to ssd.jpl.nasa.gov:6775 established.")
-    [(writer-channel! client (async/chan) :encoding "US-ASCII")
-     (reader-channel! client (async/chan) :encoding "US-ASCII")]))
+    [(writer-channel! client (async/chan writer-buffer-size) :encoding "US-ASCII")
+     (reader-channel! client (async/chan reader-buffer-size) :encoding "US-ASCII")]))
