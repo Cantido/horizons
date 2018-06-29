@@ -386,6 +386,7 @@ y-factor ::= <"Y factor (He/H ratio)"> <equals> value?;
 obliquity-source ::= "[1] Margot et al., Science 316, 2007";
 
 select-prompt ::= ("Select ... [E]phemeris, [F]tp, [M]ail, [R]edisplay, ?, <cr>: " |
+                   ">>> Select... [A]gain, [N]ew-case, [F]tp, [M]ail, [R]edisplay, ? : " |
                    ">>> Select... [A]gain, [N]ew-case, [F]tp, [K]ermit, [M]ail, [R]edisplay, ? : ");
 
 
