@@ -58,7 +58,7 @@
     (are [text result] (= (parse-with-rule :a-roche-ice text) result)
       "A_roche(ice)/Rp       =  2.76" [:a-roche-ice [:value [:float "2.76"]]]
       "Aroche(ice)/Rp        =  2.71" [:a-roche-ice [:value [:float "2.71"]]]))
-  (testing "a-roche-ice"
+  (testing "atmospheric-mass"
     (are [text result] (= (parse-with-rule :atmospheric-mass text) result)
       "Atmos          = 5.1   x 10^18 kg" [:atmospheric-mass [:value [:sci-not [:significand [:float "5.1"]] [:exponent [:integer "18"]]]] [:unit-KGM]]
       "Mass of atmosphere, kg= ~ 2.5 x 10^16" [:atmospheric-mass [:unit-KGM] [:value [:sci-not [:significand [:float "2.5"]] [:exponent [:integer "16"]]]]]))
