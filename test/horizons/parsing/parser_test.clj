@@ -53,6 +53,20 @@
   (testing "neptune-geophysical.txt"
     (is (success? (parse-file "neptune-geophysical.txt")))))
 
+(deftest geophysical-values-test
+  (testing "a-roche-ice"
+    (are [text result] (= (parse-with-rule :a-roche-ice text) result)
+      "A_roche(ice)/Rp       =  2.76" [:a-roche-ice [:value [:float "2.76"]]]
+      "Aroche(ice)/Rp        =  2.71" [:a-roche-ice [:value [:float "2.71"]]]))
+  (testing "a-roche-ice"
+    (are [text result] (= (parse-with-rule :atmospheric-mass text) result)
+      "Atmos          = 5.1   x 10^18 kg" [:atmospheric-mass [:value [:sci-not [:significand [:float "5.1"]] [:exponent [:integer "18"]]]] [:unit-KGM]]
+      "Mass of atmosphere, kg= ~ 2.5 x 10^16" [:atmospheric-mass [:unit-KGM] [:value [:sci-not [:significand [:float "2.5"]] [:exponent [:integer "16"]]]]]))
+  (testing "mean-radius"
+    (are [text result] (= (parse-with-rule :mean-radius text) result)
+      "Vol. mean radius (km) = 3389.92+-0.04" [:mean-radius [:unit-KMT] [:value [:float "3389.92"]]]
+      "Mean radius (km)      = 3389.9(2+-4)" [:mean-radius [:unit-KMT] [:value [:float "3389.9"]]])))
+
 (deftest ephemeredes-grammar-test
   (is (= (parse-file "mars-ephemeredes.txt") (get-edn "mars-ephemeredes-parsed.edn")))
   (testing "mercury-ephemeredes.txt"
