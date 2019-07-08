@@ -65,7 +65,10 @@
   (testing "mean-radius"
     (are [text result] (= (parse-with-rule :mean-radius text) result)
       "Vol. mean radius (km) = 3389.92+-0.04" [:mean-radius [:unit-KMT] [:value [:float "3389.92"]]]
-      "Mean radius (km)      = 3389.9(2+-4)" [:mean-radius [:unit-KMT] [:value [:float "3389.9"]]])))
+      "Mean radius (km)      = 3389.9(2+-4)" [:mean-radius [:unit-KMT] [:value [:float "3389.9"]]]))
+  (testing "atmospheric-pressure"
+    (are [text result] (= (parse-with-rule :atmospheric-pressure text) result)
+      "Atm. pressure    = 1.0 bar" [:atmospheric-pressure [:value [:float "1.0"]] [:unit-BAR]])))
 
 (deftest ephemeredes-grammar-test
   (is (= (parse-file "mars-ephemeredes.txt") (get-edn "mars-ephemeredes-parsed.edn")))
