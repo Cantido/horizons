@@ -43,11 +43,13 @@
   (is (= (parse-file "mercury-geophysical.txt") (get-edn "mercury-geophysical-parsed.edn")))
   (is (= (parse-file "venus-geophysical.txt") (get-edn "venus-geophysical-parsed.edn")))
   (is (= (parse-file "earth-geophysical.txt") (get-edn "earth-geophysical-parsed.edn")))
-  (is (= (parse-file "mars-geophysical.txt") (get-edn "mars-geophysical.edn")))
+  (is (= (parse-file "mars-geophysical-2012-09-28.txt") (get-edn "mars-geophysical-2012-09-28.edn")))
   (is (= (parse-file "jupiter-geophysical.txt") (get-edn "jupiter-geophysical-parsed.edn")))
   (is (= (parse-file "saturn-geophysical.txt") (get-edn "saturn-geophysical-parsed.edn")))
   (testing "uranus-geophysical.txt"
     (is (success? (parse-file "uranus-geophysical.txt"))))
+  (testing "mars-geophysical-2016-06-21.txt"
+    (is (success? (parse-file "mars-geophysical-2016-06-21.txt"))))
   (testing "neptune-geophysical.txt"
     (is (success? (parse-file "neptune-geophysical.txt")))))
 

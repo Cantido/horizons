@@ -149,7 +149,7 @@ value ::= integer | approximate-integer | integer-with-error |
 <digit> ::= #"\d";
 integer ::= #"[-\+]?\d+" | comma-separated-integer;
 comma-separated-integer ::= #"\d?\d?\d?,(\d\d\d,)+\d\d\d";
-<integer-with-error> ::= integer <#"\(?\+\-\d+\)?">;
+<integer-with-error> ::= integer <"("? "+-" #"\d+" ")"?>;
 float ::= #"\-?\d*\.\d*";
 <float-with-error> ::= float <error>
 <error> ::= #"\(\d\+\-\d\)" | ( space* "+-" space* float);
@@ -176,7 +176,7 @@ date ::= (year <"-"> month <"-"> day) |
 
 era ::= "A.D."
 year ::= integer;
-month ::= "Jan" | "Feb" | "Mar" | "Apr" | "May" | "Jun" | "Jul" | "Aug" | "Sep" | "Oct" | "Nov" | "Dec";
+month ::= "Jan" | "Feb" | "Mar" | "Apr" | "May" | "Jun" | "June" | "Jul" | "Aug" | "Sep" | "Oct" | "Nov" | "Dec";
 day ::= integer
 time ::= hour-of-day <":"> minute-of-hour (<":"> second-of-minute (<"."> millisecond-of-second)?)?;
 day-of-week ::= "Mon" | "Tue" | "Wed" | "Thu" | "Fri" | "Sat" | "Sun";
@@ -241,8 +241,12 @@ file-header ::=
 revision-date ::= <"Revised: "> date;
 
 dynamical-characteristics ::= <dynamical-characteristics-header>  (<ws> geophysical-field)+;
-geophysical-data ::=  <geophysical-data-header> (<ws> geophysical-field)+;
+geophysical-data ::=  <ws? geophysical-data-header> (<ws> geophysical-field)+;
 physical-properties ::= <physical-properties-header>  (<ws> geophysical-field)+;
+
+geophysical-data-header ::= "GEO"? "PHYSICAL DATA" ws "(update" "d"? ws date "):";
+dynamical-characteristics-header ::= "DYNAMICAL CHARACTERISTICS:";
+physical-properties-header ::= "PHYSICAL " ("PROPERTIES" | "DATA") " (revised " date "):";
 
 <geophysical-field> ::=
     <"Mass layers:"> |
@@ -313,12 +317,9 @@ physical-properties ::= <physical-properties-header>  (<ws> geophysical-field)+;
 
 equals ::= space* "=" space*;
 
-geophysical-data-header ::= "GEO"? "PHYSICAL DATA" ws "(update" "d"? ws date "):";
-dynamical-characteristics-header ::= "DYNAMICAL CHARACTERISTICS:";
-physical-properties-header ::= "PHYSICAL PROPERTIES (revised " date "):";
 
 a-roche-ice ::= <"A_roche(ice)/Rp" | "Aroche(ice)/Rp"> <equals> value;
-atmospheric-mass ::= <"Atmos"> <equals> value <" "> unit-KGM;
+atmospheric-mass ::= <"Atmos" | "Mass of atmosphere, "> unit-KGM? <equals> <"~ "?> value <" "?> unit-KGM?;
 atmospheric-pressure ::= <("Atm." | "Atmos.") " pressure"> (<" ("> unit-BAR <")">)? <equals> value? (<" "> unit-BAR)?;
 core-radius ::= <"Core radius ("> unit-KMT <")"> <equals> value;
 crust-mass ::= <"crust"> <equals> value <" "> unit-KGM;
@@ -326,14 +327,14 @@ density ::= <"Density">, <",">? <" "> <"("?> unit-23 <")"?> <equals> value;
 dipole-tilt-offset ::= <"Dipole tilt/offset"> <equals> value;
 equatorial-gravity ::= <("Equ. " "grav" "ity"? ", "?)? "ge"? ","? space+ "("?> unit-MSK <")"?> <" (equatorial)">? <equals> value;
 equatorial-radius ::= <"Equatorial" | "Equ." | "Equat."> <" "> <"R" | "r"> <"adius"> (<", Re"> | (<", "> unit-KMT) | <" (1 " unit-BAR ")">) <equals> value <" "?> unit-KMT?;
-escape-velocity ::= <"Escape" ws ("vel." | "velocity") ws?> unit-M62? <equals> value <ws> unit-M62?;
+escape-velocity ::= <"Escape" ws ("vel." | "velocity" | "speed") ","? ws?> unit-M62? <equals> value <ws> unit-M62?;
 fig-offset ::= <"Fig. offset (Rcf-Rcm)"> <equals> value (<" "> unit-KMT)?;
 flattening ::= <"Flattening" ", f"?> <equals> value?;
 fluid-core-radius ::= <"Fluid core rad"> <equals> value <" "> unit-KMT;
 (* equatorial & polar gravity? units seem right. What is g-o? *)
 g-o ::= <"go, "> unit-MSK <equals> value;
 g-polar ::= <"Pol. grav, "? "gp" ","? " " "("?> unit-MSK <")"?  " "? "(polar)"?> <equals> value;
-geometric-albedo ::= <"Geometric albedo"> <equals> value;
+geometric-albedo ::= <"Geometric " ("Albedo" | "albedo")> <equals> value;
 gm-1-sigma ::= <"GM 1-sigma" ws? "(" ws? ( "km^3 s^-2" | "km^3/s^2" ) ws? ")"> <equals> value;
 grav-spectral-fact ::= <"Grav spectral fact u"> <equals> value;
 heat-flow-mass ::= <"Heat flow/mass (x10^"> exponent <")"> <equals>  value? (<ws> unit-A62)?;
@@ -347,31 +348,86 @@ ks ::= <"ks = 3*J2/m"> <equals> value;
 m ::= <"m = w^2a^3/GM"> <equals> value;
 magnetic-moment ::= <"Mag. mom (gauss Rp^3)" | "Magnetic moment" | "Mag.dip.mom(gauss-Rp^3)"> <equals> value <ws unit-gauss-rp3>?;
 mantle-mass ::= <"mantle         = "> value <" "> unit-KGM;
-mass ::= <"Mass" ","? " " "("? "10^"> exponent <" "?> unit-KGM <" "? ")"?> <equals> value;
+mass ::= <
+          "Mass"
+          ","?
+          " "
+          "("?
+          "x"?
+          "10^"
+         >
+         exponent
+         <
+          " "?
+          "("?
+         >
+         unit-KGM
+         <
+          ")"?
+          " "?
+          ")"?
+         >
+         <equals>
+         value;
 mass-ratio-from-sun ::= <"Mass ratio " ("(Sun/" body-name ")" | "(sun/plnt)")> <equals> value;
 maximum-angular-diameter ::= <"Max. angular diam."> <equals> value;
 mean-daily-motion ::= <"Mean daily motion" ", n"?> <equals> value <ws> <unit-degrees-per-day>;
-mean-radius ::= <"Volumetric "? ("M" | "m") "ean radius" " "? ", "? "("?> unit-KMT? <")"? > <equals> value <ws?> unit-KMT?;
+mean-radius ::= <
+                 ("Volumetric " | "Vol. ")?
+                 ("Mean " | "mean "),
+                 "radius",
+                 " "?,
+                 ", "?
+                 "("?
+                >
+                unit-KMT?
+                <")"?>
+                <equals>
+                value
+                <ws?>
+                unit-KMT?;
 <mean-sidereal-orbit-label> ::= <"Mean"? ws ("sidereal" | "Sidereal") ws (("orb" "."?)  | "orbit")? ws? (("per" "."?) | "period")>;
 mean-sidereal-orbital-period-years ::= <mean-sidereal-orbit-label> <equals> float <ws> <("yrs" | "y" | "yr")?>;
 mean-sidereal-orbital-period-days ::= <mean-sidereal-orbit-label> <equals> float <ws> <("d" | "days")>;
-mean-solar-day ::= <"Mean solar day" ", days"?> <equals> value <" d"?>;
-mean-temperature ::= (<("Atmos. temp. (1 " unit-BAR ")")> | (<"Mean Temperature"> <" (" | ", "> unit-KEL <")"?>)) <equals> value? <ws> unit-KEL?;
+mean-solar-day ::= <"Mean solar day" ", days"? " (sol)"?> <equals> value <" d" | " s">?;
+mean-temperature ::= (<("Atmos. temp. (1 " unit-BAR ")")> | (<"Mean Temperature" | "Mean temperature"> <" (" | ", "> unit-KEL <")"?>)) <equals> value? <ws> unit-KEL?;
 moment-of-inertia ::= <("Mom. of Inertia" | "Moment of inertia" | "Mom. of inert. I/MRo^2")> <equals> value?;
 monent-of-inertia-upper-bound ::= <"I/MRo^2 (upper bound)"> <equals> value;
 ocean-mass ::= <"oceans"> <equals> value <" "> unit-KGM;
 obliquity-to-orbit ::= <"Obliquity to orbit"> <"[1]"?> <", "?> unit-DD? <equals> value <" "?> unit-DD?;
 offset ::= <"Offset (lat./long.)"> <equals> value <ws "dg/dg">?;
-orbit-velocity ::= <"Mean"? ws ("Orbit" | "orbit") ws ("vel." | "velocity") ","? ws> unit-M62? <equals> value <ws> unit-M62?;
+orbit-velocity ::= <"Mean"? ws ("Orbit" | "orbit" | "Orbital") ws ("vel." | "velocity" | "speed") ","? ws> unit-M62? <equals> value <ws> unit-M62?;
 outer-core-mass ::= <"outer core     = "> value <" "> unit-KGM;
 polar-gravity ::= <"Polar gravity "> unit-MSK <equals> value?;
 polar-axis ::= <"Polar axis, "> unit-KMT <equals> value;
 polar-radius ::= <"Polar radius ("> unit-KMT <")"> <equals> value;
 potential-love-k2 ::= <("Potential Love # k2" | "Love no., k2")> <equals> <"~"?> value?;
 rocky-core-mass ::= <"Rocky core mass (Mc/M)"> <equals> value?;
-rotation-rate ::= <"Mean "? ("R" | "r") "ot. " ("R" | "r") "ate" ","? " "? "("?> (<"x"? "10^"> exponent)? <" "> (unit-SEC | unit-2A) <")"?> <equals> value;
+rotation-rate ::= <
+                   "Mean "?
+                   ("Sid. " | "Sidereal ")?
+                   ("R" | "r") "ot. "
+                   ("Rate" | "rate" | "period")
+                   ","? " "? "("?
+                  >
+                  (<"x"? "10^"> exponent)?
+                  <" ">
+                  (unit-SEC | unit-2A)
+                  <")"?>
+                  <equals>
+                  value;
 semi-major-axis ::= <"Semi-major axis"> <equals> value?;
-solar-constant ::= <("Solar constant, " unit-D54) | "Planetary Solar Const"> <equals> value  (<ws "("?> unit-D54 <")"?>)?;
+
+solar-constant ::= one-line-solar-constant | multiline-solar-constant
+<one-line-solar-constant> ::= <("Solar constant, " unit-D54) | "Planetary Solar Const">
+                            <equals>
+                            value
+                            (<ws "("?> unit-D54 <")"?>)?;
+<multiline-solar-constant> ::= "Perihelion  Aphelion    Mean" <ws>
+"Solar Constant (W/m^2)         717         493         589" <ws>
+"Maximum Planetary IR (W/m^2)   470         315         390" <ws>
+"Minimum Planetary IR (W/m^2)    30          30          30";
+
 sidereal-rotation-period ::= <("Sidereal rot. period" | "Sidereal period, hr" | "Sidereal period" | "Rotation period")> <equals> value;
 standard-gravitational-parameter ::= <"GM" (", km^3 s^-2" | " (km^3 s^-2)" | " (km^3/s^2)" )> <equals> value;
 surface-area-title ::= "Surface Area:";
@@ -385,9 +441,9 @@ y-factor ::= <"Y factor (He/H ratio)"> <equals> value?;
 
 obliquity-source ::= "[1] Margot et al., Science 316, 2007";
 
-select-prompt ::= ("Select ... [E]phemeris, [F]tp, [M]ail, [R]edisplay, ?, <cr>: " |
-                   ">>> Select... [A]gain, [N]ew-case, [F]tp, [M]ail, [R]edisplay, ? : " |
-                   ">>> Select... [A]gain, [N]ew-case, [F]tp, [K]ermit, [M]ail, [R]edisplay, ? : ");
+select-prompt ::= (("Select ... [E]phemeris, [F]tp, [M]ail, [R]edisplay, ?, <cr>:" ws?)  |
+                   (">>> Select... [A]gain, [N]ew-case, [F]tp, [M]ail, [R]edisplay, ? :" " "?) |
+                   (">>> Select... [A]gain, [N]ew-case, [F]tp, [K]ermit, [M]ail, [R]edisplay, ? :" " "?));
 
 
 bodies-line-item ::=  < "  " #"[ ]{0,6}">

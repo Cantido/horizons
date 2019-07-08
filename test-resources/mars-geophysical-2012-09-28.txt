@@ -1,5 +1,4 @@
- [?1h=
-*******************************************************************************
+ [?1h=*******************************************************************************
  Revised: Sep 28, 2012                 Mars                             499 / 4
 
  GEOPHYSICAL DATA (updated 2009-May-26):
@@ -23,5 +22,4 @@
   Mean sidereal orb per =  686.98 d       Escape vel. km/s      =   5.027
   Hill's sphere rad. Rp =  319.8          Mag. mom (gauss Rp^3) = < 1x10^-4
 *******************************************************************************
-
-[K[?1l> Select ... [E]phemeris, [F]tp, [M]ail, [R]edisplay, ?, <cr>: 
+[K[?1l> Select ... [E]phemeris, [F]tp, [M]ail, [R]edisplay, ?, <cr>:
