@@ -8,22 +8,17 @@
 
 (def ^:private month-formatter (f/formatter "MMM"))
 
-(defn add
+(defn- add
   ([x] x)
   ([x & more] (apply t/plus x more)))
 
-(defn month->int
+(defn- month->int
   [s]
   (t/month (f/parse month-formatter s)))
 
-(defn datemap->date
+(defn- datemap->date
   [m]
   (apply t/date-time ((juxt :year :month :day) m)))
-
-(extend-protocol t/DateTimeProtocol
-  ReadablePeriod
-  (plus- [this ^ReadablePeriod period] (.plus (.toPeriod this) period)))
-
 
 (def ^:private midnight
   {:horizons.core/hour-of-day 0
@@ -31,14 +26,15 @@
    :horizons.core/second-of-minute 0
    :horizons.core/millisecond-of-second 0})
 
-(def successors {:years :days
-                 :days :hours
-                 :hours :minutes
-                 :minutes :seconds
-                 :seconds :milliseconds
-                 :milliseconds nil})
+(def ^:private successors
+  {:years :days
+   :days :hours
+   :hours :minutes
+   :minutes :seconds
+   :seconds :milliseconds
+   :milliseconds nil})
 
-(def units
+(def ^:private units
   {:years {:years 1
            :weeks (/ 365 7)
            :days 365
@@ -80,22 +76,21 @@
                   :seconds 1/1000
                   :milliseconds 1}})
 
-(def period-fns {:years      t/years
-                 :days         t/days
-                 :hours        t/hours
-                 :minutes      t/minutes
-                 :seconds      t/seconds
-                 :milliseconds t/millis})
+(def ^:private period-fns
+  {:years        t/years
+   :days         t/days
+   :hours        t/hours
+   :minutes      t/minutes
+   :seconds      t/seconds
+   :milliseconds t/millis})
 
-(defn convert [from to n]
+(defn- convert [from to n]
   (* n (get-in units [from to])))
 
-(defn frac "Returns the fractional part of x"
+(defn- frac "Returns the fractional part of x"
   [x] (rem x 1))
 
-
-
-(defn period-of
+(defn- period-of
   "clj-time's period can't take floats. This can."
   ^Period [type x]
   (when-not (number? x) (throw (IllegalArgumentException. (str "Can't parse this value into a Period, it is not a number: " x))))
@@ -115,7 +110,6 @@
                                     :horizons.core/second-of-minute
                                     :horizons.core/millisecond-of-second])])))
 
-
 (defn- write-datetime [^DateTime datetime ^PrintWriter out]
   (let [datestring (f/unparse (f/formatters :date-time) datetime)]
     (.print out (str \" datestring \"))))
@@ -126,10 +120,27 @@
   ReadablePeriod
   (-write [object out] (.print out (str \" object \"))))
 
-(defn timestamp-transformer
+(extend-protocol t/DateTimeProtocol
+  ReadablePeriod
+  (plus- [this ^ReadablePeriod period] (.plus (.toPeriod this) period)))
+
+(defn- timestamp-transformer
   ([date time]
    {:horizons.core/timestamp
     (date-and-time->datetime (last date) (:horizons.core/time time))})
   ([era date time time-zone]
    {:horizons.core/timestamp
     (date-and-time->datetime (last date) (:horizons.core/time time))}))
+
+(def transform-rules
+  {:date (fn [& more] [:date (datemap->date (into {} more))])
+   :days (partial period-of :days)
+   :duration add
+   :hours (partial period-of :hours)
+   :milliseconds (partial period-of :milliseconds)
+   :minutes (partial period-of :minutes)
+   :month (fn [s] [:month (month->int s)])
+   :seconds (partial period-of :seconds)
+   :time (fn [& more]  {:time (into {} more)})
+   :timestamp timestamp-transformer
+   :years (partial period-of :years)})

@@ -39,6 +39,8 @@
 (defn success? [x]
   (not (insta/failure? x)))
 
+(defn transform [xs] (transform/transform parser/transform-rules xs))
+
 (deftest geophysical-grammar-test
   (is (= (parse-file "mercury-geophysical.txt") (get-edn "mercury-geophysical-parsed.edn")))
   (is (= (parse-file "venus-geophysical.txt") (get-edn "venus-geophysical-parsed.edn")))
@@ -95,91 +97,7 @@
 (deftest bodies-grammar-test
   (is (= (parse-file "bodies.txt") (get-edn "bodies-parsed.edn"))))
 
-(deftest sci-not-to-bigdec-test
-  (is (= (parser/value-with-exponent-map->bigdec :rotation-rate [:exponent 3] [:value 1])
-         [:rotation-rate {:value (bigdec 1000)}]))
-  (is (= (parser/value-with-exponent-map->bigdec :rotation-rate [:value 1])
-         [:rotation-rate {:value 1}])))
-
-(deftest put-keyword-in-ns-test
-  (is (= (parser/put-keyword-in-ns :label)
-         ::h/label)))
-
-(defn tree->map [tree]
-  (clojure.walk/postwalk #(parser/do-if parser/coll-of-colls? parser/tree-vec->map %) tree))
-
-(deftest tree->map-test
-  (testing "converting a basic vector"
-    (is (= (parser/tree-vec->map [:label [:one 1] [:two 2]])
-           {:label {:one 1 :two 2}})))
-  (testing "walking date trees"
-    (testing "with one level of nesting"
-      (is (= (tree->map
-               [:revision-date
-                [:month "Jul"]
-                [:day 31]
-                [:year 2013]])
-             {:revision-date
-              {:month "Jul"
-               :day 31
-               :year 2013}})))
-    (testing "with two levels of nesting"
-      (is (= (tree->map
-               [:file-header
-                [:revision-date
-                 [:month "Jul"]
-                 [:day 31]
-                 [:year 2013]]])
-             {:file-header
-              {:revision-date
-               {:month "Jul"
-                :day 31
-                :year 2013}}})))
-    (testing "with a level of nesting in the middle of a vector"
-      (is (= (tree->map
-               [:file-header
-                [:revision-date
-                 [:month "Jul"]
-                 [:day 31]
-                 [:year 2013]]
-                [:body-name "Mars"]
-                [:body-id 499]])
-             {:file-header
-              {:revision-date
-               {:month "Jul"
-                :day 31
-                :year 2013}
-               :body-name "Mars"
-               :body-id 499}}))))
-  (testing "walking geophysical data"
-    (is (= (tree->map
-             [:geophysical-data
-              [:mean-radius [:value "3389.9(2+-4)"]]
-              [:density "3.933(5+-4)"]
-              [:mass "6.4185"]])
-           {:geophysical-data
-            {:mean-radius {:value "3389.9(2+-4)"}
-             :density "3.933(5+-4)"
-             :mass "6.4185"}}))))
-
-(defn transform [xs] (transform/transform parser/transform-rules xs))
-
 (deftest transform-test
-  (testing "numbers"
-    (testing "in scientific notation"
-      (is (= (transform
-               [:sci-not
-                [:significand [:float "5.05"]]
-                [:mantissa [:integer "22"]]])
-             5.05E22M))
-      (is (= (transform
-               [:sci-not
-                [:significand [:integer "5"]]
-                [:mantissa [:integer "22"]]])
-             5E22M)))
-    (testing "as comma-separated integers"
-      (is (= (transform [:integer [:comma-separated-integer "123,456,789"]])
-             123456789))))
   (testing "measurement values"
     (testing "with units"
       (is (= (transform [:mean-radius [:unit-KMT] [:value "2440(+-1)"]])
@@ -191,14 +109,7 @@
              [:atmospheric-mass
               [:value 5.1E+18M]
               {:unit-code "KGM"}])))
-    (testing "with exponents"
-      (is (= (transform
-               [:heat-flow-mass
-                [:exponent [:integer "7"]]
-                [:value [:integer "15"]]])
-             [:heat-flow-mass {:value 15E7M}]))
-      (is (= (transform [:rotation-rate [:exponent [:integer "-4"]] [:unit-2A] [:value [:float "1.75865"]]])
-             [:rotation-rate {:value 0.000175865M :unit-code "2A"}])))
+
     (testing "as a set (like ephemeredes)"
       (is (= (transform
                [:ephemeredes
@@ -209,95 +120,18 @@
               #{
                 {:x-position 1}
                 {:x-position 2}
-                {:x-position 3}}]))))
-  (testing "periods"
-    (is (= (transform [:years [:integer "1"]])
-           (.toPeriod (t/years 1))))
-    (is (= (transform [:years [:float "1"]])
-           (.toPeriod (t/years 1))))
-    (is (= (transform [:years [:float "1.1"]])
-           (t/plus (t/years 1) (t/days 36) (t/hours 12))))
-    (is (= (transform [:days [:integer "1"]])
-           (.toPeriod (t/days 1))))
-    (is (= (transform [:days [:float "1.5"]])
-           (t/plus (t/days 1) (t/hours 12))))
-    (is (= (transform [:hours [:integer "1"]])
-           (.toPeriod (t/hours 1))))
-    (is (= (transform [:hours [:float "1.5"]])
-           (t/plus (t/hours 1) (t/minutes 30))))
-    (is (= (transform [:minutes [:integer "1"]])
-           (.toPeriod (t/minutes 1))))
-    (is (= (transform [:minutes [:float "1.5"]])
-           (t/plus (t/minutes 1) (t/seconds 30))))
-    (is (= (transform [:seconds [:integer "1"]])
-           (.toPeriod (t/seconds 1))))
-    (is (= (transform [:seconds [:float "1.5"]])
-           (t/plus (t/seconds 1) (t/millis 500))))
-    (is (= (transform [:milliseconds [:integer "1"]])
-           (.toPeriod (t/millis 1))))
-    (is (= (transform  [:duration
-                        [:hours [:integer "9"]]
-                        [:minutes [:integer "55"]]
-                        [:seconds [:float "29.685"]]])
-           (t/plus (t/hours 9) (t/minutes 55) (t/seconds 29) (t/millis 685)))))
-  (testing "durations"
-    (is (= (transform [:duration [:years [:integer "1"]]
-                                 [:days [:integer "1"]]])
-           (t/plus (t/years 1) (t/days 1)))))
-  (testing "unit codes"
-    (is (= (transform [:unit-23]) {:unit-code "23" :unit-text "g/cm³"}))
-    (is (= (transform [:unit-2A]) {:unit-code "2A"}))
-    (is (= (transform [:unit-A62]) {:unit-code "A62"}))
-    (is (= (transform [:unit-BAR]) {:unit-code "BAR"}))
-    (is (= (transform [:unit-D54 "wm2"]) {:unit-code "D54"}))
-    (is (= (transform [:unit-D61]) {:unit-code "D61"}))
-    (is (= (transform [:unit-D62]) {:unit-code "D62"}))
-    (is (= (transform [:unit-DD "deg"]) {:unit-code "DD"}))
-    (is (= (transform [:unit-H20]) {:unit-code "H20"}))
-    (is (= (transform [:unit-KEL]) {:unit-code "KEL"}))
-    (is (= (transform [:unit-KGM]) {:unit-code "KGM"}))
-    (is (= (transform [:unit-KMT]) {:unit-code "KMT"}))
-    (is (= (transform [:unit-M62]) {:unit-code "M62"}))
-    (is (= (transform [:unit-MSK]) {:unit-code "MSK"}))
-    (is (= (transform [:unit-SEC]) {:unit-code "SEC"}))))
-
-(defn pd [s]
-  (parse-with-rule :duration s))
+                {:x-position 3}}])))))
 
 (deftest duration-parsing
-  (is (= (pd "1.0y") [:duration [:years [:float "1.0"]]]))
-  (is (= (pd "1d") [:duration [:days [:integer "1"]]]))
-  (is (= (pd "1h") [:duration [:hours [:integer "1"]]]))
-  (is (= (pd "1m") [:duration [:minutes [:integer "1"]]]))
-  (is (= (pd "3.4s") [:duration [:seconds [:float "3.4"]]]))
-  (is (= (pd "1.234s") [:duration [:seconds [:float "1.234"]]])))
-
-(def timestamp-tree
-  [:timestamp
-   [:era "A.D."]
-   [:date
-    [:year [:integer "2017"]]
-    [:month "Feb"]
-    [:day [:integer "24"]]]
-   [:time
-    [:hour-of-day [:integer "00"]]
-    [:minute-of-hour [:integer "00"]]
-    [:second-of-minute [:integer "00"]]
-    [:millisecond-of-second [:integer "0000"]]]
-   [:time-zone "UT"]])
-
-(def timestamp-map
-  {::h/timestamp (t/date-time 2017 2 24 0 0 0 0)})
-
-(defn restructure [xs]
-  (->> xs
-       (transform/transform parser/transform-rules)
-       (clojure.walk/postwalk #(parser/do-if parser/coll-of-colls? parser/tree-vec->map %))
-       (clojure.walk/postwalk #(parser/do-if keyword? parser/put-keyword-in-ns %))))
+  (are [text tree] (= (parse-with-rule :duration text) tree)
+    "1.0y" [:duration [:years [:float "1.0"]]]
+    "1d" [:duration [:days [:integer "1"]]]
+    "1h" [:duration [:hours [:integer "1"]]]
+    "1m" [:duration [:minutes [:integer "1"]]]
+    "3.4s" [:duration [:seconds [:float "3.4"]]]
+    "1.234s" [:duration [:seconds [:float "1.234"]]]))
 
 (deftest full-transformation-test
-  (is (= (restructure (get-edn "mercury-geophysical-parsed.edn")) mercury-map))
-  (is (= (restructure (get-edn "jupiter-geophysical-parsed.edn")) jupiter-map))
-  (is (= (restructure (get-edn "mars-ephemeredes-parsed.edn")) mars-map))
-  (is (= (restructure timestamp-tree) timestamp-map))
-  (is (= (restructure [:density [:unit-23] [:value [:float "5.427"]]]) {::h/density {::h/unit-code "23" ::h/unit-text "g/cm³" ::h/value 5.427M}})))
+  (is (= (parser/transform (get-edn "mercury-geophysical-parsed.edn")) mercury-map))
+  (is (= (parser/transform (get-edn "jupiter-geophysical-parsed.edn")) jupiter-map))
+  (is (= (parser/transform (get-edn "mars-ephemeredes-parsed.edn")) mars-map)))
