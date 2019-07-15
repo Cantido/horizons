@@ -418,7 +418,7 @@ rotation-rate ::= <
                   value;
 semi-major-axis ::= <"Semi-major axis"> <equals> value?;
 
-solar-constant ::= one-line-solar-constant | multiline-solar-constant
+solar-constant ::= one-line-solar-constant | <multiline-solar-constant>
 <one-line-solar-constant> ::= <("Solar constant, " unit-D54) | "Planetary Solar Const">
                             <equals>
                             value
