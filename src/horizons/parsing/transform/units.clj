@@ -1,4 +1,4 @@
-(ns horizons.parsing.units
+(ns horizons.parsing.transform.units
   "Parses and transforms units of measurement")
 
 (defn- unit-code

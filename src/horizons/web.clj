@@ -7,7 +7,7 @@
             [liberator.core :as liberator]
             [ring.middleware.defaults :as defaults]
             [ring.util.response :as response]
-            [horizons.parsing.time :as t]))
+            [horizons.parsing.transform.time :as t]))
 
 (defn- handle-exception [web-app-component e]
   (log/error e)

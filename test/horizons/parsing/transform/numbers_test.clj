@@ -1,9 +1,9 @@
-(ns horizons.parsing.numbers-test
+(ns horizons.parsing.transform.numbers-test
   (:require
     [clojure.test :refer :all]
     [instaparse.transform :as transform]
     [horizons.core :as h]
-    [horizons.parsing.numbers :as n]))
+    [horizons.parsing.transform.numbers :as n]))
 
 (defn transform [xs] (transform/transform n/transform-rules xs))
 

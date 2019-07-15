@@ -1,8 +1,6 @@
 (ns horizons.parsing.parser
   "Parses and transforms output from the HORIZONS telnet client."
-  (:require [horizons.parsing.time :as t]
-            [horizons.parsing.units :as units]
-            [horizons.parsing.numbers :as numbers]
+  (:require [horizons.parsing.transform :as t]
             [horizons.parsing.tree :as tree]
             [instaparse.core :as core]
             [instaparse.transform :as it]
@@ -10,17 +8,6 @@
             [com.stuartsierra.component :as component]
             [clojure.string :as string]))
 
-(def transform-rules
-  (merge
-    {:ephemeredes (fn [& more] [:ephemeredes (into #{} more)])
-     :ephemeris (fn [& more] (into {} more))
-     :heat-flow-mass (partial numbers/value-with-exponent-map->bigdec :heat-flow-mass)
-     :mass (partial numbers/value-with-exponent-map->bigdec :mass)
-     :rotation-rate (partial numbers/value-with-exponent-map->bigdec :rotation-rate)
-     :volume (partial numbers/value-with-exponent-map->bigdec :volume)}
-    numbers/transform-rules
-    t/transform-rules
-    units/transform-rules))
 
 (defn- throw-parse-exception
   "Throw an exception documenting a parse exception"
@@ -40,7 +27,7 @@
 (defn transform
   [tree]
   (->> tree
-    (it/transform transform-rules)
+    (it/transform t/transform-rules)
     (tree/tree->map)))
 
 (defn parse-horizons-response

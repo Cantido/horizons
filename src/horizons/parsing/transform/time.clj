@@ -1,4 +1,4 @@
-(ns horizons.parsing.time
+(ns horizons.parsing.transform.time
   "Parses and transforms times and dates"
   (:require [clj-time.core :as t]
             [clj-time.format :as f]

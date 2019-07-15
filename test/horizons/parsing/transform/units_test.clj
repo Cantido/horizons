@@ -1,8 +1,8 @@
-(ns horizons.parsing.units-test
+(ns horizons.parsing.transform.units-test
   (:require
     [clojure.test :refer :all]
     [instaparse.transform :as transform]
-    [horizons.parsing.units :refer :all]))
+    [horizons.parsing.transform.units :refer :all]))
 
 (deftest unit-codes-test
   (are [tree result] (= (transform/transform transform-rules tree) result)

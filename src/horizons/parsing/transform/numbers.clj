@@ -1,4 +1,4 @@
-(ns horizons.parsing.numbers
+(ns horizons.parsing.transform.numbers
   "Parses and transforms numeric values")
 
 (defn- string->int [s]

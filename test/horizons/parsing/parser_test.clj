@@ -6,9 +6,6 @@
     [instaparse.core :as insta]
     [horizons.core :as h]
     [horizons.parsing.parser :as parser]
-    [horizons.parsing.parser-test-mercury :refer :all]
-    [horizons.parsing.parser-test-jupiter :refer :all]
-    [horizons.parsing.parser-test-mars-ephemeris :refer :all]
     [instaparse.transform :as transform]
     [com.stuartsierra.component :as component]
     [horizons.test-utils :as test])
@@ -38,8 +35,6 @@
 
 (defn success? [x]
   (not (insta/failure? x)))
-
-(defn transform [xs] (transform/transform parser/transform-rules xs))
 
 (deftest geophysical-grammar-test
   (is (= (parse-file "mercury-geophysical.txt") (get-edn "mercury-geophysical-parsed.edn")))
@@ -97,31 +92,6 @@
 (deftest bodies-grammar-test
   (is (= (parse-file "bodies.txt") (get-edn "bodies-parsed.edn"))))
 
-(deftest transform-test
-  (testing "measurement values"
-    (testing "with units"
-      (is (= (transform [:mean-radius [:unit-KMT] [:value "2440(+-1)"]])
-             [:mean-radius {:unit-code "KMT"} [:value "2440(+-1)"]]))
-      (is (= (transform
-               [:atmospheric-mass
-                [:value [:sci-not [:significand [:float "5.1"]] [:exponent [:integer "18"]]]]
-                [:unit-KGM]])
-             [:atmospheric-mass
-              [:value 5.1E+18M]
-              {:unit-code "KGM"}])))
-
-    (testing "as a set (like ephemeredes)"
-      (is (= (transform
-               [:ephemeredes
-                [:ephemeris [:x-position 1]]
-                [:ephemeris [:x-position 2]]
-                [:ephemeris [:x-position 3]]])
-             [:ephemeredes
-              #{
-                {:x-position 1}
-                {:x-position 2}
-                {:x-position 3}}])))))
-
 (deftest duration-parsing
   (are [text tree] (= (parse-with-rule :duration text) tree)
     "1.0y" [:duration [:years [:float "1.0"]]]
@@ -130,8 +100,3 @@
     "1m" [:duration [:minutes [:integer "1"]]]
     "3.4s" [:duration [:seconds [:float "3.4"]]]
     "1.234s" [:duration [:seconds [:float "1.234"]]]))
-
-(deftest full-transformation-test
-  (is (= (parser/transform (get-edn "mercury-geophysical-parsed.edn")) mercury-map))
-  (is (= (parser/transform (get-edn "jupiter-geophysical-parsed.edn")) jupiter-map))
-  (is (= (parser/transform (get-edn "mars-ephemeredes-parsed.edn")) mars-map)))

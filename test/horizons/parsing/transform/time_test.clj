@@ -1,9 +1,9 @@
-(ns horizons.parsing.time-test
+(ns horizons.parsing.transform.time-test
   (:require [clojure.test :refer :all]
             [clj-time.core :as t]
             [instaparse.transform :as transform]
             [horizons.core :as h]
-            [horizons.parsing.time :refer :all])
+            [horizons.parsing.transform.time :refer :all])
   (:import (org.joda.time DateTime Period PeriodType)))
 
 (defn transform [xs] (transform/transform transform-rules xs))
