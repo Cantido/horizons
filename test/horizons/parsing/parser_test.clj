@@ -54,6 +54,13 @@
     (is (success? (parse-file "neptune-geophysical.txt")))))
 
 (deftest geophysical-values-test
+  (testing "multiline solar-constant info is ignored, for now"
+    (= (parse-with-rule :solar-constant
+        "Perihelion  Aphelion    Mean
+         Solar Constant (W/m^2)         717         493         589
+         Maximum Planetary IR (W/m^2)   470         315         390
+         Minimum Planetary IR (W/m^2)    30          30          30")
+     nil))
   (are [text result] (testing (str (first result)) (= (parse-with-rule (first result) text) result))
     "A_roche(ice)/Rp       =  2.76" [:a-roche-ice [:value [:float "2.76"]]]
     "Aroche(ice)/Rp        =  2.71" [:a-roche-ice [:value [:float "2.71"]]]
