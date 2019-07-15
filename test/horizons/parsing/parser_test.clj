@@ -95,6 +95,12 @@
 (deftest bodies-grammar-test
   (is (= (parse-file "bodies.txt") (get-edn "bodies-parsed.edn"))))
 
+(deftest sci-not-to-bigdec-test
+  (is (= (parser/value-with-exponent-map->bigdec :rotation-rate [:exponent 3] [:value 1])
+         [:rotation-rate {:value (bigdec 1000)}]))
+  (is (= (parser/value-with-exponent-map->bigdec :rotation-rate [:value 1])
+         [:rotation-rate {:value 1}])))
+
 (deftest put-keyword-in-ns-test
   (is (= (parser/put-keyword-in-ns :label)
          ::h/label)))

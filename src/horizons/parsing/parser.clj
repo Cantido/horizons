@@ -26,7 +26,7 @@
 (defn value-with-exponent-map->bigdec
   ([label & more]
    (let [fields (into {} more)]
-     (if (number? (:value fields))
+     (if (and (number? (:value fields)) (number? (:exponent fields)))
        [label
         (-> fields
          (assoc :value (sci-not->bigdec (:value fields) (:exponent fields)))
