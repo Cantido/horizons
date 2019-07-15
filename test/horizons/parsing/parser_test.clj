@@ -8,6 +8,9 @@
     [horizons.parsing.parser :as parser]
     [instaparse.transform :as transform]
     [com.stuartsierra.component :as component]
+    [horizons.parsing.parser-test-mercury :refer :all]
+    [horizons.parsing.parser-test-jupiter :refer :all]
+    [horizons.parsing.parser-test-mars-ephemeris :refer :all]
     [horizons.test-utils :as test])
   (:import (org.joda.time Years Duration)))
 
@@ -100,3 +103,8 @@
     "1m" [:duration [:minutes [:integer "1"]]]
     "3.4s" [:duration [:seconds [:float "3.4"]]]
     "1.234s" [:duration [:seconds [:float "1.234"]]]))
+
+(deftest full-transformation-test
+  (is (= (parser/transform (get-edn "mercury-geophysical-parsed.edn")) mercury-map))
+  (is (= (parser/transform (get-edn "jupiter-geophysical-parsed.edn")) jupiter-map))
+  (is (= (parser/transform (get-edn "mars-ephemeredes-parsed.edn")) mars-map)))
