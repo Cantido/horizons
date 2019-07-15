@@ -82,7 +82,8 @@
     "go, m s^-2               = 9.82022" [:g-o [:unit-MSK] [:value [:float "9.82022"]]]
     "gp, m s^-2 (polar)       = 9.8321863685" [:g-polar [:unit-MSK] [:value [:float "9.8321863685"]]]
     "Geometric albedo      =    0.150" [:geometric-albedo [:value [:float "0.150"]]]
-    "ge, m s^-2 (equatorial)  = 9.7803267715" [:equatorial-gravity [:unit-MSK] [:value [:float "9.7803267715"]]]))
+    "ge, m s^-2 (equatorial)  = 9.7803267715" [:equatorial-gravity [:unit-MSK] [:value [:float "9.7803267715"]]]
+    "Sid. rot. rate, rad/s =  0.0000708822" [:rotation-rate [:unit-2A] [:value [:float "0.0000708822"]]]))
 
 (deftest ephemeredes-grammar-test
   (is (= (parse-file "mars-ephemeredes.txt") (get-edn "mars-ephemeredes-parsed.edn")))
