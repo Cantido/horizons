@@ -7,7 +7,7 @@
 
 (def transform-rules
   {:unit-23 (unit-code "23" "g/cm³")
-   :unit-2A (unit-code "2A") ;rad/s
+   :unit-2A (unit-code "2A" "rad/s")
    :unit-A62 (unit-code "A62") ;erg/g·s
    :unit-BAR (unit-code "BAR") ;bar
    :unit-D54 (unit-code "D54") ;W/m²

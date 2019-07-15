@@ -21,7 +21,7 @@
                                                (t/minutes 55)
                                                (t/seconds 29)
                                                (t/millis 685))}
-     ::h/rotation-rate {::h/unit-code "2A" ::h/value 1.75865E-4M}
+     ::h/rotation-rate {::h/unit-code "2A" ::h/unit-text "rad/s" ::h/value 1.75865E-4M}
      ::h/m {::h/value 0.089195M}
      ::h/hydrostatic-flattening {::h/value 0.06509M}
      ::h/inferred-rotation-period {::h/value (t/plus

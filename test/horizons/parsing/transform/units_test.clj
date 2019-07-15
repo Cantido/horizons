@@ -7,7 +7,7 @@
 (deftest unit-codes-test
   (are [tree result] (= (transform/transform transform-rules tree) result)
     [:unit-23] {:unit-code "23" :unit-text "g/cm³"}
-    [:unit-2A] {:unit-code "2A"}
+    [:unit-2A] {:unit-code "2A" :unit-text "rad/s"}
     [:unit-A62] {:unit-code "A62"}
     [:unit-BAR] {:unit-code "BAR"}
     [:unit-D54 "wm2"] {:unit-code "D54"}
