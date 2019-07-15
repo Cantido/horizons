@@ -54,21 +54,28 @@
     (is (success? (parse-file "neptune-geophysical.txt")))))
 
 (deftest geophysical-values-test
-  (testing "a-roche-ice"
-    (are [text result] (= (parse-with-rule :a-roche-ice text) result)
-      "A_roche(ice)/Rp       =  2.76" [:a-roche-ice [:value [:float "2.76"]]]
-      "Aroche(ice)/Rp        =  2.71" [:a-roche-ice [:value [:float "2.71"]]]))
-  (testing "atmospheric-mass"
-    (are [text result] (= (parse-with-rule :atmospheric-mass text) result)
-      "Atmos          = 5.1   x 10^18 kg" [:atmospheric-mass [:value [:sci-not [:significand [:float "5.1"]] [:exponent [:integer "18"]]]] [:unit-KGM]]
-      "Mass of atmosphere, kg= ~ 2.5 x 10^16" [:atmospheric-mass [:unit-KGM] [:value [:sci-not [:significand [:float "2.5"]] [:exponent [:integer "16"]]]]]))
-  (testing "mean-radius"
-    (are [text result] (= (parse-with-rule :mean-radius text) result)
-      "Vol. mean radius (km) = 3389.92+-0.04" [:mean-radius [:unit-KMT] [:value [:float "3389.92"]]]
-      "Mean radius (km)      = 3389.9(2+-4)" [:mean-radius [:unit-KMT] [:value [:float "3389.9"]]]))
-  (testing "atmospheric-pressure"
-    (are [text result] (= (parse-with-rule :atmospheric-pressure text) result)
-      "Atm. pressure    = 1.0 bar" [:atmospheric-pressure [:value [:float "1.0"]] [:unit-BAR]])))
+  (are [text result] (testing (str (first result)) (= (parse-with-rule (first result) text) result))
+    "A_roche(ice)/Rp       =  2.76" [:a-roche-ice [:value [:float "2.76"]]]
+    "Aroche(ice)/Rp        =  2.71" [:a-roche-ice [:value [:float "2.71"]]]
+    "Atm. pressure    = 1.0 bar" [:atmospheric-pressure [:value [:float "1.0"]] [:unit-BAR]]
+    "Atmos          = 5.1   x 10^18 kg" [:atmospheric-mass [:value [:sci-not [:significand [:float "5.1"]] [:exponent [:integer "18"]]]] [:unit-KGM]]
+    "Mass of atmosphere, kg= ~ 2.5 x 10^16" [:atmospheric-mass [:unit-KGM] [:value [:sci-not [:significand [:float "2.5"]] [:exponent [:integer "16"]]]]]
+    "Core radius (km)      =  ~1700" [:core-radius [:unit-KMT] [:value "~1700"]]
+    "Vol. mean radius (km) = 3389.92+-0.04" [:mean-radius [:unit-KMT] [:value [:float "3389.92"]]]
+    "Mean radius (km)      = 3389.9(2+-4)" [:mean-radius [:unit-KMT] [:value [:float "3389.9"]]]
+    "crust          = 2.6   x 10^22 kg" [:crust-mass [:value [:sci-not [:significand [:float "2.6"]] [:exponent [:integer "22"]]]] [:unit-KGM]]
+    "Density, gm cm^-3        = 5.515" [:density [:unit-23] [:value [:float "5.515"]]]
+    "Dipole tilt/offset     = 9.6deg/0.1Rp" [:dipole-tilt-offset [:value "9.6deg/0.1Rp"]]
+    "Equ. gravity  ms^-2   =  3.71" [:equatorial-gravity [:unit-MSK] [:value [:float "3.71"]]]
+    "Equatorial Radius, Re = 3394.0 km" [:equatorial-radius [:value [:float "3394.0"]] [:unit-KMT]]
+    "Escape velocity (km/s)=  59.5" [:escape-velocity [:unit-M62] [:value [:float "59.5"]]]
+    "Fig. offset (Rcf-Rcm) = 2.50+-0.07 km" [:fig-offset [:value [:float "2.50"]] [:unit-KMT]]
+    "Flattening, f         =  1/154.409" [:flattening [:value "1/154.409"]]
+    "Fluid core rad   = 3480 km" [:fluid-core-radius [:value [:integer "3480"]] [:unit-KMT]]
+    "go, m s^-2               = 9.82022" [:g-o [:unit-MSK] [:value [:float "9.82022"]]]
+    "gp, m s^-2 (polar)       = 9.8321863685" [:g-polar [:unit-MSK] [:value [:float "9.8321863685"]]]
+    "Geometric albedo      =    0.150" [:geometric-albedo [:value [:float "0.150"]]]
+    "ge, m s^-2 (equatorial)  = 9.7803267715" [:equatorial-gravity [:unit-MSK] [:value [:float "9.7803267715"]]]))
 
 (deftest ephemeredes-grammar-test
   (is (= (parse-file "mars-ephemeredes.txt") (get-edn "mars-ephemeredes-parsed.edn")))
