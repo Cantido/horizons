@@ -11,7 +11,7 @@
      ::h/body-id 599}
     ::h/geophysical-data
     {::h/mass {::h/unit-code "KGM" ::h/value 1.89813E+27M}
-     ::h/density {::h/unit-code "23" ::h/value 1.326M}
+     ::h/density {::h/unit-code "23" ::h/unit-text "g/cm³" ::h/value 1.326M}
      ::h/equatorial-radius {::h/value 71492 ::h/unit-code "KMT"}
      ::h/polar-radius {::h/unit-code "KMT" ::h/value 66854}
      ::h/mean-radius {::h/unit-code "KMT" ::h/value 69911}

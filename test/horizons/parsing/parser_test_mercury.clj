@@ -11,7 +11,7 @@
      ::h/body-id 199}
     ::h/geophysical-data
     {::h/mean-radius {::h/unit-code "KMT" ::h/value 2440}
-     ::h/density {::h/unit-code "23" ::h/value 5.427M}
+     ::h/density {::h/unit-code "23" ::h/unit-text "g/cm³" ::h/value 5.427M}
      ::h/mass {::h/unit-code "KGM" ::h/value 3.302E23M}
      ::h/flattening {}
      ::h/volume {::h/value 6.085E10M ::h/unit-code "H20"}

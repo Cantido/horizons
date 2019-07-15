@@ -34,8 +34,9 @@
          (merge (dissoc fields :exponent :value)))]
        [label fields]))))
 
-(defn unit-code [s]
-  (constantly [:unit-code s]))
+(defn unit-code
+  ([s] (constantly {:unit-code s}))
+  ([s t] (constantly {:unit-code s :unit-text t})))
 
 (def transform-rules
   {:comma-separated-integer #(clojure.string/replace % "," "")
@@ -57,7 +58,7 @@
    :seconds (partial t/period-of :seconds)
    :time (fn [& more]  {:time (into {} more)})
    :timestamp t/timestamp-transformer
-   :unit-23 (unit-code "23")
+   :unit-23 (unit-code "23" "g/cm³")
    :unit-2A (unit-code "2A")
    :unit-A62 (unit-code "A62")
    :unit-BAR (unit-code "BAR")

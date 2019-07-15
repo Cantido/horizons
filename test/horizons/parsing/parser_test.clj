@@ -183,14 +183,14 @@
   (testing "measurement values"
     (testing "with units"
       (is (= (transform [:mean-radius [:unit-KMT] [:value "2440(+-1)"]])
-             [:mean-radius [:unit-code "KMT"] [:value "2440(+-1)"]]))
+             [:mean-radius {:unit-code "KMT"} [:value "2440(+-1)"]]))
       (is (= (transform
                [:atmospheric-mass
                 [:value [:sci-not [:significand [:float "5.1"]] [:exponent [:integer "18"]]]]
                 [:unit-KGM]])
              [:atmospheric-mass
               [:value 5.1E+18M]
-              [:unit-code "KGM"]])))
+              {:unit-code "KGM"}])))
     (testing "with exponents"
       (is (= (transform
                [:heat-flow-mass
@@ -245,21 +245,21 @@
                                  [:days [:integer "1"]]])
            (t/plus (t/years 1) (t/days 1)))))
   (testing "unit codes"
-    (is (= (transform [:unit-23]) [:unit-code "23"]))
-    (is (= (transform [:unit-2A]) [:unit-code "2A"]))
-    (is (= (transform [:unit-A62]) [:unit-code "A62"]))
-    (is (= (transform [:unit-BAR]) [:unit-code "BAR"]))
-    (is (= (transform [:unit-D54 "wm2"]) [:unit-code "D54"]))
-    (is (= (transform [:unit-D61]) [:unit-code "D61"]))
-    (is (= (transform [:unit-D62]) [:unit-code "D62"]))
-    (is (= (transform [:unit-DD "deg"]) [:unit-code "DD"]))
-    (is (= (transform [:unit-H20]) [:unit-code "H20"]))
-    (is (= (transform [:unit-KEL]) [:unit-code "KEL"]))
-    (is (= (transform [:unit-KGM]) [:unit-code "KGM"]))
-    (is (= (transform [:unit-KMT]) [:unit-code "KMT"]))
-    (is (= (transform [:unit-M62]) [:unit-code "M62"]))
-    (is (= (transform [:unit-MSK]) [:unit-code "MSK"]))
-    (is (= (transform [:unit-SEC]) [:unit-code "SEC"]))))
+    (is (= (transform [:unit-23]) {:unit-code "23" :unit-text "g/cm³"}))
+    (is (= (transform [:unit-2A]) {:unit-code "2A"}))
+    (is (= (transform [:unit-A62]) {:unit-code "A62"}))
+    (is (= (transform [:unit-BAR]) {:unit-code "BAR"}))
+    (is (= (transform [:unit-D54 "wm2"]) {:unit-code "D54"}))
+    (is (= (transform [:unit-D61]) {:unit-code "D61"}))
+    (is (= (transform [:unit-D62]) {:unit-code "D62"}))
+    (is (= (transform [:unit-DD "deg"]) {:unit-code "DD"}))
+    (is (= (transform [:unit-H20]) {:unit-code "H20"}))
+    (is (= (transform [:unit-KEL]) {:unit-code "KEL"}))
+    (is (= (transform [:unit-KGM]) {:unit-code "KGM"}))
+    (is (= (transform [:unit-KMT]) {:unit-code "KMT"}))
+    (is (= (transform [:unit-M62]) {:unit-code "M62"}))
+    (is (= (transform [:unit-MSK]) {:unit-code "MSK"}))
+    (is (= (transform [:unit-SEC]) {:unit-code "SEC"}))))
 
 (defn pd [s]
   (parse-with-rule :duration s))
@@ -299,4 +299,5 @@
   (is (= (restructure (get-edn "mercury-geophysical-parsed.edn")) mercury-map))
   (is (= (restructure (get-edn "jupiter-geophysical-parsed.edn")) jupiter-map))
   (is (= (restructure (get-edn "mars-ephemeredes-parsed.edn")) mars-map))
-  (is (= (restructure timestamp-tree) timestamp-map)))
+  (is (= (restructure timestamp-tree) timestamp-map))
+  (is (= (restructure [:density [:unit-23] [:value [:float "5.427"]]]) {::h/density {::h/unit-code "23" ::h/unit-text "g/cm³" ::h/value 5.427M}})))
