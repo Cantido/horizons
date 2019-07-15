@@ -31,7 +31,7 @@
   [:gm-1-sigma [:value "+-0.04"]]
   [:mass-ratio-from-sun [:value [:float "408523.72"]]]
   [:atmospheric-pressure [:unit-BAR] [:value [:integer "90"]]]
-  [:maximum-angular-diameter [:value"60.2\""]]
+  [:maximum-angular-diameter [:value [:float "60.2"]] [:unit-D62]]
   [:mean-temperature [:unit-KEL] [:value [:integer "735"]]]
   [:visual-magnitude [:value [:float "-4.40"]]]
   [:geometric-albedo [:value [:float "0.65"]]]

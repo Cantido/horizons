@@ -142,7 +142,6 @@ value ::= integer | approximate-integer | integer-with-error |
           flattening-value |
           gm-1-sigma-value |
           magnetic-moment-value |
-          angular-value |
           angular-value-with-error |
           offset-value;
 
@@ -159,7 +158,6 @@ float ::= #"\-?\d*\.\d*";
 <flattening-value> ::= #"\d/\d\d\d\.\d\d\d";
 <gm-1-sigma-value> ::= #"\+\- ?\d\.?\d+";
 <magnetic-moment-value> ::=  #"< 1x10\^\-\d";
-<angular-value> ::= #'\d+\.\d+\"';
 <angular-value-with-error> ::= #"\d.\d\d' \+/\- \d\.\d'";
 <offset-value> ::= #"\d+d? ?\/ ?\d+d?";
 
@@ -205,8 +203,8 @@ unit-2A  ::= <"rad/s" | "rad s^-1">;
 unit-A62 ::= <"erg/gm*s">;
 unit-BAR ::= <"bar">;
 unit-D54 ::= <"W/m^2" | "Wm^2">; (* [sic] *)
-unit-D61 ::= "'";
-unit-D62 ::= '"';
+unit-D61 ::= <"'">;
+unit-D62 ::= <'"'>;
 unit-DD  ::= <"deg">;
 unit-H20 ::= <"km^3">;
 unit-KEL ::= <"K">;
@@ -370,7 +368,7 @@ mass ::= <
          <equals>
          value;
 mass-ratio-from-sun ::= <"Mass ratio " ("(Sun/" body-name ")" | "(sun/plnt)")> <equals> value;
-maximum-angular-diameter ::= <"Max. angular diam."> <equals> value;
+maximum-angular-diameter ::= <"Max. angular diam."> <equals> value unit-D62?;
 mean-daily-motion ::= <"Mean daily motion" ", n"?> <equals> value <ws> <unit-degrees-per-day>;
 mean-radius ::= <
                  ("Volumetric " | "Vol. ")?

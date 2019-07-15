@@ -29,7 +29,7 @@
   [:mass-ratio-from-sun [:value [:integer "6023600"]]]
 
   [:atmospheric-pressure [:unit-BAR]]
-  [:maximum-angular-diameter [:value "11.0\""]]
+  [:maximum-angular-diameter [:value [:float "11.0"]] [:unit-D62]]
   [:mean-temperature [:unit-KEL]]
   [:visual-magnitude [:value [:float "-0.42"]]]
   [:geometric-albedo [:value [:float "0.106"]]]

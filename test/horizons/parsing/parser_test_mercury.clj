@@ -39,7 +39,7 @@
      ::h/gm-1-sigma {::h/value "+-0.91"}
      ::h/mass-ratio-from-sun {::h/value 6023600}
      ::h/atmospheric-pressure {::h/unit-code "BAR"}
-     ::h/maximum-angular-diameter {::h/value "11.0\""}
+     ::h/maximum-angular-diameter {::h/value 11.0M ::h/unit-code "D62"}
      ::h/mean-temperature {::h/unit-code "KEL"}
      ::h/visual-magnitude {::h/value -0.42M}
      ::h/geometric-albedo {::h/value 0.106M}
