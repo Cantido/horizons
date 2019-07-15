@@ -10,7 +10,7 @@
   :min-lein-version "2.0.0"
   :plugins [[lein-ring "0.8.11"]]
   :ring {:handler horizons.web/app}
-  :dependencies [[org.clojure/clojure "1.8.0"]
+  :dependencies [[org.clojure/clojure "1.9.0"]
                  [org.clojure/core.async "0.3.443"]
                  [org.clojure/data.json "0.2.6"]
                  [org.clojure/tools.logging "0.4.0"]

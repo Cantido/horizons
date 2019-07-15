@@ -1,5 +1,5 @@
 (ns horizons.parsing.parser-test-jupiter
-  (require
+  (:require
     [horizons.core :as h]
     [clj-time.core :as t]))
 
