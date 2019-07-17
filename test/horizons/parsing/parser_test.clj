@@ -90,6 +90,8 @@
     "gp, m s^-2 (polar)       = 9.8321863685" [:g-polar [:unit-MSK] [:value [:float "9.8321863685"]]]
     "Geometric albedo      =    0.150" [:geometric-albedo [:value [:float "0.150"]]]
     "ge, m s^-2 (equatorial)  = 9.7803267715" [:equatorial-gravity [:unit-MSK] [:value [:float "9.7803267715"]]]
+    "Sidereal orb. per., y =   0.61519726" [:mean-sidereal-orbital-period-years [:value [:float "0.61519726"]]]
+    "Sidereal orb. per., d = 224.70079922" [:mean-sidereal-orbital-period-days [:value [:float "224.70079922"]]]
     "Surface emissivity    = 0.77+-0.06" [:surface-emissivity [:value [:float "0.77"]]]
     "Sid. rot. rate, rad/s =  0.0000708822" [:rotation-rate [:unit-2A] [:value [:float "0.0000708822"]]]
     "Sid. rot. rate (rad/s)= 0.00000124001" [:rotation-rate [:unit-2A] [:value [:float "0.00000124001"]]]
