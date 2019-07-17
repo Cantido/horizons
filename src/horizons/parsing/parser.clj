@@ -11,9 +11,10 @@
 
 (defn- throw-parse-exception
   "Throw an exception documenting a parse exception"
-  [failure]
-  (throw (Exception. (str "Unable to parse HORIZONS response."
-                          "\n\nGot the following failure: \n" (with-out-str (print failure))))))
+  ([] (throw (Exception. (str "Unable to parse HORIZONS response."))))
+  ([failure]
+   (throw (Exception. (str "Unable to parse HORIZONS response."
+                          "\n\nGot the following failure: \n" (with-out-str (print failure)))))))
 
 (defn parse
   "Parse a string into a parse tree."
@@ -37,7 +38,7 @@
    :post [(not (empty? %))]}
   (let [result (parse parser-component s)]
     (if (instaparse.core/failure? result)
-      (throw-parse-exception)
+      (throw-parse-exception (instaparse.core/get-failure result))
       (transform result))))
 
 (defn supported?
