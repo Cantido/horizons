@@ -61,7 +61,7 @@
          Maximum Planetary IR (W/m^2)   470         315         390
          Minimum Planetary IR (W/m^2)    30          30          30")
      nil))
-  (are [text result] (testing (str (first result)) (= (parse-with-rule (first result) text) result))
+  (are [text result] (= (parse-with-rule (first result) text) result)
     "A_roche(ice)/Rp       =  2.76" [:a-roche-ice [:value [:float "2.76"]]]
     "Aroche(ice)/Rp        =  2.71" [:a-roche-ice [:value [:float "2.71"]]]
     "Atm. pressure    = 1.0 bar" [:atmospheric-pressure [:value [:float "1.0"]] [:unit-BAR]]
