@@ -307,6 +307,7 @@ physical-properties-header ::= "PHYSICAL " ("PROPERTIES" | "DATA") " (revised " 
     standard-gravitational-parameter |
     surface-area-land |
     surface-area-sea |
+    surface-emissivity |
     topo-spectral-fact |
     visual-magnitude |
     visual-magnitude-opposition |
@@ -431,6 +432,7 @@ standard-gravitational-parameter ::= <"GM" (", km^3 s^-2" | " (km^3 s^-2)" | " (
 surface-area-title ::= "Surface Area:";
 surface-area-land ::= <"land           = "> value <" "> unit-KMT;
 surface-area-sea ::= <"sea            = "> value <" "> unit-KMT;
+surface-emissivity ::= <"Surface emissivity"> <equals> value
 topo-spectral-fact ::= <"Topo. spectral fact t"> <equals> value;
 visual-magnitude ::= <("Visual" | "Vis.") ws ("mag." | "magnitude") ws "V(1,0)"> <equals> value;
 visual-magnitude-opposition ::= <"Vis. mag. (opposition)"> <equals> <"+"?> value;
