@@ -409,7 +409,7 @@ rotation-rate ::= <
                    ","? " "? "("?
                   >
                   (<"x"? "10^"> exponent)?
-                  <" ">
+                  <" "?>
                   (unit-SEC | unit-2A)
                   <")"?>
                   <equals>
