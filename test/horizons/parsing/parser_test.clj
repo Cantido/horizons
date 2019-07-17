@@ -60,6 +60,12 @@
          Solar Constant (W/m^2)         717         493         589
          Maximum Planetary IR (W/m^2)   470         315         390
          Minimum Planetary IR (W/m^2)    30          30          30")
+     nil)
+    (= (parse-with-rule :solar-constant
+        "Perihelion  Aphelion    Mean
+          Solar Constant (W/m^2)         14462       6278        9126
+          Maximum Planetary IR (W/m^2)   12700       5500        8000
+          Minimum Planetary IR (W/m^2)   6           6           6")
      nil))
   (are [text result] (= (parse-with-rule (first result) text) result)
     "A_roche(ice)/Rp       =  2.76" [:a-roche-ice [:value [:float "2.76"]]]

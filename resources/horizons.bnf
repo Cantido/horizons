@@ -423,9 +423,9 @@ solar-constant ::= one-line-solar-constant | <multiline-solar-constant>
                             value
                             (<ws "("?> unit-D54 <")"?>)?;
 <multiline-solar-constant> ::= "Perihelion  Aphelion    Mean" <ws>
-"Solar Constant (W/m^2)         717         493         589" <ws>
-"Maximum Planetary IR (W/m^2)   470         315         390" <ws>
-"Minimum Planetary IR (W/m^2)    30          30          30";
+"Solar Constant (W/m^2)" <ws> value <ws> value <ws> value <ws>
+"Maximum Planetary IR (W/m^2)" <ws> value <ws> value <ws> value <ws>
+"Minimum Planetary IR (W/m^2)" <ws> value <ws> value <ws> value;
 
 sidereal-rotation-period ::= <("Sidereal rot. period" | "Sidereal period, hr" | "Sidereal period" | "Rotation period")> <equals> value;
 standard-gravitational-parameter ::= <"GM" (", km^3 s^-2" | " (km^3 s^-2)" | " (km^3/s^2)" )> <equals> value;
