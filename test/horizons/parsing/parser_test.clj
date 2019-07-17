@@ -65,6 +65,7 @@
     "A_roche(ice)/Rp       =  2.76" [:a-roche-ice [:value [:float "2.76"]]]
     "Aroche(ice)/Rp        =  2.71" [:a-roche-ice [:value [:float "2.71"]]]
     "Atm. pressure    = 1.0 bar" [:atmospheric-pressure [:value [:float "1.0"]] [:unit-BAR]]
+    "Atmos. pressure (bar) = < 5x10^-15" [:atmospheric-pressure [:unit-BAR] [:value [:sci-not [:significand [:integer "5"]] [:exponent [:integer "-15"]]]]]
     "Atmos          = 5.1   x 10^18 kg" [:atmospheric-mass [:value [:sci-not [:significand [:float "5.1"]] [:exponent [:integer "18"]]]] [:unit-KGM]]
     "Mass of atmosphere, kg= ~ 2.5 x 10^16" [:atmospheric-mass [:unit-KGM] [:value [:sci-not [:significand [:float "2.5"]] [:exponent [:integer "16"]]]]]
     "Core radius (km)      =  ~1700" [:core-radius [:unit-KMT] [:value "~1700"]]
