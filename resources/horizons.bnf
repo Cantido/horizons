@@ -174,7 +174,7 @@ date ::= (year <"-"> month <"-"> day) |
 
 era ::= "A.D."
 year ::= integer;
-month ::= "Jan" | "Feb" | "Mar" | "Apr" | "May" | "Jun" | "June" | "Jul" | "Aug" | "Sep" | "Oct" | "Nov" | "Dec";
+month ::= "Jan" | "Feb" | "Mar" | "Apr" | "May" | "Jun" | "June" | "Jul" | "July" | "Aug" | "Sep" | "Oct" | "Nov" | "Dec";
 day ::= integer
 time ::= hour-of-day <":"> minute-of-hour (<":"> second-of-minute (<"."> millisecond-of-second)?)?;
 day-of-week ::= "Mon" | "Tue" | "Wed" | "Thu" | "Fri" | "Sat" | "Sun";

@@ -104,6 +104,11 @@
     "3.4s" [:duration [:seconds [:float "3.4"]]]
     "1.234s" [:duration [:seconds [:float "1.234"]]]))
 
+(deftest month-parsing
+  (are [text tree] (= (parse-with-rule :month text) tree)
+    "Jul" [:month "Jul"]
+    "July" [:month "July"]))
+
 (deftest full-transformation-test
   (is (= (parser/transform (get-edn "mercury-geophysical-parsed.edn")) mercury-map))
   (is (= (parser/transform (get-edn "jupiter-geophysical-parsed.edn")) jupiter-map))
