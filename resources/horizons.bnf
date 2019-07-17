@@ -373,7 +373,7 @@ mean-daily-motion ::= <"Mean daily motion" ", n"?> <equals> value <ws> <unit-deg
 mean-radius ::= <
                  ("Volumetric " | "Vol. ")?
                  ("Mean " | "mean "),
-                 "radius",
+                 ("Radius" | "radius"),
                  " "?,
                  ", "?
                  "("?
