@@ -235,14 +235,16 @@ file-header ::=
     body-id         <space+>
     <#"\/ \d"?>
 
-revision-date ::= <"Revised: "> date;
+revision-date ::= <revised ":" ws> date;
+<revised> ::= ("update" "d"?) | "revised" | "Revised"
+
 
 dynamical-characteristics ::= <dynamical-characteristics-header>  (<ws> geophysical-field)+;
 geophysical-data ::=  <ws? physical-properties-header> (<ws> geophysical-field)+;
 physical-properties ::= <physical-properties-header>  (<ws> geophysical-field)+;
 
 dynamical-characteristics-header ::= "DYNAMICAL CHARACTERISTICS:";
-physical-properties-header ::= <"GEO"? "PHYSICAL " ("PROPERTIES" | "DATA") ((" (update" "d"?) | " (revised ") ws> date <"):">;
+physical-properties-header ::= <"GEO"? "PHYSICAL " ("PROPERTIES" | "DATA") ws "(" revised ws> date <"):">;
 
 <geophysical-field> ::=
     <"Mass layers:"> |
