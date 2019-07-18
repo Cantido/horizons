@@ -240,7 +240,6 @@ revision-date ::= <revised ":" ws> date;
 
 
 dynamical-characteristics ::= <dynamical-characteristics-header>  (<ws> geophysical-field)+;
-geophysical-data ::=  <ws? physical-properties-header> (<ws> geophysical-field)+;
 physical-properties ::= <physical-properties-header>  (<ws> geophysical-field)+;
 
 dynamical-characteristics-header ::= "DYNAMICAL CHARACTERISTICS:";
