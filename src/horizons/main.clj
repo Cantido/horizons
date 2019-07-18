@@ -19,13 +19,20 @@
   [config-options]
   (let [{:keys [http telnet parser]} config-options]
     (component/system-map
-      :web-server (server/web-server (:host http) (:port http) (:path http))
       :web-app (web/web-app)
       :horizons-client (core/horizons-client (bodies))
       :telnet-client (telnet/new-telnet-client)
       :connection-factory (connect/new-connection-factory (:host telnet) (:port telnet) (:timeout telnet))
       :connection-pool (pool/new-connection-pool)
       :parser (parser/new-parser (:grammar-specification parser) (:supported-bodies parser)))))
+
+(defn horizons-system-server
+  "Build a new Horizons system that runs inside of a built-in webserver."
+  [config-options]
+  (let [{:keys [http]} config-options]
+    (merge
+      (horizons-system config-options)
+      {:web-server (server/web-server (:host http) (:port http) (:path http))})))
 
 (defn- attach-shutdown-hook
   "Attach a shutdown hook to the given runtime to stop the given system. Returns the system."
@@ -44,10 +51,22 @@
   (-> m
     (assoc-if :http-listen-port port)))
 
+(def lein-ring-handler
+  "A handler function wired up with an initialized system,
+  so the server can be started with the lein-ring plugin."
+  (let [web-app-component (-> "resources/config.edn"
+                            aero/read-config
+                            horizons-system
+                            component/start
+                            (attach-shutdown-hook (Runtime/getRuntime))
+                            (:web-app))]
+    (web/app-handler web-app-component)))
+
+
 (defn -main [& more]
   (-> "resources/config.edn"
       aero/read-config
       (apply-cli-args more)
-      horizons-system
+      horizons-system-server
       component/start
       (attach-shutdown-hook (Runtime/getRuntime))))

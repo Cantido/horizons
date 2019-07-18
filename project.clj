@@ -9,7 +9,7 @@
              :uberjar {:aot :all}}
   :min-lein-version "2.0.0"
   :plugins [[lein-ring "0.8.11"]]
-  :ring {:handler horizons.web/app}
+  :ring {:handler horizons.main/lein-ring-handler}
   :dependencies [[org.clojure/clojure "1.9.0"]
                  [org.clojure/core.async "0.3.443"]
                  [org.clojure/data.json "0.2.6"]
