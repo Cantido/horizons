@@ -386,8 +386,8 @@ mean-radius ::= <
                 <ws?>
                 unit-KMT?;
 <mean-sidereal-orbit-label> ::= <"Mean"? ws ("sidereal" | "Sidereal") ws (("orb" "."?)  | "orbit")? ws? (("per" "."?) | "period")>;
-mean-sidereal-orbital-period-years ::= <mean-sidereal-orbit-label ", y"?> <equals> value <ws> <("yrs" | "y" | "yr")?>;
-mean-sidereal-orbital-period-days ::= <mean-sidereal-orbit-label ", d"?> <equals> value <ws> <("d" | "days")?>;
+mean-sidereal-orbital-period-years ::= <mean-sidereal-orbit-label ", y"?> <equals> float <ws> <("yrs" | "y" | "yr")?>;
+mean-sidereal-orbital-period-days ::= <mean-sidereal-orbit-label ", d"?> <equals> float <ws> <("d" | "days")?>;
 mean-solar-day ::= <"Mean solar day" ", days"? " (sol)"?> <equals> value <" d" | " s">?;
 mean-temperature ::= (<("Atmos. temp. (1 " unit-BAR ")")> | (<"Mean Temperature" | "Mean temperature"> <" (" | ", "> unit-KEL <")"?>)) <equals> value? <ws> unit-KEL?;
 moment-of-inertia ::= <("Mom. of Inertia" | "Moment of inertia" | "Mom. of inert. I/MRo^2")> <equals> value?;
