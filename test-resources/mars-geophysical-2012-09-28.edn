@@ -7,7 +7,7 @@
     [:year [:integer "2012"]]]]
   [:body-name "Mars"]
   [:body-id [:integer "499"]]]
- [:geophysical-data
+ [:physical-properties
   [:mean-radius [:unit-KMT] [:value [:float "3389.9"]]]
   [:density [:unit-23] [:value [:float "3.933"],]]
   [:mass [:exponent [:integer "23"]] [:unit-KGM] [:value [:float "6.4185"]]]

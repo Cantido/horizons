@@ -46,11 +46,11 @@
                ::h/body-id 499}}))))
   (testing "walking geophysical data"
     (is (= (tree->map
-             [:geophysical-data
+             [:physical-properties
               [:mean-radius [:value "3389.9(2+-4)"]]
               [:density "3.933(5+-4)"]
               [:mass "6.4185"]])
-           {::h/geophysical-data
+           {::h/physical-properties
             {::h/mean-radius {::h/value "3389.9(2+-4)"}
              ::h/density "3.933(5+-4)"
              ::h/mass "6.4185"}}))))

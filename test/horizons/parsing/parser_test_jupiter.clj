@@ -9,7 +9,7 @@
     {::h/revision-date {::h/date (t/date-time 2016 9 13)}
      ::h/body-name "Jupiter"
      ::h/body-id 599}
-    ::h/geophysical-data
+    ::h/physical-properties
     {::h/mass {::h/unit-code "KGM" ::h/value 1.89813E+27M ::h/unit-text "kg"}
      ::h/density {::h/unit-code "23" ::h/unit-text "g/cm³" ::h/value 1.326M}
      ::h/equatorial-radius {::h/value 71492 ::h/unit-code "KMT" ::h/unit-text "km"}

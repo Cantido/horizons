@@ -7,7 +7,7 @@
     [:year [:integer "2016"]]]]
   [:body-name "Saturn"]
   [:body-id [:integer "699"]]]
- [:geophysical-data
+ [:physical-properties
   [:mass [:exponent [:integer "26"]] [:unit-KGM] [:value [:float "5.68319"]]]
   [:density [:unit-23] [:value [:float "0.687"]]]
   [:equatorial-radius [:value [:integer "60268"]] [:unit-KMT]]

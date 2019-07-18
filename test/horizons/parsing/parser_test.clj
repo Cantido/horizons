@@ -51,7 +51,8 @@
   (testing "mars-geophysical-2016-06-21.txt"
     (is (success? (parse-file "mars-geophysical-2016-06-21.txt"))))
   (testing "neptune-geophysical.txt"
-    (is (success? (parse-file "neptune-geophysical.txt")))))
+    (is (success? (parse-file "neptune-geophysical.txt"))))
+  (is (= (parse-with-rule :physical-properties-header "GEOPHYSICAL PROPERTIES (revised Aug 15, 2018):") [:physical-properties-header [:date [:month "Aug"] [:day [:integer "15"]] [:year [:integer "2018"]]]])))
 
 (deftest geophysical-values-test
   (testing "multiline solar-constant info is ignored, for now"

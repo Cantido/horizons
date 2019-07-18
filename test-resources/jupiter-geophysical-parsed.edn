@@ -7,7 +7,7 @@
     [:year [:integer "2016"]]]]
   [:body-name "Jupiter"]
   [:body-id [:integer "599"]]]
- [:geophysical-data
+ [:physical-properties
   [:mass [:exponent [:integer "24"]] [:unit-KGM] [:value [:float "1898.13"]]]
   [:density [:unit-23] [:value [:float "1.326"]]]
   [:equatorial-radius [:value [:integer "71492"]] [:unit-KMT]]
