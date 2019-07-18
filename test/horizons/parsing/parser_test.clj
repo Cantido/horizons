@@ -86,6 +86,7 @@
     "Escape velocity (km/s)=  59.5" [:escape-velocity [:unit-M62] [:value [:float "59.5"]]]
     "Fig. offset (Rcf-Rcm) = 2.50+-0.07 km" [:fig-offset [:value [:float "2.50"]] [:unit-KMT]]
     "Flattening, f         =  1/154.409" [:flattening [:value "1/154.409"]]
+    "Flattening               = 1/298.257223563" [:flattening [:value "1/298.257223563"]]
     "Fluid core rad   = 3480 km" [:fluid-core-radius [:value [:integer "3480"]] [:unit-KMT]]
     "go, m s^-2               = 9.82022" [:g-o [:unit-MSK] [:value [:float "9.82022"]]]
     "gp, m s^-2 (polar)       = 9.8321863685" [:g-polar [:unit-MSK] [:value [:float "9.8321863685"]]]
