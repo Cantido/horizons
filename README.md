@@ -14,7 +14,7 @@ See [this project's Kanban board][kanban] for the current state of the to-do lis
 
 ## License
 
-Copyright © 2017  Robert Richter
+Copyright © 2019 Rosa Richter
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
