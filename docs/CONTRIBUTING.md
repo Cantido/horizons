@@ -71,7 +71,6 @@ then you're probably dealing with a security issue.
 Note that even if you answer "no" to both questions,
 you may still be dealing with a security issue, so if you're unsure,
 [message me directly](https://keybase.io/cantido).
-For more information on security, see [SECURITY.md](SECURITY.md).
 
 Please [open an issue](https://github.com/Cantido/horizons/issues/new) and
 follow the directions in the issue template.
