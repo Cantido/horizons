@@ -1,9 +1,8 @@
 /*TEAM*/
 
-Author: Bobby Richter
-Site: https://about.me/robert.richter
-Twitter: @lady_cantido
-Location: Saint Louis, Missouri, USA
+Author: Rosa Richter
+Site: https://about.me/rosa.richter
+Location: USA
 
 /*SITE*/
 
